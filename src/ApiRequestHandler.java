@@ -16,7 +16,7 @@ public class ApiRequestHandler {
         accessToken = AccessToken;
     }
 
-    public JSONObject makeApiRequest(String method,  URL url) {
+    public JSONObject makeApiRequest(String method,  URL url) throws Exception {
         try {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(method);
@@ -34,13 +34,13 @@ public class ApiRequestHandler {
             }
             JSONObject jsonResponse = new JSONObject(responseStrBuilder.toString());
             
-            System.out.println("Account info:");
-            System.out.println(jsonResponse.toString());
+            // System.out.println("Account info:");
+            // System.out.println(jsonResponse.toString());
             return jsonResponse;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new JSONObject();
+            throw new Exception("cannot retrieve account information");
         }
     }
 }
