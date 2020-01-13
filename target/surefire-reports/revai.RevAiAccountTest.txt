@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: revai.ApiRequestTest
+Test set: revai.RevAiAccountTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.523 s - in revai.ApiRequestTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.12 s - in revai.RevAiAccountTest

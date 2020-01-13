@@ -16,6 +16,17 @@ public class RevAiAccount {
         balanceSeconds = BalanceSeconds;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null || obj.getClass() != RevAiAccount.class){
+            return false;
+        }
+        else {
+            final RevAiAccount other = (RevAiAccount) obj;
+            return email == other.email && balanceSeconds == other.balanceSeconds;
+        }
+    }
+
     public void from_json(JSONObject jsonResponse) throws Exception{
         email = jsonResponse.get("email").toString();
         balanceSeconds = Double.parseDouble(jsonResponse.get("balance_seconds").toString());

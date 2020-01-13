@@ -10,16 +10,21 @@ import org.json.JSONObject;
 public class ApiRequest{
     public String accessToken;
     public String sdkVersion;
+    public HttpURLConnection con;
 
     public ApiRequest(String AccessToken){
         accessToken = AccessToken;
         sdkVersion = "1.0.0";
     }
 
-    public JSONObject makeApiRequest(String method,  URL url) throws Exception {
+    public void setConnection(HttpURLConnection connection){
+        con = connection;
+    }
+
+
+    public JSONObject makeApiRequest(String method) throws Exception {
         try {
             //initializes HTTP connection and request parameters
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(method);
             con.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
             con.setRequestProperty("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion));
