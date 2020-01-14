@@ -13,20 +13,19 @@ public class RevAiApiException extends Exception {
 
     public RevAiApiException(JSONObject errorResponse, int responseCode) {
         statusCode = responseCode;
-        if(errorResponse.has("title")){
+        if (errorResponse.has("title")) {
             title = errorResponse.get("title").toString();
         }
-        if(errorResponse.has("detail")){
+        if (errorResponse.has("detail")) {
             detail = errorResponse.get("detail").toString();
         }
-        if(errorResponse.has("type")){
+        if (errorResponse.has("type")) {
             type = errorResponse.get("type").toString();
         }
     }
 
     @Override
-    public String getMessage(){
-//        System.out.println("here");
+    public String getMessage() {
         return title;
     }
 }

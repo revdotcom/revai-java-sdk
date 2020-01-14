@@ -29,7 +29,7 @@ public class ApiRequestHandler {
     }
 
     public JSONObject parseInputStream(InputStream responseStream) throws Exception {
-        if (responseStream == null){
+        if (responseStream == null) {
             return new JSONObject("{}");
         }
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(responseStream, "UTF-8"));
@@ -55,11 +55,11 @@ public class ApiRequestHandler {
         if (responseCode == 200) {
             InputStream responseStream = con.getInputStream();
             return parseInputStream(responseStream);
-        }else{
+        } else {
             InputStream errorStream = con.getErrorStream();
             JSONObject errorResponse = parseInputStream(errorStream);
 
-            switch (responseCode){
+            switch (responseCode) {
                 case 401:
                     throw new AuthorizationException(errorResponse, responseCode);
                 default:

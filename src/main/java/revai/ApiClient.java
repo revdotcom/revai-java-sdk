@@ -8,7 +8,6 @@ import java.io.IOException;
 import org.json.JSONObject;
 
 public class ApiClient {
-    //    public String accessToken;
     private String accessToken;
     private String baseUrl;
     private String version = "v1";

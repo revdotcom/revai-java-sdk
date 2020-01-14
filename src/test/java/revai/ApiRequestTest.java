@@ -27,6 +27,7 @@ public class ApiRequestTest {
 
     // class to be tested
     private ApiRequestHandler requestHandler;
+
     private String testUrl;
     private String version = "v1";
 

@@ -15,7 +15,6 @@ public class RevAiAccount {
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof RevAiAccount)) {
-            System.out.println("here!");
             return false;
         } else {
             final RevAiAccount other = (RevAiAccount) obj;
