@@ -1,12 +1,15 @@
 package revai;
 
 import revai.models.asynchronous.*;
+
 import java.net.URL;
+
 import org.json.JSONObject;
+
 import java.net.HttpURLConnection;
 
 public class ApiClient {
-//    public String accessToken;
+    //    public String accessToken;
     public ApiRequest apiHandler;
     public String baseUrl;
 

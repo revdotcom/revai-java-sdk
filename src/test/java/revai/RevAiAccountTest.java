@@ -1,14 +1,15 @@
 package revai;
+
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
-import org.mockito.*;
+import org.mockito.InjectMocks;
 import revai.models.asynchronous.RevAiAccount;
 
-import static org.mockito.Mockito.*;
-//import java.net.URL;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 
 public class RevAiAccountTest {
@@ -22,25 +23,25 @@ public class RevAiAccountTest {
     private String version;
 
     @Before
-    public void setup(){
+    public void setup() {
         requestHandler = mock(ApiRequest.class);
         version = "v1";
-        testUrl  = String.format("https://api.rev.ai/revspeech/%s/account", version);
+        testUrl = String.format("https://api.rev.ai/revspeech/%s/account", version);
     }
 
     @Test
-    public void AccountValidTest(){
+    public void AccountValidTest() {
         try {
             //initializes a mocked valid response
             JSONObject sampleResponse = new JSONObject("{email: example.com, balance_seconds: 10 }");
             RevAiAccount sampleAccount = new RevAiAccount("0", 0);
             sampleAccount.from_json(sampleResponse);
-            Mockito.when(requestHandler.makeApiRequest("GET")).thenReturn(sampleResponse);
+            when(requestHandler.makeApiRequest("GET")).thenReturn(sampleResponse);
 
             validClient = new ApiClient(requestHandler, version);
 
             Assert.assertEquals(sampleAccount, validClient.getAccount());
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }

@@ -1,7 +1,7 @@
 package revai;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+
 import java.lang.Exception;
 
 import org.json.JSONObject;
@@ -11,16 +11,13 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 
-
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.net.HttpURLConnection;
 
 
-public class ApiRequestTest
-{
+public class ApiRequestTest {
 
     @InjectMocks
     private HttpURLConnection validCon;
@@ -31,7 +28,7 @@ public class ApiRequestTest
 
 
     @Before
-    public void setup(){
+    public void setup() {
         validCon = mock(HttpURLConnection.class);
         invalidCon = mock(HttpURLConnection.class);
     }
@@ -51,7 +48,7 @@ public class ApiRequestTest
             JSONObject mockedResponse = requestHandler.makeApiRequest("GET");
             Assert.assertEquals(sampleResponse.get("email"), mockedResponse.get("email"));
             Assert.assertEquals(sampleResponse.get("balance_seconds"), mockedResponse.get("balance_seconds"));
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -59,15 +56,15 @@ public class ApiRequestTest
     }
 
     @Test
-    public void InvalidRequestTest(){
+    public void InvalidRequestTest() {
 
-        try{
+        try {
             Mockito.when(invalidCon.getInputStream()).thenThrow(new RuntimeException());
             requestHandler = new ApiRequest("invalidToken");
             requestHandler.setConnection(invalidCon);
             requestHandler.makeApiRequest("GET");
             Assert.fail("exception expected");
-        }catch(Exception e){
+        } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), "cannot retrieve account information");
         }
 
