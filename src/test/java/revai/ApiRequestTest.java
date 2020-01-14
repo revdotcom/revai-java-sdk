@@ -1,6 +1,7 @@
 package revai;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.Exception;
 
@@ -22,53 +23,62 @@ public class ApiRequestTest {
     @InjectMocks
     private HttpURLConnection validCon;
     private HttpURLConnection invalidCon;
+    private HttpUrlConnectionFactory mockedFactory;
 
     // class to be tested
     private ApiRequest requestHandler;
+    private String testUrl;
+    private String version = "v1";
 
 
     @Before
     public void setup() {
         validCon = mock(HttpURLConnection.class);
         invalidCon = mock(HttpURLConnection.class);
+        mockedFactory = mock(HttpUrlConnectionFactory.class);
+        testUrl = String.format("https://api.rev.ai/revspeech/%s/account", version);
     }
 
-//    @Test
-//    public void ValidRequestTest() {
-//
-//        try {
-//            //initializes a mocked valid response
-//            JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
-//            String str = sampleResponse.toString();
-//            InputStream is = new ByteArrayInputStream(str.getBytes());
-//            Mockito.when(validCon.getInputStream()).thenReturn(is);
-//            requestHandler = new ApiRequest("validToken");
-//            requestHandler.setConnection(validCon);
-//
-//            JSONObject mockedResponse = requestHandler.makeApiRequest("GET");
-//            Assert.assertEquals(sampleResponse.get("email"), mockedResponse.get("email"));
-//            Assert.assertEquals(sampleResponse.get("balance_seconds"), mockedResponse.get("balance_seconds"));
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            Assert.fail();
-//        }
-//
-//    }
-//
-//    @Test
-//    public void InvalidRequestTest() {
-//
-//        try {
-//            Mockito.when(invalidCon.getInputStream()).thenThrow(new RuntimeException());
-//            requestHandler = new ApiRequest("invalidToken");
-//            requestHandler.setConnection(invalidCon);
-//            requestHandler.makeApiRequest("GET");
-//            Assert.fail("exception expected");
-//        } catch (Exception e) {
-//            Assert.assertEquals(e.getMessage(), "cannot retrieve account information");
-//        }
-//
-//    }
+    @Test
+    public void ValidRequestTest() {
+
+        try {
+            //initializes a mocked valid response
+            JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
+            String str = sampleResponse.toString();
+            InputStream is = new ByteArrayInputStream(str.getBytes());
+            //injects mocked services
+            when(validCon.getInputStream()).thenReturn(is);
+            when(mockedFactory.createConnection(testUrl)).thenReturn(validCon);
+            //initializes the api request using the mocked connection factory
+            requestHandler = new ApiRequest("validToken");
+            requestHandler.connectionFactory = mockedFactory;
+            JSONObject mockedResponse = requestHandler.makeApiRequest("GET", testUrl);
+
+            Assert.assertEquals(sampleResponse.get("email"), mockedResponse.get("email"));
+            Assert.assertEquals(sampleResponse.get("balance_seconds"), mockedResponse.get("balance_seconds"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
+
+    }
+
+    @Test
+    public void InvalidRequestTest() {
+
+        try {
+            when(invalidCon.getInputStream()).thenThrow(new RuntimeException("exception testing"));
+            when(mockedFactory.createConnection(testUrl)).thenReturn(invalidCon);
+            requestHandler = new ApiRequest("invalidToken");
+            requestHandler.connectionFactory = mockedFactory;
+            requestHandler.makeApiRequest("GET", testUrl);
+            Assert.fail("exception expected");
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), "cannot retrieve account information");
+        }
+
+    }
 
 
 }

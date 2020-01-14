@@ -25,7 +25,6 @@ public class RevAiAccountTest {
 
     //class to be tested
     private ApiClient validClient;
-    private ApiRequest requestHandler;
 
     private String testUrl;
     private String version = "v1";
