@@ -27,6 +27,9 @@ public class RevAiAccount {
         balanceSeconds = Double.parseDouble(jsonResponse.get("balance_seconds").toString());
     }
 
+    /*
+    Helper function for testing purposes
+     */
     public String displayInfo() {
         return "email: " + email + ", balance_seconds: " + balanceSeconds;
     }
