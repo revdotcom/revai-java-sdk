@@ -26,7 +26,7 @@ public class ApiRequestTest {
     private HttpUrlConnectionFactory mockedFactory;
 
     // class to be tested
-    private ApiRequest requestHandler;
+    private ApiRequestHandler requestHandler;
     private String testUrl;
     private String version = "v1";
 
@@ -49,8 +49,9 @@ public class ApiRequestTest {
             //injects mocked services
             when(validCon.getInputStream()).thenReturn(is);
             when(mockedFactory.createConnection(testUrl)).thenReturn(validCon);
+            when(validCon.getResponseCode()).thenReturn(200);
             //initializes the api request using the mocked connection factory
-            requestHandler = new ApiRequest("validToken");
+            requestHandler = new ApiRequestHandler("validToken");
             requestHandler.connectionFactory = mockedFactory;
             JSONObject mockedResponse = requestHandler.makeApiRequest("GET", testUrl);
 
@@ -67,12 +68,12 @@ public class ApiRequestTest {
         try {
             when(invalidCon.getInputStream()).thenThrow(new RuntimeException("exception testing"));
             when(mockedFactory.createConnection(testUrl)).thenReturn(invalidCon);
-            requestHandler = new ApiRequest("invalidToken");
+            requestHandler = new ApiRequestHandler("invalidToken");
             requestHandler.connectionFactory = mockedFactory;
             requestHandler.makeApiRequest("GET", testUrl);
             Assert.fail("exception expected");
         } catch (Exception e) {
-            Assert.assertEquals(e.getMessage(), "cannot retrieve account information");
+            Assert.assertEquals(e.getMessage(), "Rev.AI API error");
         }
     }
 

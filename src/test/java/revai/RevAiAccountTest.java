@@ -44,6 +44,7 @@ public class RevAiAccountTest {
             String str = sampleResponse.toString();
             InputStream is = new ByteArrayInputStream(str.getBytes());
             when(mockedConnection.getInputStream()).thenReturn(is);
+            when(mockedConnection.getResponseCode()).thenReturn(200);
             when(mockedFactory.createConnection(testUrl)).thenReturn(mockedConnection);
 
             validClient = new ApiClient("validToken");
@@ -52,6 +53,7 @@ public class RevAiAccountTest {
             RevAiAccount sampleAccount = new RevAiAccount("", 0);
             sampleAccount.from_json(sampleResponse);
             RevAiAccount mockedAccount = validClient.getAccount();
+
             Assert.assertEquals(sampleAccount, mockedAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
