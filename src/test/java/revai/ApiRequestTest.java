@@ -41,7 +41,6 @@ public class ApiRequestTest {
 
     @Test
     public void ValidRequestTest() {
-
         try {
             //initializes a mocked valid response
             JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
@@ -61,12 +60,10 @@ public class ApiRequestTest {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-
     }
 
     @Test
     public void InvalidRequestTest() {
-
         try {
             when(invalidCon.getInputStream()).thenThrow(new RuntimeException("exception testing"));
             when(mockedFactory.createConnection(testUrl)).thenReturn(invalidCon);
@@ -77,8 +74,6 @@ public class ApiRequestTest {
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), "cannot retrieve account information");
         }
-
     }
-
 
 }

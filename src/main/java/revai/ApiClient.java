@@ -24,8 +24,6 @@ public class ApiClient {
         String method = "GET";
         RevAiAccount account = new RevAiAccount("", 0);
         String accountUrl = baseUrl + "account";
-
-
         JSONObject response = apiHandler.makeApiRequest(method, accountUrl);
         account.from_json(response);
         return account;

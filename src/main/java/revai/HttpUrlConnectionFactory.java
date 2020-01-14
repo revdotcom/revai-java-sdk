@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class HttpUrlConnectionFactory {
 
-    public HttpUrlConnectionFactory(){
+    public HttpUrlConnectionFactory() {
     }
 
     public HttpURLConnection createConnection(String requestUrl) throws IOException {
