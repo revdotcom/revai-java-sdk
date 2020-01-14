@@ -6,7 +6,12 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import revai.models.asynchronous.RevAiAccount;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
@@ -14,18 +19,21 @@ import static org.mockito.Mockito.mock;
 
 public class RevAiAccountTest {
     @InjectMocks
-    private ApiRequest requestHandler;
+    private HttpUrlConnectionFactory mockedFactory;
+    private HttpURLConnection mockedConnection;
+
 
     //class to be tested
     private ApiClient validClient;
+    private ApiRequest requestHandler;
 
     private String testUrl;
-    private String version;
+    private String version = "v1";
 
     @Before
     public void setup() {
-        requestHandler = mock(ApiRequest.class);
-        version = "v1";
+        mockedFactory = mock(HttpUrlConnectionFactory.class);
+        mockedConnection = mock(HttpURLConnection.class);
         testUrl = String.format("https://api.rev.ai/revspeech/%s/account", version);
     }
 
@@ -33,14 +41,19 @@ public class RevAiAccountTest {
     public void AccountValidTest() {
         try {
             //initializes a mocked valid response
-            JSONObject sampleResponse = new JSONObject("{email: example.com, balance_seconds: 10 }");
-            RevAiAccount sampleAccount = new RevAiAccount("0", 0);
+            JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
+            String str = sampleResponse.toString();
+            InputStream is = new ByteArrayInputStream(str.getBytes());
+            when(mockedConnection.getInputStream()).thenReturn(is);
+            when(mockedFactory.createConnection(testUrl)).thenReturn(mockedConnection);
+
+            validClient = new ApiClient("validToken");
+            validClient.apiHandler.connectionFactory = mockedFactory;
+
+            RevAiAccount sampleAccount = new RevAiAccount("", 0);
             sampleAccount.from_json(sampleResponse);
-            when(requestHandler.makeApiRequest("GET")).thenReturn(sampleResponse);
-
-            validClient = new ApiClient(requestHandler, version);
-
-            Assert.assertEquals(sampleAccount, validClient.getAccount());
+            RevAiAccount mockedAccount = validClient.getAccount();
+            Assert.assertEquals(sampleAccount, mockedAccount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             Assert.fail();

@@ -1,31 +1,32 @@
 package revai;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
+
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import org.json.JSONObject;
 
 
 public class ApiRequest {
-    public String accessToken;
+    private String accessToken;
+    public HttpUrlConnectionFactory connectionFactory;
     public String sdkVersion;
-    public HttpURLConnection con;
 
-    public ApiRequest(String AccessToken) {
+    public ApiRequest(String AccessToken) throws IOException, XmlPullParserException {
         accessToken = AccessToken;
-        sdkVersion = "1.0.0";
+        connectionFactory = new HttpUrlConnectionFactory();
+        MavenXpp3Reader reader = new MavenXpp3Reader();
+        Model model = reader.read(new FileReader("pom.xml"));
+        sdkVersion = model.getVersion();
     }
 
-    public void setConnection(HttpURLConnection connection) {
-        con = connection;
-    }
-
-
-    public JSONObject makeApiRequest(String method) throws Exception {
+    public JSONObject makeApiRequest(String method, String requestUrl) throws Exception {
         try {
             //initializes HTTP connection and request parameters
+            HttpURLConnection con = connectionFactory.createConnection(requestUrl);
             con.setRequestMethod(method);
             con.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
             con.setRequestProperty("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion));

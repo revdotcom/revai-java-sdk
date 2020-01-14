@@ -1,30 +1,32 @@
 package revai;
 
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import revai.models.asynchronous.*;
 
-import java.net.URL;
+import java.io.IOException;
 
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
-
 public class ApiClient {
     //    public String accessToken;
+    private String accessToken;
+    private String baseUrl;
+    private String version = "v1";
     public ApiRequest apiHandler;
-    public String baseUrl;
 
-    public ApiClient(ApiRequest ApiHandler, String version) {
-        apiHandler = ApiHandler;
+    public ApiClient(String AccessToken) throws IOException, XmlPullParserException {
+        accessToken = AccessToken;
         baseUrl = String.format("https://api.rev.ai/revspeech/%s/", version);
+        apiHandler = new ApiRequest(accessToken);
     }
 
     public RevAiAccount getAccount() throws Exception {
         String method = "GET";
         RevAiAccount account = new RevAiAccount("", 0);
-        URL accountUrl = new URL(baseUrl + "account");
-        HttpURLConnection con = (HttpURLConnection) accountUrl.openConnection();
-        apiHandler.setConnection(con);
-        JSONObject response = apiHandler.makeApiRequest(method);
+        String accountUrl = baseUrl + "account";
+
+
+        JSONObject response = apiHandler.makeApiRequest(method, accountUrl);
         account.from_json(response);
         return account;
     }
