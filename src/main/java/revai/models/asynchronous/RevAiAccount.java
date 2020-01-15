@@ -1,15 +1,18 @@
 package revai.models.asynchronous;
 
+import com.google.gson.annotations.SerializedName;
 import org.json.JSONObject;
 
 public class RevAiAccount {
 
-    private String email;
-    private double balanceSeconds;
+    public String email;
 
-    public RevAiAccount(String Email, double BalanceSeconds) {
-        email = Email;
-        balanceSeconds = BalanceSeconds;
+    @SerializedName("balance_seconds")
+    public int balanceSeconds;
+
+    public RevAiAccount(String email, int balanceSeconds) {
+        this.email = email;
+        this.balanceSeconds = balanceSeconds;
     }
 
     @Override
@@ -21,12 +24,12 @@ public class RevAiAccount {
             return email.equals(other.email) && balanceSeconds == other.balanceSeconds;
         }
     }
-
+/*
     public void from_json(JSONObject jsonResponse) throws Exception {
         email = jsonResponse.get("email").toString();
         balanceSeconds = Double.parseDouble(jsonResponse.get("balance_seconds").toString());
     }
-
+*/
     /*
     Helper function for testing purposes
      */
