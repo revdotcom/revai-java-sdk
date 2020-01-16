@@ -64,9 +64,7 @@ public class ApiClient {
 
     public RevAiAccount getAccount() throws RevAiApiException, IOException {
         try {
-            Call<RevAiAccount> call = apiService.getAccount();
-            Response<RevAiAccount> response = call.execute();
-            RevAiAccount account = response.body();
+            RevAiAccount account = apiService.getAccount().execute().body();
             return account;
         } finally {
             this.closeConnection();
