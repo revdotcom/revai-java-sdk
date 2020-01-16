@@ -24,12 +24,12 @@ public class RevAiAccount {
             return email.equals(other.email) && balanceSeconds == other.balanceSeconds;
         }
     }
-/*
+
     public void from_json(JSONObject jsonResponse) throws Exception {
         email = jsonResponse.get("email").toString();
-        balanceSeconds = Double.parseDouble(jsonResponse.get("balance_seconds").toString());
+        balanceSeconds = (int) Double.parseDouble(jsonResponse.get("balance_seconds").toString());
     }
-*/
+
     /*
     Helper function for testing purposes
      */

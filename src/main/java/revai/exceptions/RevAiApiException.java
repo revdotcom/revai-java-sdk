@@ -2,16 +2,21 @@ package revai.exceptions;
 
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.IOException;
 
-public class RevAiApiException extends Exception {
+/**
+ * The RevAiApiException wraps standard Java IOException and enriches them with custom information.
+ * You can use this code to retrieve details of exceptions when calling the Rev.AI API.
+ */
+
+public class RevAiApiException extends IOException {
     public int statusCode;
-    public String title = "Rev.AI API error";
-    public String detail = "";
-    public String type = "";
+    public String title;
+    public String detail;
+    public String type;
 
-    public RevAiApiException(JSONObject errorResponse, int responseCode) {
+    public RevAiApiException(String message, JSONObject errorResponse, int responseCode) {
+        super(message);
         statusCode = responseCode;
         if (errorResponse.has("title")) {
             title = errorResponse.get("title").toString();
@@ -22,12 +27,9 @@ public class RevAiApiException extends Exception {
         if (errorResponse.has("type")) {
             type = errorResponse.get("type").toString();
         }
+
     }
 
-    @Override
-    public String getMessage() {
-        return title;
-    }
 }
 
 

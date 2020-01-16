@@ -1,64 +1,60 @@
 package revai;
 
+import okhttp3.OkHttpClient;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
-
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import revai.models.asynchronous.RevAiAccount;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 
 public class RevAiAccountTest {
     @InjectMocks
-    private HttpUrlConnectionFactory mockedFactory;
-    private HttpURLConnection mockedConnection;
+    private OkHttpClient mockHttpClient;
+    private MockInterceptor mockInterceptor;
 
 
     //class to be tested
-    private ApiClient validClient;
+    private ApiClient apiClient;
 
     private String testUrl;
     private String version = "v1";
 
     @Before
     public void setup() {
-        mockedFactory = mock(HttpUrlConnectionFactory.class);
-        mockedConnection = mock(HttpURLConnection.class);
+        mockHttpClient = mock(OkHttpClient.class);
+        mockInterceptor = new MockInterceptor();
         testUrl = String.format("https://api.rev.ai/revspeech/%s/account", version);
     }
 
     @Test
-    public void AccountValidTest() {
-        try {
-            //initializes a mocked valid response
-            JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
-            String str = sampleResponse.toString();
-            InputStream is = new ByteArrayInputStream(str.getBytes());
-            when(mockedConnection.getInputStream()).thenReturn(is);
-            when(mockedConnection.getResponseCode()).thenReturn(200);
-            when(mockedFactory.createConnection(testUrl)).thenReturn(mockedConnection);
+    public void AccountValidTest() throws Exception {
 
-            validClient = new ApiClient("validToken");
-            validClient.apiHandler.connectionFactory = mockedFactory;
+        //mocks valid response
+        JSONObject sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
+        apiClient = new ApiClient("validToken");
 
-            RevAiAccount sampleAccount = new RevAiAccount("", 0);
-            sampleAccount.from_json(sampleResponse);
-            RevAiAccount mockedAccount = validClient.getAccount();
+        mockHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(mockInterceptor)
+                .build();
 
-            Assert.assertEquals(sampleAccount, mockedAccount);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            Assert.fail();
-        }
+        Retrofit mockRetrofit = new Retrofit.Builder()
+                .baseUrl("https://api.rev.ai/revspeech/v1/").addConverterFactory(GsonConverterFactory.create())
+                .client(mockHttpClient)
+                .build();
+
+        apiClient.apiService = mockRetrofit.create(ApiClient.ApiService.class);
+
+        RevAiAccount sampleAccount = new RevAiAccount("", 0);
+        sampleAccount.from_json(sampleResponse);
+        RevAiAccount mockAccount = apiClient.getAccount();
+
+        Assert.assertEquals(sampleAccount, mockAccount);
     }
 
 }
