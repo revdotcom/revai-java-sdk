@@ -34,9 +34,9 @@ public class ApiInterceptor implements Interceptor {
             JSONObject errorResponse = new JSONObject(response.body().string());
             switch (responseCode) {
                 case 401:
-                    throw new AuthorizationException(errorResponse, responseCode);
+                    throw new AuthorizationException(errorResponse);
                 default:
-                    throw new RevAiApiException("Rev.AI API Exception", errorResponse, responseCode);
+                    throw new RevAiApiException("Unexpected API Error", errorResponse, responseCode);
             }
         }
     }

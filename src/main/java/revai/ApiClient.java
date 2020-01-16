@@ -4,11 +4,8 @@ import okhttp3.OkHttpClient;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
 import revai.exceptions.RevAiApiException;
 import revai.models.asynchronous.RevAiAccount;
 
@@ -19,15 +16,10 @@ import java.io.IOException;
 
 public class ApiClient {
     private static String accessToken;
-    public Retrofit retrofit;
+
+    private Retrofit retrofit;
+    private OkHttpClient client;
     public ApiService apiService;
-    public OkHttpClient client;
-
-
-    public interface ApiService {
-        @GET("account")
-        Call<RevAiAccount> getAccount();
-    }
 
     /*
    Helper function: reads the current sdk version from pom.xml
