@@ -8,6 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import revai.exceptions.RevAiApiException;
 import revai.models.asynchronous.RevAiAccount;
+import revai.models.asynchronous.RevAiJob;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ApiClient {
     /*
     Helper function: manually closes the connection when the code is running in a JVM
      */
-    private void closeConnection() {
+    public void closeConnection() {
         client.dispatcher().executorService().shutdown();
         client.connectionPool().evictAll();
     }
@@ -56,11 +57,10 @@ public class ApiClient {
 
 
     public RevAiAccount getAccount() throws RevAiApiException, IOException {
-        try {
-            RevAiAccount account = apiInterface.getAccount().execute().body();
-            return account;
-        } finally {
-            this.closeConnection();
-        }
+        return apiInterface.getAccount().execute().body();
+    }
+
+    public RevAiJob getJobDetails(String id) throws IOException {
+        return apiInterface.getJobDetails(id).execute().body();
     }
 }

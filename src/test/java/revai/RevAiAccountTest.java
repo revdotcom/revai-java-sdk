@@ -1,5 +1,6 @@
 package revai;
 
+import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.json.JSONObject;
@@ -23,38 +24,29 @@ public class RevAiAccountTest {
     //class to be tested
     private ApiClient sut;
 
-    private String testUrl;
-    private String version = "v1";
     private JSONObject sampleResponse;
+    private Gson gson;
 
     @Before
     public void setup() throws IOException, XmlPullParserException {
+        gson = new Gson();
         sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
         mockInterceptor = new MockInterceptor(sampleResponse);
-        testUrl = String.format("https://api.rev.ai/revspeech/%s/account", version);
-        //mocks valid response
         sut = new ApiClient("validToken");
-
         httpClient = new OkHttpClient.Builder()
                 .addInterceptor(mockInterceptor)
                 .build();
-
         Retrofit mockRetrofit = new Retrofit.Builder()
                 .baseUrl("https://api.rev.ai/revspeech/v1/").addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
-
         sut.apiInterface = mockRetrofit.create(ApiInterface.class);
     }
 
     @Test
     public void AccountValidTest() throws Exception {
-
-        RevAiAccount sampleAccount = new RevAiAccount("", 0);
-        sampleAccount.from_json(sampleResponse);
+        RevAiAccount sampleAccount = gson.fromJson(String.valueOf(sampleResponse), RevAiAccount.class);
         RevAiAccount mockAccount = sut.getAccount();
-
         Assert.assertEquals(sampleAccount, mockAccount);
     }
-
 }
