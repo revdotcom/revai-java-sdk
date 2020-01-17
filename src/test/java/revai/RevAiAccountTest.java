@@ -44,7 +44,7 @@ public class RevAiAccountTest {
                 .client(httpClient)
                 .build();
 
-        sut.apiService = mockRetrofit.create(ApiService.class);
+        sut.apiInterface = mockRetrofit.create(ApiInterface.class);
     }
 
     @Test

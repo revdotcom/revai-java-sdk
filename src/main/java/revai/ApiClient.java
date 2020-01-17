@@ -19,7 +19,7 @@ public class ApiClient {
 
     private Retrofit retrofit;
     private OkHttpClient client;
-    public ApiService apiService;
+    public ApiInterface apiInterface;
 
     /*
    Helper function: reads the current sdk version from pom.xml
@@ -44,19 +44,20 @@ public class ApiClient {
         this.accessToken = accessToken;
         this.client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
+                .addNetworkInterceptor(new ErrorInterceptor(accessToken, this.getSdkVersion()))
                 .build();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.rev.ai/revspeech/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-        this.apiService = retrofit.create(ApiService.class);
+        this.apiInterface = retrofit.create(ApiInterface.class);
     }
 
 
     public RevAiAccount getAccount() throws RevAiApiException, IOException {
         try {
-            RevAiAccount account = apiService.getAccount().execute().body();
+            RevAiAccount account = apiInterface.getAccount().execute().body();
             return account;
         } finally {
             this.closeConnection();

@@ -27,17 +27,7 @@ public class ApiInterceptor implements Interceptor {
                 .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
                 .build();
         Response response = chain.proceed(request);
-        int responseCode = response.code();
-        if (responseCode == 200) {
-            return response;
-        } else {
-            JSONObject errorResponse = new JSONObject(response.body().string());
-            switch (responseCode) {
-                case 401:
-                    throw new AuthorizationException(errorResponse);
-                default:
-                    throw new RevAiApiException("Unexpected API Error", errorResponse, responseCode);
-            }
-        }
+
+        return response;
     }
 }
