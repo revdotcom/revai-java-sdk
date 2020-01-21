@@ -8,11 +8,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import revai.exceptions.RevAiApiException;
 import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiJob;
 
 import java.io.FileReader;
 import java.io.IOException;
-
 
 
 public class ApiClient {
@@ -45,7 +43,7 @@ public class ApiClient {
         this.accessToken = accessToken;
         this.client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
-                .addNetworkInterceptor(new ErrorInterceptor(accessToken, this.getSdkVersion()))
+                .addNetworkInterceptor(new ErrorInterceptor())
                 .build();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.rev.ai/revspeech/v1/")
@@ -56,11 +54,7 @@ public class ApiClient {
     }
 
 
-    public RevAiAccount getAccount() throws RevAiApiException, IOException {
+    public RevAiAccount getAccount() throws IOException {
         return apiInterface.getAccount().execute().body();
-    }
-
-    public RevAiJob getJobDetails(String id) throws IOException {
-        return apiInterface.getJobDetails(id).execute().body();
     }
 }

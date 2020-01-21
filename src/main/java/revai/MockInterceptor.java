@@ -26,4 +26,8 @@ public class MockInterceptor implements Interceptor {
                 .addHeader("content-type", "application/json")
                 .build();
     }
+
+    private void setResponse(JSONObject sampleResponse) {
+        this.sampleResponse = sampleResponse;
+    }
 }

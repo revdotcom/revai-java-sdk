@@ -23,6 +23,6 @@ public class ApiInterceptor implements Interceptor {
                 .addHeader("Authorization", String.format("Bearer %s", accessToken))
                 .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
                 .build();
-       return chain.proceed(request);
+        return chain.proceed(request);
     }
 }
