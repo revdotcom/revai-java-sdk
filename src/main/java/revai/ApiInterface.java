@@ -1,12 +1,11 @@
 package revai;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
+import retrofit2.http.*;
 import revai.models.asynchronous.RevAiAccount;
 import revai.models.asynchronous.RevAiJob;
+import revai.models.asynchronous.RevAiJobOptions;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,11 @@ public interface ApiInterface {
     Call<List<RevAiJob>> getListOfJobs(@QueryMap Map<String, String> options);
 
     @POST("jobs")
-    Call<RevAiJob> sendJobUrl(@QueryMap Map<String, String> options);
+    Call<RevAiJob> sendJobUrl(@Body RevAiJobOptions options);
+
+    @Multipart
+    @POST("jobs")
+    Call<RevAiJob> sendJobLocalFile(@Part MultipartBody.Part file,
+                                    @Part("options") RevAiJobOptions options);
 }
 

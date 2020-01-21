@@ -2,27 +2,27 @@ package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class RevAiJobOptions {
     @SerializedName("media_url")
-    String mediaUrl;
+    public String mediaUrl;
 
     @SerializedName("callback_url")
-    String callbackUrl;
+    public String callbackUrl;
 
     @SerializedName("skip_diarization")
-    Boolean skipDiarization;
+    public Boolean skipDiarization;
 
-    @SerializedName(""
-    Boolean skipPunctuation;
-    int speakerChannelsCount;
+    @SerializedName("skip_punctuation")
+    public Boolean skipPunctuation;
 
-    String metadata;
-    media_url?: string;
-    metadata?: string;
-    callback_url?: string;
-    skip_diarization?: boolean;
-    skip_punctuation?: boolean;
-    speaker_channels_count?: number;
-    custom_vocabularies?: CustomVocabulary[];
+    @SerializedName("speaker_channels_count")
+    public Integer speakerChannelsCount;
+
+    @SerializedName("custom_vocabularies")
+    public List<CustomVocabulary> customVocabularies;
+
+    public String metadata;
 
 }

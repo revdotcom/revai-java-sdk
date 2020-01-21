@@ -1,9 +1,15 @@
 package revai;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.internal.concurrent.Task;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import revai.exceptions.RevAiApiException;
@@ -11,6 +17,7 @@ import revai.models.asynchronous.RevAiAccount;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -66,22 +73,34 @@ public class ApiClient {
         return apiInterface.getJobDetails(id).execute().body();
     }
 
-    public List<RevAiJob> getListOfJobs(int limit, String startingAfter) throws IOException {
+    public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
         Map<String, String> options = new HashMap<String, String>();
         if (startingAfter != null) {
             options.put("starting_after", startingAfter);
         }
-        if (limit != Double.POSITIVE_INFINITY){
+        if (limit != null){
             options.put("limit", String.valueOf(limit));
         }
         return apiInterface.getListOfJobs(options).execute().body();
     }
 
     public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
-        if (options != null){
+        if (options == null){
             options = new RevAiJobOptions();
         }
         options.mediaUrl = mediaUrl;
-        return apiInterface.sendJobUrl(options).execute().body();
+        Call<RevAiJob> call = apiInterface.sendJobUrl(options);
+        return call.execute().body();
+    }
+
+    public RevAiJob submitJobLocalFile(String filepath, RevAiJobOptions options) throws IOException {
+        File file = new File(filepath);
+        RequestBody fileRequest =
+                RequestBody.create(
+                        file,
+                        MediaType.parse("audio/*")
+                );
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
+        return apiInterface.sendJobLocalFile(filePart, options).execute().body();
     }
 }
