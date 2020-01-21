@@ -27,7 +27,7 @@ public class MockInterceptor implements Interceptor {
                 .build();
     }
 
-    private void setResponse(JSONObject sampleResponse) {
+    public void setResponse(JSONObject sampleResponse) {
         this.sampleResponse = sampleResponse;
     }
 }
