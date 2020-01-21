@@ -8,10 +8,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import revai.exceptions.RevAiApiException;
 import revai.models.asynchronous.RevAiAccount;
+import revai.models.asynchronous.RevAiJob;
+import revai.models.asynchronous.RevAiJobOptions;
 
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApiClient {
     private static String accessToken;
@@ -56,5 +60,28 @@ public class ApiClient {
 
     public RevAiAccount getAccount() throws IOException {
         return apiInterface.getAccount().execute().body();
+    }
+
+    public RevAiJob getJobDetails(String id) throws IOException {
+        return apiInterface.getJobDetails(id).execute().body();
+    }
+
+    public List<RevAiJob> getListOfJobs(int limit, String startingAfter) throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        if (startingAfter != null) {
+            options.put("starting_after", startingAfter);
+        }
+        if (limit != Double.POSITIVE_INFINITY){
+            options.put("limit", String.valueOf(limit));
+        }
+        return apiInterface.getListOfJobs(options).execute().body();
+    }
+
+    public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
+        if (options != null){
+            options = new RevAiJobOptions();
+        }
+        options.mediaUrl = mediaUrl;
+        return apiInterface.sendJobUrl(options).execute().body();
     }
 }
