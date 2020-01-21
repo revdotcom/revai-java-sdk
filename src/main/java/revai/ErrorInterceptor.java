@@ -11,12 +11,7 @@ import java.io.IOException;
 
 public class ErrorInterceptor implements Interceptor {
 
-    private String accessToken;
-    private String sdkVersion;
-
-    public ErrorInterceptor(String accessToken, String sdkVersion) {
-        this.accessToken = accessToken;
-        this.sdkVersion = sdkVersion;
+    public ErrorInterceptor() {
     }
 
     @Override
@@ -32,7 +27,7 @@ public class ErrorInterceptor implements Interceptor {
                 default:
                     throw new RevAiApiException("Unexpected API Error", errorResponse, responseCode);
             }
-        }else{
+        } else {
             return response;
         }
     }
