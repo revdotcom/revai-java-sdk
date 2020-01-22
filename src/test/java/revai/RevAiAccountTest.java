@@ -37,7 +37,8 @@ public class RevAiAccountTest {
                 .addInterceptor(mockInterceptor)
                 .build();
         Retrofit mockRetrofit = new Retrofit.Builder()
-                .baseUrl("https://api.rev.ai/revspeech/v1/").addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://api.rev.ai/revspeech/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
         sut.apiInterface = mockRetrofit.create(ApiInterface.class);
@@ -45,8 +46,7 @@ public class RevAiAccountTest {
 
     @Test
     public void AccountValidTest() throws Exception {
-        RevAiAccount sampleAccount = gson.fromJson(String.valueOf(sampleResponse), RevAiAccount.class);
-        RevAiAccount mockAccount = sut.getAccount();
-        Assert.assertEquals(sampleAccount, mockAccount);
+        JSONObject mockResponse = new JSONObject(gson.toJson(sut.getAccount()));
+        Assert.assertTrue(sampleResponse.similar(mockResponse));
     }
 }

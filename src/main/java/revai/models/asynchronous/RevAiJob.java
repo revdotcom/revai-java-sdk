@@ -9,13 +9,13 @@ public class RevAiJob {
     private String jobID;
 
     @SerializedName("created_on")
-    public Timestamp createdOn;
+    public String createdOn;
 
     @SerializedName("completed_on")
-    public Timestamp completedOn;
+    public String completedOn;
 
     @SerializedName("duration_seconds")
-    public double durationSeconds;
+    public Double durationSeconds;
 
     @SerializedName("callback_url")
     public String callbackUrl;

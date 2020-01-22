@@ -19,7 +19,7 @@ public class MockInterceptor implements Interceptor {
                 .newBuilder()
                 .code(200)
                 .protocol(Protocol.HTTP_2)
-                .message("ok")
+                .message("mock interceptor")
                 .body(ResponseBody.create(
                         sampleResponse.toString(),
                         MediaType.get("application/json; charset=utf-8")))
