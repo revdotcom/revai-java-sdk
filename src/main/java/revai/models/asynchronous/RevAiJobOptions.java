@@ -1,6 +1,7 @@
 package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
+import revai.models.CustomVocabulary;
 
 import java.util.List;
 

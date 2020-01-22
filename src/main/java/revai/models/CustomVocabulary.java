@@ -1,4 +1,4 @@
-package revai.models.asynchronous;
+package revai.models;
 
 import java.util.List;
 

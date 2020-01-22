@@ -12,10 +12,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.exceptions.RevAiApiException;
 import revai.models.asynchronous.RevAiAccount;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
+import revai.models.asynchronous.RevAiTranscript;
 
 import java.io.File;
 import java.io.FileReader;
@@ -58,6 +60,7 @@ public class ApiClient {
                 .build();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.rev.ai/revspeech/v1/")
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -71,6 +74,14 @@ public class ApiClient {
 
     public RevAiJob getJobDetails(String id) throws IOException {
         return apiInterface.getJobDetails(id).execute().body();
+    }
+
+    public RevAiTranscript getTranscriptObject(String id) throws IOException {
+        return apiInterface.getTranscriptObject(id).execute().body();
+    }
+
+    public String getTranscriptText(String id) throws IOException {
+        return apiInterface.getTranscriptText(id).execute().body();
     }
 
     public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
@@ -89,8 +100,7 @@ public class ApiClient {
             options = new RevAiJobOptions();
         }
         options.mediaUrl = mediaUrl;
-        Call<RevAiJob> call = apiInterface.sendJobUrl(options);
-        return call.execute().body();
+        return apiInterface.sendJobUrl(options).execute().body();
     }
 
     public RevAiJob submitJobLocalFile(String filepath, RevAiJobOptions options) throws IOException {
@@ -103,4 +113,6 @@ public class ApiClient {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
         return apiInterface.sendJobLocalFile(filePart, options).execute().body();
     }
+
+
 }
