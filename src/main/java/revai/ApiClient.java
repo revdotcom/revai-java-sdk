@@ -84,6 +84,10 @@ public class ApiClient {
         return apiInterface.getTranscriptText(id).execute().body();
     }
 
+    public void deleteJob(String id) throws IOException {
+        apiInterface.deleteJob(id).execute();
+    }
+
     public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
         Map<String, String> options = new HashMap<String, String>();
         if (startingAfter != null) {

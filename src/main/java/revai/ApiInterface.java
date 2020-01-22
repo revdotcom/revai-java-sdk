@@ -38,5 +38,10 @@ public interface ApiInterface {
     @POST("jobs")
     Call<RevAiJob> sendJobLocalFile(@Part MultipartBody.Part file,
                                     @Part("options") RevAiJobOptions options);
+
+    @DELETE("jobs/{id}")
+    Call<Void> deleteJob(@Path("id") String jobID);
+
+
 }
 

@@ -19,7 +19,7 @@ public class ErrorInterceptor implements Interceptor {
         Request request = chain.request();
         Response response = chain.proceed(request);
         int responseCode = response.code();
-        if (responseCode != 200) {
+        if (responseCode != 200 && responseCode != 204) {
             JSONObject errorResponse = new JSONObject(response.body().string());
             switch (responseCode) {
                 case 401:
