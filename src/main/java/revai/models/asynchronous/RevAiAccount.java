@@ -4,20 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class RevAiAccount {
 
-    public String email;
+  public String email;
 
-    @SerializedName("balance_seconds")
-    public int balanceSeconds;
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null || !(obj instanceof RevAiAccount)) {
-//            return false;
-//        } else {
-//            final RevAiAccount other = (RevAiAccount) obj;
-//            return email.equals(other.email) && balanceSeconds == other.balanceSeconds;
-//        }
-//    }
+  @SerializedName("balance_seconds")
+  public int balanceSeconds;
 }
-
-

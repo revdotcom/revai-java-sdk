@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class AuthorizationException extends RevAiApiException {
 
-    public AuthorizationException(JSONObject errorResponse) {
-        super("Authorization Exception", errorResponse, 401);
-    }
+  public AuthorizationException(JSONObject errorResponse) {
+    super("Authorization Exception", errorResponse, 401);
+  }
 }

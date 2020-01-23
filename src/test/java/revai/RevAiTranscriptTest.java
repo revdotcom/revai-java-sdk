@@ -34,7 +34,6 @@ public class RevAiTranscriptTest {
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockClient)
             .build();
-
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 

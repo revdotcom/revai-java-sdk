@@ -2,39 +2,36 @@ package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
-
 public class RevAiJob {
-    @SerializedName("id")
-    private String jobID;
+  @SerializedName("id")
+  private String jobID;
 
-    @SerializedName("created_on")
-    public String createdOn;
+  @SerializedName("created_on")
+  public String createdOn;
 
-    @SerializedName("completed_on")
-    public String completedOn;
+  @SerializedName("completed_on")
+  public String completedOn;
 
-    @SerializedName("duration_seconds")
-    public Double durationSeconds;
+  @SerializedName("duration_seconds")
+  public Double durationSeconds;
 
-    @SerializedName("callback_url")
-    public String callbackUrl;
+  @SerializedName("callback_url")
+  public String callbackUrl;
 
-    @SerializedName("media_url")
-    public String mediaUrl;
+  @SerializedName("media_url")
+  public String mediaUrl;
 
-    @SerializedName("failure_details")
-    public String failureDetails;
+  @SerializedName("failure_details")
+  public String failureDetails;
 
-    @SerializedName("status")
-    public RevAiJobStatus jobStatus;
+  @SerializedName("status")
+  public RevAiJobStatus jobStatus;
 
-    public String metadata;
+  public String metadata;
 
-    public String failure;
+  public String failure;
 
-    public String name;
+  public String name;
 
-    public String type;
-
+  public String type;
 }
