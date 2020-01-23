@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.models.asynchronous.RevAiJob;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RevAiJobTest {
-  @InjectMocks private OkHttpClient httpClient;
+  @InjectMocks private OkHttpClient mockClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
@@ -53,12 +54,13 @@ public class RevAiJobTest {
     sampleJobList.put(sampleJobA);
     sut = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(sampleResponse.toString());
-    httpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
+    mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
             .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
+            .client(mockClient)
             .build();
     sampleJobList.put(sampleJobA);
 

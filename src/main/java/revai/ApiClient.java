@@ -108,16 +108,4 @@ public class ApiClient {
         return apiInterface.sendJobUrl(options).execute().body();
     }
 
-    public RevAiJob submitJobLocalFile(String filepath, RevAiJobOptions options) throws IOException {
-        File file = new File(filepath);
-        RequestBody fileRequest =
-                RequestBody.create(
-                        file,
-                        MediaType.parse("audio/*")
-                );
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
-        return apiInterface.sendJobLocalFile(filePart, options).execute().body();
-    }
-
-
 }
