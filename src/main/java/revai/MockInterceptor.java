@@ -1,33 +1,37 @@
 package revai;
 
 import okhttp3.*;
+
+
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 public class MockInterceptor implements Interceptor {
 
-    public JSONObject sampleResponse;
+    public String sampleResponse;
+    public Request request;
 
-    public MockInterceptor(JSONObject sampleResponse) {
+    public MockInterceptor(String sampleResponse) {
         this.sampleResponse = sampleResponse;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        request = chain.request();
         return chain.proceed(chain.request())
                 .newBuilder()
                 .code(200)
                 .protocol(Protocol.HTTP_2)
                 .message("mock interceptor")
                 .body(ResponseBody.create(
-                        sampleResponse.toString(),
+                        sampleResponse,
                         MediaType.get("application/json; charset=utf-8")))
                 .addHeader("content-type", "application/json")
                 .build();
     }
 
-    public void setResponse(JSONObject sampleResponse) {
+    public void setResponse(String sampleResponse) {
         this.sampleResponse = sampleResponse;
     }
 }

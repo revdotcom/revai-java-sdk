@@ -9,7 +9,8 @@ import java.io.IOException;
  * You can use this code to retrieve details of exceptions when calling the Rev.AI API.
  */
 
-public class RevAiApiException extends IOException {
+public class RevAiApiException extends
+        IOException {
     public int statusCode;
     public String title;
     public String detail;

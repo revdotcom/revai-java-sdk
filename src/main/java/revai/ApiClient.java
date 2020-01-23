@@ -72,21 +72,6 @@ public class ApiClient {
         return apiInterface.getAccount().execute().body();
     }
 
-    public RevAiJob getJobDetails(String id) throws IOException {
-        return apiInterface.getJobDetails(id).execute().body();
-    }
-
-    public RevAiTranscript getTranscriptObject(String id) throws IOException {
-        return apiInterface.getTranscriptObject(id).execute().body();
-    }
-
-    public String getTranscriptText(String id) throws IOException {
-        return apiInterface.getTranscriptText(id).execute().body();
-    }
-
-    public void deleteJob(String id) throws IOException {
-        apiInterface.deleteJob(id).execute();
-    }
 
     public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
         Map<String, String> options = new HashMap<String, String>();
@@ -97,6 +82,22 @@ public class ApiClient {
             options.put("limit", String.valueOf(limit));
         }
         return apiInterface.getListOfJobs(options).execute().body();
+    }
+
+    public RevAiJob getJobDetails(String id) throws IOException {
+        return apiInterface.getJobDetails(id).execute().body();
+    }
+
+    public void deleteJob(String id) throws IOException {
+        apiInterface.deleteJob(id).execute();
+    }
+
+    public RevAiTranscript getTranscriptObject(String id) throws IOException {
+        return apiInterface.getTranscriptObject(id).execute().body();
+    }
+
+    public String getTranscriptText(String id) throws IOException {
+        return apiInterface.getTranscriptText(id).execute().body();
     }
 
     public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {

@@ -17,11 +17,11 @@ public class ErrorInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Interceptor.Chain chain) throws IOException {
+    public Response intercept(Interceptor.Chain chain) throws IOException, RevAiApiException {
         Request request = chain.request();
         Response response = chain.proceed(request);
         int responseCode = response.code();
-        if (responseCode < 200 || responseCode > 399) {
+        if (responseCode > 399) {
             JSONObject errorResponse = new JSONObject(response.body().string());
             switch (responseCode) {
                 case 401:

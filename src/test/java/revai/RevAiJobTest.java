@@ -1,9 +1,11 @@
 package revai;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okio.Buffer;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,27 +13,26 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import revai.models.asynchronous.RevAiAccount;
 import revai.models.asynchronous.RevAiJob;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RevAiJobTest {
-  @InjectMocks
-  private OkHttpClient httpClient;
+  @InjectMocks private OkHttpClient httpClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
   private ApiClient sut;
 
   private JSONObject sampleResponse;
+  private JSONArray sampleJobList;
   private Gson gson;
   private String JOB_ID = "testingID";
   private String STATUS = "transcribed";
   private String CREATED_ON = "2020-01-22T11:10:22.29Z";
-
 
   @Before
   public void setup() throws IOException, XmlPullParserException {
@@ -41,25 +42,79 @@ public class RevAiJobTest {
     sampleJobA.put("id", JOB_ID);
     sampleJobA.put("status", STATUS);
     sampleJobA.put("created_on", CREATED_ON);
+
+    Map<String, String> sampleJobB = new HashMap<String, String>();
+    sampleJobB.put("id", "sampleJobB");
+    sampleJobB.put("status", STATUS);
+    sampleJobB.put("created_on", CREATED_ON);
+
     sampleResponse = new JSONObject(sampleJobA);
+    sampleJobList = new JSONArray();
+    sampleJobList.put(sampleJobA);
     sut = new ApiClient("validToken");
-    mockInterceptor = new MockInterceptor(sampleResponse);
-    httpClient = new OkHttpClient.Builder()
-              .addInterceptor(mockInterceptor)
-              .build();
-    Retrofit mockRetrofit = new Retrofit.Builder()
-              .baseUrl("https://api.rev.ai/revspeech/v1/")
-              .addConverterFactory(GsonConverterFactory.create())
-              .client(httpClient)
-              .build();
+    mockInterceptor = new MockInterceptor(sampleResponse.toString());
+    httpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
+    Retrofit mockRetrofit =
+        new Retrofit.Builder()
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .build();
+    sampleJobList.put(sampleJobA);
+
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
-  public void getJobDetailsTest () throws IOException {
-      JSONObject mockResponse = new JSONObject(gson.toJson(sut.getJobDetails(JOB_ID)));
-      Assert.assertTrue(sampleResponse.similar(mockResponse));
+  public void getJobDetailsTest() throws IOException {
+    mockInterceptor.setResponse(sampleResponse.toString());
+    JSONObject mockResponse = new JSONObject(gson.toJson(sut.getJobDetails(JOB_ID)));
+    Assert.assertTrue(sampleResponse.similar(mockResponse));
+  }
 
+  @Test
+  public void getJobListTest() throws IOException {
+    mockInterceptor.setResponse(sampleJobList.toString());
+    List<RevAiJob> mockJobList = sut.getListOfJobs(null, null);
+    Assert.assertEquals(mockJobList.size(), sampleJobList.length());
+    for (int i = 0; i < mockJobList.size(); i++) {
+      Assert.assertTrue(
+          new JSONObject(gson.toJson(mockJobList.get(i))).similar(sampleJobList.get(i)));
     }
-}
+  }
 
+  @Test
+  public void getJobListLimitTest() throws IOException {
+    Integer SAMPLE_LIMIT = 1;
+    mockInterceptor.setResponse(sampleJobList.toString());
+    sut.getListOfJobs(SAMPLE_LIMIT, null);
+    HttpUrl url = mockInterceptor.request.url();
+    Assert.assertEquals(url.queryParameter("limit"), SAMPLE_LIMIT.toString());
+  }
+
+  @Test
+  public void getJobStartAfterTest() throws IOException {
+    String SAMPLE_STARTING_JOB = "sampleID";
+    mockInterceptor.setResponse(sampleJobList.toString());
+    sut.getListOfJobs(null, SAMPLE_STARTING_JOB);
+    HttpUrl url = mockInterceptor.request.url();
+    Assert.assertEquals(url.queryParameter("starting_after"), SAMPLE_STARTING_JOB);
+  }
+
+  @Test
+  public void submitJobUrlTest() throws IOException {
+    String SAMPLE_MEDIA_URL = "sample-url.com";
+    mockInterceptor.setResponse(sampleResponse.toString());
+    sut.submitJobUrl(SAMPLE_MEDIA_URL, null);
+    Buffer buffer = new Buffer();
+    mockInterceptor.request.body().writeTo(buffer);
+    JSONObject requestBody = new JSONObject(buffer.readUtf8());
+    Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
+  }
+
+  @Test
+  public void deleteJobTest() throws IOException {
+    sut.deleteJob(JOB_ID);
+    Assert.assertEquals(mockInterceptor.request.method(), "DELETE");
+  }
+}

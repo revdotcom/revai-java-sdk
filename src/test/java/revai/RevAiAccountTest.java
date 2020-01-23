@@ -31,7 +31,7 @@ public class RevAiAccountTest {
     public void setup() throws IOException, XmlPullParserException {
         gson = new Gson();
         sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
-        mockInterceptor = new MockInterceptor(sampleResponse);
+        mockInterceptor = new MockInterceptor(sampleResponse.toString());
         sut = new ApiClient("validToken");
         httpClient = new OkHttpClient.Builder()
                 .addInterceptor(mockInterceptor)
