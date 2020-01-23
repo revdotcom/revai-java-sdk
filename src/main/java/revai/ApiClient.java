@@ -1,5 +1,6 @@
 package revai;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import okhttp3.OkHttpClient;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
@@ -44,6 +45,9 @@ public class ApiClient {
   }
 
   public ApiClient(String accessToken) throws IOException, XmlPullParserException {
+    if (accessToken == null) {
+      throw new ValueException("Access token must be provided");
+    }
     this.accessToken = accessToken;
     this.client =
         new OkHttpClient.Builder()
@@ -76,10 +80,16 @@ public class ApiClient {
   }
 
   public RevAiJob getJobDetails(String id) throws IOException {
+    if (id == null) {
+      throw new ValueException("ID must be provided");
+    }
     return apiInterface.getJobDetails(id).execute().body();
   }
 
   public void deleteJob(String id) throws IOException {
+    if (id == null) {
+      throw new ValueException("ID must be provided");
+    }
     apiInterface.deleteJob(id).execute();
   }
 
@@ -92,6 +102,9 @@ public class ApiClient {
   }
 
   public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
+    if (mediaUrl == null) {
+      throw new ValueException("Media url must be provided");
+    }
     if (options == null) {
       options = new RevAiJobOptions();
     }
