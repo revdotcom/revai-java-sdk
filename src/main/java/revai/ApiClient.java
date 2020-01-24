@@ -1,7 +1,9 @@
 package revai;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -13,8 +15,7 @@ import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiTranscript;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class ApiClient {
 
   public ApiClient(String accessToken) throws IOException, XmlPullParserException {
     if (accessToken == null) {
-      throw new ValueException("Access token must be provided");
+      throw new IllegalArgumentException("Access token must be provided");
     }
     this.accessToken = accessToken;
     this.client =
@@ -81,14 +82,14 @@ public class ApiClient {
 
   public RevAiJob getJobDetails(String id) throws IOException {
     if (id == null) {
-      throw new ValueException("ID must be provided");
+      throw new IllegalArgumentException("ID must be provided");
     }
     return apiInterface.getJobDetails(id).execute().body();
   }
 
   public void deleteJob(String id) throws IOException {
     if (id == null) {
-      throw new ValueException("ID must be provided");
+      throw new IllegalArgumentException("ID must be provided");
     }
     apiInterface.deleteJob(id).execute();
   }
@@ -103,12 +104,24 @@ public class ApiClient {
 
   public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
     if (mediaUrl == null) {
-      throw new ValueException("Media url must be provided");
+      throw new IllegalArgumentException("Media url must be provided");
     }
     if (options == null) {
       options = new RevAiJobOptions();
     }
     options.mediaUrl = mediaUrl;
     return apiInterface.sendJobUrl(options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(String filepath, RevAiJobOptions options) throws IOException {
+    File file = new File(filepath);
+    InputStream fileStream =  new FileInputStream(file);
+    RequestBody fileRequest =
+            FileStreamRequestBody.create(
+                    fileStream,
+                    MediaType.parse("audio/*")
+            );
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
+    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
   }
 }
