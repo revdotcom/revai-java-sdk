@@ -42,6 +42,7 @@ public class RevAiAccountTest {
   @Test
   public void AccountValidTest() throws Exception {
     JSONObject mockResponse = new JSONObject(gson.toJson(sut.getAccount()));
+
     Assert.assertTrue(sampleResponse.similar(mockResponse));
   }
 }

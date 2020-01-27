@@ -24,5 +24,6 @@ public class RevAiJobOptions {
   @SerializedName("custom_vocabularies")
   public List<CustomVocabulary> customVocabularies;
 
+  @SerializedName("metadata")
   public String metadata;
 }

@@ -70,14 +70,18 @@ public class RevAiJobTest {
   @Test
   public void getJobDetailsTest() throws IOException {
     mockInterceptor.setResponse(sampleResponse.toString());
+
     JSONObject mockResponse = new JSONObject(gson.toJson(sut.getJobDetails(JOB_ID)));
+
     Assert.assertTrue(sampleResponse.similar(mockResponse));
   }
 
   @Test
   public void getJobListTest() throws IOException {
     mockInterceptor.setResponse(sampleJobList.toString());
+
     List<RevAiJob> mockJobList = sut.getListOfJobs(null, null);
+
     Assert.assertEquals(mockJobList.size(), sampleJobList.length());
     for (int i = 0; i < mockJobList.size(); i++) {
       Assert.assertTrue(
@@ -89,8 +93,10 @@ public class RevAiJobTest {
   public void getJobListLimitTest() throws IOException {
     Integer SAMPLE_LIMIT = 1;
     mockInterceptor.setResponse(sampleJobList.toString());
+
     sut.getListOfJobs(SAMPLE_LIMIT, null);
     HttpUrl url = mockInterceptor.request.url();
+
     Assert.assertEquals(url.queryParameter("limit"), SAMPLE_LIMIT.toString());
   }
 
@@ -98,8 +104,10 @@ public class RevAiJobTest {
   public void getJobStartAfterTest() throws IOException {
     String SAMPLE_STARTING_JOB = "sampleID";
     mockInterceptor.setResponse(sampleJobList.toString());
+
     sut.getListOfJobs(null, SAMPLE_STARTING_JOB);
     HttpUrl url = mockInterceptor.request.url();
+
     Assert.assertEquals(url.queryParameter("starting_after"), SAMPLE_STARTING_JOB);
   }
 
@@ -107,16 +115,19 @@ public class RevAiJobTest {
   public void submitJobUrlTest() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setResponse(sampleResponse.toString());
+
     sut.submitJobUrl(SAMPLE_MEDIA_URL, null);
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
     JSONObject requestBody = new JSONObject(buffer.readUtf8());
+
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
   }
 
   @Test
   public void deleteJobTest() throws IOException {
     sut.deleteJob(JOB_ID);
+
     Assert.assertEquals(mockInterceptor.request.method(), "DELETE");
   }
 }
