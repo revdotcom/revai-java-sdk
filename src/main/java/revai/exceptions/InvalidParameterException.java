@@ -5,6 +5,6 @@ import org.json.JSONObject;
 public class InvalidParameterException extends RevAiApiException {
 
   public InvalidParameterException(JSONObject errorResponse) {
-    super("Invalid Parameter Exception ", errorResponse, 401);
+    super("Invalid Parameter Exception ", errorResponse, 400);
   }
 }

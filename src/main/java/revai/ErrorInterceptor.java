@@ -4,10 +4,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
-import revai.exceptions.AuthorizationException;
-import revai.exceptions.InvalidParameterException;
-import revai.exceptions.ResourceNotFoundException;
-import revai.exceptions.RevAiApiException;
+import revai.exceptions.*;
 
 import java.io.IOException;
 
@@ -29,6 +26,12 @@ public class ErrorInterceptor implements Interceptor {
           throw new InvalidParameterException(errorResponse);
         case 404:
           throw new ResourceNotFoundException(errorResponse);
+        case 406:
+          throw new InvalidHeaderException(errorResponse);
+        case 409:
+          throw new ForbiddenStateException(errorResponse);
+        case 429:
+          throw new ThrottlingLimitException(errorResponse);
         default:
           throw new RevAiApiException("Unexpected API Error", errorResponse, responseCode);
       }

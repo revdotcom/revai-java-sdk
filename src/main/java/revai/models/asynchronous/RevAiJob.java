@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class RevAiJob {
   @SerializedName("id")
-  private String jobID;
+  public String jobID;
 
   @SerializedName("created_on")
   public String createdOn;
@@ -27,11 +27,15 @@ public class RevAiJob {
   @SerializedName("status")
   public RevAiJobStatus jobStatus;
 
+  @SerializedName("metadata")
   public String metadata;
 
+  @SerializedName("failure")
   public String failure;
 
+  @SerializedName("name")
   public String name;
 
+  @SerializedName("type")
   public String type;
 }

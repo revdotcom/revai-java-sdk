@@ -6,9 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import revai.exceptions.AuthorizationException;
-import revai.exceptions.InvalidParameterException;
-import revai.exceptions.ResourceNotFoundException;
+import revai.exceptions.*;
 
 import java.io.IOException;
 
@@ -77,6 +75,42 @@ public class ErrorInterceptorTest {
       Assert.fail();
     } catch (Exception e) {
       Assert.assertTrue(e instanceof ResourceNotFoundException);
+    }
+  }
+
+  @Test
+  public void InvalidHeaderExceptionTest() throws IOException {
+    when(mockChain.proceed(any(Request.class)))
+        .thenReturn(sampleResponse.newBuilder().code(406).build());
+    try {
+      sut.intercept(mockChain);
+      Assert.fail();
+    } catch (Exception e) {
+      Assert.assertTrue(e instanceof InvalidHeaderException);
+    }
+  }
+
+  @Test
+  public void ForbiddenStateExceptionTest() throws IOException {
+    when(mockChain.proceed(any(Request.class)))
+        .thenReturn(sampleResponse.newBuilder().code(409).build());
+    try {
+      sut.intercept(mockChain);
+      Assert.fail();
+    } catch (Exception e) {
+      Assert.assertTrue(e instanceof ForbiddenStateException);
+    }
+  }
+
+  @Test
+  public void ThrottlingLimitExceptionTest() throws IOException {
+    when(mockChain.proceed(any(Request.class)))
+        .thenReturn(sampleResponse.newBuilder().code(429).build());
+    try {
+      sut.intercept(mockChain);
+      Assert.fail();
+    } catch (Exception e) {
+      Assert.assertTrue(e instanceof ThrottlingLimitException);
     }
   }
 }
