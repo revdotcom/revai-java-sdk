@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * An ApiClient object contains all the endpoints that send and retrieve information from the Rev.AI API using the
+ * Retrofit HTTP client.
+ */
 public class ApiClient {
   private static String accessToken;
 
@@ -107,7 +111,7 @@ public class ApiClient {
     if (options == null) {
       options = new RevAiJobOptions();
     }
-    options.mediaUrl = mediaUrl;
+    options.setMediaUrl(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
   }
 }

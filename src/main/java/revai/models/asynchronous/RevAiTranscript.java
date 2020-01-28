@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * A RevAiTranscript object presents a list of monologues as the transcript of a specific job.
+ */
 public class RevAiTranscript {
   @SerializedName("monologues")
   private List<Monologue> monologues;
@@ -21,6 +24,10 @@ public class RevAiTranscript {
     this.monologues = monologues;
   }
 }
+
+/**
+ * A Monologue object presents information about one part of a speech said by a speaker.
+ */
 
 class Monologue {
   @SerializedName("speaker")
@@ -46,6 +53,10 @@ class Monologue {
   }
 }
 
+
+/**
+ * An Element object presents all the information the models inferred from a single interval of audio.
+ */
 class Element {
   @SerializedName("ts")
   Timestamp startTimestamp;

@@ -4,6 +4,9 @@ import okhttp3.*;
 
 import java.io.IOException;
 
+/**
+ * A MockInterceptor object is used to mock the responses for testing purposes.
+ */
 public class MockInterceptor implements Interceptor {
 
   public String sampleResponse;

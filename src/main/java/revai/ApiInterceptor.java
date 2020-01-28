@@ -6,6 +6,10 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
+/**
+ * An ApiInterceptor object appends authorization information to all API calls and is used to check the status of the request
+ * for debugging purposes.
+ */
 public class ApiInterceptor implements Interceptor {
 
   private String accessToken;

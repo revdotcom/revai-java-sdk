@@ -2,6 +2,9 @@ package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A RevAi Job object provides all the information associated with a job under a specific job ID.
+ */
 public class RevAiJob {
   @SerializedName("id")
   private String jobID;

@@ -2,6 +2,9 @@ package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A RevAiAccount object provides basic information about a Rev.AI account associated with a valid access token.
+ */
 public class RevAiAccount {
 
   @SerializedName("email")

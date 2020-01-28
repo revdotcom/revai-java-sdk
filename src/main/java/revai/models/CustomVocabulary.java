@@ -2,6 +2,9 @@ package revai.models;
 
 import java.util.List;
 
+/**
+ * A CustomVocabulary object provides all the custom phrases that are submitted along with a job.
+ */
 public class CustomVocabulary {
   private List<String> phrases;
 

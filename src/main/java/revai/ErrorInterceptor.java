@@ -8,6 +8,9 @@ import revai.exceptions.*;
 
 import java.io.IOException;
 
+/**
+ * The ErrorInterceptor class is used to intercept all responses with erroneous response codes.
+ */
 public class ErrorInterceptor implements Interceptor {
 
   public ErrorInterceptor() {}
