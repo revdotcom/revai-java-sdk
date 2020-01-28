@@ -7,28 +7,61 @@ import java.io.IOException;
 /** A MockInterceptor object is used to mock the responses for testing purposes. */
 public class MockInterceptor implements Interceptor {
 
-  public String sampleResponse;
+  private String sampleResponse;
+  private MediaType mediaType;
+  private Integer responseCode;
   public Request request;
 
-  public MockInterceptor(String sampleResponse) {
+  public MockInterceptor(String sampleResponse, MediaType mediaType, Integer responseCode) {
     this.sampleResponse = sampleResponse;
+    this.mediaType = mediaType;
+    this.responseCode = responseCode;
   }
 
   @Override
   public Response intercept(Chain chain) throws IOException {
     request = chain.request();
     return chain
-      .proceed(chain.request())
-      .newBuilder()
-      .code(200)
-      .protocol(Protocol.HTTP_2)
-      .message("mock interceptor")
-      .body(ResponseBody.create(sampleResponse, MediaType.get("application/json; charset=utf-8")))
-      .addHeader("content-type", "application/json")
-      .build();
+        .proceed(chain.request())
+        .newBuilder()
+        .code(responseCode)
+        .protocol(Protocol.HTTP_2)
+        .message("mock interceptor")
+        .body(ResponseBody.create(sampleResponse, mediaType))
+        .addHeader("content-type", "application/json")
+        .build();
   }
 
-  public void setResponse(String sampleResponse) {
+  public String getSampleResponse() {
+    return sampleResponse;
+  }
+
+  public void setSampleResponse(String sampleResponse) {
     this.sampleResponse = sampleResponse;
   }
+
+  public Request getRequest() {
+    return request;
+  }
+
+  public void setRequest(Request request) {
+    this.request = request;
+  }
+
+  public MediaType getMediaType() {
+    return mediaType;
+  }
+
+  public void setMediaType(MediaType mediaType) {
+    this.mediaType = mediaType;
+  }
+
+  public Integer getResponseCode() {
+    return responseCode;
+  }
+
+  public void setResponseCode(Integer responseCode) {
+    this.responseCode = responseCode;
+  }
 }
+

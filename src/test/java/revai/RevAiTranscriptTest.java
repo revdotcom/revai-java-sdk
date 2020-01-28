@@ -1,5 +1,6 @@
 package revai;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.Assert;
@@ -22,11 +23,12 @@ public class RevAiTranscriptTest {
 
   private String SAMPLE_TEXT = "sample text";
   private String SAMPLE_ID = "sample id";
+  private static MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
 
   @Before
   public void setup() throws IOException, XmlPullParserException {
     sut = new ApiClient("validToken");
-    mockInterceptor = new MockInterceptor(SAMPLE_TEXT);
+    mockInterceptor = new MockInterceptor(SAMPLE_TEXT, MEDIA_TYPE, 200);
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()

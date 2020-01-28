@@ -1,6 +1,7 @@
 package revai;
 
 import com.google.gson.Gson;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ public class RevAiAccountTest {
   // class to be tested
   private ApiClient sut;
 
+  private static  MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
   private JSONObject sampleResponse;
   private Gson gson;
 
@@ -28,7 +30,7 @@ public class RevAiAccountTest {
   public void setup() throws IOException, XmlPullParserException {
     gson = new Gson();
     sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
-    mockInterceptor = new MockInterceptor(sampleResponse.toString());
+    mockInterceptor = new MockInterceptor(sampleResponse.toString(), MEDIA_TYPE, 200);
     sut = new ApiClient("validToken");
     httpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =

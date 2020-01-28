@@ -2,6 +2,7 @@ package revai;
 
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okio.Buffer;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -35,6 +36,7 @@ public class RevAiJobTest {
   private String JOB_ID = "testingID";
   private String STATUS = "transcribed";
   private String CREATED_ON = "2020-01-22T11:10:22.29Z";
+  private static MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
 
   @Before
   public void setup() throws IOException, XmlPullParserException {
@@ -54,7 +56,7 @@ public class RevAiJobTest {
     sampleJobList = new JSONArray();
     sampleJobList.put(sampleJobA);
     sut = new ApiClient("validToken");
-    mockInterceptor = new MockInterceptor(sampleResponse.toString());
+    mockInterceptor = new MockInterceptor(sampleResponse.toString(), MEDIA_TYPE, 200);
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
@@ -70,14 +72,14 @@ public class RevAiJobTest {
 
   @Test
   public void getJobDetailsTest() throws IOException {
-    mockInterceptor.setResponse(sampleResponse.toString());
+    mockInterceptor.setSampleResponse(sampleResponse.toString());
     JSONObject mockResponse = new JSONObject(gson.toJson(sut.getJobDetails(JOB_ID)));
     Assert.assertTrue(sampleResponse.similar(mockResponse));
   }
 
   @Test
   public void getJobListTest() throws IOException {
-    mockInterceptor.setResponse(sampleJobList.toString());
+    mockInterceptor.setSampleResponse(sampleJobList.toString());
     List<RevAiJob> mockJobList = sut.getListOfJobs(null, null);
     Assert.assertEquals(mockJobList.size(), sampleJobList.length());
     for (int i = 0; i < mockJobList.size(); i++) {
@@ -89,7 +91,7 @@ public class RevAiJobTest {
   @Test
   public void getJobListLimitTest() throws IOException {
     Integer SAMPLE_LIMIT = 1;
-    mockInterceptor.setResponse(sampleJobList.toString());
+    mockInterceptor.setSampleResponse(sampleJobList.toString());
     sut.getListOfJobs(SAMPLE_LIMIT, null);
     HttpUrl url = mockInterceptor.request.url();
     Assert.assertEquals(url.queryParameter("limit"), SAMPLE_LIMIT.toString());
@@ -98,7 +100,7 @@ public class RevAiJobTest {
   @Test
   public void getJobStartAfterTest() throws IOException {
     String SAMPLE_STARTING_JOB = "sampleID";
-    mockInterceptor.setResponse(sampleJobList.toString());
+    mockInterceptor.setSampleResponse(sampleJobList.toString());
     sut.getListOfJobs(null, SAMPLE_STARTING_JOB);
     HttpUrl url = mockInterceptor.request.url();
     Assert.assertEquals(url.queryParameter("starting_after"), SAMPLE_STARTING_JOB);
@@ -107,7 +109,7 @@ public class RevAiJobTest {
   @Test
   public void submitJobUrlTest() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
-    mockInterceptor.setResponse(sampleResponse.toString());
+    mockInterceptor.setSampleResponse(sampleResponse.toString());
     sut.submitJobUrl(SAMPLE_MEDIA_URL, null);
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
