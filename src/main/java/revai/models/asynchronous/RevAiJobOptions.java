@@ -5,9 +5,7 @@ import revai.models.CustomVocabulary;
 
 import java.util.List;
 
-/**
- * A RevAiJobOptions object presents parameters that are submitted along a new job.
- */
+/** A RevAiJobOptions object presents parameters that are submitted along a new job. */
 public class RevAiJobOptions {
 
   @SerializedName("media_url")

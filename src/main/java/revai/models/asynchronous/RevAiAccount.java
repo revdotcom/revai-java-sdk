@@ -3,7 +3,8 @@ package revai.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A RevAiAccount object provides basic information about a Rev.AI account associated with a valid access token.
+ * A RevAiAccount object provides basic information about a Rev.AI account associated with a valid
+ * access token.
  */
 public class RevAiAccount {
 
@@ -13,20 +14,19 @@ public class RevAiAccount {
   @SerializedName("balance_seconds")
   private Integer balanceSeconds;
 
-  public String getEmail(){
+  public String getEmail() {
     return this.email;
   }
 
-  public void setEmail(String email){
+  public void setEmail(String email) {
     this.email = email;
   }
 
-  public Integer getBalanceSeconds(){
+  public Integer getBalanceSeconds() {
     return this.balanceSeconds;
   }
 
-  public void setBalanceSeconds(Integer balanceSeconds){
+  public void setBalanceSeconds(Integer balanceSeconds) {
     this.balanceSeconds = balanceSeconds;
   }
-
 }

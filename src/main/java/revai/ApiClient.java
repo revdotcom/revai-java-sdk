@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An ApiClient object contains all the endpoints that send and retrieve information from the Rev.AI API using the
- * Retrofit HTTP client.
+ * An ApiClient object contains all the endpoints that send and retrieve information from the Rev.AI
+ * API using the Retrofit HTTP client.
  */
 public class ApiClient {
   private static String accessToken;
@@ -54,16 +54,16 @@ public class ApiClient {
     this.accessToken = accessToken;
     this.client =
         new OkHttpClient.Builder()
-            .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
-            .addNetworkInterceptor(new ErrorInterceptor())
-            .build();
+          .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
+          .addNetworkInterceptor(new ErrorInterceptor())
+          .build();
     this.retrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build();
+          .baseUrl("https://api.rev.ai/revspeech/v1/")
+          .addConverterFactory(ScalarsConverterFactory.create())
+          .addConverterFactory(GsonConverterFactory.create())
+          .client(client)
+          .build();
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 

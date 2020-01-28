@@ -7,8 +7,8 @@ import okhttp3.Response;
 import java.io.IOException;
 
 /**
- * An ApiInterceptor object appends authorization information to all API calls and is used to check the status of the request
- * for debugging purposes.
+ * An ApiInterceptor object appends authorization information to all API calls and is used to check
+ * the status of the request for debugging purposes.
  */
 public class ApiInterceptor implements Interceptor {
 
@@ -23,12 +23,12 @@ public class ApiInterceptor implements Interceptor {
   @Override
   public Response intercept(Chain chain) throws IOException {
     Request request =
-      chain
-        .request()
-        .newBuilder()
-        .addHeader("Authorization", String.format("Bearer %s", accessToken))
-        .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
-        .build();
+        chain
+          .request()
+          .newBuilder()
+          .addHeader("Authorization", String.format("Bearer %s", accessToken))
+          .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
+          .build();
     return chain.proceed(request);
   }
 }
