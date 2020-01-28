@@ -108,6 +108,6 @@ public class ApiClient {
       options = new RevAiJobOptions();
     }
     options.mediaUrl = mediaUrl;
-    return apiInterface.sendJobUrl(options).execute().body();
+    return apiInterface.submitJobUrl(options).execute().body();
   }
 }

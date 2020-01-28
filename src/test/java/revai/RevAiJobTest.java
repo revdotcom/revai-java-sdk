@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RevAiJobTest {
-  @InjectMocks private OkHttpClient mockClient;
+  @InjectMocks
+  private OkHttpClient mockClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
@@ -57,11 +58,11 @@ public class RevAiJobTest {
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(mockClient)
-            .build();
+          .baseUrl("https://api.rev.ai/revspeech/v1/")
+          .addConverterFactory(ScalarsConverterFactory.create())
+          .addConverterFactory(GsonConverterFactory.create())
+          .client(mockClient)
+          .build();
     sampleJobList.put(sampleJobA);
 
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);

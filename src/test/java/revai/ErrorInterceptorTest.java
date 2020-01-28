@@ -15,7 +15,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ErrorInterceptorTest {
-  @InjectMocks private Chain mockChain;
+  @InjectMocks
+  private Chain mockChain;
 
   // class to be tested
   private ErrorInterceptor sut;
@@ -31,15 +32,13 @@ public class ErrorInterceptorTest {
     when(mockChain.request()).thenReturn(sampleRequest);
     sampleResponse =
         new Response.Builder()
-            .code(200)
-            .request(sampleRequest)
-            .protocol(Protocol.HTTP_2)
-            .message("mock interceptor")
-            .body(
-                ResponseBody.create(
-                    "{error: sample response}", MediaType.get("application/json; charset=utf-8")))
-            .addHeader("content-type", "application/json")
-            .build();
+          .code(200)
+          .request(sampleRequest)
+          .protocol(Protocol.HTTP_2)
+          .message("mock interceptor")
+          .body(ResponseBody.create("{error: sample response}", MediaType.get("application/json; charset=utf-8")))
+          .addHeader("content-type", "application/json")
+          .build();
   }
 
   @Test

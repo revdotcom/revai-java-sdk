@@ -19,12 +19,12 @@ public class ApiInterceptor implements Interceptor {
   @Override
   public Response intercept(Chain chain) throws IOException {
     Request request =
-        chain
-            .request()
-            .newBuilder()
-            .addHeader("Authorization", String.format("Bearer %s", accessToken))
-            .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
-            .build();
+      chain
+        .request()
+        .newBuilder()
+        .addHeader("Authorization", String.format("Bearer %s", accessToken))
+        .addHeader("User-Agent", String.format("RevAi-JavaSDK/%s", sdkVersion))
+        .build();
     return chain.proceed(request);
   }
 }

@@ -32,7 +32,7 @@ public interface ApiInterface {
   Call<String> getTranscriptText(@Path("id") String jobID);
 
   @POST("jobs")
-  Call<RevAiJob> sendJobUrl(@Body RevAiJobOptions options);
+  Call<RevAiJob> submitJobUrl(@Body RevAiJobOptions options);
 
   @DELETE("jobs/{id}")
   Call<Void> deleteJob(@Path("id") String jobID);

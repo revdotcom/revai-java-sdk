@@ -14,7 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 
 public class RevAiAccountTest {
-  @InjectMocks private OkHttpClient httpClient;
+  @InjectMocks
+  private OkHttpClient httpClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
@@ -32,10 +33,10 @@ public class RevAiAccountTest {
     httpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
-            .build();
+          .baseUrl("https://api.rev.ai/revspeech/v1/")
+          .addConverterFactory(GsonConverterFactory.create())
+          .client(httpClient)
+          .build();
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 

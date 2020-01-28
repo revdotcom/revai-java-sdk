@@ -5,8 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class RevAiAccount {
 
   @SerializedName("email")
-  public String email;
+  private String email;
 
   @SerializedName("balance_seconds")
-  public Integer balanceSeconds;
+  private Integer balanceSeconds;
+
+  public String getEmail(){
+    return this.email;
+  }
+
+  public void setEmail(String email){
+    this.email = email;
+  }
+
+  public Integer getBalanceSeconds(){
+    return this.balanceSeconds;
+  }
+
+  public void setBalanceSeconds(Integer balanceSeconds){
+    this.balanceSeconds = balanceSeconds;
+  }
+
 }
