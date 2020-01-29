@@ -1,6 +1,9 @@
 package revai;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -12,8 +15,7 @@ import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiTranscript;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,5 +115,17 @@ public class ApiClient {
     }
     options.setMediaUrl(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(String filepath, RevAiJobOptions options) throws IOException {
+    File file = new File(filepath);
+    InputStream fileStream =  new FileInputStream(file);
+    RequestBody fileRequest =
+      FileStreamRequestBody.create(
+        fileStream,
+        MediaType.parse("audio/*")
+      );
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
+    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
   }
 }
