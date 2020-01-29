@@ -17,10 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.models.asynchronous.RevAiJob;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.mockito.Mockito.mock;
 
 public class RevAiJobTest {
   @InjectMocks
@@ -125,6 +128,26 @@ public class RevAiJobTest {
     mockInterceptor.request.body().writeTo(buffer);
     JSONObject requestBody = new JSONObject(buffer.readUtf8());
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
+  }
+
+//  @Test
+//  public void createFileStreamTest() throws IOException {
+//
+//  }
+
+  @Test
+  public void submitJobLocalFileTest() throws IOException {
+    FileInputStream mockFileStream = mock(FileInputStream.class);
+    mockInterceptor.setSampleResponse(sampleResponse.toString());
+    String mockFileName = "test.mp3";
+    sut.submitJobLocalFile(mockFileName, mockFileStream, null);
+
+    Buffer buffer = new Buffer();
+    mockInterceptor.request.body().writeTo(buffer);
+    JSONObject requestBody = new JSONObject(buffer.readUtf8());
+    System.out.println(requestBody.toString());
+//    Assert.assertEquals(requestBody.get("media_url"), SAMPLE_FILE_NAME);
+
   }
 
   @Test
