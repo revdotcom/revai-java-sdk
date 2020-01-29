@@ -5,6 +5,7 @@ import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;

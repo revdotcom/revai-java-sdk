@@ -4,14 +4,13 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.helpers.SDKHelper;
-import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiTranscript;
+import revai.models.asynchronous.*;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -160,4 +159,21 @@ public class ApiClient {
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
+
+  public String getCaptionText(String id, RevAiCaptionType captionType, Integer channelId) throws IOException {
+    if (id == null) {
+      throw new IllegalArgumentException("ID must be provided");
+    }
+    if (captionType == null) {
+      captionType = RevAiCaptionType.SRT;
+    }
+    Map<String, String> query = new HashMap<String, String>();
+    if (channelId != null) {
+      query.put("speaker_channel", channelId.toString());
+    }
+    Map<String, String> contentHeader = new HashMap<String, String>();
+    contentHeader.put("Accept", captionType.getContentType());
+    return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
+  }
 }
+

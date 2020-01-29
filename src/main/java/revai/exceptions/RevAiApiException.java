@@ -13,9 +13,11 @@ public class RevAiApiException extends IOException {
   public String title;
   public String detail;
   public String type;
+  public JSONObject errorResponse;
 
   public RevAiApiException(String message, JSONObject errorResponse, int responseCode) {
     super(message);
+    this.errorResponse = errorResponse;
     statusCode = responseCode;
     if (errorResponse.has("title")) {
       title = errorResponse.get("title").toString();
