@@ -133,6 +133,24 @@ public class RevAiJobTest {
   }
 
   @Test
+  public void submitJobLocalFileTest() throws IOException {
+    String SAMPLE_FILENAME = "test.mp3";
+    String TEST_FILE_PATH = "/Users/admin/Documents/revai-java-sdk/src/test/java/revai/sources/sampleAudio.mp3";
+    FileInputStream sampleFileStream =  new FileInputStream(new File(TEST_FILE_PATH));
+    mockInterceptor.setSampleResponse(sampleResponse.toString());
+
+    sut.submitJobLocalFile(SAMPLE_FILENAME, sampleFileStream, null);
+
+    MultipartBody body = (MultipartBody) mockInterceptor.request.body();
+    String headers = body.part(0).headers().toString();
+    int startIndex = headers.indexOf("\"", headers.indexOf("filename"));
+    int endIndex = headers.indexOf("\"", startIndex+1);
+    String requestFilename= headers.substring(startIndex+1,endIndex);
+    Assert.assertEquals(requestFilename, SAMPLE_FILENAME);
+
+  }
+
+  @Test
   public void deleteJobTest() throws IOException {
     sut.deleteJob(JOB_ID);
 
