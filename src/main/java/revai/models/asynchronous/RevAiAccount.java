@@ -2,22 +2,31 @@ package revai.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A RevAiAccount object provides basic information about a Rev.AI account associated with a valid
+ * access token.
+ */
 public class RevAiAccount {
 
-    public String email;
+  @SerializedName("email")
+  private String email;
 
-    @SerializedName("balance_seconds")
-    public int balanceSeconds;
+  @SerializedName("balance_seconds")
+  private Integer balanceSeconds;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof RevAiAccount)) {
-            return false;
-        } else {
-            final RevAiAccount other = (RevAiAccount) obj;
-            return email.equals(other.email) && balanceSeconds == other.balanceSeconds;
-        }
-    }
+  public String getEmail() {
+    return this.email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public Integer getBalanceSeconds() {
+    return this.balanceSeconds;
+  }
+
+  public void setBalanceSeconds(Integer balanceSeconds) {
+    this.balanceSeconds = balanceSeconds;
+  }
 }
-
-
