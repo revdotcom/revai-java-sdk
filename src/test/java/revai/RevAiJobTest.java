@@ -109,8 +109,8 @@ public class RevAiJobTest {
     mockInterceptor.setSampleResponse(sampleJobList.toString());
 
     sut.getListOfJobs(null, SAMPLE_STARTING_JOB);
-    HttpUrl url = mockInterceptor.request.url();
 
+    HttpUrl url = mockInterceptor.request.url();
     Assert.assertEquals(url.queryParameter("starting_after"), SAMPLE_STARTING_JOB);
   }
 
@@ -120,10 +120,10 @@ public class RevAiJobTest {
     mockInterceptor.setSampleResponse(sampleResponse.toString());
 
     sut.submitJobUrl(SAMPLE_MEDIA_URL, null);
+
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
     JSONObject requestBody = new JSONObject(buffer.readUtf8());
-
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
   }
 

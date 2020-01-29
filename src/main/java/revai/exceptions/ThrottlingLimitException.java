@@ -7,6 +7,7 @@ import org.json.JSONObject;
  * throttling limit.
  */
 public class ThrottlingLimitException extends RevAiApiException {
+
   public ThrottlingLimitException(JSONObject errorResponse) {
     super("Throttling Limit Exception", errorResponse, 429);
   }
