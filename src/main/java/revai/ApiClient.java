@@ -117,13 +117,25 @@ public class ApiClient {
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
-  public RevAiJob submitJobLocalFile(String fileName, FileInputStream fileStream, RevAiJobOptions options) throws IOException {
+  public RevAiJob submitJobLocalFile(String filename, FileInputStream fileStream, RevAiJobOptions options) throws IOException {
     RequestBody fileRequest =
       FileStreamRequestBody.create(
         fileStream,
         MediaType.parse("audio/*")
       );
-    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
+
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", filename, fileRequest);
+    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(FileInputStream fileStream, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest =
+      FileStreamRequestBody.create(
+        fileStream,
+        MediaType.parse("audio/*")
+      );
+
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", null, fileRequest);
     return apiInterface.sendJobLocalFile(filePart, options).execute().body();
   }
 }

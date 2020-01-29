@@ -135,20 +135,19 @@ public class RevAiJobTest {
 //
 //  }
 
-  @Test
-  public void submitJobLocalFileTest() throws IOException {
-    FileInputStream mockFileStream = mock(FileInputStream.class);
-    mockInterceptor.setSampleResponse(sampleResponse.toString());
-    String mockFileName = "test.mp3";
-    sut.submitJobLocalFile(mockFileName, mockFileStream, null);
-
-    Buffer buffer = new Buffer();
-    mockInterceptor.request.body().writeTo(buffer);
-    JSONObject requestBody = new JSONObject(buffer.readUtf8());
-    System.out.println(requestBody.toString());
+//  @Test
+//  public void submitJobLocalFileTest() throws IOException {
+//    FileInputStream mockFileStream = mock(FileInputStream.class);
+//    mockInterceptor.setSampleResponse(sampleResponse.toString());
+//    String mockFileName = "test.mp3";
+//    sut.submitJobLocalFile(mockFileName, mockFileStream, null);
+//    Buffer buffer = new Buffer();
+//    mockInterceptor.request.body().writeTo(buffer);
+//    JSONObject requestBody = new JSONObject(buffer.readUtf8());
+//    System.out.println(requestBody.toString());
 //    Assert.assertEquals(requestBody.get("media_url"), SAMPLE_FILE_NAME);
-
-  }
+//
+//  }
 
   @Test
   public void deleteJobTest() throws IOException {
