@@ -23,13 +23,13 @@ public class RevAiTranscript {
   }
 }
 
-/** A Monologue object presents information about one part of a speech said by a speaker. */
+/** A Monologue object presents information about  a segment of a transcript owned by an individual speaker. */
 class Monologue {
   @SerializedName("speaker")
-  Integer speaker;
+  private Integer speaker;
 
   @SerializedName("elements")
-  List<Element> elements;
+  private List<Element> elements;
 
   public Integer getSpeaker() {
     return speaker;
@@ -54,33 +54,33 @@ class Monologue {
  */
 class Element {
   @SerializedName("ts")
-  Timestamp startTimestamp;
+  private String startTimestamp;
 
   @SerializedName("end_ts")
-  Timestamp endTimestamp;
+  private String endTimestamp;
 
   @SerializedName("type")
-  String type;
+  private String type;
 
   @SerializedName("value")
-  String value;
+  private String value;
 
   @SerializedName("confidence")
-  Double confidence;
+  private Double confidence;
 
-  public Timestamp getStartTimestamp() {
+  public String getStartTimestamp() {
     return startTimestamp;
   }
 
-  public void setStartTimestamp(Timestamp startTimestamp) {
+  public void setStartTimestamp(String startTimestamp) {
     this.startTimestamp = startTimestamp;
   }
 
-  public Timestamp getEndTimestamp() {
+  public String getEndTimestamp() {
     return endTimestamp;
   }
 
-  public void setEndTimestamp(Timestamp endTimestamp) {
+  public void setEndTimestamp(String endTimestamp) {
     this.endTimestamp = endTimestamp;
   }
 

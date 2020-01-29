@@ -3,7 +3,7 @@ package revai.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A RevAi Job object provides all the information associated with a job under a specific job ID.
+ * A RevAi Job object provides all the information associated with a job submitted by the user.  
  */
 public class RevAiJob {
   @SerializedName("id")
@@ -16,7 +16,7 @@ public class RevAiJob {
   private String completedOn;
 
   @SerializedName("duration_seconds")
-  public Double durationSeconds;
+  private Double durationSeconds;
 
   @SerializedName("callback_url")
   private String callbackUrl;
@@ -42,7 +42,7 @@ public class RevAiJob {
   @SerializedName("type")
   private String type;
 
-  private String getJobID() {
+  public String getJobID() {
     return jobID;
   }
 
@@ -50,7 +50,7 @@ public class RevAiJob {
     this.jobID = jobID;
   }
 
-  private String getCreatedOn() {
+  public String getCreatedOn() {
     return createdOn;
   }
 
@@ -58,7 +58,7 @@ public class RevAiJob {
     this.createdOn = createdOn;
   }
 
-  private String getCompletedOn() {
+  public String getCompletedOn() {
     return completedOn;
   }
 
@@ -74,7 +74,7 @@ public class RevAiJob {
     this.durationSeconds = durationSeconds;
   }
 
-  private String getCallbackUrl() {
+  public String getCallbackUrl() {
     return callbackUrl;
   }
 
@@ -82,7 +82,7 @@ public class RevAiJob {
     this.callbackUrl = callbackUrl;
   }
 
-  private String getMediaUrl() {
+  public String getMediaUrl() {
     return mediaUrl;
   }
 
@@ -90,7 +90,7 @@ public class RevAiJob {
     this.mediaUrl = mediaUrl;
   }
 
-  private String getFailureDetails() {
+  public String getFailureDetails() {
     return failureDetails;
   }
 
@@ -106,7 +106,7 @@ public class RevAiJob {
     this.jobStatus = jobStatus;
   }
 
-  private String getMetadata() {
+  public String getMetadata() {
     return metadata;
   }
 
@@ -114,7 +114,7 @@ public class RevAiJob {
     this.metadata = metadata;
   }
 
-  private String getFailure() {
+  public String getFailure() {
     return failure;
   }
 
@@ -122,7 +122,7 @@ public class RevAiJob {
     this.failure = failure;
   }
 
-  private String getName() {
+  public String getName() {
     return name;
   }
 
@@ -130,7 +130,7 @@ public class RevAiJob {
     this.name = name;
   }
 
-  private String getType() {
+  public String getType() {
     return type;
   }
 

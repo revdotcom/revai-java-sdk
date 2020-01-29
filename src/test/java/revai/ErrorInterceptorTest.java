@@ -112,4 +112,28 @@ public class ErrorInterceptorTest {
       Assert.assertTrue(e instanceof ThrottlingLimitException);
     }
   }
+
+  @Test
+  public void GeneralRevAiApiExceptionTest() throws IOException {
+    int badResponseCode = 500;
+    when(mockChain.proceed(any(Request.class)))
+      .thenReturn(sampleResponse.newBuilder().code(badResponseCode).build());
+    try {
+      sut.intercept(mockChain);
+      Assert.fail();
+    } catch (Exception e) {
+      Assert.assertTrue(e instanceof RevAiApiException);
+    }
+  }
+
+  @Test
+  public void NoExceptionTest() throws IOException {
+    when(mockChain.proceed(any(Request.class)))
+      .thenReturn(sampleResponse.newBuilder().code(200).build());
+    try {
+      sut.intercept(mockChain);
+    } catch (Exception e) {
+      Assert.fail();
+    }
+  }
 }

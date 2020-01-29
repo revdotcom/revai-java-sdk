@@ -29,7 +29,7 @@ public class RevAiJobOptions {
   @SerializedName("metadata")
   private String metadata;
 
-  private String getMediaUrl() {
+  public String getMediaUrl() {
     return mediaUrl;
   }
 
