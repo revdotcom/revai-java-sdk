@@ -45,6 +45,7 @@ public class RevAiTranscriptTest {
   @Test
   public void getTranscriptTextTest() throws IOException {
     String mockResponse = sut.getTranscriptText(SAMPLE_ID);
+    
     Assert.assertEquals(mockResponse, SAMPLE_TEXT);
   }
 

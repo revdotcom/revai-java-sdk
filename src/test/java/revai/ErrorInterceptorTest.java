@@ -45,6 +45,7 @@ public class ErrorInterceptorTest {
   public void InvalidParameterExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(400).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -57,6 +58,7 @@ public class ErrorInterceptorTest {
   public void AuthorizationExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(401).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -69,6 +71,7 @@ public class ErrorInterceptorTest {
   public void ResourceNotFoundExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(404).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -81,6 +84,7 @@ public class ErrorInterceptorTest {
   public void InvalidHeaderExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(406).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -93,6 +97,7 @@ public class ErrorInterceptorTest {
   public void ForbiddenStateExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(409).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -105,6 +110,7 @@ public class ErrorInterceptorTest {
   public void ThrottlingLimitExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(429).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -118,6 +124,7 @@ public class ErrorInterceptorTest {
     int badResponseCode = 500;
     when(mockChain.proceed(any(Request.class)))
       .thenReturn(sampleResponse.newBuilder().code(badResponseCode).build());
+
     try {
       sut.intercept(mockChain);
       Assert.fail();
@@ -130,6 +137,7 @@ public class ErrorInterceptorTest {
   public void NoExceptionTest() throws IOException {
     when(mockChain.proceed(any(Request.class)))
       .thenReturn(sampleResponse.newBuilder().code(200).build());
+
     try {
       sut.intercept(mockChain);
     } catch (Exception e) {
