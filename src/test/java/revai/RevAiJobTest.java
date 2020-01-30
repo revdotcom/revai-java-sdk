@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.mock;
-
 public class RevAiJobTest {
   @InjectMocks
   private OkHttpClient mockClient;
@@ -35,13 +33,15 @@ public class RevAiJobTest {
   // class to be tested
   private ApiClient sut;
 
+  private final String JOB_ID = "testingID";
+  private final String STATUS = "transcribed";
+  private final String CREATED_ON = "2020-01-22T11:10:22.29Z";
+  private final String SAMPLE_FILENAME = "sampleAudio.mp3";
+  private final String SAMPLE_CONTENT_TYPE = "form-data";
+  private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private JSONObject sampleResponse;
   private JSONArray sampleJobList;
   private Gson gson;
-  private String JOB_ID = "testingID";
-  private String STATUS = "transcribed";
-  private String CREATED_ON = "2020-01-22T11:10:22.29Z";
-  private static MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
 
   @Before
   public void setup() throws IOException, XmlPullParserException {
@@ -64,12 +64,12 @@ public class RevAiJobTest {
     mockInterceptor = new MockInterceptor(sampleResponse.toString(), MEDIA_TYPE, 200);
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
-        new Retrofit.Builder()
-          .baseUrl("https://api.rev.ai/revspeech/v1/")
-          .addConverterFactory(ScalarsConverterFactory.create())
-          .addConverterFactory(GsonConverterFactory.create())
-          .client(mockClient)
-          .build();
+      new Retrofit.Builder()
+        .baseUrl("https://api.rev.ai/revspeech/v1/")
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(mockClient)
+        .build();
     sampleJobList.put(sampleJobA);
 
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
@@ -93,7 +93,7 @@ public class RevAiJobTest {
     Assert.assertEquals(mockJobList.size(), sampleJobList.length());
     for (int i = 0; i < mockJobList.size(); i++) {
       Assert.assertTrue(
-          new JSONObject(gson.toJson(mockJobList.get(i))).similar(sampleJobList.get(i)));
+        new JSONObject(gson.toJson(mockJobList.get(i))).similar(sampleJobList.get(i)));
     }
   }
 
@@ -134,22 +134,17 @@ public class RevAiJobTest {
 
   @Test
   public void submitJobLocalFileTest() throws IOException {
-    String SAMPLE_FILENAME = "test.mp3";
     String TEST_FILE_PATH = "src/test/java/revai/sources/sampleAudio.mp3";
-    FileInputStream sampleFileStream =  new FileInputStream(new File(TEST_FILE_PATH));
+    FileInputStream sampleFileStream = new FileInputStream(new File(TEST_FILE_PATH));
     mockInterceptor.setSampleResponse(sampleResponse.toString());
 
     sut.submitJobLocalFile(SAMPLE_FILENAME, sampleFileStream, null);
 
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
-    int startIndex = headers.indexOf("\"", headers.indexOf("filename"));
-    int endIndex = headers.indexOf("\"", startIndex+1);
-    String requestFilename= headers.substring(startIndex+1,endIndex);
-    Assert.assertEquals(requestFilename, SAMPLE_FILENAME);
-
+    Assert.assertTrue(headers.contains(SAMPLE_FILENAME));
+    Assert.assertTrue(headers.contains(SAMPLE_CONTENT_TYPE));
   }
-
 
   @Test
   public void deleteJobTest() throws IOException {
