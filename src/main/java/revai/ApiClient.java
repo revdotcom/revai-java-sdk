@@ -117,7 +117,7 @@ public class ApiClient {
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
-  public RevAiJob submitJobLocalFile(String filename, FileInputStream fileStream, RevAiJobOptions options) throws IOException {
+  public RevAiJob submitJobLocalFile(String filename, InputStream fileStream, RevAiJobOptions options) throws IOException {
     RequestBody fileRequest =
       FileStreamRequestBody.create(
         fileStream,
@@ -128,14 +128,30 @@ public class ApiClient {
     return apiInterface.sendJobLocalFile(filePart, options).execute().body();
   }
 
-  public RevAiJob submitJobLocalFile(FileInputStream fileStream, RevAiJobOptions options) throws IOException {
+  public RevAiJob submitJobLocalFile(InputStream fileStream, RevAiJobOptions options) throws IOException {
     RequestBody fileRequest =
       FileStreamRequestBody.create(
         fileStream,
         MediaType.parse("audio/*")
       );
 
-    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", null, fileRequest);
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", "INPUT MEDIA", fileRequest);
     return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+  }
+
+  public String getCaptionText(String id, String contentType, Integer channelID) throws IOException {
+    if (id == null) {
+      throw new IllegalArgumentException("ID must be provided");
+    }
+    if (contentType == null){
+      contentType = "application/x-subrip";
+    }
+    String query = "";
+    if (channelID != null){
+      query = "?speaker_channel=" + channelID;
+    }
+    Map<String, String> contentHeader = new HashMap<String, String>();
+    contentHeader.put("Accept", contentType);
+    return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
   }
 }

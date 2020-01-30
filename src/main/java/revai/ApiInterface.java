@@ -45,5 +45,10 @@ public interface ApiInterface {
   @Multipart
   @POST("jobs")
   Call<RevAiJob> sendJobLocalFile(
-      @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
+    @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
+
+  @GET("jobs/{id}/captions{query}")
+  Call<String> getCaptionText(@Path("id") String jobID,
+                              @Path("query") String query,
+                              @HeaderMap Map<String, String> contentType);
 }
