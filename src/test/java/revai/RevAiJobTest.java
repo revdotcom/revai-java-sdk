@@ -3,6 +3,7 @@ package revai;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okio.Buffer;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -17,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.models.asynchronous.RevAiJob;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -130,24 +132,24 @@ public class RevAiJobTest {
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
   }
 
-//  @Test
-//  public void createFileStreamTest() throws IOException {
-//
-//  }
+  @Test
+  public void submitJobLocalFileTest() throws IOException {
+    String SAMPLE_FILENAME = "test.mp3";
+    String TEST_FILE_PATH = "src/test/java/revai/sources/sampleAudio.mp3";
+    FileInputStream sampleFileStream =  new FileInputStream(new File(TEST_FILE_PATH));
+    mockInterceptor.setSampleResponse(sampleResponse.toString());
 
-//  @Test
-//  public void submitJobLocalFileTest() throws IOException {
-//    FileInputStream mockFileStream = mock(FileInputStream.class);
-//    mockInterceptor.setSampleResponse(sampleResponse.toString());
-//    String mockFileName = "test.mp3";
-//    sut.submitJobLocalFile(mockFileName, mockFileStream, null);
-//    Buffer buffer = new Buffer();
-//    mockInterceptor.request.body().writeTo(buffer);
-//    JSONObject requestBody = new JSONObject(buffer.readUtf8());
-//    System.out.println(requestBody.toString());
-//    Assert.assertEquals(requestBody.get("media_url"), SAMPLE_FILE_NAME);
-//
-//  }
+    sut.submitJobLocalFile(SAMPLE_FILENAME, sampleFileStream, null);
+
+    MultipartBody body = (MultipartBody) mockInterceptor.request.body();
+    String headers = body.part(0).headers().toString();
+    int startIndex = headers.indexOf("\"", headers.indexOf("filename"));
+    int endIndex = headers.indexOf("\"", startIndex+1);
+    String requestFilename= headers.substring(startIndex+1,endIndex);
+    Assert.assertEquals(requestFilename, SAMPLE_FILENAME);
+
+  }
+
 
   @Test
   public void deleteJobTest() throws IOException {
