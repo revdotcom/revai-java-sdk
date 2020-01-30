@@ -65,11 +65,11 @@ public class RevAiJobTest {
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-          .baseUrl("https://api.rev.ai/revspeech/v1/")
-          .addConverterFactory(ScalarsConverterFactory.create())
-          .addConverterFactory(GsonConverterFactory.create())
-          .client(mockClient)
-          .build();
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(mockClient)
+            .build();
     sampleJobList.put(sampleJobA);
 
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
@@ -134,20 +134,16 @@ public class RevAiJobTest {
 
   @Test
   public void submitJobLocalFileTest() throws IOException {
-    String SAMPLE_FILENAME = "test.mp3";
     String TEST_FILE_PATH = "src/test/java/revai/sources/sampleAudio.mp3";
-    FileInputStream sampleFileStream =  new FileInputStream(new File(TEST_FILE_PATH));
+    FileInputStream sampleFileStream = new FileInputStream(new File(TEST_FILE_PATH));
     mockInterceptor.setSampleResponse(sampleResponse.toString());
 
     sut.submitJobLocalFile(SAMPLE_FILENAME, sampleFileStream, null);
 
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
-    int startIndex = headers.indexOf("\"", headers.indexOf("filename"));
-    int endIndex = headers.indexOf("\"", startIndex+1);
-    String requestFilename= headers.substring(startIndex+1,endIndex);
-    Assert.assertEquals(requestFilename, SAMPLE_FILENAME);
-
+    Assert.assertTrue(headers.contains(SAMPLE_FILENAME));
+    Assert.assertTrue(headers.contains(SAMPLE_CONTENT_TYPE));
   }
 
   @Test
