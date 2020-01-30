@@ -125,7 +125,7 @@ public class ApiClient {
       );
 
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", filename, fileRequest);
-    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
   public RevAiJob submitJobLocalFile(InputStream fileStream, RevAiJobOptions options) throws IOException {
@@ -135,8 +135,8 @@ public class ApiClient {
         MediaType.parse("audio/*")
       );
 
-    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", "INPUT MEDIA", fileRequest);
-    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", "Input Media", fileRequest);
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
   public String getCaptionText(String id, String contentType, Integer channelID) throws IOException {

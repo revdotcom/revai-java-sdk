@@ -22,7 +22,7 @@ public class RevAiAccountTest {
   // class to be tested
   private ApiClient sut;
 
-  private static  MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
+  private final MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
   private JSONObject sampleResponse;
   private Gson gson;
 
