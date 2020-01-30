@@ -135,7 +135,7 @@ public class RevAiJobTest {
   @Test
   public void submitJobLocalFileTest() throws IOException {
     String SAMPLE_FILENAME = "test.mp3";
-    String TEST_FILE_PATH = "/Users/admin/Documents/revai-java-sdk/src/test/java/revai/sources/sampleAudio.mp3";
+    String TEST_FILE_PATH = "src/test/java/revai/sources/sampleAudio.mp3";
     FileInputStream sampleFileStream =  new FileInputStream(new File(TEST_FILE_PATH));
     mockInterceptor.setSampleResponse(sampleResponse.toString());
 
