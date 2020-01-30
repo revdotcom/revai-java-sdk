@@ -10,7 +10,10 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.models.asynchronous.*;
+import revai.models.asynchronous.RevAiAccount;
+import revai.models.asynchronous.RevAiJob;
+import revai.models.asynchronous.RevAiJobOptions;
+import revai.models.asynchronous.RevAiTranscript;
 
 import java.io.*;
 import java.util.HashMap;
@@ -114,19 +117,41 @@ public class ApiClient {
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
-  public String getCaptionText(String id, RevAiCaptionType captionType, Integer channelId) throws IOException {
+  public RevAiJob submitJobLocalFile(String filename, InputStream fileStream, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest =
+      FileStreamRequestBody.create(
+        fileStream,
+        MediaType.parse("audio/*")
+      );
+
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", filename, fileRequest);
+    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(InputStream fileStream, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest =
+      FileStreamRequestBody.create(
+        fileStream,
+        MediaType.parse("audio/*")
+      );
+
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", "INPUT MEDIA", fileRequest);
+    return apiInterface.sendJobLocalFile(filePart, options).execute().body();
+  }
+
+  public String getCaptionText(String id, String contentType, Integer channelID) throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
     }
-    if (captionType == null){
-      captionType = RevAiCaptionType.SRT;
+    if (contentType == null){
+      contentType = "application/x-subrip";
     }
-    Map<String, String> query = new HashMap<String, String>();
-    if (channelId != null){
-      query.put("speaker_channel", channelId.toString());
+    String query = "";
+    if (channelID != null){
+      query = "?speaker_channel=" + channelID;
     }
     Map<String, String> contentHeader = new HashMap<String, String>();
-    contentHeader.put("Accept", captionType.getContentType());
+    contentHeader.put("Accept", contentType);
     return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
   }
 }
