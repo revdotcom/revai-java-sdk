@@ -10,10 +10,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiTranscript;
+import revai.models.asynchronous.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -139,19 +136,19 @@ public class ApiClient {
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
-  public String getCaptionText(String id, String contentType, Integer channelID) throws IOException {
+  public String getCaptionText(String id, String captionType, Integer channelID) throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
     }
-    if (contentType == null){
-      contentType = "application/x-subrip";
+    if (captionType == null){
+      captionType = "SRT";
     }
     String query = "";
     if (channelID != null){
       query = "?speaker_channel=" + channelID;
     }
     Map<String, String> contentHeader = new HashMap<String, String>();
-    contentHeader.put("Accept", contentType);
+    contentHeader.put("Accept", RevAiCaptionType.valueOf(captionType).getContentType());
     return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
   }
 }
