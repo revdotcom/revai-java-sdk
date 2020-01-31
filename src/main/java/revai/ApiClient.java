@@ -15,7 +15,9 @@ import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiTranscript;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,17 +57,17 @@ public class ApiClient {
     }
     this.accessToken = accessToken;
     this.client =
-      new OkHttpClient.Builder()
-        .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
-        .addNetworkInterceptor(new ErrorInterceptor())
-        .build();
+        new OkHttpClient.Builder()
+            .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
+            .addNetworkInterceptor(new ErrorInterceptor())
+            .build();
     this.retrofit =
-      new Retrofit.Builder()
-        .baseUrl("https://api.rev.ai/revspeech/v1/")
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build();
+        new Retrofit.Builder()
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build();
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
@@ -117,27 +119,20 @@ public class ApiClient {
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
-  public RevAiJob submitJobLocalFile(String filename, InputStream fileStream, RevAiJobOptions options) throws IOException {
-    RequestBody fileRequest =
-      FileStreamRequestBody.create(
-        fileStream,
-        MediaType.parse("audio/*")
-      );
+  public RevAiJob submitJobLocalFile(
+      String filename, InputStream fileStream, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest = FileStreamRequestBody.create(fileStream, MediaType.parse("audio/*"));
 
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", filename, fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
-  public RevAiJob submitJobLocalFile(InputStream fileStream, RevAiJobOptions options) throws IOException {
-    RequestBody fileRequest =
-      FileStreamRequestBody.create(
-        fileStream,
-        MediaType.parse("audio/*")
-      );
+  public RevAiJob submitJobLocalFile(InputStream fileStream, RevAiJobOptions options)
+      throws IOException {
+    RequestBody fileRequest = FileStreamRequestBody.create(fileStream, MediaType.parse("audio/*"));
 
-    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", "Input Media", fileRequest);
+    MultipartBody.Part filePart =
+        MultipartBody.Part.createFormData("media", "Input Media", fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
-
-
 }

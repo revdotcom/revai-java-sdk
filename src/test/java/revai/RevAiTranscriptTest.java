@@ -1,6 +1,7 @@
 package revai;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import revai.models.asynchronous.RevAiTranscript;
 
 import java.io.IOException;
 
@@ -56,8 +58,9 @@ public class RevAiTranscriptTest {
     JSONObject sampleTranscriptJSON = new JSONObject(sampleTranscript);
     this.mockInterceptor.setSampleResponse(sampleTranscript);
 
-    JSONObject mockTranscript = new JSONObject(gson.toJson(sut.getTranscriptObject(SAMPLE_ID)));
+    RevAiTranscript mockTranscript = sut.getTranscriptObject(SAMPLE_ID);
 
-    Assert.assertTrue(sampleTranscriptJSON.similar(mockTranscript));
+    JSONObject mockTranscriptJSON = new JSONObject(gson.toJson(mockTranscript));
+    Assert.assertTrue(sampleTranscriptJSON.similar(mockTranscriptJSON));
   }
 }
