@@ -16,16 +16,17 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import java.io.IOException;
 
 public class RevAiTranscriptTest {
-  @InjectMocks private OkHttpClient mockClient;
+  @InjectMocks
+  private OkHttpClient mockClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
   private ApiClient sut;
 
   private Gson gson = new Gson();
-  private String SAMPLE_TEXT = "sample text";
-  private String SAMPLE_ID = "sample id";
-  private static MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
+  private final String SAMPLE_TEXT = "sample text";
+  private final String SAMPLE_ID = "sample id";
+  private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
 
   @Before
   public void setup() throws IOException, XmlPullParserException {

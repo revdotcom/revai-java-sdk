@@ -136,19 +136,19 @@ public class ApiClient {
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
-  public String getCaptionText(String id, String captionType, Integer channelID) throws IOException {
+  public String getCaptionText(String id, RevAiCaptionType captionType, Integer channelID) throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
     }
     if (captionType == null){
-      captionType = "SRT";
+      captionType = RevAiCaptionType.SRT;
     }
-    String query = "";
+    Map<String, String> query = new HashMap<String, String>();
     if (channelID != null){
-      query = "?speaker_channel=" + channelID;
+      query.put("speaker_channel", channelID.toString());
     }
     Map<String, String> contentHeader = new HashMap<String, String>();
-    contentHeader.put("Accept", RevAiCaptionType.valueOf(captionType).getContentType());
+    contentHeader.put("Accept", captionType.getContentType());
     return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
   }
 }
