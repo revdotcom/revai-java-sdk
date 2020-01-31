@@ -3,10 +3,7 @@ package revai.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 public enum RevAiCaptionType {
-  @SerializedName("srt")
   SRT("application/x-subrip"),
-
-  @SerializedName("vtt")
   VTT("text/vtt");
 
   private String captionType;

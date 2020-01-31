@@ -36,11 +36,11 @@ public class RevAiCaptionTest {
     mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(mockClient)
-            .build();
+          .baseUrl("https://api.rev.ai/revspeech/v1/")
+          .addConverterFactory(ScalarsConverterFactory.create())
+          .addConverterFactory(GsonConverterFactory.create())
+          .client(mockClient)
+          .build();
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
@@ -63,8 +63,8 @@ public class RevAiCaptionTest {
   @Test
   public void getCaptionSpeakerChannelTest() throws IOException {
     sut.getCaptionText(SAMPLE_ID, null, SAMPLE_SPEAKER_CHANNEL);
-    String speakerChannel = mockInterceptor.request.url().queryParameter("speaker_channel");
 
+    String speakerChannel = mockInterceptor.request.url().queryParameter("speaker_channel");
     Assert.assertEquals(speakerChannel, SAMPLE_SPEAKER_CHANNEL.toString());
   }
 }
