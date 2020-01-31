@@ -18,7 +18,8 @@ import revai.models.asynchronous.RevAiTranscript;
 import java.io.IOException;
 
 public class RevAiTranscriptTest {
-  @InjectMocks private OkHttpClient mockClient;
+  @InjectMocks
+  private OkHttpClient mockClient;
   private MockInterceptor mockInterceptor;
 
   // class to be tested
