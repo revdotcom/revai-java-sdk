@@ -1,19 +1,36 @@
 package revai.integration;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import revai.ApiClient;
+import revai.exceptions.AuthorizationException;
 import revai.helpers.EnvHelper;
+import revai.models.asynchronous.RevAiAccount;
 
 import java.io.IOException;
 
-public class RevAiAccount {
+import static org.assertj.core.api.Assertions.*;
 
-    @Test
-    public void canGetAccount() throws IOException {
-        ApiClient apiClient = new ApiClient(EnvHelper.getToken());
-        revai.models.asynchronous.RevAiAccount revAiAccount = apiClient.getAccount();
-        System.out.println(
-                "Email: " + revAiAccount.getEmail() +
-                        "Balance: " + revAiAccount.getBalanceSeconds());
+public class GetAccount {
+
+  @Test
+  public void canGetAccount() throws IOException {
+    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
+    RevAiAccount revAiAccount = apiClient.getAccount();
+    assertThat(revAiAccount.getBalanceSeconds()).isNotNull();
+    assertThat(revAiAccount.getEmail()).isNull();
+  }
+
+  @Test
+  public void cannotGetAccountWithInvalidToken() {
+    ApiClient apiClient = new ApiClient(RandomStringUtils.randomAlphabetic(25));
+    try {
+      apiClient.getAccount();
+    } catch (Exception e) {
+      if (!(e instanceof AuthorizationException)) {
+        Assert.fail();
+      }
     }
+  }
 }
