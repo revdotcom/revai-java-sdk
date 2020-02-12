@@ -1,16 +1,15 @@
 package revai.integration;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import revai.ApiClient;
 import revai.exceptions.AuthorizationException;
-import revai.helpers.EnvHelper;
 import revai.models.asynchronous.RevAiAccount;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class GetAccount {
 
@@ -25,12 +24,10 @@ public class GetAccount {
   @Test
   public void cannotGetAccountWithInvalidToken() {
     ApiClient apiClient = new ApiClient(RandomStringUtils.randomAlphabetic(25));
-    try {
-      apiClient.getAccount();
-    } catch (Exception e) {
-      if (!(e instanceof AuthorizationException)) {
-        Assert.fail();
-      }
-    }
+    assertThatExceptionOfType(AuthorizationException.class)
+        .isThrownBy(
+            () -> {
+              apiClient.getAccount();
+            });
   }
 }

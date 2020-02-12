@@ -105,6 +105,10 @@ public class ApiClient {
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
+  public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
+    return submitJobUrl(mediaUrl, null);
+  }
+
   public RevAiJob submitJobLocalFile(String filePath, RevAiJobOptions options) throws IOException {
     if (filePath == null) {
       throw new IllegalArgumentException("File path must be provided");
@@ -119,5 +123,9 @@ public class ApiClient {
     MultipartBody.Part filePart =
         MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(String filePath) throws IOException {
+    return submitJobLocalFile(filePath, null);
   }
 }

@@ -1,4 +1,4 @@
-package revai.helpers;
+package revai.integration;
 
 public class EnvHelper {
 
