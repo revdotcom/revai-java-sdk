@@ -134,11 +134,10 @@ public class RevAiJobTest {
 
   @Test
   public void submitJobLocalFileTest() throws IOException {
-    String TEST_FILE_PATH = "src/test/java/revai/sources/sampleAudio.mp3";
-    FileInputStream sampleFileStream = new FileInputStream(new File(TEST_FILE_PATH));
+    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
     mockInterceptor.setSampleResponse(sampleResponse.toString());
 
-    sut.submitJobLocalFile(SAMPLE_FILENAME, sampleFileStream, null);
+    sut.submitJobLocalFile(filePath, null);
 
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
