@@ -10,7 +10,7 @@ import revai.models.asynchronous.RevAiAccount;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetAccount {
 
