@@ -1,6 +1,5 @@
 package revai.integration;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import revai.ApiClient;
 import revai.exceptions.AuthorizationException;
@@ -23,7 +22,7 @@ public class GetAccount {
 
   @Test
   public void cannotGetAccountWithInvalidToken() {
-    ApiClient apiClient = new ApiClient(RandomStringUtils.randomAlphabetic(25));
+    ApiClient apiClient = new ApiClient("FAKE_TOKEN");
     assertThatExceptionOfType(AuthorizationException.class)
         .isThrownBy(
             () -> {
