@@ -25,8 +25,6 @@ public class GetAccount {
     ApiClient apiClient = new ApiClient("FAKE_TOKEN");
     assertThatExceptionOfType(AuthorizationException.class)
         .isThrownBy(
-            () -> {
-              apiClient.getAccount();
-            });
+            () -> apiClient.getAccount());
   }
 }

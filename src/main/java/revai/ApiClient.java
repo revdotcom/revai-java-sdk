@@ -128,4 +128,36 @@ public class ApiClient {
   public RevAiJob submitJobLocalFile(String filePath) throws IOException {
     return submitJobLocalFile(filePath, null);
   }
+
+  public RevAiJob submitJobLocalFile(
+      FileInputStream fileInputStream, String fileName, RevAiJobOptions options)
+      throws IOException {
+    if (fileInputStream == null) {
+      throw new IllegalArgumentException("File stream must be provided");
+    }
+    if (options == null) {
+      options = new RevAiJobOptions();
+    }
+    if (fileName == null) {
+      fileName = "audio_file";
+    }
+    RequestBody fileRequest =
+        FileStreamRequestBody.create(fileInputStream, MediaType.parse("audio/*"));
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+  }
+
+  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream) throws IOException {
+    return submitJobLocalFile(fileInputStream, null, null);
+  }
+
+  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream, String fileName)
+      throws IOException {
+    return submitJobLocalFile(fileInputStream, fileName, null);
+  }
+
+  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream, RevAiJobOptions options)
+      throws IOException {
+    return submitJobLocalFile(fileInputStream, null, options);
+  }
 }
