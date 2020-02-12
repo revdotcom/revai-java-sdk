@@ -1,4 +1,4 @@
-package revai;
+package revai.unit;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -13,6 +13,9 @@ import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import revai.ApiClient;
+import revai.ApiInterface;
+import revai.MockInterceptor;
 import revai.models.asynchronous.RevAiTranscript;
 
 import java.io.IOException;

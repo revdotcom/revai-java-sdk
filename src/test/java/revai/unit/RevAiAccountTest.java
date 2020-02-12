@@ -1,4 +1,4 @@
-package revai;
+package revai.unit;
 
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -11,6 +11,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import revai.ApiClient;
+import revai.ApiInterface;
+import revai.MockInterceptor;
 
 import java.io.IOException;
 
