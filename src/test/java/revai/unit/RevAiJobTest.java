@@ -6,13 +6,10 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okio.Buffer;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -20,138 +17,190 @@ import revai.ApiClient;
 import revai.ApiInterface;
 import revai.MockInterceptor;
 import revai.models.asynchronous.RevAiJob;
+import revai.models.asynchronous.RevAiJobStatus;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RevAiJobTest {
-  @InjectMocks
-  private OkHttpClient mockClient;
+  private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-
-  // class to be tested
-  private ApiClient sut;
+  private ApiClient mockApiClient;
 
   private final String JOB_ID = "testingID";
-  private final String STATUS = "transcribed";
   private final String CREATED_ON = "2020-01-22T11:10:22.29Z";
+  private final String COMPLETED_ON = "2020-01-22T11:13:22.29Z";
   private final String SAMPLE_FILENAME = "sampleAudio.mp3";
-  private final String SAMPLE_CONTENT_TYPE = "form-data";
+  private final String FORM_CONTENT_TYPE = "form-data";
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
-  private JSONObject sampleResponse;
-  private JSONArray sampleJobList;
+  private final String JOBS_URL = "https://api.rev.ai/revspeech/v1/jobs";
   private Gson gson;
+  private RevAiJob mockInProgressJob;
+  private RevAiJob mockCompletedJob;
 
   @Before
-  public void setup() throws IOException, XmlPullParserException {
+  public void setup() {
     gson = new Gson();
 
-    Map<String, String> sampleJobA = new HashMap<String, String>();
-    sampleJobA.put("id", JOB_ID);
-    sampleJobA.put("status", STATUS);
-    sampleJobA.put("created_on", CREATED_ON);
+    mockInProgressJob = new RevAiJob();
+    mockInProgressJob.setJobID(JOB_ID);
+    mockInProgressJob.setCreatedOn(CREATED_ON);
+    mockInProgressJob.setName(SAMPLE_FILENAME);
+    mockInProgressJob.setJobStatus(RevAiJobStatus.in_progress);
+    mockInProgressJob.setDurationSeconds(107.04);
+    mockInProgressJob.setType("async");
 
-    Map<String, String> sampleJobB = new HashMap<String, String>();
-    sampleJobB.put("id", "sampleJobB");
-    sampleJobB.put("status", STATUS);
-    sampleJobB.put("created_on", CREATED_ON);
+    mockCompletedJob = mockInProgressJob;
+    mockCompletedJob.setJobStatus(RevAiJobStatus.transcribed);
+    mockCompletedJob.setCompletedOn(COMPLETED_ON);
 
-    sampleResponse = new JSONObject(sampleJobA);
-    sampleJobList = new JSONArray();
-    sampleJobList.put(sampleJobA);
-    sut = new ApiClient("validToken");
-    mockInterceptor = new MockInterceptor(sampleResponse.toString(), MEDIA_TYPE, 200);
-    mockClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
+    mockApiClient = new ApiClient("validToken");
+    mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
+    mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
-      new Retrofit.Builder()
-        .baseUrl("https://api.rev.ai/revspeech/v1/")
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(mockClient)
-        .build();
-    sampleJobList.put(sampleJobA);
+        new Retrofit.Builder()
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(mockOkHttpClient)
+            .build();
 
-    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
   public void getJobDetailsTest() throws IOException {
-    mockInterceptor.setSampleResponse(sampleResponse.toString());
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJob revAiJob = mockApiClient.getJobDetails(JOB_ID);
 
-    JSONObject mockResponse = new JSONObject(gson.toJson(sut.getJobDetails(JOB_ID)));
-
-    Assert.assertTrue(sampleResponse.similar(mockResponse));
+    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
+    assertInProgressJob(revAiJob);
   }
 
   @Test
   public void getJobListTest() throws IOException {
-    mockInterceptor.setSampleResponse(sampleJobList.toString());
+    List<RevAiJob> mockJobList = new ArrayList<>();
+    mockJobList.add(mockInProgressJob);
+    mockJobList.add(mockCompletedJob);
+    mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
 
-    List<RevAiJob> mockJobList = sut.getListOfJobs(null, null);
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(null, null);
 
-    Assert.assertEquals(mockJobList.size(), sampleJobList.length());
-    for (int i = 0; i < mockJobList.size(); i++) {
-      Assert.assertTrue(
-        new JSONObject(gson.toJson(mockJobList.get(i))).similar(sampleJobList.get(i)));
-    }
+    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
+    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    assertThat(revAiJobs.size()).isEqualTo(mockJobList.size());
+    assertJobsList(revAiJobs);
   }
 
   @Test
   public void getJobListLimitTest() throws IOException {
     Integer SAMPLE_LIMIT = 1;
-    mockInterceptor.setSampleResponse(sampleJobList.toString());
 
-    sut.getListOfJobs(SAMPLE_LIMIT, null);
+    List<RevAiJob> mockJobList = new ArrayList<>();
+    mockJobList.add(mockCompletedJob);
+    mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
+
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(SAMPLE_LIMIT, null);
 
     HttpUrl url = mockInterceptor.request.url();
     Assert.assertEquals(url.queryParameter("limit"), SAMPLE_LIMIT.toString());
+    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
+    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    assertThat(revAiJobs.size()).isEqualTo(1);
+    assertTranscribedJob(revAiJobs.get(0));
   }
 
   @Test
   public void getJobStartAfterTest() throws IOException {
-    String SAMPLE_STARTING_JOB = "sampleID";
-    mockInterceptor.setSampleResponse(sampleJobList.toString());
+    String sampleID = "sampleID";
 
-    sut.getListOfJobs(null, SAMPLE_STARTING_JOB);
+    List<RevAiJob> mockJobList = new ArrayList<>();
+    mockJobList.add(mockInProgressJob);
+    mockJobList.add(mockCompletedJob);
+    mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
+
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(null, sampleID);
 
     HttpUrl url = mockInterceptor.request.url();
-    Assert.assertEquals(url.queryParameter("starting_after"), SAMPLE_STARTING_JOB);
+    Assert.assertEquals(url.queryParameter("starting_after"), sampleID);
+    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
+    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    assertJobsList(revAiJobs);
   }
 
   @Test
   public void submitJobUrlTest() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
-    mockInterceptor.setSampleResponse(sampleResponse.toString());
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
-    sut.submitJobUrl(SAMPLE_MEDIA_URL, null);
+    RevAiJob revAiJob = mockApiClient.submitJobUrl(SAMPLE_MEDIA_URL, null);
 
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
     JSONObject requestBody = new JSONObject(buffer.readUtf8());
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
+    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
+    assertInProgressJob(revAiJob);
   }
 
   @Test
   public void submitJobLocalFileTest() throws IOException {
-    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
-    mockInterceptor.setSampleResponse(sampleResponse.toString());
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
-    sut.submitJobLocalFile(filePath, null);
+    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
+    RevAiJob revAiJob = mockApiClient.submitJobLocalFile(filePath, null);
 
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
-    Assert.assertTrue(headers.contains(SAMPLE_FILENAME));
-    Assert.assertTrue(headers.contains(SAMPLE_CONTENT_TYPE));
+    assertThat(headers).contains(SAMPLE_FILENAME);
+    assertThat(headers).contains(FORM_CONTENT_TYPE);
+    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
+    assertInProgressJob(revAiJob);
   }
 
   @Test
   public void deleteJobTest() throws IOException {
-    sut.deleteJob(JOB_ID);
+    mockInterceptor.setResponseCode(204);
+    mockInterceptor.setSampleResponse("");
+    mockApiClient.deleteJob(JOB_ID);
 
     Assert.assertEquals(mockInterceptor.request.method(), "DELETE");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
+  }
+
+  private void assertTranscribedJob(RevAiJob job) {
+    assertThat(job.getJobID()).isEqualTo(mockCompletedJob.getJobID());
+    assertThat(job.getCreatedOn()).isEqualTo(mockCompletedJob.getCreatedOn());
+    assertThat(job.getCompletedOn()).isEqualTo(mockCompletedJob.getCompletedOn());
+    assertThat(job.getName()).isEqualTo(mockCompletedJob.getName());
+    assertThat(job.getJobStatus()).isEqualTo(mockCompletedJob.getJobStatus());
+    assertThat(job.getDurationSeconds()).isEqualTo(mockCompletedJob.getDurationSeconds());
+    assertThat(job.getType()).isEqualTo(mockCompletedJob.getType());
+  }
+
+  private void assertInProgressJob(RevAiJob job) {
+    assertThat(job.getJobID()).isEqualTo(mockInProgressJob.getJobID());
+    assertThat(job.getCreatedOn()).isEqualTo(mockInProgressJob.getCreatedOn());
+    assertThat(job.getName()).isEqualTo(mockInProgressJob.getName());
+    assertThat(job.getJobStatus()).isEqualTo(mockInProgressJob.getJobStatus());
+    assertThat(job.getDurationSeconds()).isEqualTo(mockInProgressJob.getDurationSeconds());
+    assertThat(job.getType()).isEqualTo(mockInProgressJob.getType());
+  }
+
+  public void assertJobsList(List<RevAiJob> revAiJobs) {
+    revAiJobs.forEach(
+        job -> {
+          if (job.getJobStatus().equals(RevAiJobStatus.transcribed)) {
+            assertTranscribedJob(job);
+          } else {
+            assertInProgressJob(job);
+          }
+        });
   }
 }
