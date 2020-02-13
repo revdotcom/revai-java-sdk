@@ -3,52 +3,53 @@ package revai.unit;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import revai.ApiClient;
 import revai.ApiInterface;
 import revai.MockInterceptor;
+import revai.models.asynchronous.RevAiAccount;
 
-import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RevAiAccountTest {
-  @InjectMocks
-  private OkHttpClient httpClient;
+  private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-
-  // class to be tested
-  private ApiClient sut;
+  private ApiClient mockApiClient;
 
   private final MediaType MEDIA_TYPE  = MediaType.get("application/json; charset=utf-8");
-  private JSONObject sampleResponse;
+  private final String ACCOUNT_URL = "https://api.rev.ai/revspeech/v1/account";
   private Gson gson;
 
   @Before
-  public void setup() throws IOException, XmlPullParserException {
+  public void setup() {
     gson = new Gson();
-    sampleResponse = new JSONObject("{balance_seconds:10, email:example.com}");
-    mockInterceptor = new MockInterceptor(sampleResponse.toString(), MEDIA_TYPE, 200);
-    sut = new ApiClient("validToken");
-    httpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
+    mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
+    mockApiClient = new ApiClient("validToken");
+    mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
       new Retrofit.Builder()
         .baseUrl("https://api.rev.ai/revspeech/v1/")
         .addConverterFactory(GsonConverterFactory.create())
-        .client(httpClient)
+        .client(mockOkHttpClient)
         .build();
-    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
   public void AccountValidTest() throws Exception {
-    JSONObject mockResponse = new JSONObject(gson.toJson(sut.getAccount()));
+    RevAiAccount mockAccount = new RevAiAccount();
+    mockAccount.setBalanceSeconds(10);
+    mockAccount.setEmail("example.com");
+    mockInterceptor.setSampleResponse(gson.toJson(mockAccount));
 
-    Assert.assertTrue(sampleResponse.similar(mockResponse));
+    RevAiAccount revAiAccount = mockApiClient.getAccount();
+
+    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(ACCOUNT_URL);
+    assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
+    assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
   }
 }
