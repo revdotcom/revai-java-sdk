@@ -78,7 +78,7 @@ public class RevAiJobTest {
 
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
-    assertInProgressJob(revAiJob);
+    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
   }
 
   @Test
@@ -111,7 +111,7 @@ public class RevAiJobTest {
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
     assertThat(revAiJobs.size()).isEqualTo(1);
-    assertTranscribedJob(revAiJobs.get(0));
+    assertThat(gson.toJson(revAiJobs.get(0))).isEqualTo(gson.toJson(mockCompletedJob));
   }
 
   @Test
@@ -145,7 +145,7 @@ public class RevAiJobTest {
     Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
     assertThat(mockInterceptor.request.method()).isEqualTo("POST");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertInProgressJob(revAiJob);
+    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
   }
 
   @Test
@@ -161,7 +161,7 @@ public class RevAiJobTest {
     assertThat(headers).contains(FORM_CONTENT_TYPE);
     assertThat(mockInterceptor.request.method()).isEqualTo("POST");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertInProgressJob(revAiJob);
+    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
   }
 
   @Test
@@ -174,32 +174,13 @@ public class RevAiJobTest {
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
   }
 
-  private void assertTranscribedJob(RevAiJob job) {
-    assertThat(job.getJobID()).isEqualTo(mockCompletedJob.getJobID());
-    assertThat(job.getCreatedOn()).isEqualTo(mockCompletedJob.getCreatedOn());
-    assertThat(job.getCompletedOn()).isEqualTo(mockCompletedJob.getCompletedOn());
-    assertThat(job.getName()).isEqualTo(mockCompletedJob.getName());
-    assertThat(job.getJobStatus()).isEqualTo(mockCompletedJob.getJobStatus());
-    assertThat(job.getDurationSeconds()).isEqualTo(mockCompletedJob.getDurationSeconds());
-    assertThat(job.getType()).isEqualTo(mockCompletedJob.getType());
-  }
-
-  private void assertInProgressJob(RevAiJob job) {
-    assertThat(job.getJobID()).isEqualTo(mockInProgressJob.getJobID());
-    assertThat(job.getCreatedOn()).isEqualTo(mockInProgressJob.getCreatedOn());
-    assertThat(job.getName()).isEqualTo(mockInProgressJob.getName());
-    assertThat(job.getJobStatus()).isEqualTo(mockInProgressJob.getJobStatus());
-    assertThat(job.getDurationSeconds()).isEqualTo(mockInProgressJob.getDurationSeconds());
-    assertThat(job.getType()).isEqualTo(mockInProgressJob.getType());
-  }
-
   public void assertJobsList(List<RevAiJob> revAiJobs) {
     revAiJobs.forEach(
         job -> {
           if (job.getJobStatus().equals(RevAiJobStatus.transcribed)) {
-            assertTranscribedJob(job);
+            assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockCompletedJob));
           } else {
-            assertInProgressJob(job);
+            assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockInProgressJob));
           }
         });
   }
