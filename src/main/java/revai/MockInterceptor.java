@@ -63,4 +63,3 @@ public class MockInterceptor implements Interceptor {
     this.responseCode = responseCode;
   }
 }
-
