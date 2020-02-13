@@ -16,6 +16,7 @@ import revai.models.asynchronous.RevAiTranscript;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,12 +118,8 @@ public class ApiClient {
       options = new RevAiJobOptions();
     }
     File file = new File(filePath);
-    RequestBody fileRequest =
-        FileStreamRequestBody.create(
-            new FileInputStream(file.getAbsoluteFile()), MediaType.parse("audio/*"));
-    MultipartBody.Part filePart =
-        MultipartBody.Part.createFormData("media", file.getName(), fileRequest);
-    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+    return submitMultipartRequest(
+        new FileInputStream(file.getAbsoluteFile()), file.getName(), options);
   }
 
   public RevAiJob submitJobLocalFile(String filePath) throws IOException {
@@ -130,9 +127,8 @@ public class ApiClient {
   }
 
   public RevAiJob submitJobLocalFile(
-      FileInputStream fileInputStream, String fileName, RevAiJobOptions options)
-      throws IOException {
-    if (fileInputStream == null) {
+      InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
+    if (inputStream == null) {
       throw new IllegalArgumentException("File stream must be provided");
     }
     if (options == null) {
@@ -141,10 +137,7 @@ public class ApiClient {
     if (fileName == null) {
       fileName = "audio_file";
     }
-    RequestBody fileRequest =
-        FileStreamRequestBody.create(fileInputStream, MediaType.parse("audio/*"));
-    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
-    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+    return submitMultipartRequest(inputStream, fileName, options);
   }
 
   public RevAiJob submitJobLocalFile(FileInputStream fileInputStream) throws IOException {
@@ -159,5 +152,12 @@ public class ApiClient {
   public RevAiJob submitJobLocalFile(FileInputStream fileInputStream, RevAiJobOptions options)
       throws IOException {
     return submitJobLocalFile(fileInputStream, null, options);
+  }
+
+  private RevAiJob submitMultipartRequest(
+      InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 }
