@@ -11,11 +11,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.helpers.SDKHelper;
 import revai.models.asynchronous.*;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,20 +156,32 @@ public class ApiClient {
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
-  public String getCaptionText(String id, RevAiCaptionType captionType, Integer channelId) throws IOException {
+  public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId) throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
     }
     if (captionType == null) {
       captionType = RevAiCaptionType.SRT;
     }
-    Map<String, String> query = new HashMap<String, String>();
-    if (channelId != null) {
+    Map<String, String> query = new HashMap<>();
+    if (channelId != null){
       query.put("speaker_channel", channelId.toString());
     }
-    Map<String, String> contentHeader = new HashMap<String, String>();
+    Map<String, String> contentHeader = new HashMap<>();
     contentHeader.put("Accept", captionType.getContentType());
-    return apiInterface.getCaptionText(id, query, contentHeader).execute().body();
+    return apiInterface.getCaptionText(id, query, contentHeader).execute().body().byteStream();
+  }
+
+  public InputStream getCaptions(String id, RevAiCaptionType captionType) throws IOException {
+    return getCaptions(id, captionType, null);
+  }
+
+  public InputStream getCaptions(String id, Integer channelId) throws IOException {
+    return getCaptions(id, null, channelId);
+  }
+
+  public InputStream getCaptions(String id) throws IOException {
+    return getCaptions(id, null, null);
   }
 }
 
