@@ -14,7 +14,7 @@ public class ErrorInterceptor implements Interceptor {
   public ErrorInterceptor() {}
 
   @Override
-  public Response intercept(Interceptor.Chain chain) throws IOException, RevAiApiException {
+  public Response intercept(Interceptor.Chain chain) throws IOException {
     Request request = chain.request();
     Response response = chain.proceed(request);
     int responseCode = response.code();

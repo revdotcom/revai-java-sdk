@@ -1,19 +1,22 @@
 package revai;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import revai.helpers.SDKHelper;
 import revai.models.asynchronous.RevAiAccount;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiTranscript;
 
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,21 +26,10 @@ import java.util.Map;
  * API using the Retrofit HTTP client.
  */
 public class ApiClient {
-  private static String accessToken;
 
   private Retrofit retrofit;
   private OkHttpClient client;
   public ApiInterface apiInterface;
-
-  /*
-  Helper function: reads the current sdk version from pom.xml
-   */
-  private static String getSdkVersion() throws IOException, XmlPullParserException {
-    // reads the current sdk version from pom.xml
-    MavenXpp3Reader reader = new MavenXpp3Reader();
-    Model model = reader.read(new FileReader("pom.xml"));
-    return model.getVersion();
-  }
 
   /*
   Helper function: manually closes the connection when the code is running in a JVM
@@ -47,23 +39,22 @@ public class ApiClient {
     client.connectionPool().evictAll();
   }
 
-  public ApiClient(String accessToken) throws IOException, XmlPullParserException {
+  public ApiClient(String accessToken) {
     if (accessToken == null) {
       throw new IllegalArgumentException("Access token must be provided");
     }
-    this.accessToken = accessToken;
     this.client =
         new OkHttpClient.Builder()
-          .addNetworkInterceptor(new ApiInterceptor(accessToken, this.getSdkVersion()))
-          .addNetworkInterceptor(new ErrorInterceptor())
-          .build();
+            .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
+            .addNetworkInterceptor(new ErrorInterceptor())
+            .build();
     this.retrofit =
         new Retrofit.Builder()
-          .baseUrl("https://api.rev.ai/revspeech/v1/")
-          .addConverterFactory(ScalarsConverterFactory.create())
-          .addConverterFactory(GsonConverterFactory.create())
-          .client(client)
-          .build();
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build();
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
@@ -72,7 +63,7 @@ public class ApiClient {
   }
 
   public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
-    Map<String, String> options = new HashMap<String, String>();
+    Map<String, String> options = new HashMap<>();
     if (startingAfter != null) {
       options.put("starting_after", startingAfter);
     }
@@ -113,5 +104,60 @@ public class ApiClient {
     }
     options.setMediaUrl(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
+  }
+
+  public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
+    return submitJobUrl(mediaUrl, null);
+  }
+
+  public RevAiJob submitJobLocalFile(String filePath, RevAiJobOptions options) throws IOException {
+    if (filePath == null) {
+      throw new IllegalArgumentException("File path must be provided");
+    }
+    if (options == null) {
+      options = new RevAiJobOptions();
+    }
+    File file = new File(filePath);
+    return submitMultipartRequest(
+        new FileInputStream(file.getAbsoluteFile()), file.getName(), options);
+  }
+
+  public RevAiJob submitJobLocalFile(String filePath) throws IOException {
+    return submitJobLocalFile(filePath, null);
+  }
+
+  public RevAiJob submitJobLocalFile(
+      InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
+    if (inputStream == null) {
+      throw new IllegalArgumentException("File stream must be provided");
+    }
+    if (options == null) {
+      options = new RevAiJobOptions();
+    }
+    if (fileName == null) {
+      fileName = "audio_file";
+    }
+    return submitMultipartRequest(inputStream, fileName, options);
+  }
+
+  public RevAiJob submitJobLocalFile(InputStream inputStream) throws IOException {
+    return submitJobLocalFile(inputStream, null, null);
+  }
+
+  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName)
+      throws IOException {
+    return submitJobLocalFile(inputStream, fileName, null);
+  }
+
+  public RevAiJob submitJobLocalFile(InputStream inputStream, RevAiJobOptions options)
+      throws IOException {
+    return submitJobLocalFile(inputStream, null, options);
+  }
+
+  private RevAiJob submitMultipartRequest(
+      InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
+    RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
+    MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 }

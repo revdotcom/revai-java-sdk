@@ -12,8 +12,7 @@ public class MockInterceptor implements Interceptor {
   private Integer responseCode;
   public Request request;
 
-  public MockInterceptor(String sampleResponse, MediaType mediaType, Integer responseCode) {
-    this.sampleResponse = sampleResponse;
+  public MockInterceptor(MediaType mediaType, Integer responseCode) {
     this.mediaType = mediaType;
     this.responseCode = responseCode;
   }
@@ -64,4 +63,3 @@ public class MockInterceptor implements Interceptor {
     this.responseCode = responseCode;
   }
 }
-

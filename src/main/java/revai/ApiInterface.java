@@ -1,5 +1,6 @@
 package revai;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 import revai.models.asynchronous.RevAiAccount;
@@ -40,4 +41,9 @@ public interface ApiInterface {
 
   @DELETE("jobs/{id}")
   Call<Void> deleteJob(@Path("id") String jobID);
+
+  @Multipart
+  @POST("jobs")
+  Call<RevAiJob> submitJobLocalFile(
+      @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
 }
