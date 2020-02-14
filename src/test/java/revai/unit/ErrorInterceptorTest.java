@@ -1,4 +1,4 @@
-package revai;
+package revai.unit;
 
 import okhttp3.Interceptor.Chain;
 import okhttp3.*;
@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import revai.ErrorInterceptor;
 import revai.exceptions.*;
 
 import java.io.IOException;
