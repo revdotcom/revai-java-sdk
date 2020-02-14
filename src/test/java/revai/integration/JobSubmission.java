@@ -1,5 +1,6 @@
 package revai.integration;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -19,14 +20,19 @@ public class JobSubmission {
 
   private final String LOCAL_FILE = "./src/test/java/revai/resources/sampleAudio.mp3";
   private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
+  private static ApiClient apiClient;
 
   @Rule public TestName testName = new TestName();
+
+  @Before
+  public void setup() {
+    apiClient = new ApiClient(EnvHelper.getToken());
+  }
 
   @Test
   public void canSubmitLocalFileJobUsingPathWithOptions() throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
@@ -34,7 +40,6 @@ public class JobSubmission {
 
   @Test
   public void canSubmitLocalFileUsingPath() throws IOException {
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
@@ -44,7 +49,6 @@ public class JobSubmission {
   public void canSubmitLocalFileUsingStreamWithNameAndOptions() throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -59,7 +63,6 @@ public class JobSubmission {
 
   @Test
   public void canSubmitLocalFileUsingStreamWithName() throws IOException {
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -76,7 +79,6 @@ public class JobSubmission {
   public void canSubmitLocalFileUsingStreamWithOptions() throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -91,7 +93,6 @@ public class JobSubmission {
 
   @Test
   public void canSubmitLocalFileUsingStream() throws IOException {
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -108,7 +109,6 @@ public class JobSubmission {
   public void canSubmitUrlJob() throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
@@ -116,7 +116,6 @@ public class JobSubmission {
 
   @Test
   public void canSubmitUrlJobWithoutOptions() throws IOException {
-    ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);

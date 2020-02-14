@@ -140,18 +140,18 @@ public class ApiClient {
     return submitMultipartRequest(inputStream, fileName, options);
   }
 
-  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream) throws IOException {
-    return submitJobLocalFile(fileInputStream, null, null);
+  public RevAiJob submitJobLocalFile(InputStream inputStream) throws IOException {
+    return submitJobLocalFile(inputStream, null, null);
   }
 
-  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream, String fileName)
+  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName)
       throws IOException {
-    return submitJobLocalFile(fileInputStream, fileName, null);
+    return submitJobLocalFile(inputStream, fileName, null);
   }
 
-  public RevAiJob submitJobLocalFile(FileInputStream fileInputStream, RevAiJobOptions options)
+  public RevAiJob submitJobLocalFile(InputStream inputStream, RevAiJobOptions options)
       throws IOException {
-    return submitJobLocalFile(fileInputStream, null, options);
+    return submitJobLocalFile(inputStream, null, options);
   }
 
   private RevAiJob submitMultipartRequest(
