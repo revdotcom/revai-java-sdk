@@ -68,6 +68,18 @@ public class ApiClient {
     return apiInterface.getListOfJobs(options).execute().body();
   }
 
+  public List<RevAiJob> getListOfJobs(Integer limit) throws IOException {
+    return getListOfJobs(limit, null);
+  }
+
+  public List<RevAiJob> getListOfJobs(String startingAfter) throws IOException {
+    return getListOfJobs(null, startingAfter);
+  }
+
+  public List<RevAiJob> getListOfJobs() throws IOException {
+    return getListOfJobs(null, null);
+  }
+
   public RevAiJob getJobDetails(String id) throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
@@ -139,8 +151,7 @@ public class ApiClient {
     return submitJobLocalFile(inputStream, null, null);
   }
 
-  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName)
-      throws IOException {
+  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName) throws IOException {
     return submitJobLocalFile(inputStream, fileName, null);
   }
 
@@ -156,7 +167,8 @@ public class ApiClient {
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 
-  public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId) throws IOException {
+  public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId)
+      throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("ID must be provided");
     }
@@ -164,7 +176,7 @@ public class ApiClient {
       captionType = RevAiCaptionType.SRT;
     }
     Map<String, String> query = new HashMap<>();
-    if (channelId != null){
+    if (channelId != null) {
       query.put("speaker_channel", channelId.toString());
     }
     Map<String, String> contentHeader = new HashMap<>();
@@ -184,4 +196,3 @@ public class ApiClient {
     return getCaptions(id, null, null);
   }
 }
-
