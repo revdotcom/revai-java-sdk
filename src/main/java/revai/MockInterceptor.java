@@ -1,8 +1,11 @@
 package revai;
 
-import com.google.gson.Gson;
-import okhttp3.*;
-import org.json.JSONObject;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 

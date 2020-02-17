@@ -49,12 +49,12 @@ public class RevAiJobTest {
     mockInProgressJob.setJobID(JOB_ID);
     mockInProgressJob.setCreatedOn(CREATED_ON);
     mockInProgressJob.setName(SAMPLE_FILENAME);
-    mockInProgressJob.setJobStatus(RevAiJobStatus.in_progress);
+    mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);
     mockInProgressJob.setDurationSeconds(107.04);
     mockInProgressJob.setType("async");
 
     mockCompletedJob = mockInProgressJob;
-    mockCompletedJob.setJobStatus(RevAiJobStatus.transcribed);
+    mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
     mockCompletedJob.setCompletedOn(COMPLETED_ON);
 
     mockApiClient = new ApiClient("validToken");
@@ -177,7 +177,7 @@ public class RevAiJobTest {
   public void assertJobsList(List<RevAiJob> revAiJobs) {
     revAiJobs.forEach(
         job -> {
-          if (job.getJobStatus().equals(RevAiJobStatus.transcribed)) {
+          if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockCompletedJob));
           } else {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockInProgressJob));
