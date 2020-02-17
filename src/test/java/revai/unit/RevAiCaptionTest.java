@@ -3,8 +3,6 @@ package revai.unit;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
@@ -14,61 +12,97 @@ import revai.ApiClient;
 import revai.ApiInterface;
 import revai.MockInterceptor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
-import static revai.models.asynchronous.RevAiCaptionType.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static revai.models.asynchronous.RevAiCaptionType.SRT;
+import static revai.models.asynchronous.RevAiCaptionType.VTT;
 
 public class RevAiCaptionTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
   private ApiClient mockApiClient;
 
-  private final String SAMPLE_CAPTION = "sample caption";
-  private final String SAMPLE_ID = "sample id";
+  private final String SRT_CAPTION =
+      "1\n" + "00:00:01,680 --> 00:00:05,760\n" + "Testing SRT\n";
+  private final String VTT_CAPTION =
+      "WEBVTT\n" + "\n" + "1\n" + "00:00:00.720 --> 00:00:02.250\n" + "Testing VTT";
+  private final String JOB_ID = "testingID";
+  private String CAPTIONS_URL = "https://api.rev.ai/revspeech/v1/jobs/" + JOB_ID + "/captions";
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
-  private final Integer SAMPLE_SPEAKER_CHANNEL = 1;
+  private final Integer SPEAKER_CHANNEL = 1;
 
   @Before
-  public void setup() throws IOException, XmlPullParserException {
-
+  public void setup() {
     mockApiClient = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
+
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-          .baseUrl("https://api.rev.ai/revspeech/v1/")
-          .addConverterFactory(ScalarsConverterFactory.create())
-          .addConverterFactory(GsonConverterFactory.create())
-
-          .client(mockOkHttpClient)
-          .build();
+            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(mockOkHttpClient)
+            .build();
     mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
   public void getDefaultCaptionTest() throws IOException {
+    mockInterceptor.setSampleResponse(SRT_CAPTION);
+    InputStream responseStream = mockApiClient.getCaptions(JOB_ID);
 
-    mockInterceptor.setSampleResponse(SAMPLE_CAPTION);
-    InputStream mockResponse = mockApiClient.getCaptions(SAMPLE_ID, null, null);
+    String responseString = convertInputStreamToString(responseStream);
+    Headers headers = mockInterceptor.request.headers();
 
-    Assert.assertEquals(mockResponse, SAMPLE_CAPTION);
+    assertThat(headers.get("Accept")).isEqualTo(SRT.getContentType());
+    assertThat(responseString).isEqualTo(SRT_CAPTION);
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(CAPTIONS_URL);
   }
 
   @Test
   public void getCaptionTypeTest() throws IOException {
-    InputStream mockResponse = mockApiClient.getCaptions(SAMPLE_ID, VTT, null);
+    mockInterceptor.setSampleResponse(VTT_CAPTION);
+    InputStream responseStream = mockApiClient.getCaptions(JOB_ID, VTT);
 
+    String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
-    Assert.assertEquals(headers.get("Accept"), VTT.getContentType());
-    Assert.assertEquals(mockResponse, SAMPLE_CAPTION);
+
+    assertThat(headers.get("Accept")).isEqualTo(VTT.getContentType());
+    assertThat(responseString).isEqualTo(VTT_CAPTION);
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(CAPTIONS_URL);
   }
 
   @Test
   public void getCaptionSpeakerChannelTest() throws IOException {
-    mockApiClient.getCaptions(SAMPLE_ID, null, SAMPLE_SPEAKER_CHANNEL);
+    mockInterceptor.setSampleResponse(SRT_CAPTION);
+    InputStream responseStream = mockApiClient.getCaptions(JOB_ID, SPEAKER_CHANNEL);
 
+    String responseString = convertInputStreamToString(responseStream);
+    Headers headers = mockInterceptor.request.headers();
     String speakerChannel = mockInterceptor.request.url().queryParameter("speaker_channel");
-    Assert.assertEquals(speakerChannel, SAMPLE_SPEAKER_CHANNEL.toString());
+
+    assertThat(speakerChannel).isEqualTo(SPEAKER_CHANNEL.toString());
+    assertThat(headers.get("Accept")).isEqualTo(SRT.getContentType());
+    assertThat(responseString).isEqualTo(SRT_CAPTION);
+
+    String finalUrl = CAPTIONS_URL + "?speaker_channel=" + SPEAKER_CHANNEL;
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(finalUrl);
+  }
+
+  private String convertInputStreamToString(InputStream inputStream) throws IOException {
+    StringBuilder builder = new StringBuilder();
+    try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+      int c;
+      while ((c = reader.read()) != -1) {
+        builder.append((char) c);
+      }
+    }
+    return builder.toString();
   }
 }
