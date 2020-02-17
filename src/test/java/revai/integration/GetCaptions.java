@@ -1,9 +1,7 @@
 package revai.integration;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import revai.ApiClient;
 import revai.models.asynchronous.RevAiCaptionType;
 import revai.models.asynchronous.RevAiJob;
@@ -23,9 +21,6 @@ public class GetCaptions {
     private static ApiClient apiClient;
     private static String jobId;
     private final String VTT_CONTAINS = "WEBVTT";
-
-    @Rule
-    public TestName testName = new TestName();
 
     @Before
     public void setup() throws IOException {
