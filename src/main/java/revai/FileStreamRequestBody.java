@@ -10,6 +10,7 @@ import okio.Source;
 import java.io.IOException;
 import java.io.InputStream;
 
+/** Customized request body used for submitting local file jobs. */
 public class FileStreamRequestBody {
 
   public static RequestBody create(final InputStream inputStream, final MediaType mediaType) {

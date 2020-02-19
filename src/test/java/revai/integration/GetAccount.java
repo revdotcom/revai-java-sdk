@@ -17,7 +17,7 @@ public class GetAccount {
     ApiClient apiClient = new ApiClient(EnvHelper.getToken());
     RevAiAccount revAiAccount = apiClient.getAccount();
     assertThat(revAiAccount.getBalanceSeconds()).isNotNull();
-    assertThat(revAiAccount.getEmail()).isNull();
+    assertThat(revAiAccount.getEmail()).isNotNull();
   }
 
   @Test

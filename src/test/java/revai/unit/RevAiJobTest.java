@@ -49,12 +49,12 @@ public class RevAiJobTest {
     mockInProgressJob.setJobID(JOB_ID);
     mockInProgressJob.setCreatedOn(CREATED_ON);
     mockInProgressJob.setName(SAMPLE_FILENAME);
-    mockInProgressJob.setJobStatus(RevAiJobStatus.in_progress);
+    mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);
     mockInProgressJob.setDurationSeconds(107.04);
     mockInProgressJob.setType("async");
 
     mockCompletedJob = mockInProgressJob;
-    mockCompletedJob.setJobStatus(RevAiJobStatus.transcribed);
+    mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
     mockCompletedJob.setCompletedOn(COMPLETED_ON);
 
     mockApiClient = new ApiClient("validToken");
@@ -86,9 +86,9 @@ public class RevAiJobTest {
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
-    mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
 
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(null, null);
+    mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs();
 
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
@@ -102,12 +102,12 @@ public class RevAiJobTest {
 
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockCompletedJob);
+
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(SAMPLE_LIMIT, null);
-
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(SAMPLE_LIMIT);
     HttpUrl url = mockInterceptor.request.url();
-    Assert.assertEquals(url.queryParameter("limit"), SAMPLE_LIMIT.toString());
+
+    assertThat(url.queryParameter("limit")).isEqualTo(SAMPLE_LIMIT.toString());
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
     assertThat(revAiJobs.size()).isEqualTo(1);
@@ -121,12 +121,12 @@ public class RevAiJobTest {
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
+
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(null, sampleID);
-
+    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(sampleID);
     HttpUrl url = mockInterceptor.request.url();
-    Assert.assertEquals(url.queryParameter("starting_after"), sampleID);
+
+    assertThat(url.queryParameter("starting_after")).isEqualTo(sampleID);
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
     assertJobsList(revAiJobs);
@@ -142,7 +142,8 @@ public class RevAiJobTest {
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
     JSONObject requestBody = new JSONObject(buffer.readUtf8());
-    Assert.assertEquals(requestBody.get("media_url"), SAMPLE_MEDIA_URL);
+
+    assertThat(requestBody.get("media_url")).isEqualTo(SAMPLE_MEDIA_URL);
     assertThat(mockInterceptor.request.method()).isEqualTo("POST");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
     assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
@@ -151,12 +152,12 @@ public class RevAiJobTest {
   @Test
   public void submitJobLocalFileTest() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-
     String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
-    RevAiJob revAiJob = mockApiClient.submitJobLocalFile(filePath, null);
 
+    RevAiJob revAiJob = mockApiClient.submitJobLocalFile(filePath, null);
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
+
     assertThat(headers).contains(SAMPLE_FILENAME);
     assertThat(headers).contains(FORM_CONTENT_TYPE);
     assertThat(mockInterceptor.request.method()).isEqualTo("POST");
@@ -177,7 +178,7 @@ public class RevAiJobTest {
   public void assertJobsList(List<RevAiJob> revAiJobs) {
     revAiJobs.forEach(
         job -> {
-          if (job.getJobStatus().equals(RevAiJobStatus.transcribed)) {
+          if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockCompletedJob));
           } else {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockInProgressJob));

@@ -4,19 +4,14 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import revai.helpers.SDKHelper;
-import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiTranscript;
+import revai.models.asynchronous.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +45,7 @@ public class ApiClient {
             .build();
     this.retrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .baseUrl("https://api.rev.ai/speechtotext/v1/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
@@ -73,16 +68,28 @@ public class ApiClient {
     return apiInterface.getListOfJobs(options).execute().body();
   }
 
+  public List<RevAiJob> getListOfJobs(Integer limit) throws IOException {
+    return getListOfJobs(limit, null);
+  }
+
+  public List<RevAiJob> getListOfJobs(String startingAfter) throws IOException {
+    return getListOfJobs(null, startingAfter);
+  }
+
+  public List<RevAiJob> getListOfJobs() throws IOException {
+    return getListOfJobs(null, null);
+  }
+
   public RevAiJob getJobDetails(String id) throws IOException {
     if (id == null) {
-      throw new IllegalArgumentException("ID must be provided");
+      throw new IllegalArgumentException("Job ID must be provided");
     }
     return apiInterface.getJobDetails(id).execute().body();
   }
 
   public void deleteJob(String id) throws IOException {
     if (id == null) {
-      throw new IllegalArgumentException("ID must be provided");
+      throw new IllegalArgumentException("Job ID must be provided");
     }
     apiInterface.deleteJob(id).execute();
   }
@@ -144,8 +151,7 @@ public class ApiClient {
     return submitJobLocalFile(inputStream, null, null);
   }
 
-  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName)
-      throws IOException {
+  public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName) throws IOException {
     return submitJobLocalFile(inputStream, fileName, null);
   }
 
@@ -159,5 +165,34 @@ public class ApiClient {
     RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+  }
+
+  public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId)
+      throws IOException {
+    if (id == null) {
+      throw new IllegalArgumentException("Job ID must be provided");
+    }
+    Map<String, String> query = new HashMap<>();
+    if (channelId != null) {
+      query.put("speaker_channel", channelId.toString());
+    }
+    if (captionType == null) {
+      captionType = RevAiCaptionType.SRT;
+    }
+    Map<String, String> contentHeader = new HashMap<>();
+    contentHeader.put("Accept", captionType.getContentType());
+    return apiInterface.getCaptionText(id, query, contentHeader).execute().body().byteStream();
+  }
+
+  public InputStream getCaptions(String id, RevAiCaptionType captionType) throws IOException {
+    return getCaptions(id, captionType, null);
+  }
+
+  public InputStream getCaptions(String id, Integer channelId) throws IOException {
+    return getCaptions(id, null, channelId);
+  }
+
+  public InputStream getCaptions(String id) throws IOException {
+    return getCaptions(id, null, null);
   }
 }

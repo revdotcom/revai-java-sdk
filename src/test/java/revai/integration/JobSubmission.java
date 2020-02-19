@@ -35,14 +35,14 @@ public class JobSubmission {
     revAiJobOptions.setMetadata(testName.getMethodName());
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
   public void canSubmitLocalFileUsingPath() throws IOException {
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
@@ -54,11 +54,12 @@ public class JobSubmission {
     try {
       fileInputStream = new FileInputStream(file);
     } catch (FileNotFoundException e) {
-      throw new RuntimeException("Could not find file [" + file.getName() +"]");
+      throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
-    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, file.getName(), revAiJobOptions);
+    RevAiJob revAiJob =
+        apiClient.submitJobLocalFile(fileInputStream, file.getName(), revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
@@ -68,11 +69,11 @@ public class JobSubmission {
     try {
       fileInputStream = new FileInputStream(file);
     } catch (FileNotFoundException e) {
-      throw new RuntimeException("Could not find file [" + file.getName() +"]");
+      throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, file.getName());
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
@@ -84,11 +85,11 @@ public class JobSubmission {
     try {
       fileInputStream = new FileInputStream(file);
     } catch (FileNotFoundException e) {
-      throw new RuntimeException("Could not find file [" + file.getName() +"]");
+      throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
@@ -98,11 +99,11 @@ public class JobSubmission {
     try {
       fileInputStream = new FileInputStream(file);
     } catch (FileNotFoundException e) {
-      throw new RuntimeException("Could not find file [" + file.getName() +"]");
+      throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
@@ -111,13 +112,13 @@ public class JobSubmission {
     revAiJobOptions.setMetadata(testName.getMethodName());
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
   public void canSubmitUrlJobWithoutOptions() throws IOException {
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL);
     assertThat(revAiJob.getJobID()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.in_progress);
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 }

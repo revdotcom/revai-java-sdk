@@ -1,6 +1,7 @@
 package revai;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 import revai.models.asynchronous.RevAiAccount;
@@ -45,5 +46,12 @@ public interface ApiInterface {
   @Multipart
   @POST("jobs")
   Call<RevAiJob> submitJobLocalFile(
-      @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
+    @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
+
+  @GET("jobs/{id}/captions")
+  Call<ResponseBody> getCaptionText(
+          @Path("id") String jobID,
+          @QueryMap Map<String, String> query,
+          @HeaderMap Map<String, String> contentType
+  );
 }
