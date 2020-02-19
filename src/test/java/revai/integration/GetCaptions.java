@@ -6,6 +6,7 @@ import revai.ApiClient;
 import revai.models.asynchronous.RevAiCaptionType;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobStatus;
+import revai.testutils.ConversionUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.io.Reader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static revai.testutils.ConversionUtil.*;
 
 public class GetCaptions {
 
@@ -58,16 +60,5 @@ public class GetCaptions {
             throw new RuntimeException("Could not find a transcribed job for integration tests");
         }
         return transcribedJobId;
-    }
-
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            int c;
-            while ((c = reader.read()) != -1) {
-                builder.append((char) c);
-            }
-        }
-        return builder.toString();
     }
 }
