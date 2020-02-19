@@ -12,23 +12,21 @@ import revai.ApiClient;
 import revai.ApiInterface;
 import revai.MockInterceptor;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static revai.models.asynchronous.RevAiCaptionType.SRT;
 import static revai.models.asynchronous.RevAiCaptionType.VTT;
+import static revai.testutils.ConversionUtil.*;
 
 public class RevAiCaptionTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
   private ApiClient mockApiClient;
 
-  private final String SRT_CAPTION =
-      "1\n" + "00:00:01,680 --> 00:00:05,760\n" + "Testing SRT\n";
+  private final String SRT_CAPTION = "1\n" + "00:00:01,680 --> 00:00:05,760\n" + "Testing SRT\n";
   private final String VTT_CAPTION =
       "WEBVTT\n" + "\n" + "1\n" + "00:00:00.720 --> 00:00:02.250\n" + "Testing VTT";
   private final String JOB_ID = "testingID";
@@ -95,14 +93,9 @@ public class RevAiCaptionTest {
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(finalUrl);
   }
 
-  private String convertInputStreamToString(InputStream inputStream) throws IOException {
-    StringBuilder builder = new StringBuilder();
-    try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-      int c;
-      while ((c = reader.read()) != -1) {
-        builder.append((char) c);
-      }
-    }
-    return builder.toString();
+  @Test
+  public void getCaptionWithoutId() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(() -> mockApiClient.getCaptions(null));
   }
 }

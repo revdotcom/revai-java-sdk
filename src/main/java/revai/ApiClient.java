@@ -45,7 +45,7 @@ public class ApiClient {
             .build();
     this.retrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .baseUrl("https://api.rev.ai/speechtotext/v1/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
@@ -82,14 +82,14 @@ public class ApiClient {
 
   public RevAiJob getJobDetails(String id) throws IOException {
     if (id == null) {
-      throw new IllegalArgumentException("ID must be provided");
+      throw new IllegalArgumentException("Job ID must be provided");
     }
     return apiInterface.getJobDetails(id).execute().body();
   }
 
   public void deleteJob(String id) throws IOException {
     if (id == null) {
-      throw new IllegalArgumentException("ID must be provided");
+      throw new IllegalArgumentException("Job ID must be provided");
     }
     apiInterface.deleteJob(id).execute();
   }
@@ -170,14 +170,14 @@ public class ApiClient {
   public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId)
       throws IOException {
     if (id == null) {
-      throw new IllegalArgumentException("ID must be provided");
-    }
-    if (captionType == null) {
-      captionType = RevAiCaptionType.SRT;
+      throw new IllegalArgumentException("Job ID must be provided");
     }
     Map<String, String> query = new HashMap<>();
     if (channelId != null) {
       query.put("speaker_channel", channelId.toString());
+    }
+    if (captionType == null) {
+      captionType = RevAiCaptionType.SRT;
     }
     Map<String, String> contentHeader = new HashMap<>();
     contentHeader.put("Accept", captionType.getContentType());
