@@ -17,6 +17,7 @@ import revai.ApiClient;
 import revai.ApiInterface;
 import revai.MockInterceptor;
 import revai.models.asynchronous.RevAiJob;
+import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiJobStatus;
 
 import java.io.IOException;
@@ -24,11 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class RevAiJobTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-  private ApiClient mockApiClient;
+  private ApiClient sut;
 
   private final String JOB_ID = "testingID";
   private final String CREATED_ON = "2020-01-22T11:10:22.29Z";
@@ -57,7 +59,7 @@ public class RevAiJobTest {
     mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
     mockCompletedJob.setCompletedOn(COMPLETED_ON);
 
-    mockApiClient = new ApiClient("validToken");
+    sut = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
@@ -68,13 +70,13 @@ public class RevAiJobTest {
             .client(mockOkHttpClient)
             .build();
 
-    mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
-  public void getJobDetailsTest() throws IOException {
+  public void GetJobDetails_WhenJobIdIsValid_ReturnsRevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    RevAiJob revAiJob = mockApiClient.getJobDetails(JOB_ID);
+    RevAiJob revAiJob = sut.getJobDetails(JOB_ID);
 
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
@@ -82,13 +84,13 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void getJobListTest() throws IOException {
+  public void GetListOfJobs_WhenNoArguments_ReturnsAListOfRevAiJobs() throws IOException {
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
 
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs();
+    List<RevAiJob> revAiJobs = sut.getListOfJobs();
 
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
@@ -97,14 +99,14 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void getJobListLimitTest() throws IOException {
+  public void GetListOfJobs_WhenJobLimitIsOne_ReturnsARevAiJobListSizeOfOne() throws IOException {
     Integer SAMPLE_LIMIT = 1;
 
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockCompletedJob);
 
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(SAMPLE_LIMIT);
+    List<RevAiJob> revAiJobs = sut.getListOfJobs(SAMPLE_LIMIT);
     HttpUrl url = mockInterceptor.request.url();
 
     assertThat(url.queryParameter("limit")).isEqualTo(SAMPLE_LIMIT.toString());
@@ -115,7 +117,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void getJobStartAfterTest() throws IOException {
+  public void GetListOfJobs_WhenStartAfterIsSpecified_ReturnsAListOfRevAiJobs() throws IOException {
     String sampleID = "sampleID";
 
     List<RevAiJob> mockJobList = new ArrayList<>();
@@ -123,7 +125,7 @@ public class RevAiJobTest {
     mockJobList.add(mockCompletedJob);
 
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-    List<RevAiJob> revAiJobs = mockApiClient.getListOfJobs(sampleID);
+    List<RevAiJob> revAiJobs = sut.getListOfJobs(sampleID);
     HttpUrl url = mockInterceptor.request.url();
 
     assertThat(url.queryParameter("starting_after")).isEqualTo(sampleID);
@@ -133,11 +135,11 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void submitJobUrlTest() throws IOException {
+  public void SubmitJobUrl_WhenOnlyUrlIsSpecified_ReturnsARevAiJob() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
-    RevAiJob revAiJob = mockApiClient.submitJobUrl(SAMPLE_MEDIA_URL, null);
+    RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL);
 
     Buffer buffer = new Buffer();
     mockInterceptor.request.body().writeTo(buffer);
@@ -150,11 +152,36 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void submitJobLocalFileTest() throws IOException {
+  public void SubmitJobUrl_WhenUrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
+    String SAMPLE_MEDIA_URL = "sample-url.com";
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSkipPunctuation(true);
+
+    RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
+
+    Buffer buffer = new Buffer();
+    mockInterceptor.request.body().writeTo(buffer);
+    JSONObject requestBody = new JSONObject(buffer.readUtf8());
+
+    assertThat(requestBody.get("media_url")).isEqualTo(SAMPLE_MEDIA_URL);
+    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
+    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+  }
+
+  @Test
+  public void SubmitJobUrl_WhenJobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(() -> sut.submitJobUrl(null, null));
+  }
+
+  @Test
+  public void SubmitJobLocalFile_WhenOnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
 
-    RevAiJob revAiJob = mockApiClient.submitJobLocalFile(filePath, null);
+    RevAiJob revAiJob = sut.submitJobLocalFile(filePath, null);
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
 
@@ -166,10 +193,41 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void deleteJobTest() throws IOException {
+  public void SubmitJobLocalFile_WhenFilePathAndOptionsAreSpecified_ReturnsARevAiJob()
+      throws IOException {
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSkipDiarization(true);
+
+    RevAiJob revAiJob = sut.submitJobLocalFile(filePath, options);
+    MultipartBody body = (MultipartBody) mockInterceptor.request.body();
+    String headers = body.part(0).headers().toString();
+
+    assertThat(headers).contains(SAMPLE_FILENAME);
+    assertThat(headers).contains(FORM_CONTENT_TYPE);
+    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
+    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
+    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+  }
+
+  @Test
+  public void SubmitJobLocalFile_WhenInputStreamIsNotSpecified_ReturnsIllegalArgumentException() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(() -> sut.submitJobLocalFile(null, null, null));
+  }
+
+  @Test
+  public void SubmitJobLocalFile_WhenFilePathIsNotSpecified_ReturnsIllegalArgumentException() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+        .isThrownBy(() -> sut.submitJobLocalFile((String) null, null));
+  }
+
+  @Test
+  public void DeleteJob_WhenJobIdIsValid_DoesNotCauseErrors() throws IOException {
     mockInterceptor.setResponseCode(204);
     mockInterceptor.setSampleResponse("");
-    mockApiClient.deleteJob(JOB_ID);
+    sut.deleteJob(JOB_ID);
 
     Assert.assertEquals(mockInterceptor.request.method(), "DELETE");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);

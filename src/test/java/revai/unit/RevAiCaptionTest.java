@@ -24,7 +24,7 @@ import static revai.testutils.ConversionUtil.*;
 public class RevAiCaptionTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-  private ApiClient mockApiClient;
+  private ApiClient sut;
 
   private final String SRT_CAPTION = "1\n" + "00:00:01,680 --> 00:00:05,760\n" + "Testing SRT\n";
   private final String VTT_CAPTION =
@@ -36,7 +36,7 @@ public class RevAiCaptionTest {
 
   @Before
   public void setup() {
-    mockApiClient = new ApiClient("validToken");
+    sut = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
 
@@ -47,13 +47,13 @@ public class RevAiCaptionTest {
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockOkHttpClient)
             .build();
-    mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
-  public void getDefaultCaptionTest() throws IOException {
+  public void GetCaptions_WhenOnlyJobId_ReturnsSrtFormat() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
-    InputStream responseStream = mockApiClient.getCaptions(JOB_ID);
+    InputStream responseStream = sut.getCaptions(JOB_ID,null, null);
 
     String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
@@ -64,9 +64,9 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void getCaptionTypeTest() throws IOException {
+  public void GetCaptions_WhenVttIsSpecified_ReturnsVttFormat() throws IOException {
     mockInterceptor.setSampleResponse(VTT_CAPTION);
-    InputStream responseStream = mockApiClient.getCaptions(JOB_ID, VTT);
+    InputStream responseStream = sut.getCaptions(JOB_ID, VTT, null);
 
     String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
@@ -77,9 +77,9 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void getCaptionSpeakerChannelTest() throws IOException {
+  public void GetCaptions_WhenSpeakerChannelIsSpecified_ReturnsCaptionStream() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
-    InputStream responseStream = mockApiClient.getCaptions(JOB_ID, SPEAKER_CHANNEL);
+    InputStream responseStream = sut.getCaptions(JOB_ID, null, SPEAKER_CHANNEL);
 
     String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
@@ -94,8 +94,8 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void getCaptionWithoutId() {
+  public void GetCaptions_WhenJobIdIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> mockApiClient.getCaptions(null));
+        .isThrownBy(() -> sut.getCaptions(null));
   }
 }

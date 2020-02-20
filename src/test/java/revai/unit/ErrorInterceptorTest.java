@@ -2,6 +2,7 @@ package revai.unit;
 
 import okhttp3.Interceptor.Chain;
 import okhttp3.*;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,13 +12,13 @@ import revai.exceptions.*;
 
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ErrorInterceptorTest {
-  @InjectMocks
-  private Chain mockChain;
+  @InjectMocks private Chain mockChain;
 
   // class to be tested
   private ErrorInterceptor sut;
@@ -33,116 +34,84 @@ public class ErrorInterceptorTest {
     when(mockChain.request()).thenReturn(sampleRequest);
     sampleResponse =
         new Response.Builder()
-          .code(200)
-          .request(sampleRequest)
-          .protocol(Protocol.HTTP_2)
-          .message("mock interceptor")
-          .body(ResponseBody.create("{error: sample response}", MediaType.get("application/json; charset=utf-8")))
-          .addHeader("content-type", "application/json")
-          .build();
+            .code(200)
+            .request(sampleRequest)
+            .protocol(Protocol.HTTP_2)
+            .message("mock interceptor")
+            .body(
+                ResponseBody.create(
+                    "{error: sample response}", MediaType.get("application/json; charset=utf-8")))
+            .addHeader("content-type", "application/json")
+            .build();
   }
 
   @Test
-  public void InvalidParameterExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs400_ReturnsInvalidParameterException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(400).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof InvalidParameterException);
-    }
+    assertThatExceptionOfType(InvalidParameterException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void AuthorizationExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs401_ReturnsAuthorizationException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(401).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof AuthorizationException);
-    }
+    assertThatExceptionOfType(AuthorizationException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void ResourceNotFoundExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs404_ReturnsResourceNotFoundException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(404).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof ResourceNotFoundException);
-    }
+    assertThatExceptionOfType(ResourceNotFoundException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void InvalidHeaderExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs406_ReturnsInvalidHeaderException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(406).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof InvalidHeaderException);
-    }
+    assertThatExceptionOfType(InvalidHeaderException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void ForbiddenStateExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs409_ReturnsForbiddenStateException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(409).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof ForbiddenStateException);
-    }
+    assertThatExceptionOfType(ForbiddenStateException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void ThrottlingLimitExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs429_ReturnsThrottlingLimitException()
+      throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(429).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof ThrottlingLimitException);
-    }
+    assertThatExceptionOfType(ThrottlingLimitException.class)
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void GeneralRevAiApiExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseCodeIs500_ReturnsRevAiApiException() throws IOException {
     int badResponseCode = 500;
     when(mockChain.proceed(any(Request.class)))
-      .thenReturn(sampleResponse.newBuilder().code(badResponseCode).build());
-
-    try {
-      sut.intercept(mockChain);
-      Assert.fail();
-    } catch (Exception e) {
-      Assert.assertTrue(e instanceof RevAiApiException);
-    }
+        .thenReturn(sampleResponse.newBuilder().code(badResponseCode).build());
+    assertThatExceptionOfType(RevAiApiException.class).isThrownBy(() -> sut.intercept(mockChain));
   }
 
   @Test
-  public void NoExceptionTest() throws IOException {
+  public void ErrorInterceptor_WhenResponseIs200_ReturnsOkHttpResponse() throws IOException {
     when(mockChain.proceed(any(Request.class)))
-      .thenReturn(sampleResponse.newBuilder().code(200).build());
-
-    try {
-      sut.intercept(mockChain);
-    } catch (Exception e) {
-      Assert.fail();
-    }
+        .thenReturn(sampleResponse.newBuilder().code(200).build());
+    Response response = sut.intercept(mockChain);
+    assertThat(response.code()).isEqualTo(200);
   }
 }

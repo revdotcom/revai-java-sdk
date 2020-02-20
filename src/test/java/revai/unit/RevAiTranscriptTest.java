@@ -51,7 +51,8 @@ public class RevAiTranscriptTest {
   }
 
   @Test
-  public void getTranscriptTextTest() throws IOException {
+  public void GetTranscriptText_WhenJobIdIsValid_ReturnsTranscriptInTextFormat()
+      throws IOException {
     mockInterceptor.setSampleResponse(SAMPLE_TEXT);
     String mockResponse = mockApiClient.getTranscriptText(JOB_ID);
 
