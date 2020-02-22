@@ -8,7 +8,6 @@ import okio.ByteString;
 import org.apache.http.client.utils.URIBuilder;
 import revai.helpers.SDKHelper;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class StreamingClient {
       Boolean filterProfanity,
       OkHttpClient client,
       String host)
-      throws IOException, URISyntaxException {
+      throws URISyntaxException {
     this.accessToken = accessToken;
     this.streamContentType = streamContentType;
     this.metadata = metadata;
@@ -153,7 +152,7 @@ public class StreamingClient {
       return this;
     }
 
-    public StreamingClient build() throws IOException, URISyntaxException {
+    public StreamingClient build() throws URISyntaxException {
       return new StreamingClient(
           accessToken,
           streamContentType,

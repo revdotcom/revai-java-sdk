@@ -18,7 +18,7 @@ public class StreamingTest {
 
   @Test
   public void testWebsocketConnection()
-      throws IOException, URISyntaxException, InterruptedException {
+      throws URISyntaxException, InterruptedException {
     StreamContentType streamContentType =
         new StreamContentType.Builder()
             .contentType("audio/x-raw")
@@ -32,7 +32,6 @@ public class StreamingTest {
         new StreamingClient.Builder()
             .accessToken(EnvHelper.getToken())
             .streamContentType(streamContentType)
-            .host("api-test.rev.ai")
             .metadata("java-sdk")
             .filterProfanity(true)
             .build();
