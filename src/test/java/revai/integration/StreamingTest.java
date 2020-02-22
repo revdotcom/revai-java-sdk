@@ -37,7 +37,7 @@ public class StreamingTest {
             .filterProfanity(true)
             .build();
 
-    File file = new File("./src/test/java/revai/sources/english_test.raw");
+    File file = new File("./src/test/java/revai/resources/english_test.raw");
     byte[] fileByteArray = readFileIntoByteArray(file);
     int chunk = 8000;
     streamingClient.connect(new StreamingClientListener());
