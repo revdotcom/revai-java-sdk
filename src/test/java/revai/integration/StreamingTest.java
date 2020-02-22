@@ -30,8 +30,7 @@ public class StreamingTest {
 
     StreamingClient streamingClient =
         new StreamingClient.Builder()
-            .accessToken(
-                "02o-DWjs0UH3wVP5LUf_9658Pj6fTjzHytmuMbWcXApC0qb0TU5g7sBYQdU0vW6VxZ06LHgdPLtSRdoQ9fxm8un2WqdEI")
+            .accessToken(EnvHelper.getToken())
             .streamContentType(streamContentType)
             .host("api-test.rev.ai")
             .metadata("java-sdk")
