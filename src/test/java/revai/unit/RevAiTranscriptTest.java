@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
@@ -36,7 +34,7 @@ public class RevAiTranscriptTest {
   private static MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
 
   @Before
-  public void setup() throws IOException, XmlPullParserException {
+  public void setup() {
     mockApiClient = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
