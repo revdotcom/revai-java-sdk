@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -60,24 +59,16 @@ public class ErrorInterceptorTest {
 
   @Parameterized.Parameters
   public static Collection input() {
-    return Arrays.asList(new Object[][] {{200}, {400}, {401}, {404}, {406}, {409}, {429}, {500}});
+    return Arrays.asList(new Object[][] {{400}, {401}, {404}, {406}, {409}, {429}, {500}});
   }
 
   @Test
   public void ErrorInterceptor_WhenResponseCodeIsGreaterThan399_ReturnsRevAiApiException()
       throws IOException {
-    if (statusCode > 399) {
-      when(mockChain.proceed(any(Request.class)))
-              .thenReturn(sampleResponse.newBuilder().code(statusCode).build());
-      assertThatExceptionOfType(RevAiApiException.class)
-              .as("Expected status code [" + statusCode + "] to throw RevAiApiException")
-              .isThrownBy(() -> sut.intercept(mockChain));
-    } else {
-      when(mockChain.proceed(any(Request.class)))
-              .thenReturn(sampleResponse.newBuilder().code(statusCode).build());
-      Response response = sut.intercept(mockChain);
-      assertThat(response.code()).isEqualTo(statusCode);
-    }
-
+    when(mockChain.proceed(any(Request.class)))
+        .thenReturn(sampleResponse.newBuilder().code(statusCode).build());
+    assertThatExceptionOfType(RevAiApiException.class)
+        .as("Expected status code [" + statusCode + "] to throw RevAiApiException")
+        .isThrownBy(() -> sut.intercept(mockChain));
   }
 }
