@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JobSubmission {
+public class SubmitJobTest {
 
   private final String LOCAL_FILE = "./src/test/java/revai/resources/sampleAudio.mp3";
   private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
@@ -30,7 +30,8 @@ public class JobSubmission {
   }
 
   @Test
-  public void canSubmitLocalFileJobUsingPathWithOptions() throws IOException {
+  public void SubmitJobLocalFile_WhenFilePathAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
@@ -39,14 +40,17 @@ public class JobSubmission {
   }
 
   @Test
-  public void canSubmitLocalFileUsingPath() throws IOException {
-    RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE);
+  public void SubmitJobLocalFile_WhenOnlyFilePathIsSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
+    RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, null);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
-  public void canSubmitLocalFileUsingStreamWithNameAndOptions() throws IOException {
+  public void
+      SubmitJobLocalFile_WhenInputStreamAndFileNameAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+          throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
     File file = new File(LOCAL_FILE);
@@ -63,7 +67,8 @@ public class JobSubmission {
   }
 
   @Test
-  public void canSubmitLocalFileUsingStreamWithName() throws IOException {
+  public void SubmitJobLocalFile_WhenInputStreamAndFileNameAreSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -71,13 +76,14 @@ public class JobSubmission {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
-    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, file.getName());
+    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, file.getName(), null);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
-  public void canSubmitLocalFileUsingStreamWithOptions() throws IOException {
+  public void SubmitJobLocalFile_WhenInputStreamAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
     File file = new File(LOCAL_FILE);
@@ -87,13 +93,14 @@ public class JobSubmission {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
-    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, revAiJobOptions);
+    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, null, revAiJobOptions);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
-  public void canSubmitLocalFileUsingStream() throws IOException {
+  public void SubmitJobLocalFile_WhenOnlyInputStreamIsSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -101,13 +108,14 @@ public class JobSubmission {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
-    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream);
+    RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, null, null);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 
   @Test
-  public void canSubmitUrlJob() throws IOException {
+  public void SubmitJobUrl_WhenUrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
@@ -116,8 +124,8 @@ public class JobSubmission {
   }
 
   @Test
-  public void canSubmitUrlJobWithoutOptions() throws IOException {
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL);
+  public void SubmitJobUrl_WhenOnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
+    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, null);
     assertThat(revAiJob.getJobID()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
