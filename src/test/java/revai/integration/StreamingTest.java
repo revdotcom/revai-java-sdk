@@ -28,13 +28,9 @@ public class StreamingTest {
             .channels(1)
             .build();
 
-    StreamingClient streamingClient =
-        new StreamingClient.Builder()
-            .accessToken(EnvHelper.getToken())
-            .streamContentType(streamContentType)
-            .metadata("java-sdk")
-            .filterProfanity(true)
-            .build();
+    StreamingClient streamingClient = new StreamingClient(EnvHelper.getToken(), streamContentType);
+    streamingClient.setFilterProfanity(true);
+    streamingClient.setMetadata("java-sdk");
 
     File file = new File("./src/test/java/revai/resources/english_test.raw");
     byte[] fileByteArray = readFileIntoByteArray(file);
@@ -61,7 +57,7 @@ public class StreamingTest {
     return fileByteArray;
   }
 
-  public void streamAudioToServer(
+  private void streamAudioToServer(
       StreamingClient streamingClient, byte[] fileByteArray, int chunk) {
     for (int start = 0; start < fileByteArray.length; start += chunk) {
       streamingClient.sendBytes(
