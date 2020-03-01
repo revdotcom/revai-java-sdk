@@ -17,7 +17,6 @@ public class StreamingClient {
 
   private String accessToken;
   private OkHttpClient client;
-  private Request request;
   private WebSocket webSocket;
   private String scheme;
   private String host;
@@ -108,7 +107,7 @@ public class StreamingClient {
    */
   public void connect(WebSocketListener listener) throws URISyntaxException {
     String completeUrl = buildURL() + buildContentString();
-    this.request = new Request.Builder().url(completeUrl).build();
+    Request request = new Request.Builder().url(completeUrl).build();
     webSocket = client.newWebSocket(request, listener);
   }
 
