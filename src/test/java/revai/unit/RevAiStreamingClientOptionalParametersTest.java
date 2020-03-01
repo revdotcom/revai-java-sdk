@@ -60,7 +60,7 @@ public class RevAiStreamingClientOptionalParametersTest {
           {null, VOCAB_ID, false},
           {null, VOCAB_ID, null},
           {null, null, true},
-          {null, null, true},
+          {null, null, false},
           {null, null, null}
         });
   }
