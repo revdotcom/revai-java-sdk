@@ -8,7 +8,6 @@ import okio.ByteString;
 import org.apache.http.client.utils.URIBuilder;
 import revai.helpers.SDKHelper;
 
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +19,38 @@ public class StreamingClient {
   private OkHttpClient client;
   private Request request;
   private WebSocket webSocket;
+  private String scheme;
   private String host;
   private StreamContentType streamContentType;
   private String metadata;
-  private String customVocabulary;
+  private String customVocabularyId;
   private Boolean filterProfanity;
 
-  public StreamingClient(
-      String accessToken,
-      StreamContentType streamContentType) {
+  public StreamingClient(String accessToken, StreamContentType streamContentType) {
     this.accessToken = accessToken;
     this.streamContentType = streamContentType;
     this.client = setClient();
+  }
+
+  /**
+   * This method is used for internal testing of the websocket connection against a mock webserver
+   * and should not be used
+   *
+   * @param scheme
+   */
+  public void setScheme(String scheme) {
+    this.scheme = scheme;
   }
 
   public String getHost() {
     return host;
   }
 
+  /**
+   * This method is used for internal testing and should not be used
+   *
+   * @param host
+   */
   public void setHost(String host) {
     this.host = host;
   }
@@ -46,60 +59,81 @@ public class StreamingClient {
     return metadata;
   }
 
+  /**
+   * Setting metadata is optional but helps to identify the stream.
+   *
+   * @param metadata String size restricted to <= 256 characters
+   */
   public void setMetadata(String metadata) {
     this.metadata = metadata;
   }
 
-  public String getCustomVocabulary() {
-    return customVocabulary;
+  public String getCustomVocabularyId() {
+    return customVocabularyId;
   }
 
-  public void setCustomVocabulary(String customVocabulary) {
-    this.customVocabulary = customVocabulary;
+  /**
+   * Setting a custom vocabulary is optional. This method assigns a custom vocabulary to be used
+   * during the stream. Custom vocabularies are submitted prior to usage in the stream and assigned
+   * an Id.
+   *
+   * @param customVocabularyId
+   */
+  public void setCustomVocabularyId(String customVocabularyId) {
+    this.customVocabularyId = customVocabularyId;
   }
 
   public Boolean getFilterProfanity() {
     return filterProfanity;
   }
 
+  /**
+   * Setting the profanity filter is optional. We filter approx. 600 profanities, which covers most
+   * use cases. When set to true, ff a transcribed word matches a word on this list all characters
+   * of the word will be replaced by asterisks except for the first and last character.
+   *
+   * @param filterProfanity This is false by default.
+   */
   public void setFilterProfanity(Boolean filterProfanity) {
     this.filterProfanity = filterProfanity;
   }
 
+  /**
+   * Sends an HTTP request and upon authorization is upgraded to a websocket connection. Use
+   * websocket listener to handle websocket events.
+   *
+   * @param listener
+   * @see WebSocketListener
+   * @throws URISyntaxException
+   */
   public void connect(WebSocketListener listener) throws URISyntaxException {
-    String completeUrl = buildURL() + buildContentString(streamContentType);
+    String completeUrl = buildURL() + buildContentString();
     this.request = new Request.Builder().url(completeUrl).build();
     webSocket = client.newWebSocket(request, listener);
-    client.dispatcher().executorService().shutdown();
   }
 
+  /**
+   * Sends data over websocket in the form of a ByteString
+   *
+   * @param byteString
+   */
   public void sendBytes(ByteString byteString) {
     webSocket.send(byteString);
   }
 
+  /** Will close the websocket connection by informing the server that it's the End of Stream */
   public void close() {
     webSocket.send("EOS");
   }
 
-  private String createContentTypeString(List<String> content) {
-    String completeContentType = content.stream().collect(Collectors.joining(";"));
-    return "&" + completeContentType;
-  }
-
-  private String buildContentString(StreamContentType streamContentType) {
-    List<String> content = getFieldNamesAndValues(streamContentType);
-    String empty = "";
-    if (content.size() == 0) {
-      return empty;
-    } else {
-      return createContentTypeString(content);
-    }
-  }
-
   private String buildURL() throws URISyntaxException {
     URIBuilder uriBuilder = new URIBuilder();
-    uriBuilder.setScheme("wss");
-    if (host != null ) {
+    if (scheme != null) {
+      uriBuilder.setScheme(scheme);
+    } else {
+      uriBuilder.setScheme("wss");
+    }
+    if (host != null) {
       uriBuilder.setHost(host);
     } else {
       uriBuilder.setHost("api.rev.ai");
@@ -109,8 +143,8 @@ public class StreamingClient {
     if (metadata != null) {
       uriBuilder.setParameter("metadata", metadata);
     }
-    if (customVocabulary != null) {
-      uriBuilder.setParameter("custom_vocabulary_id", customVocabulary);
+    if (customVocabularyId != null) {
+      uriBuilder.setParameter("custom_vocabulary_id", customVocabularyId);
     }
     if (filterProfanity != null) {
       uriBuilder.setParameter("filter_profanity", String.valueOf(filterProfanity));
@@ -118,27 +152,45 @@ public class StreamingClient {
     return uriBuilder.build().toString();
   }
 
-  private List<String> getFieldNamesAndValues(StreamContentType streamContentType) {
+  private String buildContentString() {
+    List<String> content = getListFromContentType();
+    String empty = "";
+    if (content.size() == 0) {
+      return empty;
+    } else {
+      return createContentTypeParameter(content);
+    }
+  }
+
+  private List<String> getListFromContentType() {
     List<String> content = new ArrayList<>();
-    Class<?> contentClass = streamContentType.getClass();
-    Field[] fields = contentClass.getDeclaredFields();
-    for (Field field : fields) {
-      try {
-        if (field.get(streamContentType) != null) {
-          String fieldContent = field.getName() + "=" + field.get(streamContentType).toString();
-          content.add(fieldContent);
-        }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+    if (streamContentType.getContentType() != null) {
+      content.add("content_type" + "=" + streamContentType.getContentType());
+    }
+    if (streamContentType.getLayout() != null) {
+      content.add("layout" + "=" + streamContentType.getLayout());
+    }
+    if (streamContentType.getRate() != null) {
+      content.add("rate" + "=" + streamContentType.getRate());
+    }
+    if (streamContentType.getFormat() != null) {
+      content.add("format" + "=" + streamContentType.getFormat());
+    }
+    if (streamContentType.getChannels() != null) {
+      content.add("channels" + "=" + streamContentType.getChannels());
     }
     return content;
   }
 
+  private String createContentTypeParameter(List<String> content) {
+    String completeContentType = content.stream().collect(Collectors.joining(";"));
+    return "&" + completeContentType;
+  }
+
   private OkHttpClient setClient() {
     return new OkHttpClient.Builder()
-            .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
-            .addNetworkInterceptor(new ErrorInterceptor())
-            .build();
+        .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
+        .addNetworkInterceptor(new ErrorInterceptor())
+        .build();
   }
 }
