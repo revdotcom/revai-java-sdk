@@ -25,6 +25,17 @@ public class StreamingClient {
   private String customVocabularyId;
   private Boolean filterProfanity;
 
+  /**
+   * Constructs the streaming client that is used to establish a websocket connection with the
+   * Rev.ai server and stream audio data. The user access token can be generated on the website at
+   * https://www.Rev.ai/access_token. To establish a successful connection a valid StreamContentType
+   * must be provided. More info on the expected can be found at
+   * https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type
+   *
+   * @param accessToken
+   * @param streamContentType
+   * @see StreamContentType
+   */
   public StreamingClient(String accessToken, StreamContentType streamContentType) {
     this.accessToken = accessToken;
     this.streamContentType = streamContentType;
