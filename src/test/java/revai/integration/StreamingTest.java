@@ -24,14 +24,13 @@ public class StreamingTest {
 
   @Test
   public void canStreamRawAudioAndRecieveHypothesis() throws URISyntaxException {
-    StreamContentType streamContentType =
-        new StreamContentType.Builder()
-            .contentType("audio/x-raw")
-            .layout("interleaved")
-            .format("S16LE")
-            .rate(16000)
-            .channels(1)
-            .build();
+
+    StreamContentType streamContentType = new StreamContentType();
+    streamContentType.setContentType("audio/x-raw");
+    streamContentType.setLayout("interleaved");
+    streamContentType.setFormat("S16LE");
+    streamContentType.setRate(16000);
+    streamContentType.setChannels(1);
 
     StreamingClient streamingClient = new StreamingClient(EnvHelper.getToken(), streamContentType);
     streamingClient.setFilterProfanity(true);
@@ -98,6 +97,9 @@ public class StreamingTest {
   }
 
   private void assertPartialHypotheses(List<JsonObject> partialHypotheses) {
+    if (partialHypotheses.isEmpty()) {
+      throw new RuntimeException("No partial hypotheses are found");
+    }
     partialHypotheses.forEach(
         partialHypothesis -> {
           JsonArray elements = partialHypothesis.getAsJsonArray("elements");
@@ -112,6 +114,9 @@ public class StreamingTest {
   }
 
   private void assertFinalHypotheses(List<JsonObject> finalHypotheses) {
+    if (finalHypotheses.isEmpty()) {
+      throw new RuntimeException("No final hypotheses are found");
+    }
     finalHypotheses.forEach(
         finalHypothesis -> {
           assertThat(finalHypothesis.get("type").getAsString()).isEqualTo("final");

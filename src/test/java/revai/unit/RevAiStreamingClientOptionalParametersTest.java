@@ -26,14 +26,7 @@ import static org.assertj.core.api.Assertions.*;
 public class RevAiStreamingClientOptionalParametersTest {
 
   private MockWebServer mockWebServer;
-  private final StreamContentType DEFAULT_CONTENT_TYPE =
-      new StreamContentType.Builder()
-          .contentType("audio/x-raw")
-          .layout("interleaved")
-          .format("S16LE")
-          .rate(16000)
-          .channels(1)
-          .build();
+  private StreamContentType defaultContentType;
   private static StreamingClient streamingClient;
   private static final String VOCAB_ID = "VocabId";
   private static final String METADATA = "Best Metadata";
@@ -46,6 +39,12 @@ public class RevAiStreamingClientOptionalParametersTest {
     this.metadata = metadata;
     this.customVocabularyId = customVocabularyId;
     this.filterProfanity = filterProfanity;
+    this.defaultContentType = new StreamContentType();
+    defaultContentType.setContentType("audio/x-raw");
+    defaultContentType.setLayout("interleaved");
+    defaultContentType.setFormat("S16LE");
+    defaultContentType.setRate(16000);
+    defaultContentType.setChannels(1);
   }
 
   @Parameterized.Parameters
@@ -74,7 +73,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     } catch (IOException e) {
       throw new RuntimeException("Unable to start Mock Web Server");
     }
-    streamingClient = new StreamingClient(EnvHelper.getToken(), DEFAULT_CONTENT_TYPE);
+    streamingClient = new StreamingClient(EnvHelper.getToken(), defaultContentType);
     streamingClient.setScheme("http");
     streamingClient.setHost(mockWebServer.getHostName() + ":" + mockWebServer.getPort());
   }

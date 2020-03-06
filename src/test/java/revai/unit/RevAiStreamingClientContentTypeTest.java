@@ -69,14 +69,12 @@ public class RevAiStreamingClientContentTypeTest {
       throw new RuntimeException("Unable to start Mock Web Server");
     }
 
-    StreamContentType streamContentType =
-        new StreamContentType.Builder()
-            .contentType(contentType)
-            .layout(layout)
-            .rate(rate)
-            .format(format)
-            .channels(channels)
-            .build();
+    StreamContentType streamContentType = new StreamContentType();
+    streamContentType.setContentType(contentType);
+    streamContentType.setLayout(layout);
+    streamContentType.setRate(rate);
+    streamContentType.setFormat(format);
+    streamContentType.setChannels(channels);
 
     streamingClient = new StreamingClient(EnvHelper.getToken(), streamContentType);
     streamingClient.setScheme("http");
