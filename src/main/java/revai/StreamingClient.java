@@ -28,7 +28,7 @@ public class StreamingClient {
   /**
    * Constructs the streaming client that is used to establish a websocket connection with the
    * Rev.ai server and stream audio data. The user access token can be generated on the website at
-   * https://www.Rev.ai/access_token. To establish a successful connection a valid StreamContentType
+   * https://www.rev.ai/access_token. To establish a successful connection a valid StreamContentType
    * must be provided. More info on the expected can be found at
    * https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type
    *
