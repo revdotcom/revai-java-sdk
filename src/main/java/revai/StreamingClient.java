@@ -149,9 +149,6 @@ public class StreamingClient {
     }
     uriBuilder.setPath("/speechtotext/v1/stream");
     uriBuilder.setParameter("access_token", accessToken);
-//    if (streamContentType != null) {
-//      uriBuilder.setParameter("content_type", buildContentString());
-//    }
     if (metadata != null) {
       uriBuilder.setParameter("metadata", metadata);
     }
