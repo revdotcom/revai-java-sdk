@@ -98,9 +98,8 @@ public class StreamingClient {
   }
 
   /**
-   * Setting the profanity filter is optional. We filter approx. 600 profanities, which covers most
-   * use cases. When set to true, ff a transcribed word matches a word on this list all characters
-   * of the word will be replaced by asterisks except for the first and last character.
+   * Setting the profanity filter is optional. More info on the expected can be found at
+   * https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Filter-Profanity
    *
    * @param filterProfanity This is false by default.
    */
@@ -112,13 +111,13 @@ public class StreamingClient {
    * Sends an HTTP request and upon authorization is upgraded to a websocket connection. Use
    * websocket listener to handle websocket events.
    *
-   * @param listener
+   * @param revAiWebsocketListener
    * @see WebSocketListener
    * @throws URISyntaxException
    */
-  public void connect(WebSocketListener listener) throws URISyntaxException {
-    String completeUrl = buildURL() + buildContentString();
-    Request request = new Request.Builder().url(completeUrl).build();
+  public void connect(RevAiWebsocketListener revAiWebsocketListener) throws URISyntaxException {
+    Listener listener = new Listener(revAiWebsocketListener);
+    Request request = new Request.Builder().url(buildURL()).build();
     webSocket = client.newWebSocket(request, listener);
   }
 
@@ -127,7 +126,7 @@ public class StreamingClient {
    *
    * @param byteString
    */
-  public void sendBytes(ByteString byteString) {
+  public void sendAudioData(ByteString byteString) {
     webSocket.send(byteString);
   }
 
@@ -150,6 +149,9 @@ public class StreamingClient {
     }
     uriBuilder.setPath("/speechtotext/v1/stream");
     uriBuilder.setParameter("access_token", accessToken);
+//    if (streamContentType != null) {
+//      uriBuilder.setParameter("content_type", buildContentString());
+//    }
     if (metadata != null) {
       uriBuilder.setParameter("metadata", metadata);
     }
@@ -159,7 +161,7 @@ public class StreamingClient {
     if (filterProfanity != null) {
       uriBuilder.setParameter("filter_profanity", String.valueOf(filterProfanity));
     }
-    return uriBuilder.build().toString();
+    return uriBuilder.build().toString() + buildContentString();
   }
 
   private String buildContentString() {

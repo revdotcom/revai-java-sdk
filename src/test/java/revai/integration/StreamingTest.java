@@ -8,7 +8,10 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import revai.StreamContentType;
 import revai.StreamingClient;
+import revai.models.asynchronous.Element;
+import revai.models.streaming.Hypothesis;
 
+import javax.lang.model.util.Elements;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
@@ -39,12 +42,12 @@ public class StreamingTest {
     File file = new File("./src/test/java/revai/resources/english_test.raw");
     byte[] fileByteArray = readFileIntoByteArray(file);
     int chunk = 8000;
-    StreamingClientListener streamingClientListener = new StreamingClientListener();
-    streamingClient.connect(streamingClientListener);
+    ClientListener clientListener = new ClientListener();
+    streamingClient.connect(clientListener);
 
     try {
-      streamingClientListener.getConnectedLatch().await(10, SECONDS);
-      assertThat(streamingClientListener.getConnectedMessage()).as("Connected message").isNotNull();
+      clientListener.getConnectedLatch().await(10, SECONDS);
+      assertThat(clientListener.getConnectedMessage()).as("Connected message").isNotNull();
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }
@@ -52,8 +55,8 @@ public class StreamingTest {
     streamAudioToServer(streamingClient, fileByteArray, chunk);
 
     try {
-      streamingClientListener.getFinalHypothesisLatch().await(30, SECONDS);
-      assertThat(streamingClientListener.getFinalHypotheses()).as("Final hypotheses").isNotEmpty();
+      clientListener.getFinalHypothesisLatch().await(30, SECONDS);
+      assertThat(clientListener.getFinalHypotheses()).as("Final hypotheses").isNotEmpty();
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }
@@ -61,13 +64,13 @@ public class StreamingTest {
     streamingClient.close();
 
     try {
-      streamingClientListener.getCloseLatch().await(30, SECONDS);
+      clientListener.getCloseLatch().await(30, SECONDS);
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }
 
-    assertPartialHypotheses(streamingClientListener.getPartialHypotheses());
-    assertFinalHypotheses(streamingClientListener.getFinalHypotheses());
+    assertPartialHypotheses(clientListener.getPartialHypotheses());
+    assertFinalHypotheses(clientListener.getFinalHypotheses());
   }
 
   private byte[] readFileIntoByteArray(File file) {
@@ -88,7 +91,7 @@ public class StreamingTest {
   private void streamAudioToServer(
       StreamingClient streamingClient, byte[] fileByteArray, int chunk) {
     for (int start = 0; start < fileByteArray.length; start += chunk) {
-      streamingClient.sendBytes(
+      streamingClient.sendAudioData(
           ByteString.of(
               ByteBuffer.wrap(
                   Arrays.copyOfRange(
@@ -96,43 +99,43 @@ public class StreamingTest {
     }
   }
 
-  private void assertPartialHypotheses(List<JsonObject> partialHypotheses) {
+  private void assertPartialHypotheses(List<Hypothesis> partialHypotheses) {
     if (partialHypotheses.isEmpty()) {
       throw new RuntimeException("No partial hypotheses are found");
     }
     partialHypotheses.forEach(
         partialHypothesis -> {
-          JsonArray elements = partialHypothesis.getAsJsonArray("elements");
+           List<Element> elements = Arrays.asList(partialHypothesis.getElements());
           for (int i = 0; i < elements.size(); i++) {
-            JsonObject element = elements.get(i).getAsJsonObject();
-            assertThat(element.get("type").getAsString())
+            Element element = elements.get(i);
+            assertThat(element.getType())
                 .as("Element type in partial")
                 .isEqualTo("text");
-            assertThat(element.get("value").getAsString()).as("Element value").isNotNull();
+            assertThat(element.getValue()).as("Element value").isNotNull();
           }
         });
   }
 
-  private void assertFinalHypotheses(List<JsonObject> finalHypotheses) {
+  private void assertFinalHypotheses(List<Hypothesis> finalHypotheses) {
     if (finalHypotheses.isEmpty()) {
       throw new RuntimeException("No final hypotheses are found");
     }
     finalHypotheses.forEach(
         finalHypothesis -> {
-          assertThat(finalHypothesis.get("type").getAsString()).isEqualTo("final");
-          JsonArray elements = finalHypothesis.getAsJsonArray("elements");
+          assertThat(finalHypothesis.getType()).isEqualTo("final");
+          List<Element> elements = Arrays.asList(finalHypothesis.getElements());
           for (int i = 0; i < elements.size(); i++) {
-            JsonObject element = elements.get(i).getAsJsonObject();
-            if (element.get("type").getAsString().equals("punct")) {
-              assertThat(element.get("value")).as("Element value").isNotNull();
+            Element element = elements.get(i);
+            if (element.getType().equals("punct")) {
+              assertThat(element.getValue()).as("Element value").isNotNull();
             } else {
-              assertThat(element.get("type").getAsString()).as("Element type").isEqualTo("text");
-              assertThat(element.get("value").getAsString()).as("Element value").isNotNull();
-              assertThat(element.get("ts").getAsString()).as("Element time stamp").isNotNull();
-              assertThat(element.get("end_ts").getAsString())
+              assertThat(element.getType()).as("Element type").isEqualTo("text");
+              assertThat(element.getValue()).as("Element value").isNotNull();
+              assertThat(element.getStartTimestamp()).as("Element time stamp").isNotNull();
+              assertThat(element.getEndTimestamp())
                   .as("Element end time stamp")
                   .isNotNull();
-              assertThat(element.get("confidence").getAsString())
+              assertThat(element.getConfidence())
                   .as("Element confidence score")
                   .isNotNull();
             }

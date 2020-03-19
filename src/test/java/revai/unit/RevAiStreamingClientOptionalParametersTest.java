@@ -67,7 +67,7 @@ public class RevAiStreamingClientOptionalParametersTest {
   @Before
   public void setup() {
     mockWebServer = new MockWebServer();
-    mockWebServer.enqueue(new MockResponse().withWebSocketUpgrade(new MockListener()));
+    mockWebServer.enqueue(new MockResponse().withWebSocketUpgrade(new MockServerListener()));
     try {
       mockWebServer.start();
     } catch (IOException e) {
@@ -94,7 +94,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     streamingClient.setFilterProfanity(filterProfanity);
     streamingClient.setCustomVocabularyId(customVocabularyId);
 
-    streamingClient.connect(new MockListener());
+    streamingClient.connect(new MockClientListener());
     RecordedRequest request;
 
     try {

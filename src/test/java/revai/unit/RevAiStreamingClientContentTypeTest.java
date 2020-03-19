@@ -62,7 +62,7 @@ public class RevAiStreamingClientContentTypeTest {
   @Before
   public void setup() {
     mockWebServer = new MockWebServer();
-    mockWebServer.enqueue(new MockResponse().withWebSocketUpgrade(new MockListener()));
+    mockWebServer.enqueue(new MockResponse().withWebSocketUpgrade(new MockServerListener()));
     try {
       mockWebServer.start();
     } catch (IOException e) {
@@ -94,7 +94,7 @@ public class RevAiStreamingClientContentTypeTest {
   public void StreamingClient_WithParameterizedContent_ContainsContentInUrl()
       throws URISyntaxException {
 
-    streamingClient.connect(new MockListener());
+    streamingClient.connect(new MockClientListener());
     RecordedRequest request;
 
     try {
