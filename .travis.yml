@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk9
+  - oraclejdk10
+  - oraclejdk11
+
+# see https://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure
+sudo: false
+
+env:
+  - secure: "GOnKWQXhSe9ksS4/mlRvXR+CB4nLTYUm5w4opz61hoeDDkASSlxKYi//5kVGL2hSke2owdDXxjaWpsjrqFHAG1JLkwtNoY/I9NfykqxZyBtXkQlksRckknMiCnfpJu6biDTLAobk6XRQv/j6LUYjtrgLNM3PrjIQxv86AmCAw4vOIEAoR0sS4z9TrIJ45nyTROLAR4RQAQ16nF7HM3b6aqhoMaio44e0vxUr1404U69uIqJRCVmbPIstlXBgD1HqpXJ3XuKJtaayvZaha+qggc5bzLr1SfywvIcRaKJp2BOUF1uZHDRZuSDns0WKBCbyPGRHl5qLjCjx51h/fL7q9daycB+1Amv+6BJXqOhHXBa4D1rMPNLcdwn34oKDNwNqbA6w0C+zpsRD4h5dpRBSX1KBIccChQRG71bigsCxH4weMikjKT0NocWSursB55Ges/onL6SzmJiPa7ibeju7ifem/F1RbZHoj4Tt+3+yNm4CHFFV/k/9PtnaV8s86HKZZHb19HFtExDtLUXAlI8E+YXPWf4RrU5M0KPSRRbmI166t4zrB6YoFJJ36rKjkSbbNghuoo+/d9d204d5R/+tm9wXAXHuPlkArjVke2d1SnFO8rXizXt0WNWZfsryG5gTli4lx8vFpV12ixPzUfibUu7S0xWz6RCZDBw0nsf+ekQ="
+
+# cache the build tool's caches
+cache:
+  directories:
+    - $HOME/.m2
