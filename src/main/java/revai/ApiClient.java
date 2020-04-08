@@ -42,6 +42,7 @@ public class ApiClient {
         new OkHttpClient.Builder()
             .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
             .addNetworkInterceptor(new ErrorInterceptor())
+            .retryOnConnectionFailure(false)
             .build();
     this.retrofit =
         new Retrofit.Builder()
