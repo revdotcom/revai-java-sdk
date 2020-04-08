@@ -5,6 +5,7 @@ jdk:
   - openjdk9
   - openjdk10
   - oraclejdk11
+  - oraclejdk12
 
 # see https://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure
 sudo: false
