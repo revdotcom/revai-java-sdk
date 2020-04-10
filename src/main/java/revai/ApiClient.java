@@ -40,6 +40,7 @@ public class ApiClient {
     }
     this.client =
         new OkHttpClient.Builder()
+            .retryOnConnectionFailure(false)
             .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
             .addNetworkInterceptor(new ErrorInterceptor())
             .build();

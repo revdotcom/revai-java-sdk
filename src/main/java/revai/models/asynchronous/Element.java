@@ -61,4 +61,15 @@ public class Element {
   public void setConfidence(Double confidence) {
     this.confidence = confidence;
   }
+
+  @Override
+  public String toString() {
+    return "Element{" +
+            "startTimestamp=" + startTimestamp +
+            ", endTimestamp=" + endTimestamp +
+            ", type='" + type + '\'' +
+            ", value='" + value + '\'' +
+            ", confidence=" + confidence +
+            '}';
+  }
 }
