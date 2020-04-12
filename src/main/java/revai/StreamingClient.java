@@ -10,6 +10,7 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
 import revai.helpers.SDKHelper;
+import revai.models.streaming.ConnectedMessage;
 import revai.models.streaming.Hypothesis;
 
 public class StreamingClient {
@@ -40,7 +41,18 @@ public class StreamingClient {
    * @param scheme URL scheme.
    */
   public void setScheme(String scheme) {
-    this.scheme = scheme;
+    switch (scheme.toLowerCase()) {
+      case "wss":
+      case "https":
+        this.scheme = "https";
+        break;
+      case "ws":
+      case "http":
+        this.scheme = "http";
+        break;
+      default:
+        throw new IllegalArgumentException("Invalid scheme: " + scheme);
+    }
   }
 
   /**
@@ -62,133 +74,73 @@ public class StreamingClient {
   }
 
   /**
-   * Sends an HTTP request and upon authorization is upgraded to a WebSocket connection. Use
-   * {@link RevAiWebSocketListener} to handle web socket events. To establish a successful connection a
+   * Sends an HTTP request and upon authorization is upgraded to a WebSocket connection. Use {@link
+   * RevAiWebSocketListener} to handle web socket events. To establish a successful connection a
    * valid StreamContentType must be provided.
    *
    * <p>Providing metadata is optional but helps to identify the stream.
    *
-   * <p>Providing a custom vocabulary is optional. This method assigns a custom vocabulary to be
-   * used during the stream. Custom vocabularies are submitted prior to usage in the stream and
-   * assigned an Id.
-   *
-   * <p>Setting the profanity filter is optional. More information regarding the profanity filter
-   * can be found here: <a
-   * href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Filter-Profanity">Filter
-   * Profanity</a
+   * <p>Providing a {@link SessionConfig} is optional. Use this object to enable the profanity
+   * filter and provide a custom vocabulary id.
    *
    * @param revAiWebSocketListener the listener used to capture WebSocket events.
-   * @param metadata used to identify the stream.
    * @param streamContentType content-type query parameter.
-   * @param customVocabularyId customVocabularyId the ID of the custom vocabulary.
-   * @param filterProfanity this is false by default.
+   * @param metadata used to identify the stream.
+   * @param sessionConfig object containing the filter profanity setting and custom vocabulary id
    * @see RevAiWebSocketListener
    * @see StreamContentType
+   * @see SessionConfig
    */
   public void connect(
       RevAiWebSocketListener revAiWebSocketListener,
-      String metadata,
       StreamContentType streamContentType,
-      String customVocabularyId,
-      Boolean filterProfanity) {
+      String metadata,
+      SessionConfig sessionConfig) {
     Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(metadata, streamContentType, customVocabularyId, filterProfanity);
+    String url = buildURL(metadata, streamContentType, sessionConfig);
     createWebSocketConnection(url, listener);
   }
 
   /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String)} without the optional metadata, customVocabularyId and filterProfanity.
+   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String,
+   * SessionConfig)} without the optional metadata and sessionConfig.
    *
-   * @see StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType, String)
+   * @see StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String, SessionConfig)
    */
   public void connect(
-          RevAiWebSocketListener revAiWebSocketListener, StreamContentType streamContentType) {
+      RevAiWebSocketListener revAiWebSocketListener, StreamContentType streamContentType) {
     Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(null, streamContentType, null, null);
+    String url = buildURL(null, streamContentType, null);
     createWebSocketConnection(url, listener);
   }
 
   /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String)} without the optional customVocabularyId.
+   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String,
+   * SessionConfig)} without the optional sessionConfig.
    *
-   * @see StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType, String)
-   */
-  public void connect(
-      RevAiWebSocketListener revAiWebSocketListener,
-      String metadata,
-      StreamContentType streamContentType) {
-    Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(metadata, streamContentType, null, null);
-    createWebSocketConnection(url, listener);
-  }
-
-  /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String, Boolean)} without the optional metadata.
+   * @see StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String, SessionConfig)
    */
   public void connect(
       RevAiWebSocketListener revAiWebSocketListener,
       StreamContentType streamContentType,
-      String customVocabularyId) {
+      String metadata) {
     Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(null, streamContentType, customVocabularyId, null);
+    String url = buildURL(metadata, streamContentType, null);
     createWebSocketConnection(url, listener);
   }
 
   /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String, Boolean)} without the optional filterProfanity.
+   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String,
+   * SessionConfig)} without the optional metadata.
+   *
+   * @see StreamingClient#connect(RevAiWebSocketListener, StreamContentType, String, SessionConfig)
    */
   public void connect(
       RevAiWebSocketListener revAiWebSocketListener,
-      String metadata,
       StreamContentType streamContentType,
-      String customVocabularyId) {
+      SessionConfig sessionConfig) {
     Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(metadata, streamContentType, customVocabularyId, null);
-    createWebSocketConnection(url, listener);
-  }
-
-  /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String, Boolean)} without the optional metadata.
-   */
-  public void connect(
-          RevAiWebSocketListener revAiWebSocketListener,
-          StreamContentType streamContentType,
-          String customVocabularyId,
-          Boolean filterProfanity) {
-    Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(null, streamContentType, customVocabularyId, filterProfanity);
-    createWebSocketConnection(url, listener);
-  }
-
-  /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String, Boolean)} without the optional customVocabularyId.
-   */
-  public void connect(
-          RevAiWebSocketListener revAiWebSocketListener,
-          String metadata,
-          StreamContentType streamContentType,
-          Boolean filterProfanity) {
-    Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(metadata, streamContentType, null, filterProfanity);
-    createWebSocketConnection(url, listener);
-  }
-
-  /**
-   * Overload of {@link StreamingClient#connect(RevAiWebSocketListener, String, StreamContentType,
-   * String, Boolean)} without the optional metadata and customVocabularyId.
-   */
-  public void connect(
-          RevAiWebSocketListener revAiWebSocketListener,
-          StreamContentType streamContentType,
-          Boolean filterProfanity) {
-    Listener listener = new Listener(revAiWebSocketListener);
-    String url = buildURL(null, streamContentType, null, filterProfanity);
+    String url = buildURL(null, streamContentType, sessionConfig);
     createWebSocketConnection(url, listener);
   }
 
@@ -212,10 +164,7 @@ public class StreamingClient {
   }
 
   private String buildURL(
-      String metadata,
-      StreamContentType streamContentType,
-      String customVocabularyId,
-      Boolean filterProfanity) {
+      String metadata, StreamContentType streamContentType, SessionConfig sessionConfig) {
 
     HttpUrl.Builder urlBuilder = new HttpUrl.Builder();
     if (scheme != null) {
@@ -231,19 +180,19 @@ public class StreamingClient {
     if (port != null) {
       urlBuilder.port(port);
     }
-    urlBuilder.addPathSegment("speechtotext");
-    urlBuilder.addPathSegment("v1");
-    urlBuilder.addPathSegment("stream");
-
+    urlBuilder.addPathSegments("speechtotext/v1/stream");
     urlBuilder.addQueryParameter("access_token", accessToken);
     if (metadata != null) {
       urlBuilder.addQueryParameter("metadata", metadata);
     }
-    if (customVocabularyId != null) {
-      urlBuilder.addQueryParameter("custom_vocabulary_id", customVocabularyId);
-    }
-    if (filterProfanity != null) {
-      urlBuilder.addQueryParameter("filter_profanity", String.valueOf(filterProfanity));
+    if (sessionConfig != null) {
+      if (sessionConfig.getCustomVocabularyId() != null) {
+        urlBuilder.addQueryParameter("custom_vocabulary_id", sessionConfig.getCustomVocabularyId());
+      }
+      if (sessionConfig.getFilterProfanity() != null) {
+        urlBuilder.addQueryParameter(
+            "filter_profanity", String.valueOf(sessionConfig.getFilterProfanity()));
+      }
     }
     return urlBuilder.build().toString()
         + "&content_type="
@@ -276,7 +225,7 @@ public class StreamingClient {
       JsonObject jsonObject = gson.fromJson(text, JsonObject.class);
       String type = jsonObject.get("type").getAsString();
       if (type.equals("connected")) {
-        revAiWebsocketListener.onConnected(gson.toJson(jsonObject));
+        revAiWebsocketListener.onConnected(gson.fromJson(text, ConnectedMessage.class));
       } else if (type.equals("partial") || type.equals("final")) {
         revAiWebsocketListener.onHypothesis(gson.fromJson(text, Hypothesis.class));
       }

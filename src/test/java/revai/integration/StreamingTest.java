@@ -4,10 +4,12 @@ import okio.ByteString;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import revai.SessionConfig;
 import revai.StreamContentType;
 import revai.StreamingClient;
 import revai.models.asynchronous.Element;
 import revai.models.streaming.Hypothesis;
+import revai.models.streaming.MessageType;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -42,7 +44,7 @@ public class StreamingTest {
     byte[] fileByteArray = readFileIntoByteArray(file);
     int chunk = 8000;
     ClientListener clientListener = new ClientListener();
-    streamingClient.connect(clientListener, metadata, streamContentType, true);
+    streamingClient.connect(clientListener, streamContentType, metadata, new SessionConfig(true));
 
     try {
       clientListener.getConnectedLatch().await(10, SECONDS);
@@ -118,7 +120,7 @@ public class StreamingTest {
     }
     finalHypotheses.forEach(
         finalHypothesis -> {
-          assertThat(finalHypothesis.getType()).isEqualTo("final");
+          assertThat(finalHypothesis.getType()).isEqualTo(MessageType.FINAL);
           Element[] elements = finalHypothesis.getElements();
           for (Element element : elements) {
             if (element.getType().equals("punct")) {

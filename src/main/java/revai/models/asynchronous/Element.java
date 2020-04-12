@@ -64,7 +64,7 @@ public class Element {
 
   @Override
   public String toString() {
-    return "Element{" +
+    return "{" +
             "startTimestamp=" + startTimestamp +
             ", endTimestamp=" + endTimestamp +
             ", type='" + type + '\'' +

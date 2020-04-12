@@ -76,7 +76,7 @@ public class StreamContentType {
   private List<String> getListFromContentType() {
     List<String> content = new ArrayList<>();
     if (getContentType() != null) {
-      content.add("content_type" + "=" + getContentType());
+      content.add(getContentType());
     }
     if (getLayout() != null) {
       content.add("layout" + "=" + getLayout());

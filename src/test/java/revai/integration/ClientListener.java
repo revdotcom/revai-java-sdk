@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.Response;
 import revai.RevAiWebSocketListener;
+import revai.models.streaming.ConnectedMessage;
 import revai.models.streaming.Hypothesis;
+import revai.models.streaming.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,24 +18,24 @@ public class ClientListener implements RevAiWebSocketListener {
   private CountDownLatch connectedLatch = new CountDownLatch(1);
   private CountDownLatch closeLatch = new CountDownLatch(1);
   private CountDownLatch finalHypothesisLatch = new CountDownLatch(1);
-  private Gson gson = new Gson();
-  private JsonObject connectedMessage;
+  private ConnectedMessage connectedMessage;
   private List<Hypothesis> partialHypotheses = new ArrayList<>();
   private List<Hypothesis> finalHypotheses = new ArrayList<>();
   private static final Logger logger = Logger.getLogger(ClientListener.class.getName());
 
   @Override
-  public void onConnected(String message) {
-    logger.info("On Connected: " + message);
-    connectedMessage = gson.fromJson(message, JsonObject.class);
+  public void onConnected(ConnectedMessage connectMessage) {
+    logger.info("On Connected: " + connectMessage);
+    connectedMessage = connectMessage;
     connectedLatch.countDown();
   }
 
   @Override
   public void onHypothesis(Hypothesis hypothesis) {
-    if (hypothesis.getType().equals("partial")) {
+    logger.info(hypothesis.toString());
+    if (hypothesis.getType() == MessageType.PARTIAL) {
       partialHypotheses.add(hypothesis);
-    } else if (hypothesis.getType().equals("final")) {
+    } else if (hypothesis.getType() == MessageType.FINAL) {
       finalHypotheses.add(hypothesis);
       finalHypothesisLatch.countDown();
     }
@@ -75,7 +77,7 @@ public class ClientListener implements RevAiWebSocketListener {
     return finalHypotheses;
   }
 
-  public JsonObject getConnectedMessage() {
+  public ConnectedMessage getConnectedMessage() {
     return connectedMessage;
   }
 }

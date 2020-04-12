@@ -12,10 +12,7 @@ import java.util.List;
  * @see <a
  *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object">https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object</a
  */
-public class Hypothesis {
-
-  @SerializedName("type")
-  private String type;
+public class Hypothesis extends StreamingResponseMessage {
 
   @SerializedName("ts")
   private Double ts;
@@ -25,14 +22,6 @@ public class Hypothesis {
 
   @SerializedName("elements")
   private Element[] elements;
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
 
   public Double getTs() {
     return ts;
@@ -60,9 +49,9 @@ public class Hypothesis {
 
   @Override
   public String toString() {
-    return "Hypothesis{"
+    return "{"
         + "type='"
-        + type
+        + getType()
         + '\''
         + ", ts="
         + ts

@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 import revai.RevAiWebSocketListener;
+import revai.SessionConfig;
 import revai.StreamContentType;
 import revai.StreamingClient;
 import revai.integration.EnvHelper;
@@ -32,15 +33,13 @@ public class RevAiStreamingClientOptionalParametersTest {
   private static StreamingClient streamingClient;
   private static final String VOCAB_ID = "VocabId";
   private static final String METADATA = "Best Metadata";
+  private SessionConfig sessionConfig;
   private String metadata;
-  private String customVocabularyId;
-  private Boolean filterProfanity;
 
   public RevAiStreamingClientOptionalParametersTest(
       String metadata, String customVocabularyId, Boolean filterProfanity) {
     this.metadata = metadata;
-    this.customVocabularyId = customVocabularyId;
-    this.filterProfanity = filterProfanity;
+    sessionConfig = new SessionConfig(filterProfanity, customVocabularyId);
     this.defaultContentType = new StreamContentType();
     defaultContentType.setContentType("audio/x-raw");
     defaultContentType.setLayout("interleaved");
@@ -95,10 +94,9 @@ public class RevAiStreamingClientOptionalParametersTest {
       throws UnsupportedEncodingException {
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class),
-        metadata,
         defaultContentType,
-        customVocabularyId,
-        filterProfanity);
+        metadata,
+        sessionConfig);
     RecordedRequest request;
 
     try {
@@ -114,11 +112,11 @@ public class RevAiStreamingClientOptionalParametersTest {
   }
 
   private void assertStreamOptions(RecordedRequest request) throws UnsupportedEncodingException {
-    if (filterProfanity != null) {
-      assertThat(request.getPath()).contains("filter_profanity=" + filterProfanity);
+    if (sessionConfig.getFilterProfanity() != null) {
+      assertThat(request.getPath()).contains("filter_profanity=" + sessionConfig.getFilterProfanity());
     }
-    if (customVocabularyId != null) {
-      assertThat(request.getPath()).contains("custom_vocabulary_id=" + customVocabularyId);
+    if (sessionConfig.getCustomVocabularyId() != null) {
+      assertThat(request.getPath()).contains("custom_vocabulary_id=" + sessionConfig.getCustomVocabularyId());
     }
     if (metadata != null) {
       assertThat(URLDecoder.decode(request.getPath(), "UTF8").contains("metadata=" + metadata));

@@ -1,6 +1,7 @@
 package revai;
 
 import okhttp3.Response;
+import revai.models.streaming.ConnectedMessage;
 import revai.models.streaming.Hypothesis;
 
 /**
@@ -15,7 +16,7 @@ public interface RevAiWebSocketListener {
    * @see <a
    *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response">https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response</a
    */
-  void onConnected(String message);
+  void onConnected(ConnectedMessage message);
 
   /**
    * Supplies the Hypothesis returned from Rev.ai.
