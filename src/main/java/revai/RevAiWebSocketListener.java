@@ -4,9 +4,7 @@ import okhttp3.Response;
 import revai.models.streaming.ConnectedMessage;
 import revai.models.streaming.Hypothesis;
 
-/**
- * Listens for events over the WebSocket connection to Rev.ai
- */
+/** Listens for events over the WebSocket connection to Rev.ai */
 public interface RevAiWebSocketListener {
 
   /**

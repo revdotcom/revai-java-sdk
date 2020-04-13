@@ -37,14 +37,13 @@ public class StreamingTest {
     streamContentType.setRate(16000);
     streamContentType.setChannels(1);
 
-    StreamingClient streamingClient = new StreamingClient(EnvHelper.getToken());
-    String metadata = testName.getMethodName();
+    SessionConfig sessionConfig = new SessionConfig();
+    sessionConfig.setMetaData(testName.getMethodName());
+    sessionConfig.setFilterProfanity(true);
 
-    File file = new File("./src/test/java/revai/resources/english_test.raw");
-    byte[] fileByteArray = readFileIntoByteArray(file);
-    int chunk = 8000;
+    StreamingClient streamingClient = new StreamingClient(EnvHelper.getToken());
     ClientListener clientListener = new ClientListener();
-    streamingClient.connect(clientListener, streamContentType, metadata, new SessionConfig(true));
+    streamingClient.connect(clientListener, streamContentType, sessionConfig);
 
     try {
       clientListener.getConnectedLatch().await(10, SECONDS);
@@ -53,6 +52,9 @@ public class StreamingTest {
       throw new RuntimeException(e.getMessage());
     }
 
+    File file = new File("./src/test/java/revai/resources/english_test.raw");
+    byte[] fileByteArray = readFileIntoByteArray(file);
+    int chunk = 8000;
     streamAudioToServer(streamingClient, fileByteArray, chunk);
 
     try {

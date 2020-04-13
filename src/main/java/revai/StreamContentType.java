@@ -5,7 +5,9 @@ import java.util.List;
 
 /**
  * The StreamContentType describes the format of the audio being sent over the WebSocket.
- * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a
+ *
+ * @see <a
+ *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a
  */
 public class StreamContentType {
 
