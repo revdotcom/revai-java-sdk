@@ -6,17 +6,13 @@ import revai.ApiClient;
 import revai.models.asynchronous.RevAiCaptionType;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobStatus;
-import revai.testutils.ConversionUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static revai.testutils.ConversionUtil.*;
+import static revai.testutils.ConversionUtil.convertInputStreamToString;
 
 public class GetCaptionsTest {
 
@@ -55,6 +51,7 @@ public class GetCaptionsTest {
     for (RevAiJob job : jobs) {
       if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
         transcribedJobId = job.getJobID();
+        break;
       }
     }
     if (transcribedJobId.equals(null)) {
