@@ -1,5 +1,7 @@
 # Rev.ai Java SDK
 
+[![Build Status](https://travis-ci.org/revdotcom/revai-java-sdk.svg?branch=develop)](https://travis-ci.org/revdotcom/revai-java-sdk)
+
 ## For Rev.ai Developers
 Before contributing to the project please install the following
 * [IntelliJ IDE](https://www.jetbrains.com/idea/)
