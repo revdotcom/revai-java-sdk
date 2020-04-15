@@ -28,7 +28,6 @@ public class StreamingClient {
    * https://www.rev.ai/access_token.
    *
    * @param accessToken Rev.ai authorization token.
-   * @see StreamContentType
    */
   public StreamingClient(String accessToken) {
     this.accessToken = accessToken;

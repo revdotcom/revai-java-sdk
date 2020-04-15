@@ -8,7 +8,7 @@ package revai;
  * <p>Setting the profanity filter is optional. More information regarding the profanity filter can
  * be found here: <a
  * href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Filter-Profanity">Filter
- * Profanity</a
+ * Profanity</a>
  */
 public class SessionConfig {
 

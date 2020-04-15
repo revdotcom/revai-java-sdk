@@ -22,43 +22,52 @@ import java.util.Map;
  */
 public class ApiClient {
 
-  private Retrofit retrofit;
   private OkHttpClient client;
   public ApiInterface apiInterface;
 
-  /*
-  Helper function: manually closes the connection when the code is running in a JVM
+  /**
+   * Constructs the API client used to send HTTP requests to Rev.ai. The user access token can be
+   * generated on the website at https://www.rev.ai/access_token.
+   *
+   * @param accessToken Rev.ai authorization token.
    */
+  public ApiClient(String accessToken) {
+    if (accessToken == null) {
+      throw new IllegalArgumentException("Access token must be provided");
+    }
+    this.client = createClient(accessToken);
+    Retrofit retrofit = createRetrofitInstance(client);
+    this.apiInterface = retrofit.create(ApiInterface.class);
+  }
+
+  /** Manually closes the connection when the code is running in a JVM */
   public void closeConnection() {
     client.dispatcher().executorService().shutdown();
     client.connectionPool().evictAll();
   }
 
-  public ApiClient(String accessToken) {
-    if (accessToken == null) {
-      throw new IllegalArgumentException("Access token must be provided");
-    }
-    this.client =
-        new OkHttpClient.Builder()
-            .retryOnConnectionFailure(false)
-            .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
-            .addNetworkInterceptor(new ErrorInterceptor())
-            .retryOnConnectionFailure(false)
-            .build();
-    this.retrofit =
-        new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/speechtotext/v1/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build();
-    this.apiInterface = retrofit.create(ApiInterface.class);
-  }
-
+  /**
+   * This method sends a GET request to /account endpoint.
+   *
+   * @return RevAiAccount the object containing basic Rev.ai account information
+   * @throws IOException if the response has a status code '>' 399
+   * @see RevAiAccount
+   */
   public RevAiAccount getAccount() throws IOException {
     return apiInterface.getAccount().execute().body();
   }
 
+  /**
+   * This method sends a GET request to the /jobs endpoint.
+   *
+   * @param limit the maximum number of jobs to return
+   * @param startingAfter the job ID at which the list begins
+   * @return List of {@link RevAiJob} objects
+   * @throws IOException if the response has a status code '>' 399
+   * @see RevAiJob
+   * @see <a href="https://www.rev.ai/docs#operation/GetListOfJobs">Get list of jobs
+   *     documentation</a>
+   */
   public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
     Map<String, String> options = new HashMap<>();
     if (startingAfter != null) {
@@ -70,6 +79,13 @@ public class ApiClient {
     return apiInterface.getListOfJobs(options).execute().body();
   }
 
+  /**
+   * Overload of {@link ApiClient#getListOfJobs(Integer, String)} without the optional
+   *
+   * @param limit
+   * @return
+   * @throws IOException
+   */
   public List<RevAiJob> getListOfJobs(Integer limit) throws IOException {
     return getListOfJobs(limit, null);
   }
@@ -196,5 +212,23 @@ public class ApiClient {
 
   public InputStream getCaptions(String id) throws IOException {
     return getCaptions(id, null, null);
+  }
+
+  private OkHttpClient createClient(String accessToken) {
+    return new OkHttpClient.Builder()
+        .retryOnConnectionFailure(false)
+        .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
+        .addNetworkInterceptor(new ErrorInterceptor())
+        .retryOnConnectionFailure(false)
+        .build();
+  }
+
+  private Retrofit createRetrofitInstance(OkHttpClient client) {
+    return new Retrofit.Builder()
+        .baseUrl("https://api.rev.ai/speechtotext/v1/")
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build();
   }
 }

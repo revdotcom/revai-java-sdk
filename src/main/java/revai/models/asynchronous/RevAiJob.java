@@ -6,24 +6,46 @@ import com.google.gson.annotations.SerializedName;
  * A RevAi Job object provides all the information associated with a job submitted by the user.  
  */
 public class RevAiJob {
+
+  /**
+   * The job ID of the file being processed.
+   */
   @SerializedName("id")
   private String jobID;
 
+  /**
+   * The date the job was created.
+   */
   @SerializedName("created_on")
   private String createdOn;
 
+  /**
+   * The date the job was completed on.
+   */
   @SerializedName("completed_on")
   private String completedOn;
 
+  /**
+   * The audio length file.
+   */
   @SerializedName("duration_seconds")
   private Double durationSeconds;
 
+  /**
+   * The customer provided callback url for this job.
+   */
   @SerializedName("callback_url")
   private String callbackUrl;
 
+  /**
+   * The media url provided with the job request
+   */
   @SerializedName("media_url")
   private String mediaUrl;
 
+  /**
+   *
+   */
   @SerializedName("failure_details")
   private String failureDetails;
 

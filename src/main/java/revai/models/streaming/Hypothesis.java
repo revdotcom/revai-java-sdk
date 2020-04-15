@@ -10,7 +10,8 @@ import java.util.List;
  * The transcription of audio data returned over the WebSocket connection.
  *
  * @see <a
- *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object">https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object</a
+ *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object">Cloud
+ *     API documentation</a>
  */
 public class Hypothesis extends StreamingResponseMessage {
 

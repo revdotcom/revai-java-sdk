@@ -3,8 +3,10 @@ package revai.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A RevAiAccount object provides basic information about a Rev.AI account associated with a valid
+ * A RevAiAccount object provides basic information about a Rev.ai account associated with a valid
  * access token.
+ *
+ * @see <a href="https://www.rev.ai/docs#tag/Account">https://www.rev.ai/docs#tag/Account</a>
  */
 public class RevAiAccount {
 
