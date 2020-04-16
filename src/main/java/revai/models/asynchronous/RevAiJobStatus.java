@@ -21,8 +21,8 @@ public enum RevAiJobStatus {
 
   private String status;
 
-  RevAiJobStatus(String envUrl) {
-    this.status = envUrl;
+  RevAiJobStatus(String status) {
+    this.status = status;
   }
 
   /**
