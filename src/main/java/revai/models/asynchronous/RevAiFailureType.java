@@ -42,7 +42,7 @@ public enum RevAiFailureType {
   /**
    * Returns the String value of the enumeration.
    *
-   * @return the String value of the enumeration.
+   * @return The String value of the enumeration.
    */
   public String getFailureType() {
     return failureType;

@@ -26,7 +26,7 @@ public enum RevAiJobStatus {
   /**
    * Returns the String value of the enumeration.
    *
-   * @return the String value of the enumeration.
+   * @return The String value of the enumeration.
    */
   public String getStatus() {
     return status;
