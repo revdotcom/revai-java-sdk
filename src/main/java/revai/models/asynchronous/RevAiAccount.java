@@ -26,7 +26,7 @@ public class RevAiAccount {
   }
 
   /**
-   * Sets the email value
+   * Sets the email value.
    *
    * @param email The String value to set as the {@link RevAiAccount#email}.
    */
@@ -35,16 +35,16 @@ public class RevAiAccount {
   }
 
   /**
-   * Returns the remaining number of seconds that can be used on the account.
+   * Returns the remaining number of credits in seconds that can be used on the account.
    *
-   * @return The number of seconds remaining on the account
+   * @return The number of seconds remaining on the account.
    */
   public Integer getBalanceSeconds() {
     return this.balanceSeconds;
   }
 
   /**
-   * Sets the balanceSeconds value. This cannot be used to affect the actual number of seconds
+   * Sets the balanceSeconds value. This cannot be used to affect the actual number of credits
    * remaining.
    *
    * @param balanceSeconds The Integer value to set as the {@link RevAiAccount#balanceSeconds}.

@@ -1,9 +1,12 @@
 package revai.models.asynchronous;
 
-import com.google.gson.annotations.SerializedName;
-
+/** Specifies constants that define support caption formats. */
 public enum RevAiCaptionType {
+
+  /** The SubRip caption file format. */
   SRT("application/x-subrip"),
+
+  /** The WebVTT caption file format. */
   VTT("text/vtt");
 
   private String captionType;
@@ -12,7 +15,17 @@ public enum RevAiCaptionType {
     this.captionType = captionType;
   }
 
+  /**
+   * Returns the String value of the enumeration.
+   *
+   * @return The String value of the enumeration.
+   */
   public String getContentType() {
     return captionType;
+  }
+
+  @Override
+  public String toString() {
+    return "{" + "captionType='" + captionType + '\'' + '}';
   }
 }
