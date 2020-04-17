@@ -19,6 +19,7 @@ import revai.MockInterceptor;
 import revai.models.asynchronous.RevAiJob;
 import revai.models.asynchronous.RevAiJobOptions;
 import revai.models.asynchronous.RevAiJobStatus;
+import revai.models.asynchronous.RevAiJobType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class RevAiJobTest {
     mockInProgressJob.setName(SAMPLE_FILENAME);
     mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);
     mockInProgressJob.setDurationSeconds(107.04);
-    mockInProgressJob.setType("async");
+    mockInProgressJob.setType(RevAiJobType.ASYNC);
 
     mockCompletedJob = mockInProgressJob;
     mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
