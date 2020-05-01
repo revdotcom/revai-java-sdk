@@ -1,7 +1,7 @@
-package revai.models.streaming;
+package ai.rev.models.streaming;
 
 import com.google.gson.annotations.SerializedName;
-import revai.models.asynchronous.Element;
+import ai.rev.models.asynchronous.Element;
 
 import java.util.Arrays;
 

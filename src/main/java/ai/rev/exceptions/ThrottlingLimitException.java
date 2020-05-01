@@ -1,4 +1,4 @@
-package revai.exceptions;
+package ai.rev.exceptions;
 
 import org.json.JSONObject;
 

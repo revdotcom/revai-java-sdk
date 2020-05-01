@@ -42,5 +42,5 @@ out/
 ##############################
 ## Testing
 ##############################
-src/main/java/revai/app.java
+src/main/java/ai/rev/app.java
 src/test/sources

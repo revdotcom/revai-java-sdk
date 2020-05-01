@@ -1,9 +1,9 @@
-package revai.integration;
+package ai.rev.integration;
 
 import org.junit.Test;
-import revai.ApiClient;
-import revai.exceptions.AuthorizationException;
-import revai.models.asynchronous.RevAiAccount;
+import ai.rev.ApiClient;
+import ai.rev.exceptions.AuthorizationException;
+import ai.rev.models.asynchronous.RevAiAccount;
 
 import java.io.IOException;
 

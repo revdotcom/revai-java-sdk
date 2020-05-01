@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

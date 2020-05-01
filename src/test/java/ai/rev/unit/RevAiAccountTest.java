@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -7,10 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import revai.ApiClient;
-import revai.ApiInterface;
-import revai.MockInterceptor;
-import revai.models.asynchronous.RevAiAccount;
+import ai.rev.ApiClient;
+import ai.rev.ApiInterface;
+import ai.rev.MockInterceptor;
+import ai.rev.models.asynchronous.RevAiAccount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

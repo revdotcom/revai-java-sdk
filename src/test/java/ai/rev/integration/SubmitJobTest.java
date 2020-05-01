@@ -1,13 +1,13 @@
-package revai.integration;
+package ai.rev.integration;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import revai.ApiClient;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiJobStatus;
+import ai.rev.ApiClient;
+import ai.rev.models.asynchronous.RevAiJob;
+import ai.rev.models.asynchronous.RevAiJobOptions;
+import ai.rev.models.asynchronous.RevAiJobStatus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SubmitJobTest {
 
-  private final String LOCAL_FILE = "./src/test/java/revai/resources/sampleAudio.mp3";
+  private final String LOCAL_FILE = "./src/test/java/ai/rev/resources/sampleAudio.mp3";
   private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
   private static ApiClient apiClient;
 

@@ -1,4 +1,4 @@
-package revai.models.streaming;
+package ai.rev.models.streaming;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package revai.testutils;
+package ai.rev.testutils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

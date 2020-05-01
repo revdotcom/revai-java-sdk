@@ -1,13 +1,13 @@
-package revai;
+package ai.rev;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
-import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiTranscript;
+import ai.rev.models.asynchronous.RevAiAccount;
+import ai.rev.models.asynchronous.RevAiJob;
+import ai.rev.models.asynchronous.RevAiJobOptions;
+import ai.rev.models.asynchronous.RevAiTranscript;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
  * to communicate with the Rev.AI API.
  */
 public interface ApiInterface {
-  String REV_JSON_CONTENT_TYPE = "application/vnd.rev.transcript.v1.0+json";
+  String REV_JSON_CONTENT_TYPE = "application/vnd.ai.ai.rev.transcript.v1.0+json";
   String REV_TEXT_CONTENT_TYPE = "text/plain";
 
   @GET("account")

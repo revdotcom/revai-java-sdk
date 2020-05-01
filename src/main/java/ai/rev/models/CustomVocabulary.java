@@ -1,4 +1,4 @@
-package revai.models;
+package ai.rev.models;
 
 import java.util.List;
 

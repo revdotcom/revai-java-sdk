@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>revai</groupId>
+    <groupId>ai.rev</groupId>
     <artifactId>revai-java-sdk</artifactId>
     <version>1.0.0</version>
-    <name>revai-java-sdk</name>
-    <url>https://www.rev.ai/docs</url>
+    <name>ai.rev-java-sdk</name>
+    <url>https://www.ai.rev.ai/docs</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import okhttp3.Interceptor.Chain;
 import okhttp3.MediaType;
@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.InjectMocks;
-import revai.ErrorInterceptor;
-import revai.exceptions.RevAiApiException;
+import ai.rev.ErrorInterceptor;
+import ai.rev.exceptions.RevAiApiException;
 
 import java.io.IOException;
 import java.util.Arrays;

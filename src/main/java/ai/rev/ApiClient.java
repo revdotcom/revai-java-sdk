@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -7,12 +7,12 @@ import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.helpers.SDKHelper;
-import revai.models.asynchronous.RevAiAccount;
-import revai.models.asynchronous.RevAiCaptionType;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiTranscript;
+import ai.rev.helpers.SDKHelper;
+import ai.rev.models.asynchronous.RevAiAccount;
+import ai.rev.models.asynchronous.RevAiCaptionType;
+import ai.rev.models.asynchronous.RevAiJob;
+import ai.rev.models.asynchronous.RevAiJobOptions;
+import ai.rev.models.asynchronous.RevAiTranscript;
 
 import java.io.File;
 import java.io.FileInputStream;

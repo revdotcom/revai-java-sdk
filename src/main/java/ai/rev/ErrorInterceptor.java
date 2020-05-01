@@ -1,10 +1,16 @@
-package revai;
+package ai.rev;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
-import revai.exceptions.*;
+import ai.rev.exceptions.AuthorizationException;
+import ai.rev.exceptions.ForbiddenStateException;
+import ai.rev.exceptions.InvalidHeaderException;
+import ai.rev.exceptions.InvalidParameterException;
+import ai.rev.exceptions.ResourceNotFoundException;
+import ai.rev.exceptions.RevAiApiException;
+import ai.rev.exceptions.ThrottlingLimitException;
 
 import java.io.IOException;
 

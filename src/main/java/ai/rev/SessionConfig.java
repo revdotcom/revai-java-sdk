@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 /** The SessionConfig represents additional streaming options that can be provided. */
 public class SessionConfig {

@@ -1,18 +1,18 @@
-package revai.integration;
+package ai.rev.integration;
 
 import org.junit.Before;
 import org.junit.Test;
-import revai.ApiClient;
-import revai.models.asynchronous.RevAiCaptionType;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobStatus;
+import ai.rev.ApiClient;
+import ai.rev.models.asynchronous.RevAiCaptionType;
+import ai.rev.models.asynchronous.RevAiJob;
+import ai.rev.models.asynchronous.RevAiJobStatus;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static revai.testutils.ConversionUtil.convertInputStreamToString;
+import static ai.rev.testutils.ConversionUtil.convertInputStreamToString;
 
 public class GetCaptionsTest {
 

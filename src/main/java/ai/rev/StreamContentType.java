@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 import java.util.ArrayList;
 import java.util.List;

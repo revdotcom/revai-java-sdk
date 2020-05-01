@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import com.google.gson.Gson;
 import okhttp3.Headers;
@@ -9,12 +9,12 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.ApiClient;
-import revai.ApiInterface;
-import revai.MockInterceptor;
-import revai.models.asynchronous.Element;
-import revai.models.asynchronous.Monologue;
-import revai.models.asynchronous.RevAiTranscript;
+import ai.rev.ApiClient;
+import ai.rev.ApiInterface;
+import ai.rev.MockInterceptor;
+import ai.rev.models.asynchronous.Element;
+import ai.rev.models.asynchronous.Monologue;
+import ai.rev.models.asynchronous.RevAiTranscript;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -83,7 +83,7 @@ public class RevAiTranscriptTest {
     RevAiTranscript revAiTranscript = mockApiClient.getTranscriptObject(JOB_ID);
 
     Headers headers = mockInterceptor.request.headers();
-    assertThat(headers.get("Accept")).isEqualTo("application/vnd.rev.transcript.v1.0+json");
+    assertThat(headers.get("Accept")).isEqualTo("application/vnd.ai.ai.rev.transcript.v1.0+json");
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(TRANSCRIPT_URL);
     assertThat(gson.toJson(mockTranscript)).isEqualTo(gson.toJson(revAiTranscript));

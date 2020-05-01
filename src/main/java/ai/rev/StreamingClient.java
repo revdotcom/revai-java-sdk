@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -9,9 +9,9 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import revai.helpers.SDKHelper;
-import revai.models.streaming.ConnectedMessage;
-import revai.models.streaming.Hypothesis;
+import ai.rev.models.streaming.ConnectedMessage;
+import ai.rev.models.streaming.Hypothesis;
+import ai.rev.helpers.SDKHelper;
 
 public class StreamingClient {
 
@@ -55,7 +55,7 @@ public class StreamingClient {
   }
 
   /**
-   * This methods sets the URL host name. By default the host name is api.rev.ai.
+   * This methods sets the URL host name. By default the host name is api.ai.ai.rev.ai.
    *
    * @param host URL host name.
    */

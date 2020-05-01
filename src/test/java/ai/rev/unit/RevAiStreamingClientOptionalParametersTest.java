@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import okhttp3.WebSocketListener;
 import okhttp3.mockwebserver.MockResponse;
@@ -10,11 +10,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
-import revai.RevAiWebSocketListener;
-import revai.SessionConfig;
-import revai.StreamContentType;
-import revai.StreamingClient;
-import revai.integration.EnvHelper;
+import ai.rev.RevAiWebSocketListener;
+import ai.rev.SessionConfig;
+import ai.rev.StreamContentType;
+import ai.rev.StreamingClient;
+import ai.rev.integration.EnvHelper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

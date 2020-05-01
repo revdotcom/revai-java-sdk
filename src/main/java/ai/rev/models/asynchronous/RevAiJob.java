@@ -1,4 +1,4 @@
-package revai.models.asynchronous;
+package ai.rev.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 

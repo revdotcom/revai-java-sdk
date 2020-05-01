@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -8,18 +8,18 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.ApiClient;
-import revai.ApiInterface;
-import revai.MockInterceptor;
+import ai.rev.ApiClient;
+import ai.rev.ApiInterface;
+import ai.rev.MockInterceptor;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static revai.models.asynchronous.RevAiCaptionType.SRT;
-import static revai.models.asynchronous.RevAiCaptionType.VTT;
-import static revai.testutils.ConversionUtil.*;
+import static ai.rev.models.asynchronous.RevAiCaptionType.SRT;
+import static ai.rev.models.asynchronous.RevAiCaptionType.VTT;
+import static ai.rev.testutils.ConversionUtil.*;
 
 public class RevAiCaptionTest {
   private OkHttpClient mockOkHttpClient;

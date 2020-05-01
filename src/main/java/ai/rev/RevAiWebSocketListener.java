@@ -1,8 +1,8 @@
-package revai;
+package ai.rev;
 
 import okhttp3.Response;
-import revai.models.streaming.ConnectedMessage;
-import revai.models.streaming.Hypothesis;
+import ai.rev.models.streaming.ConnectedMessage;
+import ai.rev.models.streaming.Hypothesis;
 
 /** Listens for events over the WebSocket connection to Rev.ai */
 public interface RevAiWebSocketListener {

@@ -1,4 +1,4 @@
-package revai;
+package ai.rev;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

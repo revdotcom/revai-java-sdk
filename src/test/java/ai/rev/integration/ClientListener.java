@@ -1,12 +1,10 @@
-package revai.integration;
+package ai.rev.integration;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import okhttp3.Response;
-import revai.RevAiWebSocketListener;
-import revai.models.streaming.ConnectedMessage;
-import revai.models.streaming.Hypothesis;
-import revai.models.streaming.MessageType;
+import ai.rev.RevAiWebSocketListener;
+import ai.rev.models.streaming.ConnectedMessage;
+import ai.rev.models.streaming.Hypothesis;
+import ai.rev.models.streaming.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;

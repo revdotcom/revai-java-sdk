@@ -1,4 +1,4 @@
-package revai.unit;
+package ai.rev.unit;
 
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
@@ -13,13 +13,13 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import revai.ApiClient;
-import revai.ApiInterface;
-import revai.MockInterceptor;
-import revai.models.asynchronous.RevAiJob;
-import revai.models.asynchronous.RevAiJobOptions;
-import revai.models.asynchronous.RevAiJobStatus;
-import revai.models.asynchronous.RevAiJobType;
+import ai.rev.ApiClient;
+import ai.rev.ApiInterface;
+import ai.rev.MockInterceptor;
+import ai.rev.models.asynchronous.RevAiJob;
+import ai.rev.models.asynchronous.RevAiJobOptions;
+import ai.rev.models.asynchronous.RevAiJobStatus;
+import ai.rev.models.asynchronous.RevAiJobType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -180,7 +180,7 @@ public class RevAiJobTest {
   @Test
   public void SubmitJobLocalFile_WhenOnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
+    String filePath = "src/test/java/ai/rev/resources/sampleAudio.mp3";
 
     RevAiJob revAiJob = sut.submitJobLocalFile(filePath, null);
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
@@ -197,7 +197,7 @@ public class RevAiJobTest {
   public void SubmitJobLocalFile_WhenFilePathAndOptionsAreSpecified_ReturnsARevAiJob()
       throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    String filePath = "src/test/java/revai/resources/sampleAudio.mp3";
+    String filePath = "src/test/java/ai/rev/resources/sampleAudio.mp3";
     RevAiJobOptions options = new RevAiJobOptions();
     options.setSkipDiarization(true);
 

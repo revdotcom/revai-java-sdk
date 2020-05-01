@@ -1,15 +1,15 @@
-package revai.integration;
+package ai.rev.integration;
 
 import okio.ByteString;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import revai.SessionConfig;
-import revai.StreamContentType;
-import revai.StreamingClient;
-import revai.models.asynchronous.Element;
-import revai.models.streaming.Hypothesis;
-import revai.models.streaming.MessageType;
+import ai.rev.SessionConfig;
+import ai.rev.StreamContentType;
+import ai.rev.StreamingClient;
+import ai.rev.models.asynchronous.Element;
+import ai.rev.models.streaming.Hypothesis;
+import ai.rev.models.streaming.MessageType;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -52,7 +52,7 @@ public class StreamingTest {
       throw new RuntimeException(e.getMessage());
     }
 
-    File file = new File("./src/test/java/revai/resources/english_test.raw");
+    File file = new File("./src/test/java/ai/rev/resources/english_test.raw");
     byte[] fileByteArray = readFileIntoByteArray(file);
     int chunk = 8000;
     streamAudioToServer(streamingClient, fileByteArray, chunk);

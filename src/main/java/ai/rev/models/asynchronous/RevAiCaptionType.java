@@ -1,4 +1,4 @@
-package revai.models.asynchronous;
+package ai.rev.models.asynchronous;
 
 /** Specifies constants that define support caption formats. */
 public enum RevAiCaptionType {
