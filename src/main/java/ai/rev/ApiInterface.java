@@ -17,7 +17,7 @@ import java.util.Map;
  * to communicate with the Rev.AI API.
  */
 public interface ApiInterface {
-  String REV_JSON_CONTENT_TYPE = "application/vnd.ai.ai.rev.transcript.v1.0+json";
+  String REV_JSON_CONTENT_TYPE = "application/vnd.rev.transcript.v1.0+json";
   String REV_TEXT_CONTENT_TYPE = "text/plain";
 
   @GET("account")

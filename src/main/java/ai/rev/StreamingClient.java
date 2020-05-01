@@ -55,7 +55,7 @@ public class StreamingClient {
   }
 
   /**
-   * This methods sets the URL host name. By default the host name is api.ai.ai.rev.ai.
+   * This methods sets the URL host name. By default the host name is api.rev.ai.
    *
    * @param host URL host name.
    */

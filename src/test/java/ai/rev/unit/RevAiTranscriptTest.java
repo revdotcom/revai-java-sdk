@@ -83,7 +83,7 @@ public class RevAiTranscriptTest {
     RevAiTranscript revAiTranscript = mockApiClient.getTranscriptObject(JOB_ID);
 
     Headers headers = mockInterceptor.request.headers();
-    assertThat(headers.get("Accept")).isEqualTo("application/vnd.ai.ai.rev.transcript.v1.0+json");
+    assertThat(headers.get("Accept")).isEqualTo("application/vnd.rev.transcript.v1.0+json");
     assertThat(mockInterceptor.request.method()).isEqualTo("GET");
     assertThat(mockInterceptor.request.url().toString()).isEqualTo(TRANSCRIPT_URL);
     assertThat(gson.toJson(mockTranscript)).isEqualTo(gson.toJson(revAiTranscript));

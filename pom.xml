@@ -5,8 +5,8 @@
     <groupId>ai.rev</groupId>
     <artifactId>revai-java-sdk</artifactId>
     <version>1.0.0</version>
-    <name>ai.rev-java-sdk</name>
-    <url>https://www.ai.rev.ai/docs</url>
+    <name>Rev.ai SDK for Java</name>
+    <url>https://www.rev.ai/docs</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
