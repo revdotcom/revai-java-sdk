@@ -51,7 +51,7 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile("./path/to/file.mp3");
 
 or submit via a public url
 ```
-RevAiJob revAiJob = apiClien.submitJobUrl("https://www.ai.ai.rev.ai/FTC_Sample_1.mp3");
+RevAiJob revAiJob = apiClient.submitJobUrl("https://www.ai.ai.rev.ai/FTC_Sample_1.mp3");
 ```
 
 or from FileInputStream, the filename is optional.
