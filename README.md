@@ -53,7 +53,7 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile(localPathToFile);
 or submit via a public direct download url
 ```
 String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
-RevAiJob revAiJob = apiClien.submitJobUrl(urlLinkToFile);
+RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile);
 ```
 
 or from FileInputStream, the filename is optional.
