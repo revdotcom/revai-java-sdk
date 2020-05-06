@@ -16,7 +16,7 @@ The recommended way to use the Rev.ai Java SDK is to import it into the project 
       </dependency>
     
 ## Installing it locally
-Once you've cloned the repo you can use Maven to build it locally and install it your local Maven .m2 repository.
+Once you've cloned the repo you can use Maven to build it locally and install it in your local Maven .m2 repository.
 
     mvn install -Dmaven.test.skip=true
 
@@ -46,12 +46,14 @@ RevAiAccount revAiAccount = apiClient.getAccount();
 
 You can submit a local file
 ```
-RevAiJob revAiJob = apiClient.submitJobLocalFile("./path/to/file.mp3");
+String localPathToFile = "./path/to/file.mp3";
+RevAiJob revAiJob = apiClient.submitJobLocalFile(localPathToFile);
 ```
 
-or submit via a public url
+or submit via a public direct download url
 ```
-RevAiJob revAiJob = apiClien.submitJobUrl("https://www.ai.ai.rev.ai/FTC_Sample_1.mp3");
+String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
+RevAiJob revAiJob = apiClien.submitJobUrl(urlLinkToFile);
 ```
 
 or from FileInputStream, the filename is optional.
@@ -66,24 +68,22 @@ try {
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
 
-`RevAiJob` objects contain all the information normally found in a successful response from our
-[Submit Job](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
+`RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
 
-If you want to get fancy, all send job methods can take a `RevAiJobOptions` object which contains methods 
-to set optional parameters such as: `metadata`, `callback_url`, `skip_diarization`,`skip_punctuation`, 
-`speaker_channels_count`, `filter_profanity`, `remove_disfluencies`  and `custom_vocabularies`. These are 
-also described in the request body of the [Submit Job](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
+If you want to get fancy, all submit job methods have overrides that allow specifying 
+[RevAiJobOptions](./src/main/java/ai/rev/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. These are also described in the 
+request body of the [Submit Job](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob) 
+endpoint.
 
 ### Checking your job's status
 
 You can check the status of your transcription job using its `id`
 
 ```
-RevAiJob revAiJob = apiClient.getJobDetails(revAiJob.getJobID());
+RevAiJob newlyRefreshedRevAiJob = apiClient.getJobDetails(revAiJob.getJobID());
 ```
 
-`RevAiJob` objects contain all information normally found in a successful response from
-our [Get Job](https://www.ai.rev.ai/docs#operation/GetJobById) endpoint
+`RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 ### Checking multiple files
 
@@ -93,10 +93,12 @@ You can retrieve a list of transcription jobs with optional parameters
 List<RevAiJob> jobs = apiClient.getListOfJobs();
 
 // limit amount of retrieved jobs
-List<RevAiJob> jobs = apiClient.getListOfJobs(3);
+int numberOfJobsToReturn = 3;
+List<RevAiJob> jobs = apiClient.getListOfJobs(numberOfJobsToReturn);
 
 // get jobs starting after a certain job id
-List<RevAiJob> jobs = apiClient.getListOfJobs("Umx5c6F7pH7r");
+String jobId = "Umx5c6F7pH7r";
+List<RevAiJob> jobs = apiClient.getListOfJobs(jobId);
 ```
 
 `jobs` will contain a list of RevAiJob objects, having all information normally found in a successful response
