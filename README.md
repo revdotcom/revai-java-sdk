@@ -71,7 +71,7 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileNam
 `RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 If you want to get fancy, all submit job methods have overrides that allow specifying 
-[RevAiJobOptions](./src/main/java/ai/rev/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. These are also described in the 
+[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. These are also described in the 
 request body of the [Submit Job](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob) 
 endpoint.
 
