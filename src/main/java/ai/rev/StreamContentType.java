@@ -17,13 +17,7 @@ public class StreamContentType {
   private String format;
   private Integer channels;
 
-  public StreamContentType() {
-    this.contentType = null;
-    this.layout = null;
-    this.rate = null;
-    this.format = null;
-    this.channels = null;
-  }
+  public StreamContentType() {}
 
   /**
    * Returns the content type.

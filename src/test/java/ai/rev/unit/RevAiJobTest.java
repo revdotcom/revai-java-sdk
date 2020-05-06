@@ -49,7 +49,7 @@ public class RevAiJobTest {
     gson = new Gson();
 
     mockInProgressJob = new RevAiJob();
-    mockInProgressJob.setJobID(JOB_ID);
+    mockInProgressJob.setJobId(JOB_ID);
     mockInProgressJob.setCreatedOn(CREATED_ON);
     mockInProgressJob.setName(SAMPLE_FILENAME);
     mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);

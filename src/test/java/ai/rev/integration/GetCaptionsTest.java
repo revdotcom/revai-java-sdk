@@ -50,7 +50,7 @@ public class GetCaptionsTest {
     String transcribedJobId = null;
     for (RevAiJob job : jobs) {
       if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
-        transcribedJobId = job.getJobID();
+        transcribedJobId = job.getJobId();
         break;
       }
     }

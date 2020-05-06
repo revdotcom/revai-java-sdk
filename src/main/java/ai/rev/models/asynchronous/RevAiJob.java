@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class RevAiJob {
 
   @SerializedName("id")
-  private String jobID;
+  private String jobId;
 
   @SerializedName("status")
   private RevAiJobStatus jobStatus;
@@ -42,21 +42,21 @@ public class RevAiJob {
   private RevAiFailureType failure;
 
   /**
-   * Returns a String that contains the Job ID.
+   * Returns a String that contains the job ID.
    *
    * @return A String that contains the job ID.
    */
-  public String getJobID() {
-    return jobID;
+  public String getJobId() {
+    return jobId;
   }
 
   /**
    * Sets the Job ID.
    *
-   * @param jobID The String value to set as the Job ID.
+   * @param jobId The String value to set as the job ID.
    */
-  public void setJobID(String jobID) {
-    this.jobID = jobID;
+  public void setJobId(String jobId) {
+    this.jobId = jobId;
   }
 
   /**
@@ -267,7 +267,7 @@ public class RevAiJob {
   public String toString() {
     return "{"
         + "jobID='"
-        + jobID
+        + jobId
         + '\''
         + ", jobStatus="
         + jobStatus

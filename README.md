@@ -15,7 +15,7 @@ The recommended way to use the Rev.ai Java SDK is to import it into the project 
         <version>1.0.0</version>
       </dependency>
     
-## Installing it locally
+## Build and install locally from source
 Once you've cloned the repo you can use Maven to build it locally and install it in your local Maven .m2 repository.
 
     mvn install -Dmaven.test.skip=true
@@ -80,7 +80,7 @@ endpoint.
 You can check the status of your transcription job using its `id`
 
 ```
-RevAiJob newlyRefreshedRevAiJob = apiClient.getJobDetails(revAiJob.getJobID());
+RevAiJob newlyRefreshedRevAiJob = apiClient.getJobDetails(revAiJob.getJobId());
 ```
 
 `RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
@@ -96,7 +96,7 @@ List<RevAiJob> jobs = apiClient.getListOfJobs();
 int numberOfJobsToReturn = 3;
 List<RevAiJob> jobs = apiClient.getListOfJobs(numberOfJobsToReturn);
 
-// get jobs starting after a certain job id
+// get jobs starting after a certain job ID
 String jobId = "Umx5c6F7pH7r";
 List<RevAiJob> jobs = apiClient.getListOfJobs(jobId);
 ```
@@ -109,7 +109,7 @@ from our [Get List of Jobs](https://www.ai.rev.ai/docs#operation/GetListOfJobs) 
 You can delete a transcription job using its `id`
 
 ```
-apiClient.deleteJob(revAiJob.getJobID());
+apiClient.deleteJob(revAiJob.getJobId());
 ```
 
  All data related to the job, such as input media and transcript, will be permanently deleted.
@@ -122,10 +122,10 @@ Once your file is transcribed, you can get your transcript in a few different fo
 
 ```
 // as plain text
-String transcriptText = apiClient.getTranscriptText(revAiJob.getJobID());
+String transcriptText = apiClient.getTranscriptText(revAiJob.getJobId());
 
 // or as an object
-RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobID());
+RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobId());
 ```
 
 The text output is a string containing just the text of your transcript. The object form of 
@@ -141,11 +141,11 @@ was submitted with multiple speaker channels you are required to provide the id 
 you would like captioned.
 
 ```
-InputStream inputStream = apiClient.getCaptions(revAiJob.getJobID(), RevAiCaptionType.SRT);
+InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptionType.SRT);
 
 // with speaker channels
 int channelId = 1;
-InputStream inputStream = apiClient.getCaptions(revAiJob.getJobID(), RevAiCaptionType.VTT, channelId);
+InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptionType.VTT, channelId);
 ```
 
 ## Streaming Audio
