@@ -10,8 +10,8 @@ See the [API docs](https://www.ai.rev.ai/docs) for more information about the AP
 The recommended way to use the Rev.ai Java SDK is to import it into the project using Maven.
 
       <dependency>
-        <groupId>ai.rev</groupId>
-        <artifactId>revai-java-sdk</artifactId>
+        <groupId>ai.rev.speechtotext</groupId>
+        <artifactId>revai-java-sdk-speechtotext</artifactId>
         <version>1.0.0</version>
       </dependency>
     
