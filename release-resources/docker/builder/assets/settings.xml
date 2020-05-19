@@ -1,0 +1,41 @@
+<settings>
+    <localRepository>/tmp/repository-data</localRepository>
+    <activeProfiles>
+        <!--make the profile active all the time -->
+        <activeProfile>securecentral</activeProfile>
+    </activeProfiles>
+    <profiles>
+        <profile>
+            <id>securecentral</id>
+            <!--Override the repository (and pluginRepository) "central" from the
+	               Maven Super POM -->
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+        <profile>
+            <id>SUREFIRE-1588</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+            </properties>
+        </profile>
+    </profiles>
+</settings>

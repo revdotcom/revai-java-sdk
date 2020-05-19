@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  java-sdk-builder:
+    build: ./builder
+    image: "revai-java-sdk-deploy"
+    working_dir: "/usr/src/revai-java-sdk"
+    command: bash -c "mvn verify -Dmaven.test.skip=true -P release"
+    volumes:
+      - "../../:/usr/src/revai-java-sdk"
