@@ -20,11 +20,6 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            changeOwner()
-        }
-    }
 }
 
 def changeOwner() {
