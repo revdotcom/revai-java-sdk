@@ -31,7 +31,7 @@ pipeline {
 def changeOwner() {
     ansiColor('xterm') {
         sh """
-        cd $PROJECT_PATH; docker-compose run --rm change-owner
+        
         """
     }
 }
