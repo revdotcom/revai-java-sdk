@@ -14,7 +14,7 @@ pipeline {
                 ansiColor('xterm') {
                     sh """
                     echo "hello ${PGP_PASSPHRASE} hello"
-                    cd $PROJECT_PATH/release-resources/docker; docker-compose run -v ${PGP_SECRETKEY}:${PGP_SECRETKEY} -e PGP_SECRETKEY=keyfile:${PGP_SECRETKEY} -e PGP_PASSPHRASE=literal:${PGP_PASSPHRASE} java-sdk-builder
+                    # cd $PROJECT_PATH/release-resources/docker; docker-compose run -v ${PGP_SECRETKEY}:${PGP_SECRETKEY} -e PGP_SECRETKEY=keyfile:${PGP_SECRETKEY} -e PGP_PASSPHRASE=literal:${PGP_PASSPHRASE} java-sdk-builder
                     """
                 }
             }
