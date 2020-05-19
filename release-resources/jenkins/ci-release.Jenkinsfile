@@ -6,7 +6,6 @@ pipeline {
     }
     environment {
         PGP_PASSPHRASE = credentials('revai-java-sdk/maven-pgp-signing/passphrase')
-        PGP_SECRETKEY = credentials('revai-java-sdk/maven-pgp-signing/private-key')
         DANTEST = credentials('dantest/hiskey')
     }
     stages {
