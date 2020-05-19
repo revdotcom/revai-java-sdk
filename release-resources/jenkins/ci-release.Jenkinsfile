@@ -7,13 +7,14 @@ pipeline {
     environment {
         PGP_PASSPHRASE = credentials('revai-java-sdk/maven-pgp-signing/passphrase')
         PGP_SECRETKEY = credentials('revai-java-sdk/maven-pgp-signing/private-key')
+        DANTEST = credentials('dantest/hiskey')
     }
     stages {
         stage('Sign artifacts and publish') {
             steps {
                 ansiColor('xterm') {
                     sh """
-                    echo "hello ${PGP_PASSPHRASE} hello"
+                    echo "hello ${PGP_PASSPHRASE} hello ${DANTEST} hi"
                     
                     """
                 }
