@@ -23,7 +23,6 @@ pipeline {
     post {
         always {
             changeOwner()
-            slackSend channel: '#revai-alerts-prod', color: COLOR_MAP[currentBuild.currentResult], message: getSlackMessage()
         }
     }
 }
