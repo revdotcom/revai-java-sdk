@@ -35,7 +35,7 @@ jobs:
 
     - name: Run integration tests
       run: mvn verify
-      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWtih(github.ref, 'refs/heads/release')
+      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release')
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.IntegrationTestAccessToken }}
     
