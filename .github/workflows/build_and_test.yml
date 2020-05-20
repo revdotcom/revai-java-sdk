@@ -28,8 +28,16 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build and run tests
+      run: mvn -B package 
+
+    - run: echo ${{github.ref}}
+
+    - name: Run integration tests
+      run: mvn verify
+      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWtih(github.ref, 'refs/heads/release')
+      env:
+        REVAI_ACCESS_TOKEN: ${{ secret.IntegrationTestAccessToken }}
     
     - run: mkdir staging && cp target/*.jar staging
     

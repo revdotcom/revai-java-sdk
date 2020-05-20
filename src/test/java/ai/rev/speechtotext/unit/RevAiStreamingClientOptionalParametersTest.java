@@ -14,7 +14,6 @@ import ai.rev.speechtotext.RevAiWebSocketListener;
 import ai.rev.speechtotext.SessionConfig;
 import ai.rev.speechtotext.StreamContentType;
 import ai.rev.speechtotext.StreamingClient;
-import ai.rev.speechtotext.integration.EnvHelper;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,11 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Parameterized.class)
 public class RevAiStreamingClientOptionalParametersTest {
 
+  private static final String VOCAB_ID = "VocabId";
+  private static final String METADATA = "Best Metadata";
+  private static final String FAKE_ACCESS_TOKEN = "foo";
+
   private MockWebServer mockWebServer;
   private StreamContentType defaultContentType;
   private static StreamingClient streamingClient;
-  private static final String VOCAB_ID = "VocabId";
-  private static final String METADATA = "Best Metadata";
   private SessionConfig sessionConfig = new SessionConfig();
 
   public RevAiStreamingClientOptionalParametersTest(
@@ -75,7 +76,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     } catch (IOException e) {
       throw new RuntimeException("Unable to start Mock Web Server");
     }
-    streamingClient = new StreamingClient(EnvHelper.getToken());
+    streamingClient = new StreamingClient(FAKE_ACCESS_TOKEN);
     streamingClient.setScheme("http");
     streamingClient.setHost(mockWebServer.getHostName());
     streamingClient.setPort(mockWebServer.getPort());
@@ -123,6 +124,6 @@ public class RevAiStreamingClientOptionalParametersTest {
           URLDecoder.decode(request.getPath(), "UTF8")
               .contains("metadata=" + sessionConfig.getMetaData()));
     }
-    assertThat(request.getPath()).contains("access_token=" + EnvHelper.getToken());
+    assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }
 }

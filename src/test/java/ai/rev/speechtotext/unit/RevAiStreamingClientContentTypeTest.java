@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import ai.rev.speechtotext.RevAiWebSocketListener;
 import ai.rev.speechtotext.StreamContentType;
 import ai.rev.speechtotext.StreamingClient;
-import ai.rev.speechtotext.integration.EnvHelper;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,14 +24,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Parameterized.class)
 public class RevAiStreamingClientContentTypeTest {
 
-  private MockWebServer mockWebServer;
-  private StreamingClient streamingClient;
-  private StreamContentType streamContentType;
   private static final String CONTENT_TYPE = "audio/x-raw";
   private static final String LAYOUT = "interleaved";
   private static final Integer RATE = 16000;
   private static final String FORMAT = "S16LE";
   private static final Integer CHANNELS = 1;
+  private static final String FAKE_ACCESS_TOKEN = "foo";
+
+  private MockWebServer mockWebServer;
+  private StreamingClient streamingClient;
+  private StreamContentType streamContentType;
   private String contentType;
   private String layout;
   private Integer rate;
@@ -80,7 +81,7 @@ public class RevAiStreamingClientContentTypeTest {
     streamContentType.setChannels(channels);
     this.streamContentType = streamContentType;
 
-    streamingClient = new StreamingClient(EnvHelper.getToken());
+    streamingClient = new StreamingClient(FAKE_ACCESS_TOKEN);
     streamingClient.setScheme("http");
     streamingClient.setHost(mockWebServer.getHostName());
     streamingClient.setPort(mockWebServer.getPort());
@@ -129,6 +130,6 @@ public class RevAiStreamingClientContentTypeTest {
     if (channels != null) {
       assertThat(request.getPath()).contains("channels=" + channels);
     }
-    assertThat(request.getPath()).contains("access_token=" + EnvHelper.getToken());
+    assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }
 }
