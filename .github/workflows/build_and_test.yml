@@ -37,6 +37,8 @@ jobs:
     - name: Build and run tests
       run: mvn -B package 
 
+    - run: echo ${{ env.IS_NON_FEATURE_BRANCH }}
+
     - name: Run integration tests
       run: mvn verify
       if: env.IS_NON_FEATURE_BRANCH
