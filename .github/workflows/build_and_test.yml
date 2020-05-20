@@ -15,23 +15,24 @@ jobs:
         java: [8, 11.0.x, 13 ]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the code
+      uses: actions/checkout@v2
       
-    - uses: actions/cache@v1
+    - name: Cache the maven artifacts
+      uses: actions/cache@v1
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
           
-    - uses: actions/setup-java@v1
+    - name: Configure java
+      uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
 
     - name: Build and run tests
       run: mvn -B package 
-
-    - run: echo ${{github.ref}}
 
     - name: Run integration tests
       run: mvn verify
@@ -39,9 +40,11 @@ jobs:
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.IntegrationTestAccessToken }}
     
-    - run: mkdir staging && cp target/*.jar staging
+    - name: Save build artifacts to staging area
+      run: mkdir staging && cp target/*.jar staging
     
-    - uses: actions/upload-artifact@v1
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v1
       with:
         name: Package
         path: staging
