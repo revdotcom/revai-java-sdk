@@ -9,7 +9,6 @@ RUN \
     apt-get -q install bash && \
     apt-get install -y maven && \
     apt-get -q install -y git && \
-    apt-get -q install -y gnupg && \
     apt-get -q install procps
 
 # Install Java

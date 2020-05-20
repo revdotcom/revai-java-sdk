@@ -13,20 +13,14 @@ pipeline {
             steps {
                 ansiColor('xterm') {
                     sh """
+                    docker build --tag revai-sdk-release
+                    docker run mvn clean deploy -Dmaven.test.skip=true -Dsonatype.username=yourusername -Dsonatype.password=yourpassword -P release
                     echo "hello ${PGP_PASSPHRASE} hello ${DANTEST} hi"
                     
                     """
                 }
             }
         }
-    }
-}
-
-def changeOwner() {
-    ansiColor('xterm') {
-        sh """
-        
-        """
     }
 }
 
