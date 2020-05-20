@@ -17,7 +17,12 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v2
-      
+
+    - name: Check if we are on a non-feature branch
+      uses: allenevans/set-env@v1.0.0
+      with:
+        IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') }}
+
     - name: Cache the maven artifacts
       uses: actions/cache@v1
       with:
@@ -36,7 +41,7 @@ jobs:
 
     - name: Run integration tests
       run: mvn verify
-      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release')
+      if: ${IS_NON_FEATURE_BRANCH}
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.IntegrationTestAccessToken }}
     
@@ -48,3 +53,23 @@ jobs:
       with:
         name: Package
         path: staging
+
+    - name: Notify slack success
+      if: success() && ${IS_NON_FEATURE_BRANCH}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: revai-alerts-prod
+        status: SUCCESS
+        color: good
+    
+    - name: Notify slack fail
+      if: failure() && ${IS_NON_FEATURE_BRANCH}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: revai-alerts-prod
+        status: FAILED
+        color: danger
