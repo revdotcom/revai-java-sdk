@@ -1,6 +1,6 @@
 # Rev.ai Java SDK
 
-[![Build Status](https://travis-ci.org/revdotcom/revai-java-sdk.svg?branch=develop)](https://travis-ci.org/revdotcom/revai-java-sdk)
+![Build Status](https://github.com/revdotcom/revai-java-sdk/workflows/Build/badge.svg?branch=develop)
 
 ## Documentation
 
