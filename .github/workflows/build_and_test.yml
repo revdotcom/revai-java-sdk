@@ -15,7 +15,7 @@ jobs:
         java: [8, 11.0.x, 13 ]
     
     env: 
-      IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') }}
+      IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') || github.ref == 'refs/heads/Feature/AISDK-80-ghactions2' }}
 
     steps:
     - name: Checkout the code
@@ -43,7 +43,7 @@ jobs:
       run: mvn verify
       if: env.IS_NON_FEATURE_BRANCH == 'true'
       env:
-        REVAI_ACCESS_TOKEN: ${{ secrets.IntegrationTestAccessToken }}
+        REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
     
     - name: Save build artifacts to staging area
       run: mkdir staging && cp target/*.jar staging
