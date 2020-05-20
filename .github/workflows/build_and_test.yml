@@ -7,7 +7,7 @@ on:
   push:
 
 env: 
-  IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') || github.ref == 'refs/heads/Feature/AISDK-80-ghactions2' }}
+  IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') }}
 
 jobs:
   build:
