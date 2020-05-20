@@ -41,7 +41,7 @@ jobs:
 
     - name: Run integration tests
       run: mvn verify
-      if: env.IS_NON_FEATURE_BRANCH
+      if: env.IS_NON_FEATURE_BRANCH == 'true'
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.IntegrationTestAccessToken }}
     
@@ -55,7 +55,7 @@ jobs:
         path: staging
 
     - name: Notify slack success
-      if: success() && env.IS_NON_FEATURE_BRANCH
+      if: success() && env.IS_NON_FEATURE_BRANCH == 'true'
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       uses: voxmedia/github-action-slack-notify-build@v1
@@ -65,7 +65,7 @@ jobs:
         color: good
     
     - name: Notify slack fail
-      if: failure() && env.IS_NON_FEATURE_BRANCH
+      if: failure() && env.IS_NON_FEATURE_BRANCH == 'true'
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       uses: voxmedia/github-action-slack-notify-build@v1
