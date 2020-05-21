@@ -79,15 +79,11 @@ jobs:
 
         
     - name: test the credentials
-      run: echo "${{ secrets.AWS_SESSION_TOKEN }}"
+      run: echo "${{ env.AWS_SESSION_TOKEN }} ha"
 
     - name: Retrieve Credentials for Publishing Maven package
-      uses: revdotcom/aws-secrets-manager-actions@ab10d35
+      uses: revdotcom/aws-secrets-manager-actions@3a83214
       with:
-        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}
-        AWS_DEFAULT_REGION: us-west-2
         SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
 
     - name: test the secret
