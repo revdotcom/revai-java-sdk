@@ -44,3 +44,23 @@ jobs:
         nexus_username: ${{ secrets.NEXUS_USERNAME }}
         nexus_password: ${{ secrets.NEXUS_PASSWORD }}
         maven_profiles: ["release"]
+
+    - name: Notify slack fail
+      if: failure()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: revai-alerts-prod
+        status: FAILED
+        color: danger
+  
+    - name: Notify slack success
+      if: success() 
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: revai-alerts-prod
+        status: SUCCESS
+        color: good

@@ -63,32 +63,6 @@ jobs:
         channel: revai-alerts-prod
         status: FAILED
         color: danger
-
-  publish_test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-2
-        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-        role-duration-seconds: 1200
-
-        
-    - name: test the credentials
-      run: echo "${{ env.AWS_SESSION_TOKEN }} ha"
-
-    - name: Retrieve Credentials for Publishing Maven package
-      uses: revdotcom/aws-secrets-manager-actions@10a8ff5
-      with:
-        AWS_REGION: us-west-2
-        SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
-
-    - name: test the secret
-      run: echo "${{ secrets.NOT_A_SECRET }}"
       
   slack_success:
     runs-on: ubuntu-latest
