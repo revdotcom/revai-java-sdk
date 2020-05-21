@@ -33,7 +33,6 @@ jobs:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
         role-duration-seconds: 1200
-        role-session-name: MySessionName
 
     - name: Retrieve Credentials for Publishing Maven package
       uses: revdotcom/aws-secrets-manager-actions@085f40e
