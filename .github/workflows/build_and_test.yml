@@ -82,7 +82,7 @@ jobs:
       run: echo "${{ env.AWS_SESSION_TOKEN }} ha"
 
     - name: Retrieve Credentials for Publishing Maven package
-      uses: revdotcom/aws-secrets-manager-actions@38a6b8b
+      uses: revdotcom/aws-secrets-manager-actions@10a8ff5
       with:
         AWS_REGION: us-west-2
         SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
