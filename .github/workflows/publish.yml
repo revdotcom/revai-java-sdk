@@ -8,7 +8,7 @@ on:
     types: [created]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +24,30 @@ jobs:
 
     - name: Build and run tests
       run: mvn -B package 
-  
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        role-duration-seconds: 1200
+        role-session-name: MySessionName
+
+    - name: Retrieve Credentials for Publishing Maven package
+      uses: revdotcom/aws-secrets-manager-actions@085f40e
+      with:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+        AWS_DEFAULT_REGION: us-west-2
+        SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
+
     - name: Release Maven package
       uses: samuelmeuli/action-maven-publish@v1
       with:
-        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-        gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+        gpg_private_key: ${{ secrets.PGP_PRIVATEKEY }}
+        gpg_passphrase: ${{ secrets.PGP_PASSPHRASE }}
         nexus_username: ${{ secrets.NEXUS_USERNAME }}
         nexus_password: ${{ secrets.NEXUS_PASSWORD }}
