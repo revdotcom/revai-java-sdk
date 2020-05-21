@@ -7,6 +7,26 @@
     <version>1.0.0</version>
     <name>Rev.ai speech to text SDK for Java</name>
     <url>https://www.rev.ai/docs</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <organization>Rev.com Inc</organization>
+            <organizationUrl>https://www.rev.com</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>    
+    <scm>
+        <connection>scm:git:https://github.com/revdotcom/revai-java-sdk.git</connection>
+        <developerConnection>scm:git:ssh://github.com/revdotcom/revai-java-sdk.git</developerConnection>
+        <url>https://github.com/revdotcom/revai-java-sdk.git</url>
+    </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -68,11 +88,6 @@
             <version>3.15.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -120,10 +135,6 @@
                 </executions>
             </plugin>            
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-            </plugin>
-            <plugin>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
             </plugin>
@@ -137,12 +148,14 @@
                 <version>3.7.1</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>            
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -162,4 +175,34 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>    
 </project>
