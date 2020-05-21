@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        server-id: github # Va  lue of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build and run tests
@@ -35,7 +35,7 @@ jobs:
         role-duration-seconds: 1200
 
     - name: Retrieve Credentials for Publishing Maven package
-      uses: revdotcom/aws-secrets-manager-actions@085f40e
+      uses: revdotcom/aws-secrets-manager-actions@ab10d35
       with:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
