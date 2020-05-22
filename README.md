@@ -4,7 +4,7 @@
 
 ## Documentation
 
-See the [API docs](https://www.ai.rev.ai/docs) for more information about the API.
+See the [API docs](https://www.rev.ai/docs) for more information about the API.
 
 ## Install the SDK
 The recommended way to use the Rev.ai Java SDK is to import it into the project using Maven.
