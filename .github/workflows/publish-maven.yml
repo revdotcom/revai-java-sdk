@@ -20,9 +20,6 @@ jobs:
         server-id: github # Va  lue of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build and run tests
-      run: mvn -B package 
-
     - name: Retrieve Credentials for Publishing Maven package
       uses: say8425/aws-secrets-manager-actions@v1
       with:
@@ -39,7 +36,9 @@ jobs:
         nexus_username: ${{ secrets.NEXUS_USERNAME }}
         nexus_password: ${{ secrets.NEXUS_PASSWORD }}
         maven_profiles: "release"
-
+      env:
+        REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
+  
     - name: Notify slack fail
       if: failure()
       env:
