@@ -36,10 +36,10 @@ jobs:
     - name: Release Maven package
       uses: samuelmeuli/action-maven-publish@v1
       with:
-        gpg_private_key: ${{ secrets.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PRIVATE_KEY }}
-        gpg_passphrase: ${{ secrets.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PASSPHRASE }}
-        nexus_username: ${{ secrets.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_USERNAME }}
-        nexus_password: ${{ secrets.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_PASSWORD }}
+        gpg_private_key: ${{ env.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PRIVATE_KEY }}
+        gpg_passphrase: ${{ env.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PASSPHRASE }}
+        nexus_username: ${{ env.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_USERNAME }}
+        nexus_password: ${{ env.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_PASSWORD }}
         maven_profiles: "release"
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
