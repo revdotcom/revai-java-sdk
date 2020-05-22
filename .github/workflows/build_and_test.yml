@@ -1,10 +1,13 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven
+name: Build
 
 on:
   push:
+
+env: 
+  IS_NON_FEATURE_BRANCH: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release') }}
 
 jobs:
   build:
@@ -13,27 +16,65 @@ jobs:
       matrix:
         # test against latest update of each major Java version, as well as specific updates of LTS versions:
         java: [8, 11.0.x, 13 ]
-
+    
     steps:
-    - uses: actions/checkout@v2
-      
-    - uses: actions/cache@v1
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: Cache the maven artifacts
+      uses: actions/cache@v1
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
           
-    - uses: actions/setup-java@v1
+    - name: Configure java
+      uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build and run tests
+      run: mvn -B package 
+
+    - run: echo ${{ env.IS_NON_FEATURE_BRANCH }}
+
+    - name: Run integration tests
+      run: mvn verify
+      if: env.IS_NON_FEATURE_BRANCH == 'true'
+      env:
+        REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
     
-    - run: mkdir staging && cp target/*.jar staging
+    - name: Save build artifacts to staging area
+      run: mkdir staging && cp target/*.jar staging
     
-    - uses: actions/upload-artifact@v1
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v1
       with:
         name: Package
         path: staging
+    
+    - name: Notify slack fail
+      if: failure() && env.IS_NON_FEATURE_BRANCH == 'true'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: revai-alerts-prod
+        status: FAILED
+        color: danger
+      
+  slack_success:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Notify slack success
+        if: success() && env.IS_NON_FEATURE_BRANCH == 'true'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: revai-alerts-prod
+          status: SUCCESS
+          color: good
+

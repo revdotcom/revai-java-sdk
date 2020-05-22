@@ -1,6 +1,6 @@
 # Rev.ai Java SDK
 
-[![Build Status](https://travis-ci.org/revdotcom/revai-java-sdk.svg?branch=develop)](https://travis-ci.org/revdotcom/revai-java-sdk)
+[![Build Status](https://github.com/revdotcom/revai-java-sdk/workflows/Build/badge.svg?branch=develop)](https://github.com/revdotcom/revai-java-sdk/actions?query=workflow%3ABuild+branch%3Adevelop)
 
 ## Documentation
 
@@ -218,9 +218,16 @@ streamingClient.sendAudioData(ByteString);
 The streaming connection will close when you call the method `streamingClient.close()` or if you go 15 seconds without sending any audio data.
 
 
-## For Rev.ai Developers
+## For Rev.ai Java SDK Developers
+
 Before contributing to the project please install the following
 * [IntelliJ IDE](https://www.jetbrains.com/idea/)
 * [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
  
- Before opening a pull-request please run the `Code > Reformat Code` option in any classes that were touched to ensure the code is formatted correctly.
+Before opening a pull-request please run the `Code > Reformat Code` option in any classes that were touched to ensure the code is formatted correctly.
+
+Run `mvn package` to build the code, run the unit tests and create the SDK jar. 
+
+Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token. 
+
+Fake
