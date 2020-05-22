@@ -21,20 +21,25 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Retrieve Credentials for Publishing Maven package
-      uses: say8425/aws-secrets-manager-actions@v1
+      uses: action-factory/aws-secrets-manager-action@v0.4.0
       with:
-        AWS_DEFAULT_REGION: us-west-2
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
-
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-west-2
+        secrets: |
+          revai-java-sdk/sonatype-account/username
+          revai-java-sdk/sonatype-account/password
+          revai-java-sdk/maven-pgp-signing/passphrase
+          revai-java-sdk/maven-pgp-signing/private-key
+        parse_json: false
+          
     - name: Release Maven package
       uses: samuelmeuli/action-maven-publish@v1
       with:
-        gpg_private_key: ${{ secrets.PGP_PRIVATEKEY }}
-        gpg_passphrase: ${{ secrets.PGP_PASSPHRASE }}
-        nexus_username: ${{ secrets.NEXUS_USERNAME }}
-        nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+        gpg_private_key: ${{ secrets.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PRIVATE_KEY }}
+        gpg_passphrase: ${{ secrets.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PASSPHRASE }}
+        nexus_username: ${{ secrets.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_USERNAME }}
+        nexus_password: ${{ secrets.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_PASSWORD }}
         maven_profiles: "release"
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
