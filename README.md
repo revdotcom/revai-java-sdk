@@ -229,5 +229,3 @@ Before opening a pull-request please run the `Code > Reformat Code` option in an
 Run `mvn package` to build the code, run the unit tests and create the SDK jar. 
 
 Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token. 
-
-Fake
