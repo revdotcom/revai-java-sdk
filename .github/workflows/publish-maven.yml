@@ -1,6 +1,5 @@
 name: Publish to Central Maven Repo
 
-
 on:
   release:
     types: [created]
@@ -17,33 +16,29 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-        server-id: github # Va  lue of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Retrieve Credentials for Publishing Maven package
-      uses: action-factory/aws-secrets-manager-action@v0.4.0
+      uses: say8425/aws-secrets-manager-actions@v1
       with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: us-west-2
-        secrets: |
-          revai-java-sdk/sonatype-account/username
-          revai-java-sdk/sonatype-account/password
-          revai-java-sdk/maven-pgp-signing/passphrase
-          revai-java-sdk/maven-pgp-signing/private-key
-        parse_json: false
+        AWS_DEFAULT_REGION: us-west-2
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SECRET_NAME: ${{ secrets.MAVEN_PUBLISHING_CREDENTIALS_SECRET_NAME }}
           
-    - name: Release Maven package
-      uses: samuelmeuli/action-maven-publish@v1
-      with:
-        gpg_private_key: ${{ env.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PRIVATE_KEY }}
-        gpg_passphrase: ${{ env.REVAI_JAVA_SDK_MAVEN_PGP_SIGNING_PASSPHRASE }}
-        nexus_username: ${{ env.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_USERNAME }}
-        nexus_password: ${{ env.REVAI_JAVA_SDK_SONATYPE_ACCOUNT_PASSWORD }}
-        maven_profiles: "release"
+    - name: Save GPG private key
+      run: echo ${PGP_PRIVATEKEY_BASE64} | base64 --decode > ${GITHUB_WORKSPACE}/pgpkey.asc
+
+    - name: Publish to central repository
+      run: mvn clean deploy --batch-mode --activate-profiles release --settings ./settings.xml 
       env:
         REVAI_ACCESS_TOKEN: ${{ secrets.INTEGRATION_TEST_ACCESS_TOKEN }}
-  
+        PGP_SECRETKEY: keyfile:${{ github.workspace }}/pgpkey.asc
+        PGP_PASSPHRASE: literal:${{ env.PGP_PASSPHRASE }}
+    
+    - name: Cleanup
+      if: always()
+      run: rm ${GITHUB_WORKSPACE}/pgpkey.asc
+
     - name: Notify slack fail
       if: failure()
       env:
