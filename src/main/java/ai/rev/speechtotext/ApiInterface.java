@@ -1,5 +1,6 @@
 package ai.rev.speechtotext;
 
+import ai.rev.speechtotext.models.CustomVocabularyInformation;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,4 +55,13 @@ public interface ApiInterface {
           @QueryMap Map<String, String> query,
           @HeaderMap Map<String, String> contentType
   );
+
+  @POST("vocabularies")
+  Call<CustomVocabularyInformation> submitCustomVocabularies(@Body RevAiJobOptions options);
+
+  @GET("vocabularies")
+  Call<List<CustomVocabularyInformation>> getListOfCustomVocabularyInformation();
+
+  @GET("vocabularies/{id}")
+  Call<CustomVocabularyInformation> getCustomVocabularyInformation(@Path("id") String jobId);
 }

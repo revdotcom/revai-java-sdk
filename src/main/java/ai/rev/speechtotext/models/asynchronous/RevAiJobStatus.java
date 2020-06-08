@@ -5,11 +5,15 @@ import com.google.gson.annotations.SerializedName;
 /** Specifies constants that define Rev.ai job statuses. */
 public enum RevAiJobStatus {
 
-  /** The status when transcription has failed. */
+  /** The status when custom vocabulary has been processed and completed. */
+  @SerializedName("complete")
+  COMPLETE("complete"),
+
+  /** The status when the job has failed. */
   @SerializedName("failed")
   FAILED("failed"),
 
-  /** The status when transcription of the file is in progress. */
+  /** The status when the job is in progress. */
   @SerializedName("in_progress")
   IN_PROGRESS("in_progress"),
 
