@@ -1,9 +1,11 @@
 package ai.rev.speechtotext.integration;
 
-import ai.rev.speechtotext.CustomVocabulariesClient;
-import ai.rev.speechtotext.models.CustomVocabulary;
-import ai.rev.speechtotext.models.CustomVocabularyInformation;
+import ai.rev.speechtotext.clients.CustomVocabulariesClient;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -30,7 +32,7 @@ public class CustomVocabulariesTest {
 
     assertThat(customVocabularyInformation.getStatus())
         .as("Custom vocabulary status")
-        .isEqualTo(RevAiJobStatus.IN_PROGRESS);
+        .isEqualTo(CustomVocabularyStatus.IN_PROGRESS);
   }
 
   @Test
@@ -76,10 +78,10 @@ public class CustomVocabulariesTest {
       assertThat(customVocabulary.getId()).as("Vocabulary Id").isNotNull();
       assertThat(customVocabulary.getCreatedOn()).as("Created on").isNotNull();
       assertThat(customVocabulary.getStatus()).as("Status").isNotNull();
-      if (customVocabulary.getStatus() == RevAiJobStatus.FAILED) {
+      if (customVocabulary.getStatus() == CustomVocabularyStatus.FAILED) {
         assertThat(customVocabulary.getFailure()).as("Failure").isNotNull();
         assertThat(customVocabulary.getFailureDetail()).as("Failure detail").isNotNull();
-      } else if (customVocabulary.getStatus() == RevAiJobStatus.COMPLETE) {
+      } else if (customVocabulary.getStatus() == CustomVocabularyStatus.COMPLETE) {
         assertThat(customVocabulary.getCompletedOn()).as("Completed on").isNotNull();
       }
     }
@@ -87,11 +89,13 @@ public class CustomVocabulariesTest {
 
   public CustomVocabularyInformation submitCustomVocabulary() {
     CustomVocabulary customVocabulary = new CustomVocabulary(PHRASES);
-    String metadata = testName.getMethodName();
+
+    CustomVocabularyOptions options = new CustomVocabularyOptions();
+    options.setCustomVocabularies(Collections.singletonList(customVocabulary));
+    options.setMetadata(testName.getMethodName());
 
     try {
-      return customVocabularyClient.submitCustomVocabularies(
-          metadata, Collections.singletonList(customVocabulary));
+      return customVocabularyClient.submitCustomVocabularies(options);
     } catch (IOException e) {
       throw new RuntimeException(e.getMessage());
     }

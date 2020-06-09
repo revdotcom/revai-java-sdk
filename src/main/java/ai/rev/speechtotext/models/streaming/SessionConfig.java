@@ -1,4 +1,4 @@
-package ai.rev.speechtotext;
+package ai.rev.speechtotext.models.streaming;
 
 /** The SessionConfig represents additional streaming options that can be provided. */
 public class SessionConfig {

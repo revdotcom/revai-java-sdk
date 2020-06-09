@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.helpers;
 
-import ai.rev.speechtotext.ApiInterceptor;
-import ai.rev.speechtotext.ErrorInterceptor;
+import ai.rev.speechtotext.interceptors.ApiInterceptor;
+import ai.rev.speechtotext.interceptors.ErrorInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

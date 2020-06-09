@@ -13,9 +13,9 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.MockInterceptor;
+import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.AsyncApiInterface;
+import ai.rev.speechtotext.interceptors.MockInterceptor;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
@@ -71,7 +71,7 @@ public class RevAiJobTest {
             .client(mockOkHttpClient)
             .build();
 
-    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.asyncApiInterface = mockRetrofit.create(AsyncApiInterface.class);
   }
 
   @Test

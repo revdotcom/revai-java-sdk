@@ -11,8 +11,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 import ai.rev.speechtotext.RevAiWebSocketListener;
-import ai.rev.speechtotext.StreamContentType;
-import ai.rev.speechtotext.StreamingClient;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
+import ai.rev.speechtotext.clients.StreamingClient;
 
 import java.io.IOException;
 import java.util.Arrays;

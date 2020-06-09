@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.MockInterceptor;
+import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.AsyncApiInterface;
+import ai.rev.speechtotext.interceptors.MockInterceptor;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,7 +35,7 @@ public class RevAiAccountTest {
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockOkHttpClient)
             .build();
-    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.asyncApiInterface = mockRetrofit.create(AsyncApiInterface.class);
   }
 
   @Test

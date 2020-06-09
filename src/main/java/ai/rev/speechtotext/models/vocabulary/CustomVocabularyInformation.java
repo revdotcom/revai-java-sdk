@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.models;
+package ai.rev.speechtotext.models.vocabulary;
 
 import ai.rev.speechtotext.models.asynchronous.RevAiFailureType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
@@ -10,7 +10,7 @@ public class CustomVocabularyInformation {
   private String id;
 
   @SerializedName("status")
-  private RevAiJobStatus status;
+  private CustomVocabularyStatus status;
 
   @SerializedName("created_on")
   private String createdOn;
@@ -25,7 +25,7 @@ public class CustomVocabularyInformation {
   private String callbackUrl;
 
   @SerializedName("failure")
-  private RevAiFailureType failure;
+  private CustomVocabularyFailureType failure;
 
   @SerializedName("failure_detail")
   private String failureDetail;
@@ -49,20 +49,20 @@ public class CustomVocabularyInformation {
   }
 
   /**
-   * Returns the {@link RevAiJobStatus} enumeration value.
+   * Returns the {@link CustomVocabularyStatus} enumeration value.
    *
-   * @return The {@link RevAiJobStatus} enumeration value.
+   * @return The {@link CustomVocabularyStatus} enumeration value.
    */
-  public RevAiJobStatus getStatus() {
+  public CustomVocabularyStatus getStatus() {
     return status;
   }
 
   /**
-   * Sets the status to the provided {@link RevAiJobStatus} enumeration value.
+   * Sets the status to the provided {@link CustomVocabularyStatus} enumeration value.
    *
    * @param status The enumeration value to set as the custom vocabulary status.
    */
-  public void setStatus(RevAiJobStatus status) {
+  public void setStatus(CustomVocabularyStatus status) {
     this.status = status;
   }
 
@@ -97,7 +97,7 @@ public class CustomVocabularyInformation {
   }
 
   /**
-   * Set the date and time the custom vocabulary was completed on.
+   * Sets the date and time the custom vocabulary was completed on.
    *
    * @param completedOn The String value to set as the date and time the job was completed on.
    */
@@ -142,11 +142,11 @@ public class CustomVocabularyInformation {
   }
 
   /**
-   * Returns the {@link RevAiFailureType} enumeration value.
+   * Returns the {@link CustomVocabularyFailureType} enumeration value.
    *
-   * @return The {@link RevAiFailureType} enumeration value.
+   * @return The {@link CustomVocabularyFailureType} enumeration value.
    */
-  public RevAiFailureType getFailure() {
+  public CustomVocabularyFailureType getFailure() {
     return failure;
   }
 
@@ -155,7 +155,7 @@ public class CustomVocabularyInformation {
    *
    * @param failure A String to set as the failure details.
    */
-  public void setFailure(RevAiFailureType failure) {
+  public void setFailure(CustomVocabularyFailureType failure) {
     this.failure = failure;
   }
 

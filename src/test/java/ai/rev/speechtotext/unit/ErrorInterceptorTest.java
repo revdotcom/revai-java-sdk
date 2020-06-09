@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.InjectMocks;
-import ai.rev.speechtotext.ErrorInterceptor;
+import ai.rev.speechtotext.interceptors.ErrorInterceptor;
 import ai.rev.speechtotext.exceptions.RevAiApiException;
 
 import java.io.IOException;

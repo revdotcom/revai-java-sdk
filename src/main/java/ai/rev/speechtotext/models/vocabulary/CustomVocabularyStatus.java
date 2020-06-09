@@ -1,25 +1,24 @@
-package ai.rev.speechtotext.models.asynchronous;
+package ai.rev.speechtotext.models.vocabulary;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Specifies constants that define Rev.ai job statuses. */
-public enum RevAiJobStatus {
+public enum CustomVocabularyStatus {
 
-  /** The status when transcription has failed. */
+  /** The status when custom vocabulary has been processed and completed. */
+  @SerializedName("complete")
+  COMPLETE("complete"),
+
+  /** The status when the custom vocabulary job has failed. */
   @SerializedName("failed")
   FAILED("failed"),
 
-  /** The status when transcription of the file is in progress. */
+  /** The status when the custom vocabulary job is in progress. */
   @SerializedName("in_progress")
-  IN_PROGRESS("in_progress"),
-
-  /** The status when the file has been transcribed. */
-  @SerializedName("transcribed")
-  TRANSCRIBED("transcribed");
+  IN_PROGRESS("in_progress");
 
   private String status;
 
-  RevAiJobStatus(String status) {
+  CustomVocabularyStatus(String status) {
     this.status = status;
   }
 

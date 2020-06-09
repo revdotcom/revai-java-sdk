@@ -1,5 +1,10 @@
-package ai.rev.speechtotext;
+package ai.rev.speechtotext.clients;
 
+import ai.rev.speechtotext.interceptors.ApiInterceptor;
+import ai.rev.speechtotext.interceptors.ErrorInterceptor;
+import ai.rev.speechtotext.RevAiWebSocketListener;
+import ai.rev.speechtotext.models.streaming.SessionConfig;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.HttpUrl;

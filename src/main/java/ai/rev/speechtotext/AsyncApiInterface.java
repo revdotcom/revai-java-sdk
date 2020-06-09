@@ -1,6 +1,6 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.models.CustomVocabularyInformation;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -17,7 +17,7 @@ import java.util.Map;
  * The ApiInterface is a type-safe Retrofit interface that presents all the endpoints that are made
  * to communicate with the Rev.AI API.
  */
-public interface ApiInterface {
+public interface AsyncApiInterface {
   String REV_JSON_CONTENT_TYPE = "application/vnd.rev.transcript.v1.0+json";
   String REV_TEXT_CONTENT_TYPE = "text/plain";
 
@@ -47,21 +47,11 @@ public interface ApiInterface {
   @Multipart
   @POST("jobs")
   Call<RevAiJob> submitJobLocalFile(
-    @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
+      @Part MultipartBody.Part file, @Part("options") RevAiJobOptions options);
 
   @GET("jobs/{id}/captions")
   Call<ResponseBody> getCaptionText(
-          @Path("id") String jobID,
-          @QueryMap Map<String, String> query,
-          @HeaderMap Map<String, String> contentType
-  );
-
-  @POST("vocabularies")
-  Call<CustomVocabularyInformation> submitCustomVocabularies(@Body RevAiJobOptions options);
-
-  @GET("vocabularies")
-  Call<List<CustomVocabularyInformation>> getListOfCustomVocabularyInformation();
-
-  @GET("vocabularies/{id}")
-  Call<CustomVocabularyInformation> getCustomVocabularyInformation(@Path("id") String jobId);
+      @Path("id") String jobID,
+      @QueryMap Map<String, String> query,
+      @HeaderMap Map<String, String> contentType);
 }

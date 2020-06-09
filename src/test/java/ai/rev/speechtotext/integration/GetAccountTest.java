@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.integration;
 
 import org.junit.Test;
-import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.clients.ApiClient;
 import ai.rev.speechtotext.exceptions.AuthorizationException;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 

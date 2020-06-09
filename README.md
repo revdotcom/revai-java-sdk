@@ -32,7 +32,7 @@ your [Settings Page](https://www.rev.ai/access_token). Create a client with the
 given Access Token:
 
 ```
-// Initialize your client with your ai.rev access token
+// Initialize your client with your rev.ai access token
 String accessToken = "Your Access Token";
 ApiClient apiClient = new ApiClient(accessToken);
 ```
@@ -220,9 +220,9 @@ The streaming connection will close when you call the method `streamingClient.cl
 
 ## Custom Vocabulary (for streaming)
 
-You can now submit any custom vocabularies independently through the new CustomVocabularies client! The main benefit is that users of the SDK can now submit their custom vocabularies for pre-processing and then include these processed custom vocabularies in their streaming jobs.
+You can submit any custom vocabularies independently through the CustomVocabulariesClient. Once the custom vocabulary has been submitted and processed, it is ready to be used in any streaming job.
 
-Below you can see an example of how to create and submit as well as check on the status and other associated information of your submitted custom vocabulary!
+Below you can see an example of how to create, submit, check on the status and view the other associated information of your custom vocabulary.
 
 ```
 // Initialize your client with your rev.ai access token
