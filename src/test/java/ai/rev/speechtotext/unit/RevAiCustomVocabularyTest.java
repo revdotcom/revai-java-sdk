@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.CustomVocabularyClient;
+import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.CustomVocabulary;
 import ai.rev.speechtotext.models.CustomVocabularyInformation;
@@ -28,7 +28,7 @@ public class RevAiCustomVocabularyTest {
 
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-  private CustomVocabularyClient sut;
+  private CustomVocabulariesClient sut;
 
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private final String VOCABULARY_URL = "https://api.rev.ai/revspeech/v1/vocabularies";
@@ -43,7 +43,7 @@ public class RevAiCustomVocabularyTest {
   public void setup() {
     gson = new Gson();
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
-    sut = new CustomVocabularyClient("validToken");
+    sut = new CustomVocabulariesClient("validToken");
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
@@ -190,22 +190,22 @@ public class RevAiCustomVocabularyTest {
     mockCustomVocabularyInfo2.setStatus(RevAiJobStatus.IN_PROGRESS);
     mockCustomVocabularyInfo2.setMetadata(testName.getMethodName());
 
-    List<CustomVocabularyInformation> vocabularyInformations =
+    List<CustomVocabularyInformation> suppliedVocabularyInformation =
         Arrays.asList(mockCustomVocabularyInfo1, mockCustomVocabularyInfo2);
 
-    mockInterceptor.setSampleResponse(gson.toJson(vocabularyInformations));
+    mockInterceptor.setSampleResponse(gson.toJson(suppliedVocabularyInformation));
 
-    List<CustomVocabularyInformation> customVocabularyInformations = sut.getListOfCustomVocabularyInformation();
+    List<CustomVocabularyInformation> customVocabularyInformation = sut.getListOfCustomVocabularyInformation();
 
     assertRequest(VOCABULARY_URL, "GET");
     int numberOfExpectedVocabularies = 2;
-    assertThat(customVocabularyInformations.size())
+    assertThat(customVocabularyInformation.size())
         .as("Number of vocabularies")
         .isEqualTo(numberOfExpectedVocabularies);
     assertCustomVocabularyInformation(
-        customVocabularyInformations.get(0), RevAiJobStatus.COMPLETE, DATE, null, null, ID + 1);
+        customVocabularyInformation.get(0), RevAiJobStatus.COMPLETE, DATE, null, null, ID + 1);
     assertCustomVocabularyInformation(
-        customVocabularyInformations.get(1),
+        customVocabularyInformation.get(1),
         RevAiJobStatus.IN_PROGRESS,
         DATE,
         null,

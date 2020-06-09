@@ -14,7 +14,7 @@ import java.util.List;
  * The CustomVocabularyClient object provides methods to submit custom vocabularies and retrieve
  * related job information.
  */
-public class CustomVocabularyClient {
+public class CustomVocabulariesClient {
 
   private OkHttpClient client;
 
@@ -28,7 +28,7 @@ public class CustomVocabularyClient {
    *
    * @param accessToken Rev.ai authorization token associate with the account.
    */
-  public CustomVocabularyClient(String accessToken) {
+  public CustomVocabulariesClient(String accessToken) {
     if (accessToken == null) {
       throw new IllegalArgumentException("Access token must be provided");
     }
@@ -67,7 +67,7 @@ public class CustomVocabularyClient {
   }
 
   /**
-   * Overload of {@link CustomVocabularyClient#submitCustomVocabularies(String, List, String)}
+   * Overload of {@link CustomVocabulariesClient#submitCustomVocabularies(String, List, String)}
    * without the optional callbackUrl property.
    *
    * @param metadata Optional information that can be provided.
@@ -82,7 +82,7 @@ public class CustomVocabularyClient {
   }
 
   /**
-   * Overload of {@link CustomVocabularyClient#submitCustomVocabularies(String, List, String)} *
+   * Overload of {@link CustomVocabulariesClient#submitCustomVocabularies(String, List, String)} *
    * without the optional metadata property.
    *
    * @param customVocabularies List of {@link CustomVocabulary} objects.
@@ -97,7 +97,7 @@ public class CustomVocabularyClient {
   }
 
   /**
-   * Overload of {@link CustomVocabularyClient#submitCustomVocabularies(String, List, String)} *
+   * Overload of {@link CustomVocabulariesClient#submitCustomVocabularies(String, List, String)} *
    * without the optional metadata and callbackUrl properties.
    *
    * @param customVocabularies List of {@link CustomVocabulary} objects.

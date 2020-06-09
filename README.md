@@ -28,7 +28,7 @@ We support Java 8 and 11.
 ## Usage
 
 All you need to get started is your Access Token, which can be generated on
-your [Settings Page](https://www.ai.rev.ai/access_token). Create a client with the
+your [Settings Page](https://www.rev.ai/access_token). Create a client with the
 given Access Token:
 
 ```
@@ -69,11 +69,11 @@ try {
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
 
-`RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
+`RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 If you want to get fancy, all submit job methods have overrides that allow specifying 
 [RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. These are also described in the 
-request body of the [Submit Job](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob) 
+request body of the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) 
 endpoint.
 
 ### Checking your job's status
@@ -84,7 +84,7 @@ You can check the status of your transcription job using its `id`
 RevAiJob newlyRefreshedRevAiJob = apiClient.getJobDetails(revAiJob.getJobId());
 ```
 
-`RevAiJob` objects contain job information as defined by the [documentation](https://www.ai.rev.ai/docs#operation/SubmitTranscriptionJob).
+`RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 ### Checking multiple files
 
@@ -103,7 +103,7 @@ List<RevAiJob> jobs = apiClient.getListOfJobs(jobId);
 ```
 
 `jobs` will contain a list of RevAiJob objects, having all information normally found in a successful response
-from our [Get List of Jobs](https://www.ai.rev.ai/docs#operation/GetListOfJobs) endpoint
+from our [Get List of Jobs](https://www.rev.ai/docs#operation/GetListOfJobs) endpoint
 
 ### Deleting a job
 
@@ -131,7 +131,7 @@ RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobI
 
 The text output is a string containing just the text of your transcript. The object form of 
 the transcript contains all the information outlined in the response of the 
-[Get Transcript](https://www.ai.rev.ai/docs#operation/GetTranscriptById) endpoint when using 
+[Get Transcript](https://www.rev.ai/docs#operation/GetTranscriptById) endpoint when using 
 the json response schema.
 
 ### Getting captions output
@@ -218,6 +218,30 @@ streamingClient.sendAudioData(ByteString);
 
 The streaming connection will close when you call the method `streamingClient.close()` or if you go 15 seconds without sending any audio data.
 
+## Custom Vocabulary (for streaming)
+
+You can now submit any custom vocabularies independently through the new CustomVocabularies client! The main benefit is that users of the SDK can now submit their custom vocabularies for pre-processing and then include these processed custom vocabularies in their streaming jobs.
+
+Below you can see an example of how to create and submit as well as check on the status and other associated information of your submitted custom vocabulary!
+
+```
+// Initialize your client with your rev.ai access token
+String accessToken = "Your Access Token";
+CustomVocabulariesClient customVocabulariesClient = new CustomVocabulariesClient(accessToken);
+
+// Construct a CustomVocabulary object using your desired phrases
+List<String> phrases = Arrays.asList("Patrick Henry Winston", "Robert C Berwick", "Noam Chomsky");
+CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
+
+// Submit the CustomVocabulary
+CustomVocabularyInformation submittedVocabularyInformation = customVocabularyClient.submitCustomVocabularies(Collections.singletonList(customVocabulary));
+
+// View the custom vocabulary information
+CustomVocabularyInformation retrievedVocabularyInformation = customVocabularyClient.getCustomVocabularyInformation(submittedVocabulary.getId());
+
+// View list of custom vocabularies information
+List<CustomVocabularyInformation> customVocabulariesInformation = customVocabularyClient.getListOfCustomVocabularyInformation();
+```
 
 ## For Rev.ai Java SDK Developers
 
