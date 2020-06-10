@@ -1,6 +1,6 @@
 package ai.rev.speechtotext.integration;
 
-import ai.rev.speechtotext.clients.CustomVocabulariesClient;
+import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;

@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.speechtotext.RevAiWebSocketListener;
-import ai.rev.speechtotext.clients.StreamingClient;
+import ai.rev.speechtotext.StreamingClient;
 import ai.rev.speechtotext.models.streaming.StreamContentType;
 import okhttp3.WebSocketListener;
 import okhttp3.mockwebserver.MockResponse;

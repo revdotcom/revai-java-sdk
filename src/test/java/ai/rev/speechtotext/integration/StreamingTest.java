@@ -1,6 +1,6 @@
 package ai.rev.speechtotext.integration;
 
-import ai.rev.speechtotext.clients.StreamingClient;
+import ai.rev.speechtotext.StreamingClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.MessageType;

@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.clients;
+package ai.rev.speechtotext;
 
 import ai.rev.speechtotext.CustomVocabularyApiInterface;
 import ai.rev.speechtotext.helpers.ClientHelper;

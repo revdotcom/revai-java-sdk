@@ -1,8 +1,8 @@
 package ai.rev.speechtotext.unit;
 
-import ai.rev.speechtotext.AsyncApiInterface;
-import ai.rev.speechtotext.clients.ApiClient;
-import ai.rev.speechtotext.interceptors.MockInterceptor;
+import ai.rev.speechtotext.ApiInterface;
+import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -35,7 +35,7 @@ public class RevAiAccountTest {
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockOkHttpClient)
             .build();
-    sut.asyncApiInterface = mockRetrofit.create(AsyncApiInterface.class);
+    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test

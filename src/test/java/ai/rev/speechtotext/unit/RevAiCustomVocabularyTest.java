@@ -1,8 +1,8 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.speechtotext.CustomVocabularyApiInterface;
-import ai.rev.speechtotext.clients.CustomVocabulariesClient;
-import ai.rev.speechtotext.interceptors.MockInterceptor;
+import ai.rev.speechtotext.CustomVocabulariesClient;
+import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;

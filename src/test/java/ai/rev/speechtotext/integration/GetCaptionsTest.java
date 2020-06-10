@@ -1,6 +1,6 @@
 package ai.rev.speechtotext.integration;
 
-import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;

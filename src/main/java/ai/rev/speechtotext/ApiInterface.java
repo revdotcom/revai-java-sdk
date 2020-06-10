@@ -25,7 +25,7 @@ import java.util.Map;
  * The ApiInterface is a type-safe Retrofit interface that presents all the endpoints that are made
  * to communicate with the Rev.AI API.
  */
-public interface AsyncApiInterface {
+public interface ApiInterface {
   String REV_JSON_CONTENT_TYPE = "application/vnd.rev.transcript.v1.0+json";
   String REV_TEXT_CONTENT_TYPE = "text/plain";
 

@@ -1,9 +1,6 @@
-package ai.rev.speechtotext.clients;
+package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.RevAiWebSocketListener;
 import ai.rev.speechtotext.helpers.SDKHelper;
-import ai.rev.speechtotext.interceptors.ApiInterceptor;
-import ai.rev.speechtotext.interceptors.ErrorInterceptor;
 import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.SessionConfig;

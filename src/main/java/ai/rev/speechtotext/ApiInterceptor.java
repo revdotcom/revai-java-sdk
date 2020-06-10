@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.interceptors;
+package ai.rev.speechtotext;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

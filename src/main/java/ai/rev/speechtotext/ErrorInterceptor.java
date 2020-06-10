@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.interceptors;
+package ai.rev.speechtotext;
 
 import ai.rev.speechtotext.exceptions.AuthorizationException;
 import ai.rev.speechtotext.exceptions.ForbiddenStateException;

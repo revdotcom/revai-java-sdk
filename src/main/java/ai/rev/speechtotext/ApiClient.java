@@ -1,7 +1,5 @@
-package ai.rev.speechtotext.clients;
+package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.AsyncApiInterface;
-import ai.rev.speechtotext.FileStreamRequestBody;
 import ai.rev.speechtotext.helpers.ClientHelper;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
@@ -31,7 +29,7 @@ public class ApiClient {
   private OkHttpClient client;
 
   /** Interface that ApiClient methods use to make requests */
-  public AsyncApiInterface asyncApiInterface;
+  public ApiInterface apiInterface;
 
   /**
    * Constructs the API client used to send HTTP requests to Rev.ai. The user access token can be
@@ -47,7 +45,7 @@ public class ApiClient {
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
     Retrofit retrofit = ClientHelper.createRetrofitInstance(client);
-    this.asyncApiInterface = retrofit.create(AsyncApiInterface.class);
+    this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
   /** Manually closes the connection when the code is running in a JVM */
@@ -65,7 +63,7 @@ public class ApiClient {
    * @see RevAiAccount
    */
   public RevAiAccount getAccount() throws IOException {
-    return asyncApiInterface.getAccount().execute().body();
+    return apiInterface.getAccount().execute().body();
   }
 
   /**
@@ -88,7 +86,7 @@ public class ApiClient {
     if (limit != null) {
       options.put("limit", String.valueOf(limit));
     }
-    return asyncApiInterface.getListOfJobs(options).execute().body();
+    return apiInterface.getListOfJobs(options).execute().body();
   }
 
   /**
@@ -139,7 +137,7 @@ public class ApiClient {
     if (id == null) {
       throw new IllegalArgumentException("Job ID must be provided");
     }
-    return asyncApiInterface.getJobDetails(id).execute().body();
+    return apiInterface.getJobDetails(id).execute().body();
   }
 
   /**
@@ -155,7 +153,7 @@ public class ApiClient {
     if (id == null) {
       throw new IllegalArgumentException("Job ID must be provided");
     }
-    asyncApiInterface.deleteJob(id).execute();
+    apiInterface.deleteJob(id).execute();
   }
 
   /**
@@ -168,7 +166,7 @@ public class ApiClient {
    * @see RevAiTranscript
    */
   public RevAiTranscript getTranscriptObject(String id) throws IOException {
-    return asyncApiInterface.getTranscriptObject(id).execute().body();
+    return apiInterface.getTranscriptObject(id).execute().body();
   }
 
   /**
@@ -180,7 +178,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    */
   public String getTranscriptText(String id) throws IOException {
-    return asyncApiInterface.getTranscriptText(id).execute().body();
+    return apiInterface.getTranscriptText(id).execute().body();
   }
 
   /**
@@ -204,7 +202,7 @@ public class ApiClient {
       options = new RevAiJobOptions();
     }
     options.setMediaUrl(mediaUrl);
-    return asyncApiInterface.submitJobUrl(options).execute().body();
+    return apiInterface.submitJobUrl(options).execute().body();
   }
 
   /**
@@ -364,7 +362,7 @@ public class ApiClient {
     }
     Map<String, String> contentHeader = new HashMap<>();
     contentHeader.put("Accept", captionType.getContentType());
-    return asyncApiInterface.getCaptionText(id, query, contentHeader).execute().body().byteStream();
+    return apiInterface.getCaptionText(id, query, contentHeader).execute().body().byteStream();
   }
 
   /**
@@ -418,6 +416,6 @@ public class ApiClient {
       InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
     RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
-    return asyncApiInterface.submitJobLocalFile(filePart, options).execute().body();
+    return apiInterface.submitJobLocalFile(filePart, options).execute().body();
   }
 }
