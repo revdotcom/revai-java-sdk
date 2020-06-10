@@ -1,7 +1,5 @@
 package ai.rev.speechtotext.models.vocabulary;
 
-import ai.rev.speechtotext.models.asynchronous.RevAiFailureType;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import com.google.gson.annotations.SerializedName;
 
 public class CustomVocabularyInformation {

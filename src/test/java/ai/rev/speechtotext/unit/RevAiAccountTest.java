@@ -1,5 +1,9 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.AsyncApiInterface;
+import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.interceptors.MockInterceptor;
+import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -7,10 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ai.rev.speechtotext.clients.ApiClient;
-import ai.rev.speechtotext.AsyncApiInterface;
-import ai.rev.speechtotext.interceptors.MockInterceptor;
-import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

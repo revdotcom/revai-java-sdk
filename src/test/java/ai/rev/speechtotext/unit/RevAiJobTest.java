@@ -1,5 +1,12 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.AsyncApiInterface;
+import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.interceptors.MockInterceptor;
+import ai.rev.speechtotext.models.asynchronous.RevAiJob;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -13,13 +20,6 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import ai.rev.speechtotext.clients.ApiClient;
-import ai.rev.speechtotext.AsyncApiInterface;
-import ai.rev.speechtotext.interceptors.MockInterceptor;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 
 import java.io.IOException;
 import java.util.ArrayList;

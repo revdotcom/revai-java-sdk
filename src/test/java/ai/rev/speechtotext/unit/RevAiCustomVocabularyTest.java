@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.unit;
 
-import ai.rev.speechtotext.clients.CustomVocabulariesClient;
 import ai.rev.speechtotext.CustomVocabularyApiInterface;
+import ai.rev.speechtotext.clients.CustomVocabulariesClient;
 import ai.rev.speechtotext.interceptors.MockInterceptor;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
@@ -10,6 +10,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okio.Buffer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -78,7 +80,7 @@ public class RevAiCustomVocabularyTest {
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
-    assertRequest(VOCABULARY_URL, "POST");
+    assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
         customVocabularyInformation,
         CustomVocabularyStatus.IN_PROGRESS,
@@ -102,14 +104,16 @@ public class RevAiCustomVocabularyTest {
 
     List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
     CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
+    List<CustomVocabulary> vocabularies = new ArrayList<>();
+    vocabularies.add(customVocabulary);
 
     CustomVocabularyOptions options = new CustomVocabularyOptions();
-    options.setCustomVocabularies(Collections.singletonList(customVocabulary));
+    options.setCustomVocabularies(vocabularies);
     options.setMetadata(testName.getMethodName());
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
-    assertRequest(VOCABULARY_URL, "POST");
+    assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
         customVocabularyInformation,
         CustomVocabularyStatus.IN_PROGRESS,
@@ -140,7 +144,7 @@ public class RevAiCustomVocabularyTest {
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
-    assertRequest(VOCABULARY_URL, "POST");
+    assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
         customVocabularyInformation,
         CustomVocabularyStatus.IN_PROGRESS,
@@ -168,7 +172,7 @@ public class RevAiCustomVocabularyTest {
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
-    assertRequest(VOCABULARY_URL, "POST");
+    assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
         customVocabularyInformation, CustomVocabularyStatus.IN_PROGRESS, DATE, null, null, ID);
   }
@@ -187,7 +191,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation customVocabularyInformation =
         sut.getCustomVocabularyInformation(ID);
 
-    assertRequest(VOCABULARY_URL + "/" + ID, "GET");
+    assertRequestMethodAndUrl(VOCABULARY_URL + "/" + ID, "GET");
     assertCustomVocabularyInformation(
         customVocabularyInformation, CustomVocabularyStatus.COMPLETE, DATE, null, null, ID);
   }
@@ -214,7 +218,7 @@ public class RevAiCustomVocabularyTest {
     List<CustomVocabularyInformation> customVocabularyInformation =
         sut.getListOfCustomVocabularyInformation();
 
-    assertRequest(VOCABULARY_URL, "GET");
+    assertRequestMethodAndUrl(VOCABULARY_URL, "GET");
     int numberOfExpectedVocabularies = 2;
     assertThat(customVocabularyInformation.size())
         .as("Number of vocabularies")
@@ -253,8 +257,27 @@ public class RevAiCustomVocabularyTest {
     assertThat(customVocabularyInformation.getMetadata()).as("Metadata").isEqualTo(metadata);
   }
 
-  private void assertRequest(String url, String requestMethod) {
+  private void assertRequestMethodAndUrl(String url, String requestMethod) {
     assertThat(mockInterceptor.request.method()).as("Request method").isEqualTo(requestMethod);
     assertThat(mockInterceptor.request.url().toString()).as("Request url").isEqualTo(url);
+  }
+
+  private void assertRequest(
+      String url, String requestMethod, CustomVocabularyOptions expectedOptions) {
+    Buffer buffer = new Buffer();
+
+    try {
+      mockInterceptor.request.body().writeTo(buffer);
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage());
+    }
+
+    CustomVocabularyOptions requestOptions =
+        gson.fromJson(buffer.readUtf8(), CustomVocabularyOptions.class);
+    String requestBody = gson.toJson(requestOptions);
+    String expectedBody = gson.toJson(expectedOptions);
+
+    assertThat(requestBody).as("Request body").isEqualTo(expectedBody);
+    assertRequestMethodAndUrl(url, requestMethod);
   }
 }

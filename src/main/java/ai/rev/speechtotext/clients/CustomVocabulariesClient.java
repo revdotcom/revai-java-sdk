@@ -2,7 +2,6 @@ package ai.rev.speechtotext.clients;
 
 import ai.rev.speechtotext.CustomVocabularyApiInterface;
 import ai.rev.speechtotext.helpers.ClientHelper;
-import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
 import okhttp3.OkHttpClient;

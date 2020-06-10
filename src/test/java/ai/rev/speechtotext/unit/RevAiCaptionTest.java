@@ -1,5 +1,8 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.AsyncApiInterface;
+import ai.rev.speechtotext.clients.ApiClient;
+import ai.rev.speechtotext.interceptors.MockInterceptor;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -8,18 +11,15 @@ import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import ai.rev.speechtotext.clients.ApiClient;
-import ai.rev.speechtotext.AsyncApiInterface;
-import ai.rev.speechtotext.interceptors.MockInterceptor;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static ai.rev.speechtotext.models.asynchronous.RevAiCaptionType.SRT;
 import static ai.rev.speechtotext.models.asynchronous.RevAiCaptionType.VTT;
-import static ai.rev.speechtotext.testutils.ConversionUtil.*;
+import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class RevAiCaptionTest {
   private OkHttpClient mockOkHttpClient;

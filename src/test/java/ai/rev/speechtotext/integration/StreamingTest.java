@@ -1,15 +1,15 @@
 package ai.rev.speechtotext.integration;
 
-import okio.ByteString;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
-import ai.rev.speechtotext.models.streaming.SessionConfig;
-import ai.rev.speechtotext.models.streaming.StreamContentType;
 import ai.rev.speechtotext.clients.StreamingClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.MessageType;
+import ai.rev.speechtotext.models.streaming.SessionConfig;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
+import okio.ByteString;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

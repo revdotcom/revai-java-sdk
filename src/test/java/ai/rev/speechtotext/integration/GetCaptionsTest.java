@@ -1,18 +1,18 @@
 package ai.rev.speechtotext.integration;
 
-import org.junit.Before;
-import org.junit.Test;
 import ai.rev.speechtotext.clients.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetCaptionsTest {
 

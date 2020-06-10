@@ -1,5 +1,7 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.exceptions.RevAiApiException;
+import ai.rev.speechtotext.interceptors.ErrorInterceptor;
 import okhttp3.Interceptor.Chain;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -11,8 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.InjectMocks;
-import ai.rev.speechtotext.interceptors.ErrorInterceptor;
-import ai.rev.speechtotext.exceptions.RevAiApiException;
 
 import java.io.IOException;
 import java.util.Arrays;

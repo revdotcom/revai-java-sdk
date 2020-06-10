@@ -3,7 +3,6 @@ package ai.rev.speechtotext.integration;
 import ai.rev.speechtotext.clients.CustomVocabulariesClient;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import org.junit.Rule;

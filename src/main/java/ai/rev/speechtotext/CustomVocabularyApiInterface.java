@@ -1,6 +1,5 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
 import retrofit2.Call;
