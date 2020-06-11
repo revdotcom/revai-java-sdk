@@ -97,7 +97,7 @@ public class RevAiStreamingClientContentTypeTest {
   }
 
   @Test
-  public void StreamingClient_WithParameterizedContent_ContainsContentInUrl() {
+  public void StreamingClient_ParameterizedContent_ContainsContentInUrl() {
 
     streamingClient.connect(Mockito.mock(RevAiWebSocketListener.class), streamContentType);
     RecordedRequest request;

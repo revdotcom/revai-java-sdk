@@ -27,7 +27,7 @@ public class GetCaptionsTest {
   }
 
   @Test
-  public void GetCaptions_WhenJobIdIsValid_ReturnsCaptionStream() throws IOException {
+  public void GetCaptions_JobIdIsValid_ReturnsCaptionStream() throws IOException {
     InputStream inputStream = apiClient.getCaptions(jobId);
     String captions = convertInputStreamToString(inputStream);
 
@@ -36,7 +36,7 @@ public class GetCaptionsTest {
   }
 
   @Test
-  public void GetCaptions_WhenTypeIsSpecifiedAndJobIdIsValid_ReturnsCaptionStreamInVttFormat()
+  public void GetCaptions_TypeIsSpecifiedAndJobIdIsValid_ReturnsCaptionStreamInVttFormat()
       throws IOException {
     InputStream inputStream = apiClient.getCaptions(jobId, RevAiCaptionType.VTT);
     String captions = convertInputStreamToString(inputStream);

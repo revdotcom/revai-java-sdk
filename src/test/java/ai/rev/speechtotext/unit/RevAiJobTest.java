@@ -75,7 +75,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void GetJobDetails_WhenJobIdIsValid_ReturnsRevAiJob() throws IOException {
+  public void GetJobDetails_JobIdIsValid_ReturnsRevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJob revAiJob = sut.getJobDetails(JOB_ID);
 
@@ -85,7 +85,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void GetListOfJobs_WhenNoArguments_ReturnsAListOfRevAiJobs() throws IOException {
+  public void GetListOfJobs_NoArguments_ReturnsAListOfRevAiJobs() throws IOException {
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
@@ -100,7 +100,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void GetListOfJobs_WhenJobLimitIsOne_ReturnsARevAiJobListSizeOfOne() throws IOException {
+  public void GetListOfJobs_JobLimitIsOne_ReturnsARevAiJobListSizeOfOne() throws IOException {
     Integer SAMPLE_LIMIT = 1;
 
     List<RevAiJob> mockJobList = new ArrayList<>();
@@ -118,7 +118,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void GetListOfJobs_WhenStartAfterIsSpecified_ReturnsAListOfRevAiJobs() throws IOException {
+  public void GetListOfJobs_StartAfterIsSpecified_ReturnsAListOfRevAiJobs() throws IOException {
     String sampleID = "sampleID";
 
     List<RevAiJob> mockJobList = new ArrayList<>();
@@ -136,7 +136,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_WhenOnlyUrlIsSpecified_ReturnsARevAiJob() throws IOException {
+  public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsARevAiJob() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
@@ -153,7 +153,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_WhenUrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
+  public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
     String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
@@ -172,13 +172,13 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_WhenJobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobUrl_JobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> sut.submitJobUrl(null, null));
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenOnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
+  public void SubmitJobLocalFile_OnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
 
@@ -194,7 +194,7 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenFilePathAndOptionsAreSpecified_ReturnsARevAiJob()
+  public void SubmitJobLocalFile_FilePathAndOptionsAreSpecified_ReturnsARevAiJob()
       throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
@@ -213,19 +213,19 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenInputStreamIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobLocalFile_InputStreamIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> sut.submitJobLocalFile(null, null, null));
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenFilePathIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobLocalFile_FilePathIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> sut.submitJobLocalFile((String) null, null));
   }
 
   @Test
-  public void DeleteJob_WhenJobIdIsValid_DoesNotCauseErrors() throws IOException {
+  public void DeleteJob_JobIdIsValid_DoesNotCauseErrors() throws IOException {
     mockInterceptor.setResponseCode(204);
     mockInterceptor.setSampleResponse("");
     sut.deleteJob(JOB_ID);

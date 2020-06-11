@@ -39,7 +39,7 @@ public class RevAiAccountTest {
   }
 
   @Test
-  public void GetAccount_WhenTokenIsValid_ReturnsRevAiAccount() throws Exception {
+  public void GetAccount_TokenIsValid_ReturnsRevAiAccount() throws Exception {
     RevAiAccount mockAccount = new RevAiAccount();
     mockAccount.setBalanceSeconds(10);
     mockAccount.setEmail("example.com");

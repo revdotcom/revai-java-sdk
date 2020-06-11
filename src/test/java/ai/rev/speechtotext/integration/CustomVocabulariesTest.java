@@ -26,7 +26,7 @@ public class CustomVocabulariesTest {
 
   @Test
   public void
-      submitCustomVocabulary_WhenMetadataAndVocabAreIncluded_ReturnCustomVocabularyInformationInProgress() {
+      submitCustomVocabulary_MetadataAndVocabAreIncluded_ReturnCustomVocabularyInformationInProgress() {
     CustomVocabularyInformation customVocabularyInformation = submitCustomVocabulary();
 
     assertThat(customVocabularyInformation.getStatus())
@@ -35,7 +35,7 @@ public class CustomVocabulariesTest {
   }
 
   @Test
-  public void getCustomVocabularyInformation_WhenIdIsSpecified_CustomVocabularyInformation() {
+  public void getCustomVocabularyInformation_IdIsSpecified_CustomVocabularyInformation() {
     CustomVocabularyInformation submittedVocabulary = submitCustomVocabulary();
     CustomVocabularyInformation retrievedVocabulary = null;
 
@@ -63,7 +63,7 @@ public class CustomVocabulariesTest {
   }
 
   @Test
-  public void getListOfCustomVocabulary_WhenCalled_ReturnListOfCustomVocabularyInformation() {
+  public void getListOfCustomVocabulary_Called_ReturnListOfCustomVocabularyInformation() {
     List<CustomVocabularyInformation> customVocabularies = null;
 
     try {

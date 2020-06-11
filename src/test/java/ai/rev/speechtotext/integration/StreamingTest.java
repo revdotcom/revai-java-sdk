@@ -28,7 +28,7 @@ public class StreamingTest {
   @Rule public TestName testName = new TestName();
 
   @Test
-  public void canStreamRawAudioAndReceiveHypothesis() {
+  public void StreamingClient_ContentIsValid_StreamsAudioAndReceivesHypotheses() {
 
     StreamContentType streamContentType = new StreamContentType();
     streamContentType.setContentType("audio/x-raw");

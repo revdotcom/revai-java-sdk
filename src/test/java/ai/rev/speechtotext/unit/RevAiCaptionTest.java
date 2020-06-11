@@ -51,7 +51,7 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void GetCaptions_WhenOnlyJobId_ReturnsSrtFormat() throws IOException {
+  public void GetCaptions_OnlyJobId_ReturnsSrtFormat() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
     InputStream responseStream = sut.getCaptions(JOB_ID,null, null);
 
@@ -64,7 +64,7 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void GetCaptions_WhenVttIsSpecified_ReturnsVttFormat() throws IOException {
+  public void GetCaptions_VttIsSpecified_ReturnsVttFormat() throws IOException {
     mockInterceptor.setSampleResponse(VTT_CAPTION);
     InputStream responseStream = sut.getCaptions(JOB_ID, VTT, null);
 
@@ -77,7 +77,7 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void GetCaptions_WhenSpeakerChannelIsSpecified_ReturnsCaptionStream() throws IOException {
+  public void GetCaptions_SpeakerChannelIsSpecified_ReturnsCaptionStream() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
     InputStream responseStream = sut.getCaptions(JOB_ID, null, SPEAKER_CHANNEL);
 
@@ -94,7 +94,7 @@ public class RevAiCaptionTest {
   }
 
   @Test
-  public void GetCaptions_WhenJobIdIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void GetCaptions_JobIdIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> sut.getCaptions(null));
   }

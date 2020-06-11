@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.unit;
 
-import ai.rev.speechtotext.CustomVocabularyApiInterface;
 import ai.rev.speechtotext.CustomVocabulariesClient;
+import ai.rev.speechtotext.CustomVocabularyApiInterface;
 import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
@@ -19,12 +19,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus.COMPLETE;
+import static ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus.IN_PROGRESS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RevAiCustomVocabularyTest {
@@ -59,21 +60,15 @@ public class RevAiCustomVocabularyTest {
 
   @Test
   public void
-      submitCustomVocabulary_WhenVocabularyCallbackMetadataAreSpecified_ReturnsACustomVocabularyInformation()
+      submitCustomVocabulary_VocabularyCallbackMetadataAreSpecified_ReturnsACustomVocabularyInformation()
           throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo.setCallbackUrl(CALLBACK_URL);
-    mockCustomVocabularyInfo.setCreatedOn(DATE);
-    mockCustomVocabularyInfo.setId(ID);
-    mockCustomVocabularyInfo.setStatus(CustomVocabularyStatus.IN_PROGRESS);
-    mockCustomVocabularyInfo.setMetadata(testName.getMethodName());
-
+    CustomVocabularyInformation mockCustomVocabularyInfo =
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), CALLBACK_URL);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
 
-    List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
-    CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
-
+    CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularyOptions options = new CustomVocabularyOptions();
+
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
     options.setCallbackUrl(CALLBACK_URL);
@@ -82,62 +77,38 @@ public class RevAiCustomVocabularyTest {
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation,
-        CustomVocabularyStatus.IN_PROGRESS,
-        DATE,
-        CALLBACK_URL,
-        testName.getMethodName(),
-        ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, CALLBACK_URL, testName.getMethodName(), ID);
   }
 
   @Test
   public void
-      submitCustomVocabulary_WhenVocabularyAndMetadataAreSpecified_ReturnsACustomVocabularyInformation()
+      submitCustomVocabulary_VocabularyAndMetadataAreSpecified_ReturnsACustomVocabularyInformation()
           throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo.setCreatedOn(DATE);
-    mockCustomVocabularyInfo.setId(ID);
-    mockCustomVocabularyInfo.setStatus(CustomVocabularyStatus.IN_PROGRESS);
-    mockCustomVocabularyInfo.setMetadata(testName.getMethodName());
-
+    CustomVocabularyInformation mockCustomVocabularyInfo =
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
 
-    List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
-    CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
-    List<CustomVocabulary> vocabularies = new ArrayList<>();
-    vocabularies.add(customVocabulary);
-
+    CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularyOptions options = new CustomVocabularyOptions();
-    options.setCustomVocabularies(vocabularies);
+    options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation,
-        CustomVocabularyStatus.IN_PROGRESS,
-        DATE,
-        null,
-        testName.getMethodName(),
-        ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, null, testName.getMethodName(), ID);
   }
 
   @Test
   public void
-      submitCustomVocabulary_WhenVocabularyAndCallbackAreSpecified_ReturnsACustomVocabularyInformation()
+      submitCustomVocabulary_VocabularyAndCallbackAreSpecified_ReturnsACustomVocabularyInformation()
           throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo.setCallbackUrl(CALLBACK_URL);
-    mockCustomVocabularyInfo.setCreatedOn(DATE);
-    mockCustomVocabularyInfo.setId(ID);
-    mockCustomVocabularyInfo.setStatus(CustomVocabularyStatus.IN_PROGRESS);
-
+    CustomVocabularyInformation mockCustomVocabularyInfo =
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, CALLBACK_URL);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
 
-    List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
-    CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
-
+    CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularyOptions options = new CustomVocabularyOptions();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setCallbackUrl(CALLBACK_URL);
@@ -146,27 +117,17 @@ public class RevAiCustomVocabularyTest {
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation,
-        CustomVocabularyStatus.IN_PROGRESS,
-        DATE,
-        CALLBACK_URL,
-        null,
-        ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, CALLBACK_URL, null, ID);
   }
 
   @Test
-  public void submitCustomVocabulary_WhenVocabularyIsSpecified_ReturnsACustomVocabularyInformation()
+  public void submitCustomVocabulary_VocabularyIsSpecified_ReturnsACustomVocabularyInformation()
       throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo.setCreatedOn(DATE);
-    mockCustomVocabularyInfo.setId(ID);
-    mockCustomVocabularyInfo.setStatus(CustomVocabularyStatus.IN_PROGRESS);
-
+    CustomVocabularyInformation mockCustomVocabularyInfo =
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
 
-    List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
-    CustomVocabulary customVocabulary = new CustomVocabulary(phrases);
-
+    CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularyOptions options = new CustomVocabularyOptions();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
 
@@ -174,41 +135,32 @@ public class RevAiCustomVocabularyTest {
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation, CustomVocabularyStatus.IN_PROGRESS, DATE, null, null, ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, null, null, ID);
   }
 
   @Test
   public void
-      getCustomVocabularyInformation_WhenVocabularyIsSpecified_ReturnsACustomVocabularyInformation()
+      getCustomVocabularyInformation_VocabularyIsSpecified_ReturnsACustomVocabularyInformation()
           throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo.setCreatedOn(DATE);
-    mockCustomVocabularyInfo.setId(ID);
-    mockCustomVocabularyInfo.setStatus(CustomVocabularyStatus.COMPLETE);
-
+    CustomVocabularyInformation mockCustomVocabularyInfo =
+        createCustomVocabularyInfo(DATE, ID, COMPLETE, null, null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
 
     CustomVocabularyInformation customVocabularyInformation =
         sut.getCustomVocabularyInformation(ID);
 
     assertRequestMethodAndUrl(VOCABULARY_URL + "/" + ID, "GET");
-    assertCustomVocabularyInformation(
-        customVocabularyInformation, CustomVocabularyStatus.COMPLETE, DATE, null, null, ID);
+    assertCustomVocabularyInformation(customVocabularyInformation, COMPLETE, DATE, null, null, ID);
   }
 
   @Test
-  public void getCustomVocabularies_WhenCalled_ReturnsAListOfCustomVocabularyInformationObjects()
+  public void getCustomVocabularies_Called_ReturnsAListOfCustomVocabularyInformationObjects()
       throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo1 = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo1.setCreatedOn(DATE);
-    mockCustomVocabularyInfo1.setId(ID + 1);
-    mockCustomVocabularyInfo1.setStatus(CustomVocabularyStatus.COMPLETE);
+    CustomVocabularyInformation mockCustomVocabularyInfo1 =
+        createCustomVocabularyInfo(DATE, ID + 1, COMPLETE, null, null);
 
-    CustomVocabularyInformation mockCustomVocabularyInfo2 = new CustomVocabularyInformation();
-    mockCustomVocabularyInfo2.setCreatedOn(DATE);
-    mockCustomVocabularyInfo2.setId(ID + 2);
-    mockCustomVocabularyInfo2.setStatus(CustomVocabularyStatus.IN_PROGRESS);
-    mockCustomVocabularyInfo2.setMetadata(testName.getMethodName());
+    CustomVocabularyInformation mockCustomVocabularyInfo2 =
+        createCustomVocabularyInfo(DATE, ID + 2, IN_PROGRESS, testName.getMethodName(), null);
 
     List<CustomVocabularyInformation> suppliedVocabularyInformation =
         Arrays.asList(mockCustomVocabularyInfo1, mockCustomVocabularyInfo2);
@@ -224,15 +176,10 @@ public class RevAiCustomVocabularyTest {
         .as("Number of vocabularies")
         .isEqualTo(numberOfExpectedVocabularies);
     assertCustomVocabularyInformation(
-        customVocabularyInformation.get(0),
-        CustomVocabularyStatus.COMPLETE,
-        DATE,
-        null,
-        null,
-        ID + 1);
+        customVocabularyInformation.get(0), COMPLETE, DATE, null, null, ID + 1);
     assertCustomVocabularyInformation(
         customVocabularyInformation.get(1),
-        CustomVocabularyStatus.IN_PROGRESS,
+        IN_PROGRESS,
         DATE,
         null,
         testName.getMethodName(),
@@ -279,5 +226,21 @@ public class RevAiCustomVocabularyTest {
 
     assertThat(requestBody).as("Request body").isEqualTo(expectedBody);
     assertRequestMethodAndUrl(url, requestMethod);
+  }
+
+  private CustomVocabularyInformation createCustomVocabularyInfo(
+      String date, String id, CustomVocabularyStatus status, String metadata, String callbackUrl) {
+    CustomVocabularyInformation customVocabularyInformation = new CustomVocabularyInformation();
+    customVocabularyInformation.setCreatedOn(date);
+    customVocabularyInformation.setId(id);
+    customVocabularyInformation.setStatus(status);
+    customVocabularyInformation.setMetadata(metadata);
+    customVocabularyInformation.setCallbackUrl(callbackUrl);
+    return customVocabularyInformation;
+  }
+
+  private CustomVocabulary createCustomVocabulary() {
+    List<String> phrases = Arrays.asList("test", "custom", "vocabulary");
+    return new CustomVocabulary(phrases);
   }
 }

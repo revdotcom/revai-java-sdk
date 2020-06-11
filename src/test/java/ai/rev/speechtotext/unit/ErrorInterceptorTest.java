@@ -63,7 +63,7 @@ public class ErrorInterceptorTest {
   }
 
   @Test
-  public void ErrorInterceptor_WhenResponseCodeIsGreaterThan399_ReturnsRevAiApiException()
+  public void ErrorInterceptor_ResponseCodeIsGreaterThan399_ReturnsRevAiApiException()
       throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(statusCode).build());

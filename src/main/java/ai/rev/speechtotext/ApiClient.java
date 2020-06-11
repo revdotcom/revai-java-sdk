@@ -37,10 +37,10 @@ public class ApiClient {
    * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
    *
    * @param accessToken Rev.ai authorization token associate with the account.
-   * @throws IllegalArgumentException If the access token is null.
+   * @throws IllegalArgumentException If the access token is null or empty.
    */
   public ApiClient(String accessToken) {
-    if (accessToken == null) {
+    if (accessToken == null && accessToken.isEmpty()) {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);

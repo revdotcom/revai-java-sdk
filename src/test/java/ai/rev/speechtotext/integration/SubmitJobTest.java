@@ -30,7 +30,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenFilePathAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobLocalFile_FilePathAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
@@ -40,7 +40,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenOnlyFilePathIsSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobLocalFile_OnlyFilePathIsSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, null);
     assertThat(revAiJob.getJobId()).isNotNull();
@@ -49,7 +49,7 @@ public class SubmitJobTest {
 
   @Test
   public void
-      SubmitJobLocalFile_WhenInputStreamAndFileNameAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+      SubmitJobLocalFile_InputStreamAndFileNameAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
           throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
@@ -67,7 +67,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenInputStreamAndFileNameAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobLocalFile_InputStreamAndFileNameAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
@@ -82,7 +82,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenInputStreamAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobLocalFile_InputStreamAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
@@ -99,7 +99,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobLocalFile_WhenOnlyInputStreamIsSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobLocalFile_OnlyInputStreamIsSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
@@ -114,7 +114,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_WhenUrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
@@ -124,7 +124,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_WhenOnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
+  public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, null);
     assertThat(revAiJob.getJobId()).isNotNull();
     assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);

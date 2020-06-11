@@ -92,7 +92,7 @@ public class RevAiStreamingClientOptionalParametersTest {
   }
 
   @Test
-  public void StreamingClient_WithParameterizedVariables_ContainsParametersInUrl()
+  public void StreamingClient_ParameterizedVariables_ContainsParametersInUrl()
       throws UnsupportedEncodingException {
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);

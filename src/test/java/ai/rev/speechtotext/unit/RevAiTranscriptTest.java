@@ -49,7 +49,7 @@ public class RevAiTranscriptTest {
   }
 
   @Test
-  public void GetTranscriptText_WhenJobIdIsValid_ReturnsTranscriptInTextFormat()
+  public void GetTranscriptText_JobIdIsValid_ReturnsTranscriptInTextFormat()
       throws IOException {
     mockInterceptor.setSampleResponse(SAMPLE_TEXT);
     String mockResponse = mockApiClient.getTranscriptText(JOB_ID);
@@ -62,7 +62,7 @@ public class RevAiTranscriptTest {
   }
 
   @Test
-  public void getTranscriptObjectTest() throws IOException {
+  public void GetTranscriptObject_JobIdIsValid_ReturnsTranscriptObject() throws IOException {
     mockInterceptor.setSampleResponse(SAMPLE_TEXT);
     Element element = new Element();
     element.setType("text");
