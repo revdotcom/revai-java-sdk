@@ -2,7 +2,7 @@ package ai.rev.speechtotext;
 
 import ai.rev.speechtotext.helpers.ClientHelper;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
-import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
@@ -28,7 +28,7 @@ public class CustomVocabulariesClient {
    * @throws IllegalArgumentException If the access token is null or empty.
    */
   public CustomVocabulariesClient(String accessToken) {
-    if (accessToken == null && accessToken.isEmpty()) {
+    if (accessToken == null || accessToken.isEmpty()) {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
@@ -41,20 +41,21 @@ public class CustomVocabulariesClient {
    * CustomVocabularyInformation} object that provides details about the custom vocabulary
    * submission and its progress.
    *
-   * @param options A object that contains the custom vocabularies as well as optional metadata and
-   *     callback url
+   * @param submission A object that contains the custom vocabularies as well as optional metadata
+   *     and callback url
    * @return A {@link CustomVocabularyInformation} object.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the list of custom vocabularies is null or empty.
    * @see CustomVocabularyInformation
    */
-  public CustomVocabularyInformation submitCustomVocabularies(CustomVocabularyOptions options)
+  public CustomVocabularyInformation submitCustomVocabularies(CustomVocabularySubmission submission)
       throws IOException {
-    if (options.getCustomVocabularies() == null && options.getCustomVocabularies().isEmpty()) {
+    if (submission.getCustomVocabularies() == null
+        || submission.getCustomVocabularies().isEmpty()) {
       throw new IllegalArgumentException("Custom vocabularies must be provided");
     }
 
-    return customVocabularyApiInterface.submitCustomVocabularies(options).execute().body();
+    return customVocabularyApiInterface.submitCustomVocabularies(submission).execute().body();
   }
 
   /**
@@ -81,7 +82,7 @@ public class CustomVocabulariesClient {
    * @see CustomVocabularyInformation
    */
   public CustomVocabularyInformation getCustomVocabularyInformation(String id) throws IOException {
-    if (id == null && id.isEmpty()) {
+    if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("Custom vocabulary Id must be provided");
     }
     return customVocabularyApiInterface.getCustomVocabularyInformation(id).execute().body();

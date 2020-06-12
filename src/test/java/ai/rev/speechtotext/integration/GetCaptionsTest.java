@@ -31,8 +31,8 @@ public class GetCaptionsTest {
     InputStream inputStream = apiClient.getCaptions(jobId);
     String captions = convertInputStreamToString(inputStream);
 
-    assertThat(captions).isNotEmpty();
-    assertThat(captions).doesNotContain(VTT_CONTAINS);
+    assertThat(captions).as("Caption output").isNotEmpty();
+    assertThat(captions).as("Caption content").doesNotContain(VTT_CONTAINS);
   }
 
   @Test
@@ -41,8 +41,8 @@ public class GetCaptionsTest {
     InputStream inputStream = apiClient.getCaptions(jobId, RevAiCaptionType.VTT);
     String captions = convertInputStreamToString(inputStream);
 
-    assertThat(captions).isNotEmpty();
-    assertThat(captions).contains(VTT_CONTAINS);
+    assertThat(captions).as("Captions output").isNotEmpty();
+    assertThat(captions).as("Caption content").contains(VTT_CONTAINS);
   }
 
   private String getTranscribedJob() throws IOException {

@@ -34,17 +34,18 @@ public class SubmitJobTest {
       throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
+
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
   public void SubmitJobLocalFile_OnlyFilePathIsSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, null);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
@@ -60,10 +61,11 @@ public class SubmitJobTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
+
     RevAiJob revAiJob =
         apiClient.submitJobLocalFile(fileInputStream, file.getName(), revAiJobOptions);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
@@ -76,9 +78,10 @@ public class SubmitJobTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
+
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, file.getName(), null);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
@@ -93,9 +96,10 @@ public class SubmitJobTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
+
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, null, revAiJobOptions);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
@@ -108,9 +112,10 @@ public class SubmitJobTest {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Could not find file [" + file.getName() + "]");
     }
+
     RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, null, null);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
@@ -118,15 +123,21 @@ public class SubmitJobTest {
       throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
+
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
   }
 
   @Test
   public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, null);
-    assertThat(revAiJob.getJobId()).isNotNull();
-    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.IN_PROGRESS);
+
+    assertRevAiJob(revAiJob);
+  }
+
+  public void assertRevAiJob(RevAiJob revAiJob) {
+    assertThat(revAiJob.getJobId()).as("Job Id").isNotNull();
+    assertThat(revAiJob.getJobStatus()).as("Job status").isEqualTo(RevAiJobStatus.IN_PROGRESS);
   }
 }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CustomVocabularyOptions {
+public class CustomVocabularySubmission {
 
   /** Optional information that can be provided. */
   @SerializedName("metadata")

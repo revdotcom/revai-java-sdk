@@ -77,11 +77,12 @@ public class RevAiJobTest {
   @Test
   public void GetJobDetails_JobIdIsValid_ReturnsRevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+
     RevAiJob revAiJob = sut.getJobDetails(JOB_ID);
 
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
-    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+    String expectedUrl = JOBS_URL + "/" + JOB_ID;
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
+    assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
@@ -89,12 +90,11 @@ public class RevAiJobTest {
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
-
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
+
     List<RevAiJob> revAiJobs = sut.getListOfJobs();
 
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", JOBS_URL);
     assertThat(revAiJobs.size()).isEqualTo(mockJobList.size());
     assertJobsList(revAiJobs);
   }
@@ -102,36 +102,30 @@ public class RevAiJobTest {
   @Test
   public void GetListOfJobs_JobLimitIsOne_ReturnsARevAiJobListSizeOfOne() throws IOException {
     Integer SAMPLE_LIMIT = 1;
-
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockCompletedJob);
-
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-    List<RevAiJob> revAiJobs = sut.getListOfJobs(SAMPLE_LIMIT);
-    HttpUrl url = mockInterceptor.request.url();
 
-    assertThat(url.queryParameter("limit")).isEqualTo(SAMPLE_LIMIT.toString());
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    List<RevAiJob> revAiJobs = sut.getListOfJobs(SAMPLE_LIMIT);
+
+    String expectedUrl = JOBS_URL + "?limit=" + SAMPLE_LIMIT;
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
     assertThat(revAiJobs.size()).isEqualTo(1);
-    assertThat(gson.toJson(revAiJobs.get(0))).isEqualTo(gson.toJson(mockCompletedJob));
+    assertRevAiJob(revAiJobs.get(0), mockCompletedJob);
   }
 
   @Test
   public void GetListOfJobs_StartAfterIsSpecified_ReturnsAListOfRevAiJobs() throws IOException {
     String sampleID = "sampleID";
-
     List<RevAiJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
-
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
-    List<RevAiJob> revAiJobs = sut.getListOfJobs(sampleID);
-    HttpUrl url = mockInterceptor.request.url();
 
-    assertThat(url.queryParameter("starting_after")).isEqualTo(sampleID);
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).contains(JOBS_URL);
+    List<RevAiJob> revAiJobs = sut.getListOfJobs(sampleID);
+
+    String expectedUrl = JOBS_URL + "?starting_after=" + sampleID;
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
     assertJobsList(revAiJobs);
   }
 
@@ -142,14 +136,11 @@ public class RevAiJobTest {
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL);
 
-    Buffer buffer = new Buffer();
-    mockInterceptor.request.body().writeTo(buffer);
-    JSONObject requestBody = new JSONObject(buffer.readUtf8());
-
-    assertThat(requestBody.get("media_url")).isEqualTo(SAMPLE_MEDIA_URL);
-    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setMediaUrl(SAMPLE_MEDIA_URL);
+    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
@@ -161,14 +152,9 @@ public class RevAiJobTest {
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
 
-    Buffer buffer = new Buffer();
-    mockInterceptor.request.body().writeTo(buffer);
-    JSONObject requestBody = new JSONObject(buffer.readUtf8());
-
-    assertThat(requestBody.get("media_url")).isEqualTo(SAMPLE_MEDIA_URL);
-    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
@@ -183,14 +169,13 @@ public class RevAiJobTest {
     String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
 
     RevAiJob revAiJob = sut.submitJobLocalFile(filePath, null);
+
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
-
     assertThat(headers).contains(SAMPLE_FILENAME);
     assertThat(headers).contains(FORM_CONTENT_TYPE);
-    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
@@ -202,14 +187,13 @@ public class RevAiJobTest {
     options.setSkipDiarization(true);
 
     RevAiJob revAiJob = sut.submitJobLocalFile(filePath, options);
+
     MultipartBody body = (MultipartBody) mockInterceptor.request.body();
     String headers = body.part(0).headers().toString();
-
-    assertThat(headers).contains(SAMPLE_FILENAME);
-    assertThat(headers).contains(FORM_CONTENT_TYPE);
-    assertThat(mockInterceptor.request.method()).isEqualTo("POST");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL);
-    assertThat(gson.toJson(revAiJob)).isEqualTo(gson.toJson(mockInProgressJob));
+    assertThat(headers).as("Headers include").contains(SAMPLE_FILENAME);
+    assertThat(headers).as("Headers include").contains(FORM_CONTENT_TYPE);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
@@ -228,13 +212,14 @@ public class RevAiJobTest {
   public void DeleteJob_JobIdIsValid_DoesNotCauseErrors() throws IOException {
     mockInterceptor.setResponseCode(204);
     mockInterceptor.setSampleResponse("");
+
     sut.deleteJob(JOB_ID);
 
-    Assert.assertEquals(mockInterceptor.request.method(), "DELETE");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(JOBS_URL + "/" + JOB_ID);
+    String expectedUrl = JOBS_URL + "/" + JOB_ID;
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "DELETE", expectedUrl);
   }
 
-  public void assertJobsList(List<RevAiJob> revAiJobs) {
+  private void assertJobsList(List<RevAiJob> revAiJobs) {
     revAiJobs.forEach(
         job -> {
           if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
@@ -243,5 +228,9 @@ public class RevAiJobTest {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockInProgressJob));
           }
         });
+  }
+
+  private void assertRevAiJob(RevAiJob actualJob, RevAiJob expectedJob) {
+    assertThat(gson.toJson(actualJob)).as("RevAiJob").isEqualTo(gson.toJson(expectedJob));
   }
 }

@@ -40,7 +40,7 @@ public class ApiClient {
    * @throws IllegalArgumentException If the access token is null or empty.
    */
   public ApiClient(String accessToken) {
-    if (accessToken == null && accessToken.isEmpty()) {
+    if (accessToken == null || accessToken.isEmpty()) {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
@@ -134,7 +134,7 @@ public class ApiClient {
    * @throws IllegalArgumentException If the job ID is null.
    */
   public RevAiJob getJobDetails(String id) throws IOException {
-    if (id == null) {
+    if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("Job ID must be provided");
     }
     return apiInterface.getJobDetails(id).execute().body();

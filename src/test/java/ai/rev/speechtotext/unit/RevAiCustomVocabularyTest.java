@@ -5,7 +5,7 @@ import ai.rev.speechtotext.CustomVocabularyApiInterface;
 import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
-import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -65,10 +65,8 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), CALLBACK_URL);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
-
     CustomVocabulary customVocabulary = createCustomVocabulary();
-    CustomVocabularyOptions options = new CustomVocabularyOptions();
-
+    CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
     options.setCallbackUrl(CALLBACK_URL);
@@ -87,9 +85,8 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
-
     CustomVocabulary customVocabulary = createCustomVocabulary();
-    CustomVocabularyOptions options = new CustomVocabularyOptions();
+    CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
 
@@ -107,9 +104,8 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, CALLBACK_URL);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
-
     CustomVocabulary customVocabulary = createCustomVocabulary();
-    CustomVocabularyOptions options = new CustomVocabularyOptions();
+    CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setCallbackUrl(CALLBACK_URL);
 
@@ -126,9 +122,8 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
-
     CustomVocabulary customVocabulary = createCustomVocabulary();
-    CustomVocabularyOptions options = new CustomVocabularyOptions();
+    CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
@@ -149,7 +144,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularyInformation customVocabularyInformation =
         sut.getCustomVocabularyInformation(ID);
 
-    assertRequestMethodAndUrl(VOCABULARY_URL + "/" + ID, "GET");
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", VOCABULARY_URL + "/" + ID);
     assertCustomVocabularyInformation(customVocabularyInformation, COMPLETE, DATE, null, null, ID);
   }
 
@@ -158,19 +153,16 @@ public class RevAiCustomVocabularyTest {
       throws IOException {
     CustomVocabularyInformation mockCustomVocabularyInfo1 =
         createCustomVocabularyInfo(DATE, ID + 1, COMPLETE, null, null);
-
     CustomVocabularyInformation mockCustomVocabularyInfo2 =
         createCustomVocabularyInfo(DATE, ID + 2, IN_PROGRESS, testName.getMethodName(), null);
-
     List<CustomVocabularyInformation> suppliedVocabularyInformation =
         Arrays.asList(mockCustomVocabularyInfo1, mockCustomVocabularyInfo2);
-
     mockInterceptor.setSampleResponse(gson.toJson(suppliedVocabularyInformation));
 
     List<CustomVocabularyInformation> customVocabularyInformation =
         sut.getListOfCustomVocabularyInformation();
 
-    assertRequestMethodAndUrl(VOCABULARY_URL, "GET");
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", VOCABULARY_URL);
     int numberOfExpectedVocabularies = 2;
     assertThat(customVocabularyInformation.size())
         .as("Number of vocabularies")
@@ -195,37 +187,18 @@ public class RevAiCustomVocabularyTest {
       String id) {
     assertThat(customVocabularyInformation.getStatus()).as("Status").isEqualTo(status);
     assertThat(customVocabularyInformation.getCreatedOn()).as("Created on").isEqualTo(createdOn);
-
     assertThat(customVocabularyInformation.getCallbackUrl())
         .as("Callback url")
         .isEqualTo(callbackUrl);
-
     assertThat(customVocabularyInformation.getId()).as("Custom vocabulary Id").isEqualTo(id);
     assertThat(customVocabularyInformation.getMetadata()).as("Metadata").isEqualTo(metadata);
   }
 
-  private void assertRequestMethodAndUrl(String url, String requestMethod) {
-    assertThat(mockInterceptor.request.method()).as("Request method").isEqualTo(requestMethod);
-    assertThat(mockInterceptor.request.url().toString()).as("Request url").isEqualTo(url);
-  }
-
   private void assertRequest(
-      String url, String requestMethod, CustomVocabularyOptions expectedOptions) {
-    Buffer buffer = new Buffer();
-
-    try {
-      mockInterceptor.request.body().writeTo(buffer);
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
-    }
-
-    CustomVocabularyOptions requestOptions =
-        gson.fromJson(buffer.readUtf8(), CustomVocabularyOptions.class);
-    String requestBody = gson.toJson(requestOptions);
-    String expectedBody = gson.toJson(expectedOptions);
-
-    assertThat(requestBody).as("Request body").isEqualTo(expectedBody);
-    assertRequestMethodAndUrl(url, requestMethod);
+      String url, String requestMethod, CustomVocabularySubmission expectedOptions) {
+    AssertHelper.assertRequestBody(
+        mockInterceptor, expectedOptions, CustomVocabularySubmission.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, requestMethod, url);
   }
 
   private CustomVocabularyInformation createCustomVocabularyInfo(

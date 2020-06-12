@@ -53,14 +53,14 @@ public class RevAiCaptionTest {
   @Test
   public void GetCaptions_OnlyJobId_ReturnsSrtFormat() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
-    InputStream responseStream = sut.getCaptions(JOB_ID,null, null);
+    InputStream responseStream = sut.getCaptions(JOB_ID, null, null);
 
     String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
 
     assertThat(headers.get("Accept")).isEqualTo(SRT.getContentType());
     assertThat(responseString).isEqualTo(SRT_CAPTION);
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(CAPTIONS_URL);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", CAPTIONS_URL);
   }
 
   @Test
@@ -73,24 +73,23 @@ public class RevAiCaptionTest {
 
     assertThat(headers.get("Accept")).isEqualTo(VTT.getContentType());
     assertThat(responseString).isEqualTo(VTT_CAPTION);
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(CAPTIONS_URL);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", CAPTIONS_URL);
   }
 
   @Test
   public void GetCaptions_SpeakerChannelIsSpecified_ReturnsCaptionStream() throws IOException {
     mockInterceptor.setSampleResponse(SRT_CAPTION);
+
     InputStream responseStream = sut.getCaptions(JOB_ID, null, SPEAKER_CHANNEL);
 
     String responseString = convertInputStreamToString(responseStream);
     Headers headers = mockInterceptor.request.headers();
     String speakerChannel = mockInterceptor.request.url().queryParameter("speaker_channel");
-
     assertThat(speakerChannel).isEqualTo(SPEAKER_CHANNEL.toString());
     assertThat(headers.get("Accept")).isEqualTo(SRT.getContentType());
     assertThat(responseString).isEqualTo(SRT_CAPTION);
-
     String finalUrl = CAPTIONS_URL + "?speaker_channel=" + SPEAKER_CHANNEL;
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(finalUrl);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", finalUrl);
   }
 
   @Test

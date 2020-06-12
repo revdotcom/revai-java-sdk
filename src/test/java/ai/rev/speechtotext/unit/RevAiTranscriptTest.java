@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RevAiTranscriptTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-  private ApiClient mockApiClient;
+  private ApiClient sut;
 
   private Gson gson = new Gson();
   private String SAMPLE_TEXT = "sample text";
@@ -35,7 +35,7 @@ public class RevAiTranscriptTest {
 
   @Before
   public void setup() {
-    mockApiClient = new ApiClient("validToken");
+    sut = new ApiClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
@@ -45,20 +45,19 @@ public class RevAiTranscriptTest {
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockOkHttpClient)
             .build();
-    mockApiClient.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
   }
 
   @Test
-  public void GetTranscriptText_JobIdIsValid_ReturnsTranscriptInTextFormat()
-      throws IOException {
+  public void GetTranscriptText_JobIdIsValid_ReturnsTranscriptInTextFormat() throws IOException {
     mockInterceptor.setSampleResponse(SAMPLE_TEXT);
-    String mockResponse = mockApiClient.getTranscriptText(JOB_ID);
+
+    String mockResponse = sut.getTranscriptText(JOB_ID);
 
     Headers headers = mockInterceptor.request.headers();
     assertThat(headers.get("Accept")).isEqualTo("text/plain");
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(TRANSCRIPT_URL);
-    assertThat(mockResponse).isEqualTo(SAMPLE_TEXT);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", TRANSCRIPT_URL);
+    assertThat(mockResponse).as("Transcript").isEqualTo(SAMPLE_TEXT);
   }
 
   @Test
@@ -70,22 +69,20 @@ public class RevAiTranscriptTest {
     element.setStartTimestamp(0.58);
     element.setEndTimestamp(0.76);
     element.setConfidence(0.93);
-
     Monologue monologue = new Monologue();
     monologue.setElements(Arrays.asList(element));
     monologue.setSpeaker(0);
-
     RevAiTranscript mockTranscript = new RevAiTranscript();
     mockTranscript.setMonologues(Arrays.asList(monologue));
-
     this.mockInterceptor.setSampleResponse(gson.toJson(mockTranscript));
 
-    RevAiTranscript revAiTranscript = mockApiClient.getTranscriptObject(JOB_ID);
+    RevAiTranscript revAiTranscript = sut.getTranscriptObject(JOB_ID);
 
     Headers headers = mockInterceptor.request.headers();
     assertThat(headers.get("Accept")).isEqualTo("application/vnd.rev.transcript.v1.0+json");
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(TRANSCRIPT_URL);
-    assertThat(gson.toJson(mockTranscript)).isEqualTo(gson.toJson(revAiTranscript));
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", TRANSCRIPT_URL);
+    assertThat(gson.toJson(mockTranscript))
+        .as("Transcript")
+        .isEqualTo(gson.toJson(revAiTranscript));
   }
 }

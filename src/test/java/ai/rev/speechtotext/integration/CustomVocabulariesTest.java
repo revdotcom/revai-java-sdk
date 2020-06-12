@@ -3,8 +3,8 @@ package ai.rev.speechtotext.integration;
 import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
-import ai.rev.speechtotext.models.vocabulary.CustomVocabularyOptions;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -27,7 +27,10 @@ public class CustomVocabulariesTest {
   @Test
   public void
       submitCustomVocabulary_MetadataAndVocabAreIncluded_ReturnCustomVocabularyInformationInProgress() {
-    CustomVocabularyInformation customVocabularyInformation = submitCustomVocabulary();
+    CustomVocabularySubmission customVocabularySubmission = createCustomVocabularySubmission();
+
+    CustomVocabularyInformation customVocabularyInformation =
+        submitCustomVocabulary(customVocabularySubmission);
 
     assertThat(customVocabularyInformation.getStatus())
         .as("Custom vocabulary status")
@@ -36,67 +39,77 @@ public class CustomVocabulariesTest {
 
   @Test
   public void getCustomVocabularyInformation_IdIsSpecified_CustomVocabularyInformation() {
-    CustomVocabularyInformation submittedVocabulary = submitCustomVocabulary();
-    CustomVocabularyInformation retrievedVocabulary = null;
+    CustomVocabularySubmission customVocabularySubmission = createCustomVocabularySubmission();
+    CustomVocabularyInformation submittedVocabulary =
+        submitCustomVocabulary(customVocabularySubmission);
+    CustomVocabularyInformation retrievedVocabulary;
 
     try {
       retrievedVocabulary =
           customVocabularyClient.getCustomVocabularyInformation(submittedVocabulary.getId());
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException(
+          "Error occurred getting the custom of vocabulary: " + e.getMessage());
     }
 
     assertThat(retrievedVocabulary.getMetadata())
         .as("Vocabulary metadata")
         .isEqualTo(submittedVocabulary.getMetadata());
-
     assertThat(retrievedVocabulary.getId())
         .as("Vocabulary Id")
         .isEqualTo(submittedVocabulary.getId());
-
     assertThat(retrievedVocabulary.getCreatedOn())
         .as("Created on date")
         .isEqualTo(submittedVocabulary.getCreatedOn());
-
+    assertThat(retrievedVocabulary.getCallbackUrl())
+        .as("Callback URL")
+        .isEqualTo(submittedVocabulary.getCallbackUrl());
     assertThat(retrievedVocabulary.getFailure()).as("Failure").isNull();
     assertThat(retrievedVocabulary.getFailureDetail()).as("Failure detail").isNull();
   }
 
   @Test
   public void getListOfCustomVocabulary_Called_ReturnListOfCustomVocabularyInformation() {
-    List<CustomVocabularyInformation> customVocabularies = null;
+    List<CustomVocabularyInformation> customVocabularies;
 
     try {
       customVocabularies = customVocabularyClient.getListOfCustomVocabularyInformation();
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException(
+          "Error occurred getting the list of vocabularies: " + e.getMessage());
     }
 
     assertThat(customVocabularies.size()).as("List size").isGreaterThan(1);
     for (CustomVocabularyInformation customVocabulary : customVocabularies) {
+      CustomVocabularyStatus status = customVocabulary.getStatus();
       assertThat(customVocabulary.getId()).as("Vocabulary Id").isNotNull();
       assertThat(customVocabulary.getCreatedOn()).as("Created on").isNotNull();
-      assertThat(customVocabulary.getStatus()).as("Status").isNotNull();
-      if (customVocabulary.getStatus() == CustomVocabularyStatus.FAILED) {
+      assertThat(status).as("Status").isNotNull();
+      if (status == CustomVocabularyStatus.FAILED) {
         assertThat(customVocabulary.getFailure()).as("Failure").isNotNull();
         assertThat(customVocabulary.getFailureDetail()).as("Failure detail").isNotNull();
-      } else if (customVocabulary.getStatus() == CustomVocabularyStatus.COMPLETE) {
+      } else if (status == CustomVocabularyStatus.COMPLETE) {
         assertThat(customVocabulary.getCompletedOn()).as("Completed on").isNotNull();
       }
     }
   }
 
-  public CustomVocabularyInformation submitCustomVocabulary() {
+  private CustomVocabularySubmission createCustomVocabularySubmission() {
     CustomVocabulary customVocabulary = new CustomVocabulary(PHRASES);
+    CustomVocabularySubmission submission = new CustomVocabularySubmission();
+    submission.setCustomVocabularies(Collections.singletonList(customVocabulary));
+    submission.setMetadata(testName.getMethodName());
+    submission.setCallbackUrl("https://www.example.com");
+    return submission;
+  }
 
-    CustomVocabularyOptions options = new CustomVocabularyOptions();
-    options.setCustomVocabularies(Collections.singletonList(customVocabulary));
-    options.setMetadata(testName.getMethodName());
-
+  private CustomVocabularyInformation submitCustomVocabulary(
+      CustomVocabularySubmission customVocabularySubmission) {
     try {
-      return customVocabularyClient.submitCustomVocabularies(options);
+      return customVocabularyClient.submitCustomVocabularies(customVocabularySubmission);
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(
+          "Error occurred submitting the custom vocabulary: " + e.getMessage());
     }
   }
 }

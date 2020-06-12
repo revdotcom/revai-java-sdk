@@ -47,8 +47,7 @@ public class RevAiAccountTest {
 
     RevAiAccount revAiAccount = sut.getAccount();
 
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(ACCOUNT_URL);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", ACCOUNT_URL);
     assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
     assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
   }

@@ -67,6 +67,7 @@ public class ErrorInterceptorTest {
       throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(statusCode).build());
+
     assertThatExceptionOfType(RevAiApiException.class)
         .as("Expected status code [" + statusCode + "] to throw RevAiApiException")
         .isThrownBy(() -> sut.intercept(mockChain));
