@@ -1,10 +1,10 @@
 package ai.rev.speechtotext.integration;
 
-import okhttp3.Response;
 import ai.rev.speechtotext.RevAiWebSocketListener;
 import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.MessageType;
+import okhttp3.Response;
 
 import java.util.ArrayList;
 import java.util.List;

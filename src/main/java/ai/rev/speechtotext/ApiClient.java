@@ -1,18 +1,16 @@
 package ai.rev.speechtotext;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
-import ai.rev.speechtotext.helpers.SDKHelper;
+import ai.rev.speechtotext.helpers.ClientHelper;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Retrofit;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,14 +37,14 @@ public class ApiClient {
    * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
    *
    * @param accessToken Rev.ai authorization token associate with the account.
-   * @throws IllegalArgumentException If the access token is null.
+   * @throws IllegalArgumentException If the access token is null or empty.
    */
   public ApiClient(String accessToken) {
-    if (accessToken == null) {
+    if (accessToken == null || accessToken.isEmpty()) {
       throw new IllegalArgumentException("Access token must be provided");
     }
-    this.client = createClient(accessToken);
-    Retrofit retrofit = createRetrofitInstance(client);
+    this.client = ClientHelper.createOkHttpClient(accessToken);
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(client);
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
@@ -136,7 +134,7 @@ public class ApiClient {
    * @throws IllegalArgumentException If the job ID is null.
    */
   public RevAiJob getJobDetails(String id) throws IOException {
-    if (id == null) {
+    if (id == null || id.isEmpty()) {
       throw new IllegalArgumentException("Job ID must be provided");
     }
     return apiInterface.getJobDetails(id).execute().body();
@@ -419,23 +417,5 @@ public class ApiClient {
     RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
-  }
-
-  private OkHttpClient createClient(String accessToken) {
-    return new OkHttpClient.Builder()
-        .retryOnConnectionFailure(false)
-        .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
-        .addNetworkInterceptor(new ErrorInterceptor())
-        .retryOnConnectionFailure(false)
-        .build();
-  }
-
-  private Retrofit createRetrofitInstance(OkHttpClient client) {
-    return new Retrofit.Builder()
-        .baseUrl("https://api.rev.ai/speechtotext/v1/")
-        .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build();
   }
 }

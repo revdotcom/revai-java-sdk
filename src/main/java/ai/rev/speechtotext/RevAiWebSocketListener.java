@@ -1,8 +1,8 @@
 package ai.rev.speechtotext;
 
-import okhttp3.Response;
 import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
+import okhttp3.Response;
 
 /** Listens for events over the WebSocket connection to Rev.ai */
 public interface RevAiWebSocketListener {

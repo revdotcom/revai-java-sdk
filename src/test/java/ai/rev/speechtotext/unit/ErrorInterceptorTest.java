@@ -1,5 +1,7 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.exceptions.RevAiApiException;
+import ai.rev.speechtotext.ErrorInterceptor;
 import okhttp3.Interceptor.Chain;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -11,8 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.InjectMocks;
-import ai.rev.speechtotext.ErrorInterceptor;
-import ai.rev.speechtotext.exceptions.RevAiApiException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -63,10 +63,11 @@ public class ErrorInterceptorTest {
   }
 
   @Test
-  public void ErrorInterceptor_WhenResponseCodeIsGreaterThan399_ReturnsRevAiApiException()
+  public void ErrorInterceptor_ResponseCodeIsGreaterThan399_ReturnsRevAiApiException()
       throws IOException {
     when(mockChain.proceed(any(Request.class)))
         .thenReturn(sampleResponse.newBuilder().code(statusCode).build());
+
     assertThatExceptionOfType(RevAiApiException.class)
         .as("Expected status code [" + statusCode + "] to throw RevAiApiException")
         .isThrownBy(() -> sut.intercept(mockChain));

@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.models.streaming;
 
-import com.google.gson.annotations.SerializedName;
 import ai.rev.speechtotext.models.asynchronous.Element;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 

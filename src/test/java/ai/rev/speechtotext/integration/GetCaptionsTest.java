@@ -1,18 +1,18 @@
 package ai.rev.speechtotext.integration;
 
-import org.junit.Before;
-import org.junit.Test;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetCaptionsTest {
 
@@ -27,22 +27,22 @@ public class GetCaptionsTest {
   }
 
   @Test
-  public void GetCaptions_WhenJobIdIsValid_ReturnsCaptionStream() throws IOException {
+  public void GetCaptions_JobIdIsValid_ReturnsCaptionStream() throws IOException {
     InputStream inputStream = apiClient.getCaptions(jobId);
     String captions = convertInputStreamToString(inputStream);
 
-    assertThat(captions).isNotEmpty();
-    assertThat(captions).doesNotContain(VTT_CONTAINS);
+    assertThat(captions).as("Caption output").isNotEmpty();
+    assertThat(captions).as("Caption content").doesNotContain(VTT_CONTAINS);
   }
 
   @Test
-  public void GetCaptions_WhenTypeIsSpecifiedAndJobIdIsValid_ReturnsCaptionStreamInVttFormat()
+  public void GetCaptions_TypeIsSpecifiedAndJobIdIsValid_ReturnsCaptionStreamInVttFormat()
       throws IOException {
     InputStream inputStream = apiClient.getCaptions(jobId, RevAiCaptionType.VTT);
     String captions = convertInputStreamToString(inputStream);
 
-    assertThat(captions).isNotEmpty();
-    assertThat(captions).contains(VTT_CONTAINS);
+    assertThat(captions).as("Captions output").isNotEmpty();
+    assertThat(captions).as("Caption content").contains(VTT_CONTAINS);
   }
 
   private String getTranscribedJob() throws IOException {

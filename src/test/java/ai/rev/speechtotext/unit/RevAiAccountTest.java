@@ -1,5 +1,9 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.ApiInterface;
+import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.MockInterceptor;
+import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -7,10 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.MockInterceptor;
-import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +39,7 @@ public class RevAiAccountTest {
   }
 
   @Test
-  public void GetAccount_WhenTokenIsValid_ReturnsRevAiAccount() throws Exception {
+  public void GetAccount_TokenIsValid_ReturnsRevAiAccount() throws Exception {
     RevAiAccount mockAccount = new RevAiAccount();
     mockAccount.setBalanceSeconds(10);
     mockAccount.setEmail("example.com");
@@ -47,8 +47,7 @@ public class RevAiAccountTest {
 
     RevAiAccount revAiAccount = sut.getAccount();
 
-    assertThat(mockInterceptor.request.method()).isEqualTo("GET");
-    assertThat(mockInterceptor.request.url().toString()).isEqualTo(ACCOUNT_URL);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", ACCOUNT_URL);
     assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
     assertThat(revAiAccount.getBalanceSeconds()).isEqualTo(mockAccount.getBalanceSeconds());
   }

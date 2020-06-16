@@ -1,5 +1,8 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.RevAiWebSocketListener;
+import ai.rev.speechtotext.StreamingClient;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
 import okhttp3.WebSocketListener;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -10,9 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
-import ai.rev.speechtotext.RevAiWebSocketListener;
-import ai.rev.speechtotext.StreamContentType;
-import ai.rev.speechtotext.StreamingClient;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -97,7 +97,7 @@ public class RevAiStreamingClientContentTypeTest {
   }
 
   @Test
-  public void StreamingClient_WithParameterizedContent_ContainsContentInUrl() {
+  public void StreamingClient_ParameterizedContent_ContainsContentInUrl() {
 
     streamingClient.connect(Mockito.mock(RevAiWebSocketListener.class), streamContentType);
     RecordedRequest request;

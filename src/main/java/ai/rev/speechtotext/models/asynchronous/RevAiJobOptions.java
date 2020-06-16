@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.models.asynchronous;
 
+import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import com.google.gson.annotations.SerializedName;
-import ai.rev.speechtotext.models.CustomVocabulary;
 
 import java.util.List;
 

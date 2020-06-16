@@ -1,4 +1,4 @@
-package ai.rev.speechtotext;
+package ai.rev.speechtotext.models.streaming;
 
 import java.util.ArrayList;
 import java.util.List;

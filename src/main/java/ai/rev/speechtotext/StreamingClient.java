@@ -1,5 +1,10 @@
 package ai.rev.speechtotext;
 
+import ai.rev.speechtotext.helpers.SDKHelper;
+import ai.rev.speechtotext.models.streaming.ConnectedMessage;
+import ai.rev.speechtotext.models.streaming.Hypothesis;
+import ai.rev.speechtotext.models.streaming.SessionConfig;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.HttpUrl;
@@ -9,9 +14,6 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import ai.rev.speechtotext.models.streaming.ConnectedMessage;
-import ai.rev.speechtotext.models.streaming.Hypothesis;
-import ai.rev.speechtotext.helpers.SDKHelper;
 
 public class StreamingClient {
 

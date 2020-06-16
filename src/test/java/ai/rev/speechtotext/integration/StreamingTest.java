@@ -1,15 +1,15 @@
 package ai.rev.speechtotext.integration;
 
-import okio.ByteString;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
-import ai.rev.speechtotext.SessionConfig;
-import ai.rev.speechtotext.StreamContentType;
 import ai.rev.speechtotext.StreamingClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.MessageType;
+import ai.rev.speechtotext.models.streaming.SessionConfig;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
+import okio.ByteString;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -28,49 +28,21 @@ public class StreamingTest {
   @Rule public TestName testName = new TestName();
 
   @Test
-  public void canStreamRawAudioAndReceiveHypothesis() {
-
-    StreamContentType streamContentType = new StreamContentType();
-    streamContentType.setContentType("audio/x-raw");
-    streamContentType.setLayout("interleaved");
-    streamContentType.setFormat("S16LE");
-    streamContentType.setRate(16000);
-    streamContentType.setChannels(1);
-
-    SessionConfig sessionConfig = new SessionConfig();
-    sessionConfig.setMetaData(testName.getMethodName());
-    sessionConfig.setFilterProfanity(true);
-
+  public void StreamingClient_ContentIsValid_StreamsAudioAndReceivesHypotheses() {
+    StreamContentType streamContentType = createStreamContentType();
+    SessionConfig sessionConfig = createSessionsConfig();
     StreamingClient streamingClient = new StreamingClient(EnvHelper.getToken());
     ClientListener clientListener = new ClientListener();
+
     streamingClient.connect(clientListener, streamContentType, sessionConfig);
-
-    try {
-      clientListener.getConnectedLatch().await(10, SECONDS);
-      assertThat(clientListener.getConnectedMessage()).as("Connected message").isNotNull();
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage());
-    }
-
+    awaitConnectedMessage(clientListener);
     File file = new File("./src/test/java/ai/rev/speechtotext/resources/english_test.raw");
     byte[] fileByteArray = readFileIntoByteArray(file);
     int chunk = 8000;
     streamAudioToServer(streamingClient, fileByteArray, chunk);
-
-    try {
-      clientListener.getFinalHypothesisLatch().await(30, SECONDS);
-      assertThat(clientListener.getFinalHypotheses()).as("Final hypotheses").isNotEmpty();
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage());
-    }
-
+    awaitFinalHypothesis(clientListener);
     streamingClient.close();
-
-    try {
-      clientListener.getCloseLatch().await(30, SECONDS);
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage());
-    }
+    awaitCloseMessage(clientListener);
 
     assertPartialHypotheses(clientListener.getPartialHypotheses());
     assertFinalHypotheses(clientListener.getFinalHypotheses());
@@ -136,5 +108,48 @@ public class StreamingTest {
             }
           }
         });
+  }
+
+  private StreamContentType createStreamContentType() {
+    StreamContentType streamContentType = new StreamContentType();
+    streamContentType.setContentType("audio/x-raw");
+    streamContentType.setLayout("interleaved");
+    streamContentType.setFormat("S16LE");
+    streamContentType.setRate(16000);
+    streamContentType.setChannels(1);
+    return streamContentType;
+  }
+
+  private SessionConfig createSessionsConfig() {
+    SessionConfig sessionConfig = new SessionConfig();
+    sessionConfig.setMetaData(testName.getMethodName());
+    sessionConfig.setFilterProfanity(true);
+    return sessionConfig;
+  }
+
+  private void awaitConnectedMessage(ClientListener clientListener) {
+    try {
+      clientListener.getConnectedLatch().await(10, SECONDS);
+      assertThat(clientListener.getConnectedMessage()).as("Connected message").isNotNull();
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+
+  private void awaitFinalHypothesis(ClientListener clientListener) {
+    try {
+      clientListener.getFinalHypothesisLatch().await(30, SECONDS);
+      assertThat(clientListener.getFinalHypotheses()).as("Final hypotheses").isNotEmpty();
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+
+  private void awaitCloseMessage(ClientListener clientListener) {
+    try {
+      clientListener.getCloseLatch().await(30, SECONDS);
+    } catch (Exception e) {
+      throw new RuntimeException(e.getMessage());
+    }
   }
 }

@@ -1,9 +1,5 @@
 package ai.rev.speechtotext;
 
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.json.JSONObject;
 import ai.rev.speechtotext.exceptions.AuthorizationException;
 import ai.rev.speechtotext.exceptions.ForbiddenStateException;
 import ai.rev.speechtotext.exceptions.InvalidHeaderException;
@@ -11,6 +7,10 @@ import ai.rev.speechtotext.exceptions.InvalidParameterException;
 import ai.rev.speechtotext.exceptions.ResourceNotFoundException;
 import ai.rev.speechtotext.exceptions.RevAiApiException;
 import ai.rev.speechtotext.exceptions.ThrottlingLimitException;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONObject;
 
 import java.io.IOException;
 

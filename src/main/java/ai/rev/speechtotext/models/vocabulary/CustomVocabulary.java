@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.models;
+package ai.rev.speechtotext.models.vocabulary;
 
 import java.util.List;
 

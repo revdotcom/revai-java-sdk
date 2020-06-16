@@ -1,5 +1,9 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.speechtotext.RevAiWebSocketListener;
+import ai.rev.speechtotext.StreamingClient;
+import ai.rev.speechtotext.models.streaming.SessionConfig;
+import ai.rev.speechtotext.models.streaming.StreamContentType;
 import okhttp3.WebSocketListener;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -10,10 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
-import ai.rev.speechtotext.RevAiWebSocketListener;
-import ai.rev.speechtotext.SessionConfig;
-import ai.rev.speechtotext.StreamContentType;
-import ai.rev.speechtotext.StreamingClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -92,7 +92,7 @@ public class RevAiStreamingClientOptionalParametersTest {
   }
 
   @Test
-  public void StreamingClient_WithParameterizedVariables_ContainsParametersInUrl()
+  public void StreamingClient_ParameterizedVariables_ContainsParametersInUrl()
       throws UnsupportedEncodingException {
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
