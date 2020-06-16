@@ -178,6 +178,17 @@ public class RevAiCustomVocabularyTest {
         ID + 2);
   }
 
+  @Test
+  public void DeleteCustomVocabulary_IdIsValid_DoesNotTriggerExceptions() throws IOException {
+    mockInterceptor.setResponseCode(204);
+    mockInterceptor.setSampleResponse("");
+
+    sut.deleteCustomVocabulary(ID);
+
+    String expectedUrl = VOCABULARY_URL + "/" + ID;
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "DELETE", expectedUrl);
+  }
+
   private void assertCustomVocabularyInformation(
       CustomVocabularyInformation customVocabularyInformation,
       CustomVocabularyStatus status,
