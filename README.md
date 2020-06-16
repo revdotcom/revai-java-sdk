@@ -173,7 +173,7 @@ public class Listener implements RevAiWebSocketListener {
 
     @Override
     public void onConnected(ConnectedMessage message) {
-        System.out.println("On Connected: " + connectMessage);
+        System.out.println("On Connected: " + message);
     }
 
     @Override
