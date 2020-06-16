@@ -4,6 +4,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -25,4 +26,7 @@ public interface CustomVocabularyApiInterface {
 
   @GET("vocabularies/{id}")
   Call<CustomVocabularyInformation> getCustomVocabularyInformation(@Path("id") String jobId);
+
+  @DELETE("vocabularies/{id}")
+  Call<Void> deleteCustomVocabulary(@Path("id") String jobId);
 }

@@ -222,7 +222,7 @@ The streaming connection will close when you call the method `streamingClient.cl
 
 You can submit any custom vocabularies independently through the CustomVocabulariesClient. Once the custom vocabulary has been submitted and processed, it is ready to be used in any streaming job.
 
-Below you can see an example of how to create, submit, check on the status and view the other associated information of your custom vocabulary.
+Below you can see an example of how to create, submit, delete, check on the status and view the other associated information of your custom vocabulary.
 
 ```
 // Initialize your client with your rev.ai access token
@@ -241,6 +241,9 @@ CustomVocabularyInformation retrievedVocabularyInformation = customVocabularyCli
 
 // View list of custom vocabularies information
 List<CustomVocabularyInformation> customVocabulariesInformation = customVocabularyClient.getListOfCustomVocabularyInformation();
+
+// Delete a custom vocabulary by id
+customVocabularyClient.deleteCustomVocabulary(retrievedVocabularyInformation.getId());
 ```
 
 ## For Rev.ai Java SDK Developers

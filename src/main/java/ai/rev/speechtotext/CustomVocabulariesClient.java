@@ -87,4 +87,20 @@ public class CustomVocabulariesClient {
     }
     return customVocabularyApiInterface.getCustomVocabularyInformation(id).execute().body();
   }
+
+  /**
+   * This method sends a DELETE request to the /vocabularies/{id} endpoint.
+   *
+   * @param id The Id of the custom vocabulary to be deleted.
+   * @throws IOException If the response has a status code > 399.
+   * @throws IllegalArgumentException If the job Id is null.
+   * @see <a
+   *     href="https://www.rev.ai/docs/streaming#operation/DeleteCustomVocabulary">https://www.rev.ai/docs/streaming#operation/DeleteCustomVocabulary</a>
+   */
+  public void deleteCustomVocabulary(String id) throws IOException {
+    if (id == null || id.isEmpty()) {
+      throw new IllegalArgumentException("Custom vocabulary Id must be provided");
+    }
+    customVocabularyApiInterface.deleteCustomVocabulary(id).execute().body();
+  }
 }

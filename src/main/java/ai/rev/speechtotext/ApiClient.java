@@ -143,7 +143,7 @@ public class ApiClient {
   /**
    * This method sends a DELETE request to the /jobs/{id} endpoint.
    *
-   * @param id The ID of the job to be deleted.
+   * @param id The Id of the job to be deleted.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID is null.
    * @see <a

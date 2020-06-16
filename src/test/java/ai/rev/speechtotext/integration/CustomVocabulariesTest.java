@@ -97,6 +97,38 @@ public class CustomVocabulariesTest {
     }
   }
 
+  @Test
+  public void deleteCustomVocabulary_IdIsValid_DoesNotTriggerExceptions() {
+    List<CustomVocabularyInformation> customVocabularies;
+    try {
+      customVocabularies = customVocabularyClient.getListOfCustomVocabularyInformation();
+    } catch (IOException e) {
+      throw new RuntimeException(
+          "Error occurred getting the list of vocabularies: " + e.getMessage());
+    }
+    String id = getCompletedVocabularyId(customVocabularies);
+
+    assertThat(id).as("Custom vocabulary id").isNotNull();
+
+    try {
+      customVocabularyClient.deleteCustomVocabulary(id);
+    } catch (IOException e) {
+      throw new RuntimeException(
+          "Error occurred deleting the custom vocabulary [" + id + "] " + e.getMessage());
+    }
+  }
+
+  private String getCompletedVocabularyId(List<CustomVocabularyInformation> customVocabularies) {
+    String id = null;
+    for (CustomVocabularyInformation customVocabulary : customVocabularies) {
+      if (customVocabulary.getStatus() == CustomVocabularyStatus.COMPLETE) {
+        id = customVocabulary.getId();
+        break;
+      }
+    }
+    return id;
+  }
+
   private CustomVocabularySubmission createCustomVocabularySubmission() {
     CustomVocabulary customVocabulary = new CustomVocabulary(PHRASES);
     CustomVocabularySubmission submission = new CustomVocabularySubmission();
