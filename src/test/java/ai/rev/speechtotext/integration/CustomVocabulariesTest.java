@@ -2,6 +2,7 @@ package ai.rev.speechtotext.integration;
 
 import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
+import ai.rev.speechtotext.models.vocabulary.CustomVocabularyFailureType;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
@@ -26,7 +27,7 @@ public class CustomVocabulariesTest {
 
   @Test
   public void
-      submitCustomVocabulary_MetadataAndVocabAreIncluded_ReturnCustomVocabularyInformationInProgress() {
+      submitCustomVocabulary_VocabAndAllOptionsAreIncluded_ReturnCustomVocabularyInformationInProgress() {
     CustomVocabularySubmission customVocabularySubmission = createCustomVocabularySubmission();
 
     CustomVocabularyInformation customVocabularyInformation =
@@ -86,7 +87,9 @@ public class CustomVocabulariesTest {
       assertThat(customVocabulary.getCreatedOn()).as("Created on").isNotNull();
       assertThat(status).as("Status").isNotNull();
       if (status == CustomVocabularyStatus.FAILED) {
-        assertThat(customVocabulary.getFailure()).as("Failure").isNotNull();
+        assertThat(customVocabulary.getFailure())
+            .as("Failure")
+            .isInstanceOf(CustomVocabularyFailureType.class);
         assertThat(customVocabulary.getFailureDetail()).as("Failure detail").isNotNull();
       } else if (status == CustomVocabularyStatus.COMPLETE) {
         assertThat(customVocabulary.getCompletedOn()).as("Completed on").isNotNull();
