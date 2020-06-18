@@ -53,7 +53,6 @@ public class SubmitJobTest {
           throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
