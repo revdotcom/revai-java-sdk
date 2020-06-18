@@ -35,8 +35,8 @@ public class CustomVocabulariesExample {
       throw new RuntimeException("Failed to submit custom vocabulary " + e.getMessage());
     }
 
-    String jobId = submittedCustomVocabularyInfo.getId();
-    System.out.println("Vocabulary Id: " + jobId);
+    String customVocabularyId = submittedCustomVocabularyInfo.getId();
+    System.out.println("Vocabulary Id: " + customVocabularyId);
     System.out.println("Vocabulary Status: " + submittedCustomVocabularyInfo.getStatus());
     System.out.println("Created On: " + submittedCustomVocabularyInfo.getCreatedOn());
 
@@ -50,9 +50,9 @@ public class CustomVocabulariesExample {
     while (!isProcessingComplete) {
       CustomVocabularyInformation retrievedVocabularyInfo;
       try {
-        retrievedVocabularyInfo = customVocabulariesClient.getCustomVocabularyInformation(jobId);
+        retrievedVocabularyInfo = customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
       } catch (IOException e) {
-        throw new RuntimeException("Failed to retrieve job [" + jobId + "] " + e.getMessage());
+        throw new RuntimeException("Failed to retrieve custom vocabulary info [" + customVocabularyId + "] " + e.getMessage());
       }
 
       CustomVocabularyStatus retrievedVocabularyInfoStatus = retrievedVocabularyInfo.getStatus();
@@ -60,7 +60,7 @@ public class CustomVocabulariesExample {
           || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
         System.out.println(
             "Custom vocabulary processing for "
-                + jobId
+                + customVocabularyId
                 + ": "
                 + retrievedVocabularyInfoStatus.getStatus());
         isProcessingComplete = true;
