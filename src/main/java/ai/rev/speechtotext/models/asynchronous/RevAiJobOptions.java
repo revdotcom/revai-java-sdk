@@ -44,6 +44,10 @@ public class RevAiJobOptions {
   @SerializedName("metadata")
   private String metadata;
 
+  /** Optional parameter to filter profanity in the transcript */
+  @SerializedName("filter_profanity")
+  private Boolean filterProfanity;
+
   /**
    * Returns the media url.
    *
@@ -176,5 +180,23 @@ public class RevAiJobOptions {
    */
   public void setMetadata(String metadata) {
     this.metadata = metadata;
+  }
+
+  /**
+   * Returns the value of the filterProfanity Boolean
+   * @return The filter profanity value.
+   */
+  public Boolean getFilterProfanity() {
+    return filterProfanity;
+  }
+
+  /**
+   * Specifies whether or not the speech engine should filter profanity in the output. Setting the
+   * profanity filter is optional.
+   *
+   * @param filterProfanity The option to filter profanity.
+   */
+  public void setFilterProfanity(Boolean filterProfanity) {
+    this.filterProfanity = filterProfanity;
   }
 }

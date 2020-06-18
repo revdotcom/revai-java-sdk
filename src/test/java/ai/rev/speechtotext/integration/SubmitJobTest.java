@@ -32,8 +32,7 @@ public class SubmitJobTest {
   @Test
   public void SubmitJobLocalFile_FilePathAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
-    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
-    revAiJobOptions.setMetadata(testName.getMethodName());
+    RevAiJobOptions revAiJobOptions = getJobOptions();
 
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
 
@@ -54,6 +53,7 @@ public class SubmitJobTest {
           throws IOException {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
+
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -87,8 +87,7 @@ public class SubmitJobTest {
   @Test
   public void SubmitJobLocalFile_InputStreamAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
-    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
-    revAiJobOptions.setMetadata(testName.getMethodName());
+    RevAiJobOptions revAiJobOptions = getJobOptions();
     File file = new File(LOCAL_FILE);
     FileInputStream fileInputStream;
     try {
@@ -121,8 +120,7 @@ public class SubmitJobTest {
   @Test
   public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
-    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
-    revAiJobOptions.setMetadata(testName.getMethodName());
+    RevAiJobOptions revAiJobOptions = getJobOptions();
 
     RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
 
@@ -139,5 +137,16 @@ public class SubmitJobTest {
   public void assertRevAiJob(RevAiJob revAiJob) {
     assertThat(revAiJob.getJobId()).as("Job Id").isNotNull();
     assertThat(revAiJob.getJobStatus()).as("Job status").isEqualTo(RevAiJobStatus.IN_PROGRESS);
+  }
+
+  private RevAiJobOptions getJobOptions() {
+    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setMetadata(testName.getMethodName());
+    revAiJobOptions.setFilterProfanity(true);
+    revAiJobOptions.setSkipPunctuation(true);
+    revAiJobOptions.setSkipDiarization(true);
+    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setSpeakerChannelsCount(null);
+    return revAiJobOptions;
   }
 }

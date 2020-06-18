@@ -1,20 +1,16 @@
 package ai.rev.speechtotext.unit;
 
-import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import com.google.gson.Gson;
-import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okio.Buffer;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Retrofit;
@@ -40,6 +36,7 @@ public class RevAiJobTest {
   private final String FORM_CONTENT_TYPE = "form-data";
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private final String JOBS_URL = "https://api.rev.ai/revspeech/v1/jobs";
+  private final String METADATA = "unit test";
   private Gson gson;
   private RevAiJob mockInProgressJob;
   private RevAiJob mockCompletedJob;
@@ -55,6 +52,7 @@ public class RevAiJobTest {
     mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);
     mockInProgressJob.setDurationSeconds(107.04);
     mockInProgressJob.setType(RevAiJobType.ASYNC);
+    mockInProgressJob.setMetadata(METADATA);
 
     mockCompletedJob = mockInProgressJob;
     mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
@@ -148,7 +146,12 @@ public class RevAiJobTest {
     String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
+    options.setFilterProfanity(true);
     options.setSkipPunctuation(true);
+    options.setSkipDiarization(true);
+    options.setCallbackUrl("https://example.com");
+    options.setMetadata(METADATA);
+    options.setSpeakerChannelsCount(2);
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
 
