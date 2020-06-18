@@ -36,7 +36,8 @@ public class AsyncTranscribeMediaUrl {
 
     RevAiJob submittedJob;
 
-    String mediaUrl = "https://your.media.url";
+    String mediaUrl =
+        "https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3";
 
     try {
       // Submit the local file and transcription options
@@ -49,12 +50,7 @@ public class AsyncTranscribeMediaUrl {
     System.out.println("Job Status: " + submittedJob.getJobStatus());
     System.out.println("Created On: " + submittedJob.getCreatedOn());
 
-    /*
-     * Waits 5 seconds between each status check to see if job is complete.
-     * NOTE: polling for job status is not recommended in a non-testing environment.
-     * Use the callback_url supplied in the RevAiJobOptions object to receive the
-     * response asynchronously on job completion
-     */
+    // Waits 5 seconds between each status check to see if job is complete
     boolean isJobComplete = false;
     while (!isJobComplete) {
       RevAiJob retrievedJob;

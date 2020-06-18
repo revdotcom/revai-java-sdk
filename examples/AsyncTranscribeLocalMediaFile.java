@@ -49,12 +49,7 @@ public class AsyncTranscribeLocalMediaFile {
     System.out.println("Job Status: " + submittedJob.getJobStatus());
     System.out.println("Created On: " + submittedJob.getCreatedOn());
 
-    /*
-     * Waits 5 seconds between each status check to see if job is complete.
-     * NOTE: polling for job status is not recommended in a non-testing environment.
-     * Use the callback_url supplied in the RevAiJobOptions object to receive the
-     * response asynchronously on job completion
-     */
+    // Waits 5 seconds between each status check to see if job is complete
     boolean isJobComplete = false;
     while (!isJobComplete) {
       RevAiJob retrievedJob;

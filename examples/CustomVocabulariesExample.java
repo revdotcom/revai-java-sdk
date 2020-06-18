@@ -40,19 +40,19 @@ public class CustomVocabulariesExample {
     System.out.println("Vocabulary Status: " + submittedCustomVocabularyInfo.getStatus());
     System.out.println("Created On: " + submittedCustomVocabularyInfo.getCreatedOn());
 
-    /*
-     * Waits 5 seconds between each status check to see if vocabulary has been processed.
-     * NOTE: polling for status is not recommended in a non-testing environment.
-     * Use the callback_url supplied in the CustomVocabularyInformation object to receive the
-     * response asynchronously on completion
-     */
+    // Waits 5 seconds between each status check to see if job is complete
     boolean isProcessingComplete = false;
     while (!isProcessingComplete) {
       CustomVocabularyInformation retrievedVocabularyInfo;
       try {
-        retrievedVocabularyInfo = customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
+        retrievedVocabularyInfo =
+            customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
       } catch (IOException e) {
-        throw new RuntimeException("Failed to retrieve custom vocabulary info [" + customVocabularyId + "] " + e.getMessage());
+        throw new RuntimeException(
+            "Failed to retrieve custom vocabulary info ["
+                + customVocabularyId
+                + "] "
+                + e.getMessage());
       }
 
       CustomVocabularyStatus retrievedVocabularyInfoStatus = retrievedVocabularyInfo.getStatus();
