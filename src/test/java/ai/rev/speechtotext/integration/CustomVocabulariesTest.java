@@ -99,16 +99,13 @@ public class CustomVocabulariesTest {
 
   @Test
   public void deleteCustomVocabulary_IdIsValid_DoesNotTriggerExceptions() {
-    List<CustomVocabularyInformation> customVocabularies;
-    try {
-      customVocabularies = customVocabularyClient.getListOfCustomVocabularyInformation();
-    } catch (IOException e) {
-      throw new RuntimeException(
-          "Error occurred getting the list of vocabularies: " + e.getMessage());
-    }
-    String id = getCompletedVocabularyId(customVocabularies);
+    CustomVocabularySubmission customVocabularySubmission = createCustomVocabularySubmission();
+    CustomVocabularyInformation customVocabularyInformation =
+        submitCustomVocabulary(customVocabularySubmission);
+    String id = customVocabularyInformation.getId();
+    CustomVocabularyStatus status = waitForVocabularyProcessingToComplete(id);
 
-    assertThat(id).as("Custom vocabulary id").isNotNull();
+    assertThat(status).as("Custom vocabulary status").isNotNull();
 
     try {
       customVocabularyClient.deleteCustomVocabulary(id);
@@ -116,17 +113,6 @@ public class CustomVocabulariesTest {
       throw new RuntimeException(
           "Error occurred deleting the custom vocabulary [" + id + "] " + e.getMessage());
     }
-  }
-
-  private String getCompletedVocabularyId(List<CustomVocabularyInformation> customVocabularies) {
-    String id = null;
-    for (CustomVocabularyInformation customVocabulary : customVocabularies) {
-      if (customVocabulary.getStatus() == CustomVocabularyStatus.COMPLETE) {
-        id = customVocabulary.getId();
-        break;
-      }
-    }
-    return id;
   }
 
   private CustomVocabularySubmission createCustomVocabularySubmission() {
@@ -146,5 +132,40 @@ public class CustomVocabulariesTest {
       throw new RuntimeException(
           "Error occurred submitting the custom vocabulary: " + e.getMessage());
     }
+  }
+
+  private CustomVocabularyStatus waitForVocabularyProcessingToComplete(String customVocabularyId) {
+    boolean isProcessingComplete = false;
+    int numberOfAttempts = 0;
+    CustomVocabularyStatus status = null;
+
+    while (!isProcessingComplete && numberOfAttempts < 60) {
+      CustomVocabularyInformation retrievedVocabularyInfo;
+      try {
+        retrievedVocabularyInfo =
+            customVocabularyClient.getCustomVocabularyInformation(customVocabularyId);
+      } catch (IOException e) {
+        throw new RuntimeException(
+            "Failed to retrieve custom vocabulary info ["
+                + customVocabularyId
+                + "] "
+                + e.getMessage());
+      }
+
+      CustomVocabularyStatus retrievedVocabularyInfoStatus = retrievedVocabularyInfo.getStatus();
+      if (retrievedVocabularyInfoStatus == CustomVocabularyStatus.COMPLETE
+          || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
+        status = retrievedVocabularyInfoStatus;
+        isProcessingComplete = true;
+      } else {
+        numberOfAttempts++;
+        try {
+          Thread.sleep(5000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return status;
   }
 }
