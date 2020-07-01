@@ -72,9 +72,10 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileNam
 `RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 If you want to get fancy, all submit job methods have overrides that allow specifying 
-[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. These are also described in the 
-request body of the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) 
-endpoint.
+[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. 
+In RevAiJobOptions, you could include `metadata`, `callback_url`,
+`skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity` and `remove_disfluencies` as optional parameters, these are described in the request body of
+the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
 
 ### Checking your job's status
 
@@ -198,7 +199,7 @@ public class Listener implements RevAiWebSocketListener {
 }
 ```
 
-Now you will be able to connect and start the streaming session by calling the `streamingClient.connect()` method and passing in the Listener! You can supply an optional `SessionConfig` object to the function in order to provide additional information for that session, such as metadata or enabled the profanity filter to be used.
+Now you will be able to connect and start the streaming session by calling the `streamingClient.connect()` method and passing in the Listener! You can supply an optional `SessionConfig` object, containing `metadata`, `filter_profanity` and `remove_disfluencies` as optional parameters, to the function in order to provide additional information for that session.
 
 ```
 Listener listener = new Listener();
