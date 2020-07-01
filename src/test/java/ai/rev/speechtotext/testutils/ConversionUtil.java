@@ -8,14 +8,14 @@ import java.io.Reader;
 
 public class ConversionUtil {
 
-    public static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            int count;
-            while ((count = reader.read()) != -1) {
-                builder.append((char) count);
-            }
-        }
-        return builder.toString();
+  public static String convertInputStreamToString(InputStream inputStream) throws IOException {
+    StringBuilder builder = new StringBuilder();
+    try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+      int count;
+      while ((count = reader.read()) != -1) {
+        builder.append((char) count);
+      }
     }
+    return builder.toString();
+  }
 }
