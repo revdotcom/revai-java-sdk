@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ai.rev.speechtotext</groupId>
     <artifactId>revai-java-sdk-speechtotext</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>Rev.ai speech to text SDK for Java</name>
     <description>Java SDK for rev.ai speech to text API</description>
     <url>https://www.rev.ai/docs</url>
@@ -22,7 +22,7 @@
                 <role>developer</role>
             </roles>
         </developer>
-    </developers>    
+    </developers>
     <scm>
         <connection>scm:git:https://github.com/revdotcom/revai-java-sdk.git</connection>
         <developerConnection>scm:git:ssh://github.com/revdotcom/revai-java-sdk.git</developerConnection>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,7 +100,7 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-    </distributionManagement>    
+    </distributionManagement>
     <build>
         <plugins>
             <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -125,7 +125,7 @@
                         <exclude>**/integration/**</exclude>
                     </excludes>
                 </configuration>
-             </plugin>
+            </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
@@ -133,7 +133,7 @@
                     <includes>
                         <include>**/integration/*</include>
                     </includes>
-                </configuration>                
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -145,7 +145,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
             <plugin>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
@@ -160,7 +160,7 @@
                 <version>3.7.1</version>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>            
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
@@ -178,18 +178,18 @@
                 </configuration>
             </plugin>
 
-			<!-- Nexus Staging Plugin -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
+            <!-- Nexus Staging Plugin -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -241,5 +241,5 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>    
+    </profiles>
 </project>
