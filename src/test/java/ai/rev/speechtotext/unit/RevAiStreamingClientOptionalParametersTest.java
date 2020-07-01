@@ -10,21 +10,19 @@ import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.experimental.theories.*;
+
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(Parameterized.class)
+@RunWith(Theories.class)
 public class RevAiStreamingClientOptionalParametersTest {
 
     private static final String VOCAB_ID = "VocabId";
@@ -36,42 +34,28 @@ public class RevAiStreamingClientOptionalParametersTest {
     private static StreamingClient streamingClient;
     private SessionConfig sessionConfig = new SessionConfig();
 
-    public RevAiStreamingClientOptionalParametersTest(
-            String metadata, String customVocabularyId, Boolean filterProfanity, Boolean removeDisfluencies) {
-        sessionConfig.setMetaData(metadata);
-        sessionConfig.setFilterProfanity(filterProfanity);
-        sessionConfig.setCustomVocabularyId(customVocabularyId);
-        sessionConfig.setRemoveDisfluencies(removeDisfluencies);
+    @DataPoints("metadataAndNull")
+    public static String[] metadataAndNull() {
+        return new String[]{METADATA, null};
+    }
 
+    @DataPoints("customVocabularyIdAndNull")
+    public static String[] vocabIdAndNull() {
+        return new String[]{VOCAB_ID, null};
+    }
+
+    @DataPoints("booleanValuesAndNull")
+    public static Boolean[] booleanValuesAndNull() {
+        return new Boolean[]{true, false, null};
+    }
+
+    public RevAiStreamingClientOptionalParametersTest() {
         this.defaultContentType = new StreamContentType();
         defaultContentType.setContentType("audio/x-raw");
         defaultContentType.setLayout("interleaved");
         defaultContentType.setFormat("S16LE");
         defaultContentType.setRate(16000);
         defaultContentType.setChannels(1);
-    }
-
-    @Parameterized.Parameters
-    public static Collection input() {
-        return Arrays.asList(
-                new Object[][]{
-                        {METADATA, VOCAB_ID, true, true},
-                        {METADATA, VOCAB_ID, false, true},
-                        {METADATA, VOCAB_ID, null, true},
-                        {METADATA, VOCAB_ID, true, false},
-                        {METADATA, VOCAB_ID, false, false},
-                        {METADATA, VOCAB_ID, null, false},
-                        {METADATA, VOCAB_ID, true, null},
-                        {METADATA, VOCAB_ID, false, null},
-                        {METADATA, VOCAB_ID, null, null},
-                        {METADATA, null, true, true},
-                        {null, VOCAB_ID, true, false},
-                        {null, VOCAB_ID, false, null},
-                        {null, VOCAB_ID, null, true},
-                        {null, null, true, true},
-                        {null, null, false, false},
-                        {null, null, null, null}
-                });
     }
 
     @Before
@@ -99,9 +83,18 @@ public class RevAiStreamingClientOptionalParametersTest {
         }
     }
 
-    @Test
-    public void StreamingClient_ParameterizedVariables_ContainsParametersInUrl()
-            throws UnsupportedEncodingException {
+    @Theory
+    public void StreamingClient_CustomVocabularyIdIsNull_ContainsParametersInUrl(
+            @FromDataPoints("metadataAndNull") String metadata,
+            @FromDataPoints("customVocabularyIdAndNull") String customVocabularyId,
+            @FromDataPoints("booleanValuesAndNull") Boolean filterProfanity,
+            @FromDataPoints("booleanValuesAndNull") Boolean removeDisfluencies
+    ) throws UnsupportedEncodingException {
+        sessionConfig.setMetaData(metadata);
+        sessionConfig.setFilterProfanity(filterProfanity);
+        sessionConfig.setCustomVocabularyId(customVocabularyId);
+        sessionConfig.setRemoveDisfluencies(removeDisfluencies);
+
         streamingClient.connect(
                 Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
         RecordedRequest request;
