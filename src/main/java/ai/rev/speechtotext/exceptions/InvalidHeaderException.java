@@ -3,8 +3,8 @@ package ai.rev.speechtotext.exceptions;
 import org.json.JSONObject;
 
 /**
- * The InvalidHeaderException occurs when a header that's passed along a query is not recognized
- * by the API.
+ * The InvalidHeaderException occurs when a header that's passed along a query is not recognized by
+ * the API.
  */
 public class InvalidHeaderException extends RevAiApiException {
 

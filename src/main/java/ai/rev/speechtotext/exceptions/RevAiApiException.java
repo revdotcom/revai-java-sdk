@@ -14,7 +14,8 @@ public class RevAiApiException extends IOException {
     super(formatErrorDetails(message, errorResponse, responseCode));
   }
 
-  private static String formatErrorDetails(String message, JSONObject errorResponse, int responseCode) {
+  private static String formatErrorDetails(
+      String message, JSONObject errorResponse, int responseCode) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(message);
     if (errorResponse.has("title")) {

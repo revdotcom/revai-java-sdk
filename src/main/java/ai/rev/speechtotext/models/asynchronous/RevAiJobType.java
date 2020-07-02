@@ -28,8 +28,6 @@ public enum RevAiJobType {
     return jobType;
   }
 
-
-
   @Override
   public String toString() {
     return "{" + "type='" + jobType + '\'' + '}';

@@ -253,8 +253,17 @@ Before contributing to the project please install the following
 * [IntelliJ IDE](https://www.jetbrains.com/idea/)
 * [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
  
-Before opening a pull-request please run the `Code > Reformat Code` option in any classes that were touched to ensure the code is formatted correctly.
+Before opening a pull-request
+* go to `Settings > Plugins` and install google-java-format.
+* then `Settings > google-java-format Settings` and click enable option.
+* please run the `Code > Reformat Code` option in any classes that were touched to ensure the code is formatted correctly.
+You can also right click on `src` folder and run `Reformat Code`.
 
 Run `mvn package` to build the code, run the unit tests and create the SDK jar. 
 
 Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token. 
+
+To save the `REVAI_ACCESS_TOKEN` to be available for Integration tests
+* go to `Run > Edit Configurations` and add a new JUnit configuration if none exists yet.
+* for the new JUnit configuration, go to `Environmental Variables` and click on the browse option.
+* click `+` and add `TOKEN` under name and `REVAI_ACCESS_TOKEN` under value.
