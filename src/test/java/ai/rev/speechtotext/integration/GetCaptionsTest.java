@@ -19,14 +19,14 @@ public class GetCaptionsTest {
   private static ApiClient apiClient;
   private static String jobId;
   private final String VTT_CONTAINS = "WEBVTT";
-  private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
 
   @Before
   public void setup() throws IOException {
     apiClient = new ApiClient(EnvHelper.getToken());
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL);
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
+    RevAiJob revAiJob = apiClient.submitJobUrl(mediaUrl);
     jobId = revAiJob.getJobId();
-    pollForJobCompletionForFiveMinutes(jobId);
+    pollForJobCompletionOrTimeout(jobId);
   }
 
   @Test
@@ -48,10 +48,11 @@ public class GetCaptionsTest {
     assertThat(captions).as("Caption content").contains(VTT_CONTAINS);
   }
 
-  private void pollForJobCompletionForFiveMinutes(String jobId) {
+  private void pollForJobCompletionOrTimeout(String jobId) {
     boolean isComplete = false;
     int pollingAttempts = 0;
-    while (!isComplete && pollingAttempts < 60) {
+    int maximumPollingAttempts = 60;
+    while (!isComplete && pollingAttempts < maximumPollingAttempts) {
       RevAiJob revAiJob;
       try {
         revAiJob = apiClient.getJobDetails(jobId);
@@ -62,11 +63,20 @@ public class GetCaptionsTest {
       RevAiJobStatus jobStatus = revAiJob.getJobStatus();
       if (jobStatus.equals(RevAiJobStatus.TRANSCRIBED)) {
         isComplete = true;
-        break;
       } else if (jobStatus.equals(RevAiJobStatus.FAILED)) {
         throw new RuntimeException("Job [" + jobId + "] failed");
       } else {
         pollingAttempts++;
+        if (pollingAttempts == maximumPollingAttempts) {
+          throw new RuntimeException(
+              "Maximum polling attempts ["
+                  + maximumPollingAttempts
+                  + "]  reached and Job ["
+                  + jobId
+                  + "] has a status of ["
+                  + jobStatus.getStatus()
+                  + "]");
+        }
         try {
           Thread.sleep(5000);
         } catch (InterruptedException e) {
