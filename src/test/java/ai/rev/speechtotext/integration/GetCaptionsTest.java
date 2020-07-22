@@ -71,7 +71,7 @@ public class GetCaptionsTest {
           throw new RuntimeException(
               "Maximum polling attempts ["
                   + maximumPollingAttempts
-                  + "]  reached and Job ["
+                  + "] reached and Job ["
                   + jobId
                   + "] has a status of ["
                   + jobStatus.getStatus()
