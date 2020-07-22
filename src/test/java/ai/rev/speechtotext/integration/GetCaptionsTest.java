@@ -19,11 +19,14 @@ public class GetCaptionsTest {
   private static ApiClient apiClient;
   private static String jobId;
   private final String VTT_CONTAINS = "WEBVTT";
+  private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
 
   @Before
   public void setup() throws IOException {
     apiClient = new ApiClient(EnvHelper.getToken());
-    jobId = getTranscribedJob();
+    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL);
+    jobId = revAiJob.getJobId();
+    pollForJobCompletionForFiveMinutes(jobId);
   }
 
   @Test
@@ -45,18 +48,31 @@ public class GetCaptionsTest {
     assertThat(captions).as("Caption content").contains(VTT_CONTAINS);
   }
 
-  private String getTranscribedJob() throws IOException {
-    List<RevAiJob> jobs = apiClient.getListOfJobs();
-    String transcribedJobId = null;
-    for (RevAiJob job : jobs) {
-      if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
-        transcribedJobId = job.getJobId();
+  private void pollForJobCompletionForFiveMinutes(String jobId) {
+    boolean isComplete = false;
+    int pollingAttempts = 0;
+    while (!isComplete && pollingAttempts < 60) {
+      RevAiJob revAiJob;
+      try {
+        revAiJob = apiClient.getJobDetails(jobId);
+      } catch (IOException e) {
+        throw new RuntimeException(
+            "Failed to get job details for [" + jobId + "] " + e.getMessage());
+      }
+      RevAiJobStatus jobStatus = revAiJob.getJobStatus();
+      if (jobStatus.equals(RevAiJobStatus.TRANSCRIBED)) {
+        isComplete = true;
         break;
+      } else if (jobStatus.equals(RevAiJobStatus.FAILED)) {
+        throw new RuntimeException("Job [" + jobId + "] failed");
+      } else {
+        pollingAttempts++;
+        try {
+          Thread.sleep(5000);
+        } catch (InterruptedException e) {
+          throw new RuntimeException("Thread.sleep failed " + e.getMessage());
+        }
       }
     }
-    if (transcribedJobId.equals(null)) {
-      throw new RuntimeException("Could not find a transcribed job for integration tests");
-    }
-    return transcribedJobId;
   }
 }
