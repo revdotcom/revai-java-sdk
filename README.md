@@ -15,7 +15,7 @@ The recommended way to use the Rev.ai Java SDK is to import it into the project 
         <artifactId>revai-java-sdk-speechtotext</artifactId>
         <version>1.0.0</version>
       </dependency>
-    
+
 ## Build and install locally from source
 Once you've cloned the repo you can use Maven to build it locally and install it in your local Maven .m2 repository.
 
@@ -40,7 +40,7 @@ ApiClient apiClient = new ApiClient(accessToken);
 ### Checking credits remaining
 
 ```
-RevAiAccount revAiAccount = apiClient.getAccount(); 
+RevAiAccount revAiAccount = apiClient.getAccount();
 ```
 
 ### Submitting a job
@@ -71,8 +71,8 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileNam
 
 `RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
 
-If you want to get fancy, all submit job methods have overrides that allow specifying 
-[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings. 
+If you want to get fancy, all submit job methods have overrides that allow specifying
+[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
 In RevAiJobOptions, you could include `metadata`, `callback_url`,
 `skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity` and `remove_disfluencies` as optional parameters, these are described in the request body of
 the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
@@ -130,16 +130,16 @@ String transcriptText = apiClient.getTranscriptText(revAiJob.getJobId());
 RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobId());
 ```
 
-The text output is a string containing just the text of your transcript. The object form of 
-the transcript contains all the information outlined in the response of the 
-[Get Transcript](https://www.rev.ai/docs#operation/GetTranscriptById) endpoint when using 
+The text output is a string containing just the text of your transcript. The object form of
+the transcript contains all the information outlined in the response of the
+[Get Transcript](https://www.rev.ai/docs#operation/GetTranscriptById) endpoint when using
 the json response schema.
 
 ### Getting captions output
 
-Another way to retrieve your file is captions output. We support both .srt and .vtt outputs. 
-See below for an example showing how you can get captions as a readable stream. If your job 
-was submitted with multiple speaker channels you are required to provide the id of the channel 
+Another way to retrieve your file is captions output. We support both .srt and .vtt outputs.
+See below for an example showing how you can get captions as a readable stream. If your job
+was submitted with multiple speaker channels you are required to provide the id of the channel
 you would like captioned.
 
 ```
@@ -152,7 +152,7 @@ InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptio
 
 ## Streaming Audio
 
-In order to stream audio, you will need to setup a streaming client and the content type 
+In order to stream audio, you will need to setup a streaming client and the content type
 for the audio you will be sending.
 
 ```
@@ -166,7 +166,7 @@ StreamContentType streamContentType = new StreamContentType();
 StreamingClient streamingClient = new StreamingClient("Your Access Token");
 ```
 
-You will need to create Listener that implements the RevAiWebSocketListener in order 
+You will need to create Listener that implements the RevAiWebSocketListener in order
 to handle WebSocket events.
 
 ```java
@@ -252,16 +252,16 @@ customVocabularyClient.deleteCustomVocabulary(retrievedVocabularyInformation.get
 Before contributing to the project please install the following
 * [IntelliJ IDE](https://www.jetbrains.com/idea/)
 * [google-java-format plugin](https://plugins.jetbrains.com/plugin/8527-google-java-format)
- 
+
 Before opening a pull-request
 * go to `Settings > Plugins` and install google-java-format.
 * then `Settings > google-java-format Settings` and click enable option.
 * please run the `Code > Reformat Code` option in any classes that were touched to ensure the code is formatted correctly.
 You can also right click on `src` folder and run `Reformat Code`.
 
-Run `mvn package` to build the code, run the unit tests and create the SDK jar. 
+Run `mvn package` to build the code, run the unit tests and create the SDK jar.
 
-Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token. 
+Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token.
 
 To save the `REVAI_ACCESS_TOKEN` to be available for Integration tests
 * go to `Run > Edit Configurations` and add a new JUnit configuration if none exists yet.
