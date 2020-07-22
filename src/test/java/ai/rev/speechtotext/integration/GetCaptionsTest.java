@@ -23,7 +23,10 @@ public class GetCaptionsTest {
   @Before
   public void setup() throws IOException {
     apiClient = new ApiClient(EnvHelper.getToken());
-    jobId = getTranscribedJob();
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
+    RevAiJob revAiJob = apiClient.submitJobUrl(mediaUrl);
+    jobId = revAiJob.getJobId();
+    pollForJobCompletionOrTimeout(jobId);
   }
 
   @Test
@@ -45,18 +48,41 @@ public class GetCaptionsTest {
     assertThat(captions).as("Caption content").contains(VTT_CONTAINS);
   }
 
-  private String getTranscribedJob() throws IOException {
-    List<RevAiJob> jobs = apiClient.getListOfJobs();
-    String transcribedJobId = null;
-    for (RevAiJob job : jobs) {
-      if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
-        transcribedJobId = job.getJobId();
-        break;
+  private void pollForJobCompletionOrTimeout(String jobId) {
+    boolean isComplete = false;
+    int pollingAttempts = 0;
+    int maximumPollingAttempts = 60;
+    while (!isComplete && pollingAttempts < maximumPollingAttempts) {
+      RevAiJob revAiJob;
+      try {
+        revAiJob = apiClient.getJobDetails(jobId);
+      } catch (IOException e) {
+        throw new RuntimeException(
+            "Failed to get job details for [" + jobId + "] " + e.getMessage());
+      }
+      RevAiJobStatus jobStatus = revAiJob.getJobStatus();
+      if (jobStatus.equals(RevAiJobStatus.TRANSCRIBED)) {
+        isComplete = true;
+      } else if (jobStatus.equals(RevAiJobStatus.FAILED)) {
+        throw new RuntimeException("Job [" + jobId + "] failed");
+      } else {
+        pollingAttempts++;
+        if (pollingAttempts == maximumPollingAttempts) {
+          throw new RuntimeException(
+              "Maximum polling attempts ["
+                  + maximumPollingAttempts
+                  + "] reached and Job ["
+                  + jobId
+                  + "] has a status of ["
+                  + jobStatus.getStatus()
+                  + "]");
+        }
+        try {
+          Thread.sleep(5000);
+        } catch (InterruptedException e) {
+          throw new RuntimeException("Thread.sleep failed " + e.getMessage());
+        }
       }
     }
-    if (transcribedJobId.equals(null)) {
-      throw new RuntimeException("Could not find a transcribed job for integration tests");
-    }
-    return transcribedJobId;
   }
 }
