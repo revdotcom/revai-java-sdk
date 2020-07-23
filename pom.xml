@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ai.rev.speechtotext</groupId>
     <artifactId>revai-java-sdk-speechtotext</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>Rev.ai speech to text SDK for Java</name>
     <description>Java SDK for rev.ai speech to text API</description>
     <url>https://www.rev.ai/docs</url>
@@ -226,10 +226,10 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.kohsuke</groupId>
                         <artifactId>pgp-maven-plugin</artifactId>
+                        <version>1.1</version>
                         <executions>
                             <execution>
                                 <goals>
