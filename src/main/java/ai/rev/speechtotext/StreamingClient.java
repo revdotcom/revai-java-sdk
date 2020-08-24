@@ -198,6 +198,10 @@ public class StreamingClient {
         urlBuilder.addQueryParameter(
             "remove_disfluencies", String.valueOf(sessionConfig.getRemoveDisfluencies()));
       }
+      if (sessionConfig.getDeleteAfterSeconds() != null) {
+        urlBuilder.addQueryParameter(
+            "delete_after_seconds", String.valueOf(sessionConfig.getDeleteAfterSeconds()));
+      }
     }
     return urlBuilder.build().toString()
         + "&content_type="

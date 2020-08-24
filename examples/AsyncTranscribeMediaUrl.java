@@ -34,6 +34,7 @@ public class AsyncTranscribeMediaUrl {
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSpeakerChannelsCount(null);
+    revAiJobOptions.setSpeakerChannelsCount(2592000); // 30 days in seconds
 
     RevAiJob submittedJob;
 

@@ -52,6 +52,10 @@ public class RevAiJobOptions {
   @SerializedName("remove_disfluencies")
   private Boolean removeDisfluencies;
 
+  /** Optional number of seconds after job completion when job is auto-deleted */
+  @SerializedName("delete_after_seconds")
+  private Integer deleteAfterSeconds;
+
   /**
    * Returns the media url.
    *
@@ -208,7 +212,7 @@ public class RevAiJobOptions {
   /**
    * Returns the value of the removeDisfluencies Boolean
    *
-   * @return The remove disfluencies value.
+   * @return The removeDisfluencies value.
    */
   public Boolean getRemoveDisfluencies() {
     return removeDisfluencies;
@@ -222,5 +226,23 @@ public class RevAiJobOptions {
    */
   public void setRemoveDisfluencies(Boolean removeDisfluencies) {
     this.removeDisfluencies = removeDisfluencies;
+  }
+
+  /**
+   * Returns the value of deleteAfterSeconds.
+   *
+   * @return The deleteAfterSeconds value.
+   */
+  public Integer getDeleteAfterSeconds() {
+    return deleteAfterSeconds;
+  }
+
+  /**
+   * Specifies the number of seconds to be waited until the job is auto-deleted after its completion.
+   *
+   * @param deleteAfterSeconds The number of seconds after job completion when job is auto-deleted.
+   */
+  public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
+    this.deleteAfterSeconds = deleteAfterSeconds;
   }
 }

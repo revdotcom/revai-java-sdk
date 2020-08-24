@@ -34,6 +34,7 @@ public class StreamingFromLocalFileExample {
     sessionConfig.setMetaData("Streaming from the Java SDK");
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
+    sessionConfig.setDeleteAfterSeconds(2592000); // 30 days in seconds
 
     // Initialize your client with your access token
     StreamingClient streamingClient = new StreamingClient(accessToken);

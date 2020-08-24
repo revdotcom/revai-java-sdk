@@ -7,6 +7,7 @@ public class SessionConfig {
   private Boolean filterProfanity;
   private String customVocabularyId;
   private Boolean removeDisfluencies;
+  private Integer deleteAfterSeconds;
 
   /**
    * Returns the metadata.
@@ -85,5 +86,23 @@ public class SessionConfig {
    */
   public void setRemoveDisfluencies(Boolean removeDisfluencies) {
     this.removeDisfluencies = removeDisfluencies;
+  }
+
+  /**
+   * Returns the value of deleteAfterSeconds.
+   *
+   * @return The deleteAfterSeconds value.
+   */
+  public Integer getDeleteAfterSeconds() {
+    return deleteAfterSeconds;
+  }
+
+  /**
+   * Specifies the number of seconds to be waited until the job is auto-deleted after its completion.
+   *
+   * @param deleteAfterSeconds The number of seconds after job completion when job is auto-deleted.
+   */
+  public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
+    this.deleteAfterSeconds = deleteAfterSeconds;
   }
 }

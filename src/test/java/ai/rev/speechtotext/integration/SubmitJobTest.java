@@ -147,6 +147,7 @@ public class SubmitJobTest {
     revAiJobOptions.setSkipDiarization(true);
     revAiJobOptions.setCallbackUrl("https://example.com");
     revAiJobOptions.setSpeakerChannelsCount(null);
+    revAiJobOptions.setDeleteAfterSeconds(0);
     return revAiJobOptions;
   }
 }

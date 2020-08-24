@@ -125,6 +125,7 @@ public class StreamingTest {
     sessionConfig.setMetaData(testName.getMethodName());
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
+    sessionConfig.setDeleteAfterSeconds(0);
     return sessionConfig;
   }
 
