@@ -8,7 +8,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class CustomVocabulariesExample {
+public class CustomVocabularies {
 
   public static void main(String[] args) {
     // Assign your access token to a String

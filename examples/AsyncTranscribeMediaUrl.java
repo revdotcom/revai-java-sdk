@@ -38,8 +38,7 @@ public class AsyncTranscribeMediaUrl {
 
     RevAiJob submittedJob;
 
-    String mediaUrl =
-        "https://www.rev.ai/FTC_Sample_1.mp3";
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
 
     try {
       // Submit the local file and transcription options

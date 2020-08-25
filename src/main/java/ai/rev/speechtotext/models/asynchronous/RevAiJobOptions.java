@@ -238,7 +238,8 @@ public class RevAiJobOptions {
   }
 
   /**
-   * Specifies the number of seconds to be waited until the job is auto-deleted after its completion.
+   * Specifies the number of seconds to be waited until the job is auto-deleted after its
+   * completion.
    *
    * @param deleteAfterSeconds The number of seconds after job completion when job is auto-deleted.
    */

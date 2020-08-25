@@ -45,7 +45,9 @@ public class RevAiStreamingClientOptionalParametersTest {
   }
 
   @DataPoints("deleteAfterSecondsAndNull")
-  public static Integer[] deleteAfterSecondsAndNull() { return new Integer[] {0, 1, null}; }
+  public static Integer[] deleteAfterSecondsAndNull() {
+    return new Integer[] {0, 1, null};
+  }
 
   @DataPoints("booleanValuesAndNull")
   public static Boolean[] booleanValuesAndNull() {
@@ -135,7 +137,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     }
     if (sessionConfig.getDeleteAfterSeconds() != null) {
       assertThat(request.getPath())
-              .contains("delete_after_seconds=" + sessionConfig.getDeleteAfterSeconds());
+          .contains("delete_after_seconds=" + sessionConfig.getDeleteAfterSeconds());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }

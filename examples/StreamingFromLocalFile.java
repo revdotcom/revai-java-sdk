@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class StreamingFromLocalFileExample {
+public class StreamingFromLocalFile {
 
   public static void main(String[] args) throws InterruptedException {
     // Assign your access token to a String
