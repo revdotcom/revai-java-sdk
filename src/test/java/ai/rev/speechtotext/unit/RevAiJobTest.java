@@ -153,6 +153,7 @@ public class RevAiJobTest {
     options.setCallbackUrl("https://example.com");
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
+    options.setDeleteAfterSeconds(0);
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
 
@@ -188,7 +189,6 @@ public class RevAiJobTest {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setSkipDiarization(true);
 
     RevAiJob revAiJob = sut.submitJobLocalFile(filePath, options);
 

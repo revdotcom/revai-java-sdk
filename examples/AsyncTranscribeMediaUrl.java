@@ -34,11 +34,11 @@ public class AsyncTranscribeMediaUrl {
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSpeakerChannelsCount(null);
+    revAiJobOptions.setDeleteAfterSeconds(2592000); // 30 days in seconds
 
     RevAiJob submittedJob;
 
-    String mediaUrl =
-        "https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3";
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
 
     try {
       // Submit the local file and transcription options

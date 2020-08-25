@@ -44,6 +44,11 @@ public class RevAiStreamingClientOptionalParametersTest {
     return new String[] {VOCAB_ID, null};
   }
 
+  @DataPoints("deleteAfterSecondsAndNull")
+  public static Integer[] deleteAfterSecondsAndNull() {
+    return new Integer[] {0, 1, null};
+  }
+
   @DataPoints("booleanValuesAndNull")
   public static Boolean[] booleanValuesAndNull() {
     return new Boolean[] {true, false, null};
@@ -83,16 +88,18 @@ public class RevAiStreamingClientOptionalParametersTest {
   }
 
   @Theory
-  public void StreamingClient_CustomVocabularyIdIsNull_ContainsParametersInUrl(
+  public void StreamingClient_GivenOptionalParameterSet_ContainsNonNullParametersInUrl(
       @FromDataPoints("metadataAndNull") String metadata,
       @FromDataPoints("customVocabularyIdAndNull") String customVocabularyId,
       @FromDataPoints("booleanValuesAndNull") Boolean filterProfanity,
-      @FromDataPoints("booleanValuesAndNull") Boolean removeDisfluencies)
+      @FromDataPoints("booleanValuesAndNull") Boolean removeDisfluencies,
+      @FromDataPoints("deleteAfterSecondsAndNull") Integer deleteAfterSeconds)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
     sessionConfig.setFilterProfanity(filterProfanity);
     sessionConfig.setCustomVocabularyId(customVocabularyId);
     sessionConfig.setRemoveDisfluencies(removeDisfluencies);
+    sessionConfig.setDeleteAfterSeconds(deleteAfterSeconds);
 
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
@@ -127,6 +134,10 @@ public class RevAiStreamingClientOptionalParametersTest {
       assertThat(
           URLDecoder.decode(request.getPath(), "UTF8")
               .contains("metadata=" + sessionConfig.getMetaData()));
+    }
+    if (sessionConfig.getDeleteAfterSeconds() != null) {
+      assertThat(request.getPath())
+          .contains("delete_after_seconds=" + sessionConfig.getDeleteAfterSeconds());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }

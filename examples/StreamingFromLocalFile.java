@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class StreamingFromLocalFileExample {
+public class StreamingFromLocalFile {
 
   public static void main(String[] args) throws InterruptedException {
     // Assign your access token to a String
@@ -34,6 +34,7 @@ public class StreamingFromLocalFileExample {
     sessionConfig.setMetaData("Streaming from the Java SDK");
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
+    sessionConfig.setDeleteAfterSeconds(2592000); // 30 days in seconds
 
     // Initialize your client with your access token
     StreamingClient streamingClient = new StreamingClient(accessToken);

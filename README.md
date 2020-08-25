@@ -13,7 +13,7 @@ The recommended way to use the Rev.ai Java SDK is to import it into the project 
       <dependency>
         <groupId>ai.rev.speechtotext</groupId>
         <artifactId>revai-java-sdk-speechtotext</artifactId>
-        <version>1.1.1</version>
+        <version>1.2.0</version>
       </dependency>
 
 ## Build and install locally from source
@@ -74,7 +74,7 @@ RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileNam
 If you want to get fancy, all submit job methods have overrides that allow specifying
 [RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
 In RevAiJobOptions, you could include `metadata`, `callback_url`,
-`skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity` and `remove_disfluencies` as optional parameters, these are described in the request body of
+`skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity`, `remove_disfluencies`, and `delete_after_seconds` as optional parameters, these are described in the request body of
 the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
 
 ### Checking your job's status
@@ -199,7 +199,7 @@ public class Listener implements RevAiWebSocketListener {
 }
 ```
 
-Now you will be able to connect and start the streaming session by calling the `streamingClient.connect()` method and passing in the Listener! You can supply an optional `SessionConfig` object, containing `metadata`, `filter_profanity` and `remove_disfluencies` as optional parameters, to the function in order to provide additional information for that session.
+Now you will be able to connect and start the streaming session by calling the `streamingClient.connect()` method and passing in the Listener! You can supply an optional `SessionConfig` object, containing `metadata`, `filter_profanity`, `remove_disfluencies`, and `delete_after_seconds` as optional parameters, to the function in order to provide additional information for that session.
 
 ```
 Listener listener = new Listener();
