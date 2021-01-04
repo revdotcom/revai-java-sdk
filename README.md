@@ -13,7 +13,7 @@ The recommended way to use the Rev.ai Java SDK is to import it into the project 
       <dependency>
         <groupId>ai.rev.speechtotext</groupId>
         <artifactId>revai-java-sdk-speechtotext</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
       </dependency>
 
 ## Build and install locally from source
