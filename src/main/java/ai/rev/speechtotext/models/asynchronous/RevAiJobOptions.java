@@ -40,21 +40,35 @@ public class RevAiJobOptions {
   @SerializedName("custom_vocabularies")
   private List<CustomVocabulary> customVocabularies;
 
-  /** Optional information that can be provided. */
+  /**
+   * Optional information that can be provided.
+   */
   @SerializedName("metadata")
   private String metadata;
 
-  /** Optional parameter to filter profanity in the transcript */
+  /**
+   * Optional parameter to filter profanity in the transcript
+   */
   @SerializedName("filter_profanity")
   private Boolean filterProfanity;
 
-  /** Optional parameter to remove disfluencies (ums, ahs) in the transcript */
+  /**
+   * Optional parameter to remove disfluencies (ums, ahs) in the transcript
+   */
   @SerializedName("remove_disfluencies")
   private Boolean removeDisfluencies;
 
-  /** Optional number of seconds after job completion when job is auto-deleted */
+  /**
+   * Optional number of seconds after job completion when job is auto-deleted
+   */
   @SerializedName("delete_after_seconds")
   private Integer deleteAfterSeconds;
+
+  /**
+   * Optional language parameter using ISO 639-1 2-letter language code
+   */
+  @SerializedName("language")
+  private String language;
 
   /**
    * Returns the media url.
@@ -246,4 +260,20 @@ public class RevAiJobOptions {
   public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
     this.deleteAfterSeconds = deleteAfterSeconds;
   }
+
+  /**
+   * Returns the value of language.
+   *
+   * @return the language value.
+   */
+  public String getLanguage() {
+    return language;
+  }
+
+  /**
+   * Specifies language for ASR system using ISO 639-1 2-letter language code.
+   *
+   * @param language ISO 639-1 2-letter language code of desired ASR language.
+   */
+  public void setLanguage(String language) { this.language = language; }
 }

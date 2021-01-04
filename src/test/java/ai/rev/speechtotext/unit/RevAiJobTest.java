@@ -154,6 +154,7 @@ public class RevAiJobTest {
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
+    options.setLanguage("en");
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
 
