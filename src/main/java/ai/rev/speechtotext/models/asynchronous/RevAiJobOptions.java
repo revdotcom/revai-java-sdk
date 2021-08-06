@@ -65,7 +65,8 @@ public class RevAiJobOptions {
   private Integer deleteAfterSeconds;
 
   /**
-   * Optional language parameter using ISO 639-1 2-letter or ISO 639-3 (3-letter) language code
+   * Optional language parameter using a supported ISO 639-1 2-letter or ISO 639-3 (3-letter) language code
+   * as defined in the API reference
    */
   @SerializedName("language")
   private String language;

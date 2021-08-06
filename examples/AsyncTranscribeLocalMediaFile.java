@@ -35,7 +35,7 @@ public class AsyncTranscribeLocalMediaFile {
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(2592000); // 30 days in seconds
-    revAiJobOptions.setLanguage("en"); 
+    revAiJobOptions.setLanguage("en");
 
     RevAiJob submittedJob;
 
