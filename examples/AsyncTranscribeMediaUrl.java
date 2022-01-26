@@ -36,6 +36,7 @@ public class AsyncTranscribeMediaUrl {
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(2592000); // 30 days in seconds
     revAiJobOptions.setLanguage("en");
+    revAiJobOptions.setTranscriber("machine_v2");
 
     RevAiJob submittedJob;
 
