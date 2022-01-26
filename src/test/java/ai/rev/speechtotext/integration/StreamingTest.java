@@ -126,6 +126,8 @@ public class StreamingTest {
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
     sessionConfig.setDeleteAfterSeconds(0);
+    sessionConfig.setStartTs(10.0);
+    sessionConfig.setTranscriber("machine_v2");
     return sessionConfig;
   }
 

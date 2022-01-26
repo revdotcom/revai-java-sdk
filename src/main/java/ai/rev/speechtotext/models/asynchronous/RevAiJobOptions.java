@@ -72,6 +72,12 @@ public class RevAiJobOptions {
   private String language;
 
   /**
+   * Specifies the type of transcriber to use to transcribe the media file
+   */
+  @SerializedName("transcriber")
+  private String transcriber;
+
+  /**
    * Returns the media url.
    *
    * @return The media url.
@@ -277,4 +283,22 @@ public class RevAiJobOptions {
    * @param language ISO 639-1 2-letter language code of desired ASR language.
    */
   public void setLanguage(String language) { this.language = language; }
+
+  /**
+   * Specifies the type of transcriber to use to transcribe the media file
+   *
+   * @return the name of the transcriber type
+   */
+  public String getTranscriber() {
+    return transcriber;
+  }
+
+  /**
+   * Specifies the type of transcriber to use to transcribe the media file
+   *
+   * @param transcriber the name of the transcriber type
+   */
+  public void setTranscriber(String transcriber) {
+    this.transcriber = transcriber;
+  }
 }

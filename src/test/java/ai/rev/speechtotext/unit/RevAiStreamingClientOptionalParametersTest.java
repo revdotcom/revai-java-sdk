@@ -28,6 +28,7 @@ public class RevAiStreamingClientOptionalParametersTest {
   private static final String VOCAB_ID = "VocabId";
   private static final String METADATA = "Best Metadata";
   private static final String FAKE_ACCESS_TOKEN = "foo";
+  private static final String TRANSCRIBER = "machine_v2";
 
   private MockWebServer mockWebServer;
   private StreamContentType defaultContentType;
@@ -52,6 +53,16 @@ public class RevAiStreamingClientOptionalParametersTest {
   @DataPoints("booleanValuesAndNull")
   public static Boolean[] booleanValuesAndNull() {
     return new Boolean[] {true, false, null};
+  }
+
+  @DataPoints("startTsAndNull")
+  public static Double[] startTsAndNull() {
+    return new Double[] {0.0, 10.0, null};
+  }
+
+  @DataPoints("transcriberAndNull")
+  public static String[] transcriberAndNull() {
+    return new String[] {TRANSCRIBER, null};
   }
 
   public RevAiStreamingClientOptionalParametersTest() {
@@ -93,13 +104,17 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("customVocabularyIdAndNull") String customVocabularyId,
       @FromDataPoints("booleanValuesAndNull") Boolean filterProfanity,
       @FromDataPoints("booleanValuesAndNull") Boolean removeDisfluencies,
-      @FromDataPoints("deleteAfterSecondsAndNull") Integer deleteAfterSeconds)
+      @FromDataPoints("deleteAfterSecondsAndNull") Integer deleteAfterSeconds,
+      @FromDataPoints("startTsAndNull") Double startTs,
+      @FromDataPoints("transcriberAndNull") String transcriber)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
     sessionConfig.setFilterProfanity(filterProfanity);
     sessionConfig.setCustomVocabularyId(customVocabularyId);
     sessionConfig.setRemoveDisfluencies(removeDisfluencies);
     sessionConfig.setDeleteAfterSeconds(deleteAfterSeconds);
+    sessionConfig.setStartTs(startTs);
+    sessionConfig.setTranscriber(transcriber);
 
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
@@ -138,6 +153,14 @@ public class RevAiStreamingClientOptionalParametersTest {
     if (sessionConfig.getDeleteAfterSeconds() != null) {
       assertThat(request.getPath())
           .contains("delete_after_seconds=" + sessionConfig.getDeleteAfterSeconds());
+    }
+    if (sessionConfig.getStartTs() != null) {
+      assertThat(request.getPath())
+              .contains("start_ts=" + sessionConfig.getStartTs());
+    }
+    if (sessionConfig.getTranscriber() != null) {
+      assertThat(request.getPath())
+              .contains("transcriber=" + sessionConfig.getTranscriber());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }

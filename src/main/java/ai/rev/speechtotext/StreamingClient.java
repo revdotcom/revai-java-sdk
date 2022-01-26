@@ -202,6 +202,14 @@ public class StreamingClient {
         urlBuilder.addQueryParameter(
             "delete_after_seconds", String.valueOf(sessionConfig.getDeleteAfterSeconds()));
       }
+      if (sessionConfig.getStartTs() != null) {
+        urlBuilder.addQueryParameter(
+                "start_ts", String.valueOf(sessionConfig.getStartTs()));
+      }
+      if (sessionConfig.getTranscriber() != null) {
+        urlBuilder.addQueryParameter(
+                "transcriber", sessionConfig.getTranscriber());
+      }
     }
     return urlBuilder.build().toString()
         + "&content_type="

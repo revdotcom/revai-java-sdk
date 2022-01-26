@@ -149,6 +149,7 @@ public class SubmitJobTest {
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");
+    revAiJobOptions.setTranscriber("machine_v2");
     return revAiJobOptions;
   }
 }

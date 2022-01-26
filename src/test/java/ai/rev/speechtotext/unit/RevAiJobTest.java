@@ -155,6 +155,7 @@ public class RevAiJobTest {
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
+    options.setTranscriber("machine_v2");
 
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
 
