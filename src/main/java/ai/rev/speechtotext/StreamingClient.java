@@ -192,35 +192,33 @@ public class StreamingClient {
       }
       if (sessionConfig.getFilterProfanity() != null) {
         urlBuilder.addQueryParameter(
-            "filter_profanity", String.valueOf(sessionConfig.getFilterProfanity()));
+          "filter_profanity", String.valueOf(sessionConfig.getFilterProfanity()));
       }
       if (sessionConfig.getRemoveDisfluencies() != null) {
         urlBuilder.addQueryParameter(
-            "remove_disfluencies", String.valueOf(sessionConfig.getRemoveDisfluencies()));
+          "remove_disfluencies", String.valueOf(sessionConfig.getRemoveDisfluencies()));
       }
       if (sessionConfig.getDeleteAfterSeconds() != null) {
         urlBuilder.addQueryParameter(
-            "delete_after_seconds", String.valueOf(sessionConfig.getDeleteAfterSeconds()));
+          "delete_after_seconds", String.valueOf(sessionConfig.getDeleteAfterSeconds()));
       }
       if (sessionConfig.getStartTs() != null) {
-        urlBuilder.addQueryParameter(
-                "start_ts", String.valueOf(sessionConfig.getStartTs()));
+        urlBuilder.addQueryParameter("start_ts", String.valueOf(sessionConfig.getStartTs()));
       }
       if (sessionConfig.getTranscriber() != null) {
-        urlBuilder.addQueryParameter(
-                "transcriber", sessionConfig.getTranscriber());
+        urlBuilder.addQueryParameter("transcriber", sessionConfig.getTranscriber());
       }
     }
     return urlBuilder.build().toString()
-        + "&content_type="
-        + streamContentType.buildContentString();
+      + "&content_type="
+      + streamContentType.buildContentString();
   }
 
   private OkHttpClient setClient() {
     return new OkHttpClient.Builder()
-        .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
-        .addNetworkInterceptor(new ErrorInterceptor())
-        .build();
+      .addNetworkInterceptor(new ApiInterceptor(accessToken, SDKHelper.getSdkVersion()))
+      .addNetworkInterceptor(new ErrorInterceptor())
+      .build();
   }
 
   private static class Listener extends WebSocketListener {

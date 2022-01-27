@@ -36,7 +36,7 @@ public class StreamingFromLocalFile {
     sessionConfig.setRemoveDisfluencies(true);
     sessionConfig.setDeleteAfterSeconds(2592000); // 30 days in seconds
     sessionConfig.setStartTs(0.0);
-    sessionConfig.setTranscriber("machine_v2");
+    sessionConfig.setTranscriber("machine");
 
     // Initialize your client with your access token
     StreamingClient streamingClient = new StreamingClient(accessToken);
