@@ -8,6 +8,8 @@ public class SessionConfig {
   private String customVocabularyId;
   private Boolean removeDisfluencies;
   private Integer deleteAfterSeconds;
+  private Double startTs;
+  private String transcriber;
 
   /**
    * Returns the metadata.
@@ -106,4 +108,32 @@ public class SessionConfig {
   public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
     this.deleteAfterSeconds = deleteAfterSeconds;
   }
+
+  /**
+   * Returns the value of startTs.
+   *
+   * @return The startTs value.
+   */
+  public Double getStartTs() { return startTs; }
+
+  /**
+   * Specifies the number of seconds to offset all hypotheses timings.
+   *
+   * @param startTs The number of seconds to offset all hypotheses timings.
+   */
+  public void setStartTs(Double startTs) { this.startTs = startTs; }
+
+  /**
+   * Returns the value of transcriber.
+   *
+   * @return The transcriber value.
+   */
+  public String getTranscriber() { return transcriber; }
+
+  /**
+   * Specifies the type of transcriber to use to transcribe the media.
+   *
+   * @param transcriber The type of transcriber to use to transcribe the media.
+   */
+  public void setTranscriber(String transcriber) { this.transcriber = transcriber; }
 }
