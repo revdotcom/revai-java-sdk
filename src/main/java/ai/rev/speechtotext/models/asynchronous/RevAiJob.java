@@ -1,5 +1,7 @@
 package ai.rev.speechtotext.models.asynchronous;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 /** A RevAi Job object provides all the information associated with a job submitted by the user. */
@@ -40,6 +42,42 @@ public class RevAiJob {
 
   @SerializedName("failure")
   private RevAiFailureType failure;
+
+  @SerializedName("delete_after_seconds")
+  private Integer deleteAfterSeconds;
+
+  @SerializedName("skip_diarization")
+  private Boolean skipDiarization;
+
+  @SerializedName("skip_punctuation")
+  private Boolean skipPunctuation;
+
+  @SerializedName("remove_disfluencies")
+  private Boolean removeDisfluencies;
+
+  @SerializedName("filter_profanity")
+  private Boolean filterProfanity;
+
+  @SerializedName("custom_vocabulary_id")
+  private String customVocabularyId;
+
+  @SerializedName("speaker_channels_count")
+  private Integer speakerChannelsCount;
+
+  @SerializedName("language")
+  private String language;
+
+  @SerializedName("transcriber")
+  private String transcriber;
+
+  @SerializedName("verbatim")
+  private Boolean verbatim;
+
+  @SerializedName("rush")
+  private Boolean rush;
+
+  @SerializedName("segments_to_transcribe")
+  private List<SegmentToTranscribe> segmentsToTranscribe;
 
   /**
    * Returns a String that contains the job ID.
@@ -145,7 +183,7 @@ public class RevAiJob {
   /**
    * Sets the audio duration.
    *
-   * @param durationSeconds An Integer value to set as audio duration.
+   * @param durationSeconds An Double value to set as audio duration.
    */
   public void setDurationSeconds(Double durationSeconds) {
     this.durationSeconds = durationSeconds;
@@ -263,6 +301,222 @@ public class RevAiJob {
     this.failure = failure;
   }
 
+  /**
+   * Returns the duration in seconds before job is deleted
+   *
+   * @return The duration in seconds.
+   */
+  public Integer getDeleteAfterSeconds() {
+    return deleteAfterSeconds;
+  }
+
+  /**
+   * Sets the duration in seconds before job is deleted
+   *
+   * @param deleteAfterSeconds An Integer value to set as seconds before deletion.
+   */
+  public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
+    this.deleteAfterSeconds = deleteAfterSeconds;
+  }
+
+  /**
+   * Returns value of skip diarization for job
+   *
+   * @return Whether job is skipping diarization
+   */
+  public Boolean getSkipDiarization() {
+    return skipDiarization;
+  }
+
+  /**
+   * Sets skip diarization option for job
+   *
+   * @param skipDiarization An Boolean value to set for skipping diarization
+   */
+  public void setSkipDiarization(Boolean skipDiarization) {
+    this.skipDiarization = skipDiarization;
+  }
+
+  /**
+   * Returns value of skip punctuation for job
+   *
+   * @return Whether job is skipping punctuation
+   */
+  public Boolean getSkipPunctuation() {
+    return skipPunctuation;
+  }
+
+  /**
+   * Sets skip punctuation option for job
+   *
+   * @param skipPunctuation An Boolean value to set for skipping punctuation
+   */
+  public void setSkipPunctuation(Boolean skipPunctuation) {
+    this.skipPunctuation = skipPunctuation;
+  }
+
+  /**
+   * Returns value of remove disfluencies for job
+   *
+   * @return Whether job is removing disfluencies
+   */
+  public Boolean getRemoveDisfluencies() {
+    return removeDisfluencies;
+  }
+
+  /**
+   * Sets remove disfluencies option for job
+   *
+   * @param removeDisfluencies An Boolean value to set for remove disfluencies
+   */
+  public void setRemoveDisfluencies(Boolean removeDisfluencies) {
+    this.removeDisfluencies = removeDisfluencies;
+  }
+
+  /**
+   * Returns value of filter profanity for job
+   *
+   * @return Whether job is filtering profanity
+   */
+  public Boolean getFilterProfanity() {
+    return filterProfanity;
+  }
+
+  /**
+   * Sets filter profanity option for job
+   *
+   * @param filterProfanity An Boolean value to set for filter profanity
+   */
+  public void setFilterProfanity(Boolean filterProfanity) {
+    this.filterProfanity = filterProfanity;
+  }
+
+  /**
+   * Returns custom vocabulary id (if specified) associated to the job
+   *
+   * @return User-supplied custom vocabulary ID
+   */
+  public String getCustomVocabularyId() {
+    return customVocabularyId;
+  }
+
+  /**
+   * Sets the user-supplied custom vocabulary ID for job
+   *
+   * @param customVocabularyId An String value to set for custom vocabulary ID
+   */
+  public void setCustomVocabularyId(String customVocabularyId) {
+    this.customVocabularyId = customVocabularyId;
+  }
+
+  /**
+   * Returns number of speaker channels (if specified) for job
+   *
+   * @return Total number of unique speaker channels
+   */
+  public Integer getSpeakerChannelsCount() {
+    return speakerChannelsCount;
+  }
+
+  /**
+   * Sets speaker channels count for job
+   *
+   * @param speakerChannelsCount An Integer value to set for speaker channels count
+   */
+  public void setSpeakerChannelsCount(Integer speakerChannelsCount) {
+    this.speakerChannelsCount = speakerChannelsCount;
+  }
+
+  /**
+   * Returns language of the job
+   *
+   * @return language of the job
+   */
+  public String getLanguage() {
+    return language;
+  }
+
+  /**
+   * Sets the language for job
+   *
+   * @param language An String value to set for language
+   */
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
+  /**
+   * Returns transcriber used for the job
+   *
+   * @return transcriber used for the job
+   */
+  public String getTranscriber() {
+    return transcriber;
+  }
+
+  /**
+   * Sets the transcriber used for job
+   *
+   * @param transcriber An String value to set for transcriber
+   */
+  public void setTranscriber(String transcriber) {
+    this.transcriber = transcriber;
+  }
+
+  /**
+   * Returns value of verbatim for job transcribed by human
+   *
+   * @return Whether job transcribed by human is verbatim
+   */
+  public Boolean getVerbatim() {
+    return verbatim;
+  }
+
+  /**
+   * Sets verbatim for job transcribed by human
+   *
+   * @param verbatim An Boolean value to set for verbatim
+   */
+  public void setVerbatim(Boolean verbatim) {
+    this.verbatim = verbatim;
+  }
+
+  /**
+   * Returns value of rush for job transcribed by human
+   *
+   * @return Whether job transcribed by human has rush
+   */
+  public Boolean getRush() {
+    return rush;
+  }
+
+  /**
+   * Sets rush option for job transcribed by human
+   *
+   * @param rush An Boolean value to set for rush
+   */
+  public void setRush(Boolean rush) {
+    this.rush = rush;
+  }
+
+  /**
+   * Returns segments to transcribe for job transcribed by human
+   *
+   * @return List of segments to be transcribed
+   */
+  public List<SegmentToTranscribe> getSegmentsToTranscribe() {
+    return segmentsToTranscribe;
+  }
+
+  /**
+   * Sets segments to be transcribed for job transcribed by human
+   *
+   * @param segmentsToTranscribe List of segments to be transcribed
+   */
+  public void setSegmentsToTranscribe(List<SegmentToTranscribe> segmentsToTranscribe) {
+    this.segmentsToTranscribe = segmentsToTranscribe;
+  }
+
   @Override
   public String toString() {
     return "{"
@@ -299,6 +553,39 @@ public class RevAiJob {
         + '\''
         + ", failure='"
         + failure.getFailureType()
+        + '\''
+        + ", deleteAfterSeconds='"
+        + deleteAfterSeconds
+        + '\''
+        + ", skipDiarization='"
+        + skipDiarization
+        + '\''
+        + ", removeDisfluencies='"
+        + removeDisfluencies
+        + '\''
+        + ", filterProfanity='"
+        + filterProfanity
+        + '\''
+        + ", customVocabularyId='"
+        + customVocabularyId
+        + '\''
+        + ", speakerChannelsCount='"
+        + speakerChannelsCount
+        + '\''
+        + ", language='"
+        + language
+        + '\''
+        + ", transcriber='"
+        + transcriber
+        + '\''
+        + ", verbatim='"
+        + verbatim
+        + '\''
+        + ", rush='"
+        + rush
+        + '\''
+        + ", segmentsToTranscribe='"
+        + segmentsToTranscribe
         + '\''
         + '}';
   }

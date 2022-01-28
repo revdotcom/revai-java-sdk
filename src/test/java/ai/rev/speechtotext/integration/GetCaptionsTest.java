@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
 import static org.assertj.core.api.Assertions.assertThat;
