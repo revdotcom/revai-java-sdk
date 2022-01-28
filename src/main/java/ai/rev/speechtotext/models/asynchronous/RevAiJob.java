@@ -183,7 +183,7 @@ public class RevAiJob {
   /**
    * Sets the audio duration.
    *
-   * @param durationSeconds An Double value to set as audio duration.
+   * @param durationSeconds A Double value to set as audio duration.
    */
   public void setDurationSeconds(Double durationSeconds) {
     this.durationSeconds = durationSeconds;
