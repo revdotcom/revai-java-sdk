@@ -79,7 +79,14 @@ options.setTranscriber("human");
 
 // optional job options
 options.setVerbatim(true);
-options.setRush(true);
+options.setRush(false);
+options.setTestMode(true);
+
+// optional segments to transcribe
+SegmentToTranscribe segment = new SegmentToTranscribe();
+segment.setStartTimestamp(2.0);
+segment.setEndTimestamp(100.5);
+options.setSegmentsToTranscribe(List.of(segment));
 
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 ```
