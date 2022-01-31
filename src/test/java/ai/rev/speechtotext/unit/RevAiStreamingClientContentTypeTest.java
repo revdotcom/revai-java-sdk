@@ -50,7 +50,7 @@ public class RevAiStreamingClientContentTypeTest {
   }
 
   @Parameterized.Parameters
-  public static Collection input() {
+  public static Collection<Object[]> input() {
     return Arrays.asList(
         new Object[][] {
           {CONTENT_TYPE, LAYOUT, RATE, FORMAT, CHANNELS},

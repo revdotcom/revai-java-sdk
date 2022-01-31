@@ -78,6 +78,34 @@ public class RevAiJobOptions {
   private String transcriber;
 
   /**
+   * Optional and only available with transcriber "human".
+   * Whether transcriber will transcribe every syllable.
+   */
+  @SerializedName("verbatim")
+  private Boolean verbatim;
+
+  /**
+   * Optional and only available with transcriber "human".
+   * Whether job is given higher priority by human transcriber for higher price.
+   */
+  @SerializedName("rush")
+  private Boolean rush;
+
+  /**
+   * Optional and only available with transcriber "human".
+   * Whether job is mocked and no real transcription actually happens.
+   */
+  @SerializedName("test_mode")
+  private Boolean testMode;
+
+  /**
+   * Optional and only available with transcriber "human".
+   * Sections of the transcript that should be transcribed instead of the whole file.
+   */
+  @SerializedName("segments_to_transcribe")
+  private List<SegmentToTranscribe> segmentsToTranscribe;
+
+  /**
    * Returns the media url.
    *
    * @return The media url.
@@ -300,5 +328,84 @@ public class RevAiJobOptions {
    */
   public void setTranscriber(String transcriber) {
     this.transcriber = transcriber;
+  }
+
+  /**
+   * Returns the value of verbatim
+   *
+   * @return Whether verbatim is true or false
+   */
+  public Boolean getVerbatim() {
+    return verbatim;
+  }
+
+  /**
+   * Sets whether transcriber will transcribe every syllable including disfluencies. This
+   * property is optional but can only be used with "human" transcriber.
+   * Defaults to false.
+   *
+   * @param verbatim Whether to transcribe every syllable
+   */
+  public void setVerbatim(Boolean verbatim) {
+    this.verbatim = verbatim;
+  }
+
+  /**
+   * Returns the value of rush
+   *
+   * @return Whether rush is true or false
+   */
+  public Boolean getRush() {
+    return rush;
+  }
+
+  /**
+   * Sets whether job is given higher priority by human transcriber to be worked on sooner in
+   * exchange for a higher price. This property is optional but can only be used with "human" transcriber.
+   * Defaults to false.
+   *
+   * @param rush Whether to give higher priority to the job
+   */
+  public void setRush(Boolean rush) {
+    this.rush = rush;
+  }
+
+  /**
+   * Returns the value of testMode
+   *
+   * @return Whether testMode is true or false
+   */
+  public Boolean getTestMode() {
+    return testMode;
+  }
+
+  /**
+   * Sets whether job is a mocked job which will return a mock transcript.
+   * This property is optional but can only be used with "human" transcriber.
+   * Defaults to false.
+   *
+   * @param testMode Whether to set job to be test mode
+   */
+  public void setTestMode(Boolean testMode) {
+    this.testMode = testMode;
+  }
+
+  /**
+   * Returns the segments in media to transcribe
+   *
+   * @return Segments to transcribe for the job
+   */
+  public List<SegmentToTranscribe> getSegmentsToTranscribe() {
+    return segmentsToTranscribe;
+  }
+
+  /**
+   * Specifies specific segments of the media to transcribe.
+   * This property is optional but can only be used with "human" transcriber.
+   *
+   * @param segmentsToTranscribe List of segments to transcribe
+   */
+  public void setSegmentsToTranscribe(List<SegmentToTranscribe> segmentsToTranscribe) {
+    this.segmentsToTranscribe = segmentsToTranscribe;
   }
 }

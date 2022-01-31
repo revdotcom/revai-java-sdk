@@ -1,7 +1,6 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.speechtotext.MockInterceptor;
-import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import com.google.gson.Gson;
 import okio.Buffer;
 

@@ -69,6 +69,28 @@ try {
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
 
+You can also submit a job to be handled by a human transcriber using our [Human Transcription](https://www.rev.ai/docs#section/Human-Transcription-(Labs)) option.
+```
+String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
+RevAiJobOptions options = new RevAiJobOptions();
+
+// set to perform human transcription
+options.setTranscriber("human");
+
+// optional job options
+options.setVerbatim(true);
+options.setRush(false);
+options.setTestMode(true);
+
+// optional segments to transcribe
+SegmentToTranscribe segment = new SegmentToTranscribe();
+segment.setStartTimestamp(2.0);
+segment.setEndTimestamp(100.5);
+options.setSegmentsToTranscribe(List.of(segment));
+
+RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
+```
+
 `RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
 
 If you want to get fancy, all submit job methods have overrides that allow specifying

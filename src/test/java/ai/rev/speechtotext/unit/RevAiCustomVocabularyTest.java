@@ -10,7 +10,6 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okio.Buffer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
