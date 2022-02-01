@@ -35,6 +35,7 @@ public class StreamingFromLocalFile {
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
     sessionConfig.setDeleteAfterSeconds(2592000); // 30 days in seconds
+    sessionConfig.setDetailedPartials(false);
     sessionConfig.setStartTs(0.0);
     sessionConfig.setTranscriber("machine");
 

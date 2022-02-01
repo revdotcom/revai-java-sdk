@@ -202,6 +202,10 @@ public class StreamingClient {
         urlBuilder.addQueryParameter(
           "delete_after_seconds", String.valueOf(sessionConfig.getDeleteAfterSeconds()));
       }
+      if (sessionConfig.getDetailedPartials() != null) {
+        urlBuilder.addQueryParameter(
+          "detailed_partials", String.valueOf(sessionConfig.getDetailedPartials()));
+      }
       if (sessionConfig.getStartTs() != null) {
         urlBuilder.addQueryParameter("start_ts", String.valueOf(sessionConfig.getStartTs()));
       }
