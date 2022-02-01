@@ -207,16 +207,17 @@ public class RevAiJobOptions {
   /**
    * Returns the custom vocabulary ID.
    *
-   * @return A String that contains the custom vocabulary ID.
+   * @return The custom vocabulary ID.
    */
   public String getCustomVocabularyId() {
     return customVocabularyId;
   }
 
   /**
-   * Optional id of pre-computed custom vocabulary.
+   * Specifies the ID of the custom vocabulary the speech engine should use while processing audio
+   * samples. Custom vocabularies are submitted prior to usage in the stream and assigned an Id.
    *
-   * @param customVocabularyId A String to set as the custom vocabulary id.
+   * @param customVocabularyId The ID of the custom vocabulary.
    */
   public void setCustomVocabularyId(String customVocabularyId) {
     this.customVocabularyId = customVocabularyId;
