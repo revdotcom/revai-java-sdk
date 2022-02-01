@@ -241,14 +241,14 @@ streamingClient.sendAudioData(ByteString);
 
 The streaming connection will close when you call the method `streamingClient.close()` or if you go 15 seconds without sending any audio data.
 
-## Custom Vocabulary (for streaming)
+## Custom Vocabulary
 
-You can submit any custom vocabularies independently through the CustomVocabulariesClient. Once the custom vocabulary has been submitted and processed, it is ready to be used in any streaming job.
+You can submit any custom vocabularies independently through the CustomVocabulariesClient. Once the custom vocabulary has been submitted and processed, it is ready to be used in any async or streaming job.
 
 Below you can see an example of how to create, submit, delete, check on the status and view the other associated information of your custom vocabulary.
 
 ```
-// Initialize your client with your rev.ai access token
+// Initialize your client with your Rev.ai access token
 String accessToken = "Your Access Token";
 CustomVocabulariesClient customVocabulariesClient = new CustomVocabulariesClient(accessToken);
 
