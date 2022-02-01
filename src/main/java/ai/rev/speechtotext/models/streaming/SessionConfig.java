@@ -8,6 +8,7 @@ public class SessionConfig {
   private String customVocabularyId;
   private Boolean removeDisfluencies;
   private Integer deleteAfterSeconds;
+  private Boolean detailedPartials;
   private Double startTs;
   private String transcriber;
 
@@ -83,8 +84,9 @@ public class SessionConfig {
    * the option to remove disfluencies is optional.
    *
    * @param removeDisfluencies The option to filter profanity.
-   * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)</a>
+   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)">
+   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)
+   *      </a>
    */
   public void setRemoveDisfluencies(Boolean removeDisfluencies) {
     this.removeDisfluencies = removeDisfluencies;
@@ -107,6 +109,27 @@ public class SessionConfig {
    */
   public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
     this.deleteAfterSeconds = deleteAfterSeconds;
+  }
+
+  /**
+   * Returns the value of detailed partials option
+   *
+   * @return The value of the detailed partials option.
+   */
+  public Boolean getDetailedPartials() {
+    return detailedPartials;
+  }
+
+  /**
+   * Specifies whether or not to return detailed partials. Setting the option is optional.
+   *
+   * @param detailedPartials The option to enable detailed partials.
+   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Detailed-Partials">
+   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Detailed-Partials
+   *      </a>
+   */
+  public void setDetailedPartials(Boolean detailedPartials) {
+    this.detailedPartials = detailedPartials;
   }
 
   /**

@@ -84,6 +84,9 @@ public class StreamingTest {
           for (Element element : elements) {
             assertThat(element.getType()).as("Element type in partial").isEqualTo("text");
             assertThat(element.getValue()).as("Element value").isNotNull();
+            assertThat(element.getStartTimestamp()).as("Element time stamp").isNotNull();
+            assertThat(element.getEndTimestamp()).as("Element end time stamp").isNotNull();
+            assertThat(element.getConfidence()).as("Element confidence score").isNotNull();
           }
         });
   }
@@ -126,6 +129,7 @@ public class StreamingTest {
     sessionConfig.setFilterProfanity(true);
     sessionConfig.setRemoveDisfluencies(true);
     sessionConfig.setDeleteAfterSeconds(0);
+    sessionConfig.setDetailedPartials(true);
     sessionConfig.setStartTs(10.0);
     sessionConfig.setTranscriber("machine");
     return sessionConfig;

@@ -105,6 +105,7 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("booleanValuesAndNull") Boolean filterProfanity,
       @FromDataPoints("booleanValuesAndNull") Boolean removeDisfluencies,
       @FromDataPoints("deleteAfterSecondsAndNull") Integer deleteAfterSeconds,
+      @FromDataPoints("booleanValuesAndNull") Boolean detailedPartials,
       @FromDataPoints("startTsAndNull") Double startTs,
       @FromDataPoints("transcriberAndNull") String transcriber)
       throws UnsupportedEncodingException {
@@ -113,6 +114,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     sessionConfig.setCustomVocabularyId(customVocabularyId);
     sessionConfig.setRemoveDisfluencies(removeDisfluencies);
     sessionConfig.setDeleteAfterSeconds(deleteAfterSeconds);
+    sessionConfig.setDetailedPartials(detailedPartials);
     sessionConfig.setStartTs(startTs);
     sessionConfig.setTranscriber(transcriber);
 
@@ -152,6 +154,10 @@ public class RevAiStreamingClientOptionalParametersTest {
     if (sessionConfig.getDeleteAfterSeconds() != null) {
       assertThat(request.getPath())
         .contains("delete_after_seconds=" + sessionConfig.getDeleteAfterSeconds());
+    }
+    if (sessionConfig.getDetailedPartials() != null) {
+      assertThat(request.getPath())
+        .contains("detailed_partials=" + sessionConfig.getDetailedPartials());
     }
     if (sessionConfig.getStartTs() != null) {
       assertThat(request.getPath())
