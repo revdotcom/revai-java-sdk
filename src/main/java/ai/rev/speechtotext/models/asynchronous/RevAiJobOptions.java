@@ -36,6 +36,10 @@ public class RevAiJobOptions {
   @SerializedName("speaker_channels_count")
   private Integer speakerChannelsCount;
 
+  /** Optional parameter for the id of a pre-computed custom vocabulary to be used */
+  @SerializedName("custom_vocabulary_id")
+  private String customVocabularyId;
+
   /** Optional array of {@link CustomVocabulary} objects. */
   @SerializedName("custom_vocabularies")
   private List<CustomVocabulary> customVocabularies;
@@ -198,6 +202,25 @@ public class RevAiJobOptions {
    */
   public void setSpeakerChannelsCount(Integer speakerChannelsCount) {
     this.speakerChannelsCount = speakerChannelsCount;
+  }
+
+  /**
+   * Returns the custom vocabulary ID.
+   *
+   * @return The custom vocabulary ID.
+   */
+  public String getCustomVocabularyId() {
+    return customVocabularyId;
+  }
+
+  /**
+   * Specifies the ID of the custom vocabulary the speech engine should use while processing audio
+   * samples. Custom vocabularies are submitted prior to usage in the stream and assigned an Id.
+   *
+   * @param customVocabularyId The ID of the custom vocabulary.
+   */
+  public void setCustomVocabularyId(String customVocabularyId) {
+    this.customVocabularyId = customVocabularyId;
   }
 
   /**
