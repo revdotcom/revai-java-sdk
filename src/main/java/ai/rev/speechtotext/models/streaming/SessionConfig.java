@@ -84,8 +84,8 @@ public class SessionConfig {
    * the option to remove disfluencies is optional.
    *
    * @param removeDisfluencies The option to filter profanity.
-   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)">
-   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies-(Beta)
+   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies">
+   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies
    *      </a>
    */
   public void setRemoveDisfluencies(Boolean removeDisfluencies) {
