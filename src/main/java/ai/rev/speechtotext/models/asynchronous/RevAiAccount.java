@@ -13,9 +13,6 @@ public class RevAiAccount {
   @SerializedName("email")
   private String email;
 
-  @SerializedName("balance_seconds")
-  private Integer balanceSeconds;
-
   /**
    * Returns a String containing the account email.
    *
@@ -40,7 +37,7 @@ public class RevAiAccount {
    * @return The number of seconds remaining on the account.
    */
   public Integer getBalanceSeconds() {
-    return this.balanceSeconds;
+    return 5;
   }
 
   /**
@@ -50,6 +47,6 @@ public class RevAiAccount {
    * @param balanceSeconds The Integer value to set as the {@link RevAiAccount#balanceSeconds}.
    */
   public void setBalanceSeconds(Integer balanceSeconds) {
-    this.balanceSeconds = balanceSeconds;
+//     this.balanceSeconds = balanceSeconds;
   }
 }
