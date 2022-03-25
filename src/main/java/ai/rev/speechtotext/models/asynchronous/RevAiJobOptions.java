@@ -9,7 +9,7 @@ import java.util.List;
  * A RevAiJobOptions object represents parameters that are submitted along a new job.
  *
  * @see <a
- *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+ *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
  */
 public class RevAiJobOptions {
 

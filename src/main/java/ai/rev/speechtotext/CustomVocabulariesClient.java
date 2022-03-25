@@ -95,7 +95,7 @@ public class CustomVocabulariesClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job Id is null.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#operation/DeleteCustomVocabulary">https://www.rev.ai/docs/streaming#operation/DeleteCustomVocabulary</a>
+   *     href="https://docs.rev.ai/api/custom-vocabulary/reference/#operation/DeleteCustomVocabulary">https://docs.rev.ai/api/custom-vocabulary/reference/#operation/DeleteCustomVocabulary</a>
    */
   public void deleteCustomVocabulary(String id) throws IOException {
     if (id == null || id.isEmpty()) {

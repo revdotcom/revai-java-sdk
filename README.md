@@ -5,7 +5,7 @@
 
 ## Documentation
 
-See the [API docs](https://www.rev.ai/docs) for more information about the API.
+See the [API docs](https://docs.rev.ai) for more information about the API.
 
 ## Install the SDK
 The recommended way to use the Rev.ai Java SDK is to import it into the project using Maven.
@@ -69,7 +69,7 @@ try {
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
 
-You can also submit a job to be handled by a human transcriber using our [Human Transcription](https://www.rev.ai/docs#section/Human-Transcription-(Labs)) option.
+You can also submit a job to be handled by a human transcriber using our [Human Transcription](https://docs.rev.ai/api/asynchronous/transcribers/#human-transcription) option.
 ```
 String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
 RevAiJobOptions options = new RevAiJobOptions();
@@ -91,13 +91,13 @@ options.setSegmentsToTranscribe(List.of(segment));
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 ```
 
-`RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
+`RevAiJob` objects contain job information as defined by the [documentation](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob).
 
 If you want to get fancy, all submit job methods have overrides that allow specifying
 [RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
 In RevAiJobOptions, you could include `metadata`, `callback_url`,
 `skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity`, `remove_disfluencies`, `delete_after_seconds` and `language` as optional parameters, these are described in the request body of
-the [Submit Job](https://www.rev.ai/docs#operation/SubmitTranscriptionJob) endpoint.
+the [Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
 
 ### Checking your job's status
 
@@ -107,7 +107,7 @@ You can check the status of your transcription job using its `id`
 RevAiJob newlyRefreshedRevAiJob = apiClient.getJobDetails(revAiJob.getJobId());
 ```
 
-`RevAiJob` objects contain job information as defined by the [documentation](https://www.rev.ai/docs#operation/SubmitTranscriptionJob).
+`RevAiJob` objects contain job information as defined by the [documentation](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob).
 
 ### Checking multiple files
 
@@ -126,7 +126,7 @@ List<RevAiJob> jobs = apiClient.getListOfJobs(jobId);
 ```
 
 `jobs` will contain a list of RevAiJob objects, having all information normally found in a successful response
-from our [Get List of Jobs](https://www.rev.ai/docs#operation/GetListOfJobs) endpoint
+from our [Get List of Jobs](https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs) endpoint
 
 ### Deleting a job
 
@@ -154,7 +154,7 @@ RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobI
 
 The text output is a string containing just the text of your transcript. The object form of
 the transcript contains all the information outlined in the response of the
-[Get Transcript](https://www.rev.ai/docs#operation/GetTranscriptById) endpoint when using
+[Get Transcript](https://docs.rev.ai/api/asynchronous/reference/#operation/GetTranscriptById) endpoint when using
 the json response schema.
 
 ### Getting captions output

@@ -9,7 +9,7 @@ import java.util.Arrays;
  * Represents the message returned over WebSocket containing the transcription of audio data.
  *
  * @see <a
- *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object">https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response/Hypothesis-Object</a>
+ *     href="https://docs.rev.ai/api/streaming/responses/">https://docs.rev.ai/api/streaming/responses/</a>
  */
 public class Hypothesis extends StreamingResponseMessage {
 
