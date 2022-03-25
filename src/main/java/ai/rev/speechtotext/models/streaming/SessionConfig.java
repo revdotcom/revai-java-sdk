@@ -45,7 +45,7 @@ public class SessionConfig {
    *
    * @param filterProfanity The option to filter profanity.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Filter-Profanity">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Filter-Profanity</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#profanity-filter">https://docs.rev.ai/api/streaming/requests/#profanity-filter</a>
    */
   public void setFilterProfanity(Boolean filterProfanity) {
     this.filterProfanity = filterProfanity;
@@ -84,8 +84,8 @@ public class SessionConfig {
    * the option to remove disfluencies is optional.
    *
    * @param removeDisfluencies The option to filter profanity.
-   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies">
-   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Remove-Disfluencies
+   * @see <a href="https://docs.rev.ai/api/streaming/requests/#disfluencies">
+   *        https://docs.rev.ai/api/streaming/requests/#disfluencies
    *      </a>
    */
   public void setRemoveDisfluencies(Boolean removeDisfluencies) {
@@ -124,8 +124,8 @@ public class SessionConfig {
    * Specifies whether or not to return detailed partials. Setting the option is optional.
    *
    * @param detailedPartials The option to enable detailed partials.
-   * @see <a href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Detailed-Partials">
-   *        https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Detailed-Partials
+   * @see <a href="https://docs.rev.ai/api/streaming/requests/#detailed-partials">
+   *        https://docs.rev.ai/api/streaming/requests/#detailed-partials
    *      </a>
    */
   public void setDetailedPartials(Boolean detailedPartials) {

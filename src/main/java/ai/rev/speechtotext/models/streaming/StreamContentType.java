@@ -7,7 +7,7 @@ import java.util.List;
  * The StreamContentType describes the format of the audio being sent over the WebSocket.
  *
  * @see <a
- *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+ *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
  */
 public class StreamContentType {
 
@@ -33,7 +33,7 @@ public class StreamContentType {
    *
    * @param contentType The type of audio.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
    */
   public void setContentType(String contentType) {
     this.contentType = contentType;
@@ -53,7 +53,7 @@ public class StreamContentType {
    *
    * @param layout The channel layout.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
    */
   public void setLayout(String layout) {
     this.layout = layout;
@@ -73,7 +73,7 @@ public class StreamContentType {
    *
    * @param rate The sample rate of the audio.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
    */
   public void setRate(Integer rate) {
     this.rate = rate;
@@ -93,7 +93,7 @@ public class StreamContentType {
    *
    * @param format The format of the audio samples.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
    * @see <a
    *     href="https://gstreamer.freedesktop.org/documentation/additional/design/mediatype-audio-raw.html?gi-language=c#formats">Valid
    *     formats</a>
@@ -116,7 +116,7 @@ public class StreamContentType {
    *
    * @param channels the number of audio channels in the audio.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type">https://www.rev.ai/docs/streaming#section/WebSocket-Endpoint/Content-Type</a>
+   *     href="https://docs.rev.ai/api/streaming/requests/#content-type">https://docs.rev.ai/api/streaming/requests/#content-type</a>
    */
   public void setChannels(Integer channels) {
     this.channels = channels;

@@ -76,7 +76,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/GetListOfJobs">https://www.rev.ai/docs#operation/GetListOfJobs</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs">https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs</a>
    */
   public List<RevAiJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
     Map<String, String> options = new HashMap<>();
@@ -147,7 +147,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID is null.
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/DeleteJobById">https://www.rev.ai/docs#operation/DeleteJobById</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/DeleteJobById">https://docs.rev.ai/api/asynchronous/reference/#operation/DeleteJobById</a>
    */
   public void deleteJob(String id) throws IOException {
     if (id == null) {
@@ -192,7 +192,7 @@ public class ApiClient {
    * @throws IllegalArgumentException if the media url is null.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
     if (mediaUrl == null) {
@@ -230,7 +230,7 @@ public class ApiClient {
    * @throws IllegalArgumentException If the file path is null.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobLocalFile(String filePath, RevAiJobOptions options) throws IOException {
     if (filePath == null) {
@@ -270,7 +270,7 @@ public class ApiClient {
    * @throws IllegalArgumentException If the InputStream provided is null.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobLocalFile(
       InputStream inputStream, String fileName, RevAiJobOptions options) throws IOException {
@@ -295,7 +295,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobLocalFile(InputStream inputStream) throws IOException {
     return submitJobLocalFile(inputStream, null, null);
@@ -311,7 +311,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobLocalFile(InputStream inputStream, String fileName) throws IOException {
     return submitJobLocalFile(inputStream, fileName, null);
@@ -327,7 +327,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @see RevAiJob
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/SubmitTranscriptionJob">https://www.rev.ai/docs#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobLocalFile(InputStream inputStream, RevAiJobOptions options)
       throws IOException {
@@ -346,7 +346,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID provided is null.
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/GetCaptions">https://www.rev.ai/docs#operation/GetCaptions</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
    */
   public InputStream getCaptions(String id, RevAiCaptionType captionType, Integer channelId)
       throws IOException {
@@ -375,7 +375,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID provided is null.
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/GetCaptions">https://www.rev.ai/docs#operation/GetCaptions</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
    */
   public InputStream getCaptions(String id, RevAiCaptionType captionType) throws IOException {
     return getCaptions(id, captionType, null);
@@ -391,7 +391,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID provided is null.
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/GetCaptions">https://www.rev.ai/docs#operation/GetCaptions</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
    */
   public InputStream getCaptions(String id, Integer channelId) throws IOException {
     return getCaptions(id, null, channelId);
@@ -406,7 +406,7 @@ public class ApiClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID provided is null.
    * @see <a
-   *     href="https://www.rev.ai/docs#operation/GetCaptions">https://www.rev.ai/docs#operation/GetCaptions</a>
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
    */
   public InputStream getCaptions(String id) throws IOException {
     return getCaptions(id, null, null);

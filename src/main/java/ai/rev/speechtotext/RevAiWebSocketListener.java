@@ -12,7 +12,7 @@ public interface RevAiWebSocketListener {
    *
    * @param message a String in JSON format that contains the message type and job ID.
    * @see <a
-   *     href="https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response">https://www.rev.ai/docs/streaming#section/Rev.ai-to-Client-Response</a
+   *     href="https://docs.rev.ai/api/streaming/responses/">https://docs.rev.ai/api/streaming/responses/</a
    */
   void onConnected(ConnectedMessage message);
 

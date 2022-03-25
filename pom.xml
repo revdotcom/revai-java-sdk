@@ -7,7 +7,7 @@
     <version>1.4.0</version>
     <name>Rev.ai speech to text SDK for Java</name>
     <description>Java SDK for rev.ai speech to text API</description>
-    <url>https://www.rev.ai/docs</url>
+    <url>https://docs.rev.ai/</url>
     <licenses>
         <license>
             <name>MIT License</name>

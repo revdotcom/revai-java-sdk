@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * The RevAiAccount object provides basic information about a Rev.ai account associated with a valid
  * access token.
  *
- * @see <a href="https://www.rev.ai/docs#tag/Account">https://www.rev.ai/docs#tag/Account</a>
+ * @see <a href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetAccount">https://docs.rev.ai/api/asynchronous/reference/#operation/GetAccount</a>
  */
 public class RevAiAccount {
 
