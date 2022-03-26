@@ -35,7 +35,7 @@ public class RevAiCustomVocabularyTest {
 
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private final String VOCABULARY_URL = "https://api.rev.ai/revspeech/v1/vocabularies";
-  private final String CALLBACK_URL = "https://test.callback.url";
+  private final String CALLBACK_URL = "https://callback.example.com";
   private final String DATE = new Date().toString();
   private final String ID = "TEST";
   private Gson gson;
