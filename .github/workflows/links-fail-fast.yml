@@ -1,4 +1,4 @@
-name: Links (Fail Fast)
+name: Broken Link Checker
 
 on:
   push:
