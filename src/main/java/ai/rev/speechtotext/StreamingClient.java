@@ -26,10 +26,10 @@ public class StreamingClient {
 
   /**
    * Constructs the streaming client that is used to establish a WebSocket connection with the
-   * Rev.ai server and stream audio data. The user access token can be generated on the website at
+   * Rev AI server and stream audio data. The user access token can be generated on the website at
    * https://www.rev.ai/access_token.
    *
-   * @param accessToken Rev.ai authorization token.
+   * @param accessToken Rev AI authorization token.
    */
   public StreamingClient(String accessToken) {
     this.accessToken = accessToken;

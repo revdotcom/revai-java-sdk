@@ -2,7 +2,7 @@ package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Specifies constants that define Rev.ai failure types. */
+/** Specifies constants that define Rev AI failure types. */
 public enum RevAiFailureType {
 
   /** The failure used when the media provided in the submission request fails to download. */

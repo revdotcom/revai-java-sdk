@@ -3,7 +3,7 @@ package ai.rev.speechtotext.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * The RevAiAccount object provides basic information about a Rev.ai account associated with a valid
+ * The RevAiAccount object provides basic information about a Rev AI account associated with a valid
  * access token.
  *
  * @see <a href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetAccount">https://docs.rev.ai/api/asynchronous/reference/#operation/GetAccount</a>
