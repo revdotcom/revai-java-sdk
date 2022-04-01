@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * The RevAiApiException wraps standard Java IOException and enriches them with custom information.
- * You can use this code to retrieve details of exceptions when calling the Rev.AI API.
+ * You can use this code to retrieve details of exceptions when calling the Rev AI API.
  */
 public class RevAiApiException extends IOException {
 

@@ -17,7 +17,7 @@ public class RevAiJobOptions {
   @SerializedName("media_url")
   private String mediaUrl;
 
-  /** The callback url that Rev.ai will send a POST to when the job has finished. */
+  /** The callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("callback_url")
   private String callbackUrl;
 
@@ -137,7 +137,7 @@ public class RevAiJobOptions {
   }
 
   /**
-   * Specifies the callback url that Rev.ai will POST to when job processing is complete. This
+   * Specifies the callback url that Rev AI will POST to when job processing is complete. This
    * property is optional.
    *
    * @param callbackUrl The url to POST to when job processing is complete.

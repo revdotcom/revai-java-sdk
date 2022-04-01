@@ -4,11 +4,11 @@ import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import okhttp3.Response;
 
-/** Listens for events over the WebSocket connection to Rev.ai */
+/** Listens for events over the WebSocket connection to Rev AI */
 public interface RevAiWebSocketListener {
 
   /**
-   * Supplies the connection message received from Rev.ai.
+   * Supplies the connection message received from Rev AI.
    *
    * @param message a String in JSON format that contains the message type and job ID.
    * @see <a
@@ -17,7 +17,7 @@ public interface RevAiWebSocketListener {
   void onConnected(ConnectedMessage message);
 
   /**
-   * Supplies the Hypothesis returned from Rev.ai.
+   * Supplies the Hypothesis returned from Rev AI.
    *
    * @param hypothesis the partial or final hypothesis of the audio.
    * @see Hypothesis

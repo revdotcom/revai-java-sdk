@@ -2,7 +2,7 @@ package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Specifies constants that define Rev.ai job types. */
+/** Specifies constants that define Rev AI job types. */
 public enum RevAiJobType {
 
   /** The type used for asynchronous jobs. */

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The ApiClient object provides methods to send and retrieve information from all the Rev.AI API
+ * The ApiClient object provides methods to send and retrieve information from all the Rev AI API
  * endpoints using the Retrofit HTTP client.
  */
 public class ApiClient {
@@ -32,11 +32,11 @@ public class ApiClient {
   public ApiInterface apiInterface;
 
   /**
-   * Constructs the API client used to send HTTP requests to Rev.ai. The user access token can be
+   * Constructs the API client used to send HTTP requests to Rev AI. The user access token can be
    * generated on the website at <a
    * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
    *
-   * @param accessToken Rev.ai authorization token associate with the account.
+   * @param accessToken Rev AI authorization token associate with the account.
    * @throws IllegalArgumentException If the access token is null or empty.
    */
   public ApiClient(String accessToken) {
@@ -58,7 +58,7 @@ public class ApiClient {
    * This method sends a GET request to the /account endpoint and returns an {@link RevAiAccount}
    * object.
    *
-   * @return RevAiAccount The object containing basic Rev.ai account information
+   * @return RevAiAccount The object containing basic Rev AI account information
    * @throws IOException If the response has a status code > 399.
    * @see RevAiAccount
    */

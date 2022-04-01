@@ -2,7 +2,7 @@ package ai.rev.speechtotext.models.streaming;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Represents the connected message sent from Rev.ai and contains the id of the stream */
+/** Represents the connected message sent from Rev AI and contains the id of the stream */
 public class ConnectedMessage extends StreamingResponseMessage {
 
   @SerializedName("id")

@@ -2,7 +2,7 @@ package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Specifies constants that define Rev.ai job statuses. */
+/** Specifies constants that define Rev AI job statuses. */
 public enum RevAiJobStatus {
 
   /** The status when transcription has failed. */

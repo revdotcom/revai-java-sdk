@@ -10,7 +10,7 @@ public class CustomVocabularySubmission {
   @SerializedName("metadata")
   private String metadata;
 
-  /** Optional callback url that Rev.ai will send a POST to when the job has finished. */
+  /** Optional callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("callback_url")
   private String callbackUrl;
 
@@ -47,7 +47,7 @@ public class CustomVocabularySubmission {
   }
 
   /**
-   * Specifies the callback url that Rev.ai will POST to when custom vocabulary processing is
+   * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
    * complete. This property is optional.
    *
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.

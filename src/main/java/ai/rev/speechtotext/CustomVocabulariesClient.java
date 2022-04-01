@@ -24,7 +24,7 @@ public class CustomVocabulariesClient {
    * user access token can be generated on the website at <a
    * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
    *
-   * @param accessToken Rev.ai authorization token associate with the account.
+   * @param accessToken Rev AI authorization token associate with the account.
    * @throws IllegalArgumentException If the access token is null or empty.
    */
   public CustomVocabulariesClient(String accessToken) {

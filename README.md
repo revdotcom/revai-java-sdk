@@ -1,4 +1,4 @@
-# Rev.ai Java SDK
+# Rev AI Java SDK
 
 [![Maven Central](https://img.shields.io/maven-central/v/ai.rev.speechtotext/revai-java-sdk-speechtotext)](https://mvnrepository.com/artifact/ai.rev.speechtotext/revai-java-sdk-speechtotext)
 [![Build Status](https://github.com/revdotcom/revai-java-sdk/workflows/Build/badge.svg?branch=develop)](https://github.com/revdotcom/revai-java-sdk/actions?query=workflow%3ABuild+branch%3Adevelop)
@@ -8,7 +8,7 @@
 See the [API docs](https://docs.rev.ai) for more information about the API.
 
 ## Install the SDK
-The recommended way to use the Rev.ai Java SDK is to import it into the project using Maven.
+The recommended way to use the Rev AI Java SDK is to import it into the project using Maven.
 
       <dependency>
         <groupId>ai.rev.speechtotext</groupId>
@@ -32,7 +32,7 @@ your [Settings Page](https://www.rev.ai/access_token). Create a client with the
 given Access Token:
 
 ```
-// Initialize your client with your rev.ai access token
+// Initialize your client with your Rev AI access token
 String accessToken = "Your Access Token";
 ApiClient apiClient = new ApiClient(accessToken);
 ```
@@ -248,7 +248,7 @@ You can submit any custom vocabularies independently through the CustomVocabular
 Below you can see an example of how to create, submit, delete, check on the status and view the other associated information of your custom vocabulary.
 
 ```
-// Initialize your client with your Rev.ai access token
+// Initialize your client with your Rev AI access token
 String accessToken = "Your Access Token";
 CustomVocabulariesClient customVocabulariesClient = new CustomVocabulariesClient(accessToken);
 
@@ -269,7 +269,7 @@ List<CustomVocabularyInformation> customVocabulariesInformation = customVocabula
 customVocabularyClient.deleteCustomVocabulary(retrievedVocabularyInformation.getId());
 ```
 
-## For Rev.ai Java SDK Developers
+## For Rev AI Java SDK Developers
 
 Before contributing to the project please install the following
 * [IntelliJ IDE](https://www.jetbrains.com/idea/)
@@ -283,7 +283,7 @@ You can also right click on `src` folder and run `Reformat Code`.
 
 Run `mvn package` to build the code, run the unit tests and create the SDK jar.
 
-Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid rev.ai access token.
+Run `mvn verify` to also run integration tests. They require the `REVAI_ACCESS_TOKEN` environment variable to be set to a valid Rev AI access token.
 
 To save the `REVAI_ACCESS_TOKEN` to be available for Integration tests
 * go to `Run > Edit Configurations` and add a new JUnit configuration if none exists yet.

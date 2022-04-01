@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * The CustomVocabularyApiInterface is a type-safe Retrofit interface that presents all the
- * endpoints that are made to communicate with the Rev.ai custom vocabulary API.
+ * endpoints that are made to communicate with the Rev AI custom vocabulary API.
  */
 public interface CustomVocabularyApiInterface {
 

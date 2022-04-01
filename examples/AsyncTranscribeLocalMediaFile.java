@@ -93,7 +93,7 @@ public class AsyncTranscribeLocalMediaFile {
 
     /*
      * The job can now be deleted. Deleting the job will remove ALL information
-     * about the job from the Rev.ai servers. Subsequent requests to Rev.ai that
+     * about the job from the Rev AI servers. Subsequent requests to Rev AI that
      * use the deleted jobs Id will return 404's.
      */
     // apiClient.deleteJob(jobId);
