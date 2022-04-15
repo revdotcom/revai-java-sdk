@@ -194,7 +194,7 @@ public class ApiClient {
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
   public RevAiJob submitJobUrl(RevAiJobOptions options) throws IOException {
-    if (options.getSourceConfig() == null || options.getSourceConfig().getUrl() == null) {
+    if (options == null || options.getSourceConfig() == null || options.getSourceConfig().getUrl() == null) {
       throw new IllegalArgumentException("Source media url must be provided");
     }
     return apiInterface.submitJobUrl(options).execute().body();

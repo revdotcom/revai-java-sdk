@@ -165,9 +165,23 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_JobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobUrl_NullOptions_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> sut.submitJobUrl((RevAiJobOptions) null));
+            .isThrownBy(() -> sut.submitJobUrl((RevAiJobOptions) null));
+  }
+
+  @Test
+  public void SubmitJobUrl_NullSourceConfig_ReturnsIllegalArgumentException() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl(new RevAiJobOptions()));
+  }
+
+  @Test
+  public void SubmitJobUrl_NullSourceConfigUrl_ReturnsIllegalArgumentException() {
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(null, null);
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl(options));
   }
 
   @Test
