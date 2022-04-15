@@ -18,9 +18,9 @@ public class RevAiJobOptions {
   @SerializedName("source_config")
   private CustomerUrlData sourceConfig;
 
-  /** The callback url that Rev AI will send a POST to when the job has finished. */
-  @SerializedName("callback_url")
-  private String callbackUrl;
+  /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("notification_config")
+  private CustomerUrlData notificationConfig;
 
   /** Optional parameter for the speech engine to skip diarization. */
   @SerializedName("skip_diarization")
@@ -131,12 +131,12 @@ public class RevAiJobOptions {
   }
 
   /**
-   * Returns the callback url.
+   * Returns the notification config object.
    *
-   * @return the callback url.
+   * @return the notification config.
    */
-  public String getCallbackUrl() {
-    return callbackUrl;
+  public CustomerUrlData getNotificationConfig() {
+    return notificationConfig;
   }
 
   /**
@@ -145,8 +145,8 @@ public class RevAiJobOptions {
    *
    * @param callbackUrl The url to POST to when job processing is complete.
    */
-  public void setCallbackUrl(String callbackUrl) {
-    this.callbackUrl = callbackUrl;
+  public void setNotificationConfig(String callbackUrl, String authHeaders) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
   }
 
   /**

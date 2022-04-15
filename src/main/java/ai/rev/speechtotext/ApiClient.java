@@ -195,7 +195,7 @@ public class ApiClient {
    */
   public RevAiJob submitJobUrl(RevAiJobOptions options) throws IOException {
     if (options == null || options.getSourceConfig() == null || options.getSourceConfig().getUrl() == null) {
-      throw new IllegalArgumentException("Source media url must be provided");
+      throw new IllegalArgumentException("Source config with a url must be provided");
     }
     return apiInterface.submitJobUrl(options).execute().body();
   }

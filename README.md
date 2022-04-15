@@ -95,7 +95,7 @@ RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 
 If you want to get fancy, all submit job methods have overrides that allow specifying
 [RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
-In RevAiJobOptions, you could include `metadata`, `callback_url`,
+In RevAiJobOptions, you could include `metadata`, `source_config`, `callback_url`,
 `skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity`, `remove_disfluencies`, `delete_after_seconds` and `language` as optional parameters, these are described in the request body of
 the [Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
 
@@ -143,6 +143,7 @@ apiClient.deleteJob(revAiJob.getJobId());
 ### Getting your transcript
 
 Once your file is transcribed, you can get your transcript in a few different forms:
+
 
 ```
 // as plain text

@@ -19,9 +19,6 @@ public class RevAiJob {
   @SerializedName("completed_on")
   private String completedOn;
 
-  @SerializedName("callback_url")
-  private String callbackUrl;
-
   @SerializedName("duration_seconds")
   private Double durationSeconds;
 
@@ -148,24 +145,6 @@ public class RevAiJob {
    */
   public void setCompletedOn(String completedOn) {
     this.completedOn = completedOn;
-  }
-
-  /**
-   * Returns the callback url provided in the submission request.
-   *
-   * @return A String containing the callback url provided in the submission request.
-   */
-  public String getCallbackUrl() {
-    return callbackUrl;
-  }
-
-  /**
-   * Sets the callback url.
-   *
-   * @param callbackUrl A String value to set as the callback url.
-   */
-  public void setCallbackUrl(String callbackUrl) {
-    this.callbackUrl = callbackUrl;
   }
 
   /**
@@ -509,9 +488,6 @@ public class RevAiJob {
         + '\''
         + ", completedOn='"
         + completedOn
-        + '\''
-        + ", callbackUrl='"
-        + callbackUrl
         + '\''
         + ", durationSeconds="
         + durationSeconds
