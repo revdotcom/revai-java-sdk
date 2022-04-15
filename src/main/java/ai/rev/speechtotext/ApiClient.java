@@ -182,10 +182,9 @@ public class ApiClient {
   }
 
   /**
-   * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
-   * the media file located at the url provided and returns a {@link RevAiJob} object.
+   * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
+   * the media file located at the url provided, and returns a {@link RevAiJob} object.
    *
-   * @param mediaUrl A direct download link to the media.
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
@@ -194,29 +193,27 @@ public class ApiClient {
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
-  public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
-    if (mediaUrl == null) {
-      throw new IllegalArgumentException("Media url must be provided");
+  public RevAiJob submitJobUrl(RevAiJobOptions options) throws IOException {
+    if (options.getSourceConfig() == null || options.getSourceConfig().getUrl() == null) {
+      throw new IllegalArgumentException("Source media url must be provided");
     }
-    if (options == null) {
-      options = new RevAiJobOptions();
-    }
-    options.setMediaUrl(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
   /**
-   * An overload of {@link ApiClient#submitJobUrl(String, RevAiJobOptions)} without the additional
-   * transcription options.
+   * Sends a POST request to the /jobs endpoint without any additional transcription options, starts an asynchronous job
+   * to transcribe the media file located at the url provided, and returns a {@link RevAiJob} object.
    *
-   * @param mediaUrl A direct download link to the media.
+   * @param sourceUrl A direct download link to the source media.
    * @return RevAiJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
    * @see RevAiJob
-   * @see ApiClient#submitJobUrl(String, RevAiJobOptions)
+   * @see ApiClient#submitJobUrl(RevAiJobOptions)
    */
-  public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
-    return submitJobUrl(mediaUrl, null);
+  public RevAiJob submitJobUrl(String sourceUrl) throws IOException {
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(sourceUrl, null);
+    return submitJobUrl(options);
   }
 
   /**

@@ -1,5 +1,6 @@
 package ai.rev.speechtotext.models.asynchronous;
 
+import ai.rev.speechtotext.models.CustomerUrlData;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,9 +14,9 @@ import java.util.List;
  */
 public class RevAiJobOptions {
 
-  /** The media url where the file can be downloaded. */
-  @SerializedName("media_url")
-  private String mediaUrl;
+  /** Object containing source media file information. */
+  @SerializedName("source_config")
+  private CustomerUrlData sourceConfig;
 
   /** The callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("callback_url")
@@ -110,21 +111,23 @@ public class RevAiJobOptions {
   private List<SegmentToTranscribe> segmentsToTranscribe;
 
   /**
-   * Returns the media url.
+   * Specifies the url and any optional auth headers to access the source media download url.
    *
-   * @return The media url.
+   * @param sourceMediaUrl The direct download url to the file.
+   * @param sourceAuth The auth headers to the source media download url.
    */
-  public String getMediaUrl() {
-    return mediaUrl;
+  public void setSourceConfig(String sourceMediaUrl, String sourceAuth) {
+    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
   }
 
   /**
-   * Specifies the url where the media can be downloaded.
+   * Returns the source config object.
    *
-   * @param mediaUrl The direct download url to the file.
+   * @return the source config.
    */
-  public void setMediaUrl(String mediaUrl) {
-    this.mediaUrl = mediaUrl;
+  public CustomerUrlData getSourceConfig()
+  {
+    return this.sourceConfig;
   }
 
   /**

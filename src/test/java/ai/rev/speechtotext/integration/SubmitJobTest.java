@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubmitJobTest {
 
   private final String LOCAL_FILE = "./src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
-  private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
+  private final String SOURCE_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
   private static ApiClient apiClient;
 
   @Rule public TestName testName = new TestName();
@@ -121,14 +121,14 @@ public class SubmitJobTest {
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
 
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
+    RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
 
     assertRevAiJob(revAiJob);
   }
 
   @Test
   public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, null);
+    RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL);
 
     assertRevAiJob(revAiJob);
   }
@@ -140,6 +140,7 @@ public class SubmitJobTest {
 
   private RevAiJobOptions getJobOptions() {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setSourceConfig(SOURCE_URL, null);
     revAiJobOptions.setMetadata(testName.getMethodName());
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
