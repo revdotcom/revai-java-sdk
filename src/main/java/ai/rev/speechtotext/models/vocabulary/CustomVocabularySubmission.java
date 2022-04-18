@@ -1,5 +1,6 @@
 package ai.rev.speechtotext.models.vocabulary;
 
+import ai.rev.speechtotext.models.CustomerUrlData;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public class CustomVocabularySubmission {
   @SerializedName("metadata")
   private String metadata;
 
-  /** Optional callback url that Rev AI will send a POST to when the job has finished. */
-  @SerializedName("callback_url")
-  private String callbackUrl;
+  /** Optional parameter for information on the callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("notification_config")
+  private CustomerUrlData notificationConfig;
 
   /** Array of {@link CustomVocabulary} objects. */
   @SerializedName("custom_vocabularies")
@@ -38,22 +39,23 @@ public class CustomVocabularySubmission {
   }
 
   /**
-   * Returns the callback url.
+   * Returns the notification config.
    *
-   * @return the callback url.
+   * @return the notification config.
    */
-  public String getCallbackUrl() {
-    return callbackUrl;
+  public CustomerUrlData getNotificationConfig() {
+    return notificationConfig;
   }
 
   /**
    * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
-   * complete. This property is optional.
+   * complete and the auth headers This property is optional.
    *
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   * @param authHeaders Optional parameter to authenticate access to the callback url
    */
-  public void setCallbackUrl(String callbackUrl) {
-    this.callbackUrl = callbackUrl;
+  public void setNotificationConfig(String callbackUrl, String authHeaders) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
   }
 
   /**
@@ -82,9 +84,6 @@ public class CustomVocabularySubmission {
     return "{"
         + "metadata='"
         + metadata
-        + '\''
-        + ", callbackUrl='"
-        + callbackUrl
         + '\''
         + ", customVocabularies="
         + customVocabularies

@@ -144,6 +144,7 @@ public class RevAiJobOptions {
    * property is optional.
    *
    * @param callbackUrl The url to POST to when job processing is complete.
+   * @param authHeaders Optional parameter to authenticate access to the callback url
    */
   public void setNotificationConfig(String callbackUrl, String authHeaders) {
     this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);

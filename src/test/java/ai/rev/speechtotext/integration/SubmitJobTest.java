@@ -146,7 +146,7 @@ public class SubmitJobTest {
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSkipPunctuation(true);
     revAiJobOptions.setSkipDiarization(true);
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig("https://example.com", null);
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");

@@ -62,9 +62,6 @@ public class CustomVocabulariesTest {
     assertThat(retrievedVocabulary.getCreatedOn())
         .as("Created on date")
         .isEqualTo(submittedVocabulary.getCreatedOn());
-    assertThat(retrievedVocabulary.getCallbackUrl())
-        .as("Callback URL")
-        .isEqualTo(submittedVocabulary.getCallbackUrl());
     assertThat(retrievedVocabulary.getFailure()).as("Failure").isNull();
     assertThat(retrievedVocabulary.getFailureDetail()).as("Failure detail").isNull();
   }
@@ -120,7 +117,7 @@ public class CustomVocabulariesTest {
     CustomVocabularySubmission submission = new CustomVocabularySubmission();
     submission.setCustomVocabularies(Collections.singletonList(customVocabulary));
     submission.setMetadata(testName.getMethodName());
-    submission.setCallbackUrl("https://www.example.com");
+    submission.setNotificationConfig("https://www.example.com", null);
     return submission;
   }
 

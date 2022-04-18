@@ -68,7 +68,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
-    options.setCallbackUrl(CALLBACK_URL);
+    options.setNotificationConfig(CALLBACK_URL, null);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
@@ -106,7 +106,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
-    options.setCallbackUrl(CALLBACK_URL);
+    options.setNotificationConfig(CALLBACK_URL, null);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
@@ -197,9 +197,6 @@ public class RevAiCustomVocabularyTest {
       String id) {
     assertThat(customVocabularyInformation.getStatus()).as("Status").isEqualTo(status);
     assertThat(customVocabularyInformation.getCreatedOn()).as("Created on").isEqualTo(createdOn);
-    assertThat(customVocabularyInformation.getCallbackUrl())
-        .as("Callback url")
-        .isEqualTo(callbackUrl);
     assertThat(customVocabularyInformation.getId()).as("Custom vocabulary Id").isEqualTo(id);
     assertThat(customVocabularyInformation.getMetadata()).as("Metadata").isEqualTo(metadata);
   }
@@ -218,7 +215,6 @@ public class RevAiCustomVocabularyTest {
     customVocabularyInformation.setId(id);
     customVocabularyInformation.setStatus(status);
     customVocabularyInformation.setMetadata(metadata);
-    customVocabularyInformation.setCallbackUrl(callbackUrl);
     return customVocabularyInformation;
   }
 

@@ -150,7 +150,7 @@ public class RevAiJobTest {
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
-    options.setCallbackUrl("https://example.com");
+    options.setNotificationConfig("https://example.com", null);
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
