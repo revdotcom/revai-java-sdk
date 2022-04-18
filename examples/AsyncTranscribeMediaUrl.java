@@ -24,11 +24,15 @@ public class AsyncTranscribeMediaUrl {
     CustomVocabulary customVocabulary =
         new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
 
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
+    String callbackUrl = "https://example.com";
+
     // Initialize the RevAiJobOptions object and assign
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setSourceConfig(mediaUrl, 'Authorization: Bearer <token>')
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig(callbackUrl, 'Authorization: Bearer <token>');
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);
@@ -40,13 +44,11 @@ public class AsyncTranscribeMediaUrl {
 
     RevAiJob submittedJob;
 
-    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
-
     try {
       // Submit the local file and transcription options
-      submittedJob = apiClient.submitJobUrl(mediaUrl, revAiJobOptions);
+      submittedJob = apiClient.submitJobUrl(revAiJobOptions);
     } catch (IOException e) {
-      throw new RuntimeException("Failed to submit url [" + mediaUrl + "] " + e.getMessage());
+      throw new RuntimeException("Failed to submit url [" + mediaUrl. + "] " + e.getMessage());
     }
     String jobId = submittedJob.getJobId();
     System.out.println("Job Id: " + jobId);

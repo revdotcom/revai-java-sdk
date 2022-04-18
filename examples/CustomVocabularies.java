@@ -23,7 +23,7 @@ public class CustomVocabularies {
 
     CustomVocabularySubmission customVocabularySubmission = new CustomVocabularySubmission();
     customVocabularySubmission.setCustomVocabularies(Arrays.asList(customVocabulary));
-    customVocabularySubmission.setCallbackUrl("https://example.com");
+    customVocabularySubmission.setNotificationConfig("https://example.com", "Authorization: Bearer <token>");
     customVocabularySubmission.setMetadata("My first submission");
 
     CustomVocabularyInformation submittedCustomVocabularyInfo;

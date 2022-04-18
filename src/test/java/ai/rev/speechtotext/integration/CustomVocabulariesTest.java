@@ -22,6 +22,9 @@ public class CustomVocabulariesTest {
   @Rule public TestName testName = new TestName();
 
   private static final List<String> PHRASES = Arrays.asList("test", "this", "vocab");
+  private static final String NOTIFICATION_URL = "https://www.example.com";
+  private static final String NOTIFICATION_AUTH = "auth header";
+
   private CustomVocabulariesClient customVocabularyClient =
       new CustomVocabulariesClient(EnvHelper.getToken());
 
@@ -117,7 +120,7 @@ public class CustomVocabulariesTest {
     CustomVocabularySubmission submission = new CustomVocabularySubmission();
     submission.setCustomVocabularies(Collections.singletonList(customVocabulary));
     submission.setMetadata(testName.getMethodName());
-    submission.setNotificationConfig("https://www.example.com", null);
+    submission.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
     return submission;
   }
 
