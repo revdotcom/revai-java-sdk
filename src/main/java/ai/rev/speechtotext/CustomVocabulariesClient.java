@@ -1,6 +1,6 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.helpers.ClientHelper;
+import ai.rev.helpers.ClientHelper;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import okhttp3.OkHttpClient;
@@ -32,7 +32,7 @@ public class CustomVocabulariesClient {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
-    Retrofit retrofit = ClientHelper.createRetrofitInstance(client);
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "speechtotext", "v1");
     this.customVocabularyApiInterface = retrofit.create(CustomVocabularyApiInterface.class);
   }
 

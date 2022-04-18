@@ -1,6 +1,6 @@
 package ai.rev.speechtotext.unit;
 
-import ai.rev.speechtotext.MockInterceptor;
+import ai.rev.helpers.MockInterceptor;
 import com.google.gson.Gson;
 import okio.Buffer;
 

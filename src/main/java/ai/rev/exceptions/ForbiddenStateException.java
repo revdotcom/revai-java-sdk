@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.exceptions;
+package ai.rev.exceptions;
 
 import org.json.JSONObject;
 

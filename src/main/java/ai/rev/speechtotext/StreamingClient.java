@@ -1,6 +1,6 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.helpers.SDKHelper;
+import ai.rev.helpers.SDKHelper;
 import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.SessionConfig;
