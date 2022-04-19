@@ -19,6 +19,9 @@ public class CustomVocabularyInformation {
   @SerializedName("metadata")
   private String metadata;
 
+  @SerializedName("callback_url")
+  private String callbackUrl;
+
   @SerializedName("failure")
   private CustomVocabularyFailureType failure;
 
@@ -119,6 +122,24 @@ public class CustomVocabularyInformation {
   }
 
   /**
+   * Returns the callback url provided in the submission request.
+   *
+   * @return A String containing the callback url provided in the submission request.
+   */
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  /**
+   * Sets the callback url.
+   *
+   * @param callbackUrl A String value to set as the callback url.
+   */
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
+  }
+
+  /**
    * Returns the {@link CustomVocabularyFailureType} enumeration value.
    *
    * @return The {@link CustomVocabularyFailureType} enumeration value.
@@ -164,6 +185,9 @@ public class CustomVocabularyInformation {
         + status
         + ", createdOn='"
         + createdOn
+        + '\''
+        + ", callbackUrl='"
+        + callbackUrl
         + '\''
         + ", failure="
         + failure
