@@ -19,8 +19,14 @@ public class RevAiJob {
   @SerializedName("completed_on")
   private String completedOn;
 
+  @SerializedName("callback_url")
+  private String callbackUrl;
+
   @SerializedName("duration_seconds")
   private Double durationSeconds;
+
+  @SerializedName("media_url")
+  private String mediaUrl;
 
   @SerializedName("metadata")
   private String metadata;
@@ -148,6 +154,24 @@ public class RevAiJob {
   }
 
   /**
+   * Returns the callback url provided in the submission request.
+   *
+   * @return A String containing the callback url provided in the submission request.
+   */
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  /**
+   * Sets the callback url.
+   *
+   * @param callbackUrl A String value to set as the callback url.
+   */
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
+  }
+
+  /**
    * Returns the audio duration of the file in seconds.
    *
    * @return The audio duration of the file in seconds.
@@ -163,6 +187,24 @@ public class RevAiJob {
    */
   public void setDurationSeconds(Double durationSeconds) {
     this.durationSeconds = durationSeconds;
+  }
+
+  /**
+   * Returns the media url provided in the submission request.
+   *
+   * @return A String containing the media url provided in the submission request.
+   */
+  public String getMediaUrl() {
+    return mediaUrl;
+  }
+
+  /**
+   * Sets the media url.
+   *
+   * @param mediaUrl A String value to set as the media url.
+   */
+  public void setMediaUrl(String mediaUrl) {
+    this.mediaUrl = mediaUrl;
   }
 
   /**
@@ -489,8 +531,13 @@ public class RevAiJob {
         + ", completedOn='"
         + completedOn
         + '\''
+        + ", callbackUrl='"
+        + callbackUrl
+        + '\''
         + ", durationSeconds="
         + durationSeconds
+        + ", mediaUrl='"
+        + mediaUrl
         + '\''
         + ", metadata='"
         + metadata
