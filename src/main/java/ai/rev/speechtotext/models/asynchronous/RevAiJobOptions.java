@@ -14,9 +14,17 @@ import java.util.List;
  */
 public class RevAiJobOptions {
 
+  /** The media url where the file can be downloaded. */
+  @SerializedName("media_url")
+  private String mediaUrl;
+
   /** Object containing source media file information. */
   @SerializedName("source_config")
   private CustomerUrlData sourceConfig;
+
+  /** The callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("callback_url")
+  private String callbackUrl;
 
   /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("notification_config")
@@ -110,14 +118,23 @@ public class RevAiJobOptions {
   @SerializedName("segments_to_transcribe")
   private List<SegmentToTranscribe> segmentsToTranscribe;
 
+
   /**
-   * Specifies the url and any optional auth headers to access the source media download url.
+   * Returns the media url.
    *
-   * @param sourceMediaUrl The direct download url to the file.
-   * @param sourceAuth The auth headers to the source media download url.
+   * @return The media url.
    */
-  public void setSourceConfig(String sourceMediaUrl, String sourceAuth) {
-    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
+  public String getMediaUrl() {
+    return mediaUrl;
+  }
+
+  /**
+   * Specifies the url where the media can be downloaded.
+   *
+   * @param mediaUrl The direct download url to the file.
+   */
+  public void setMediaUrl(String mediaUrl) {
+    this.mediaUrl = mediaUrl;
   }
 
   /**
@@ -128,6 +145,35 @@ public class RevAiJobOptions {
   public CustomerUrlData getSourceConfig()
   {
     return this.sourceConfig;
+  }
+  /**
+   * Specifies the url and any optional auth headers to access the source media download url.
+   *
+   * @param sourceMediaUrl The direct download url to the file.
+   * @param sourceAuth The auth headers to the source media download url.
+   */
+
+  public void setSourceConfig(String sourceMediaUrl, String sourceAuth) {
+    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
+  }
+
+  /**
+   * Returns the callback url.
+   *
+   * @return the callback url.
+   */
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  /**
+   * Specifies the callback url that Rev AI will POST to when job processing is complete. This
+   * property is optional.
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   */
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
   /**

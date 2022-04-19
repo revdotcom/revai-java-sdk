@@ -183,6 +183,29 @@ public class ApiClient {
 
   /**
    * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
+   * the media file located at the url provided and returns a {@link RevAiJob} object.
+   *
+   * @param mediaUrl A direct download link to the media.
+   * @param options The transcription options associated with this job.
+   * @return RevAiJob A representation of the transcription job.
+   * @throws IOException If the response has a status code > 399.
+   @@ -194,29 +193,27 @@ public String getTranscriptText(String id) throws IOException {
+    * @see <a
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
+   */
+  public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
+    if (mediaUrl == null) {
+      throw new IllegalArgumentException("Media url must be provided");
+    }
+    if (options == null) {
+      options = new RevAiJobOptions();
+    }
+    options.setMediaUrl(mediaUrl);
+    return apiInterface.submitJobUrl(options).execute().body();
+  }
+
+  /**
+   * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
    * the media file located at the url provided, and returns a {@link RevAiJob} object.
    *
    * @param options The transcription options associated with this job.

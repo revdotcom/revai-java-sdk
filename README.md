@@ -144,7 +144,6 @@ apiClient.deleteJob(revAiJob.getJobId());
 
 Once your file is transcribed, you can get your transcript in a few different forms:
 
-
 ```
 // as plain text
 String transcriptText = apiClient.getTranscriptText(revAiJob.getJobId());
