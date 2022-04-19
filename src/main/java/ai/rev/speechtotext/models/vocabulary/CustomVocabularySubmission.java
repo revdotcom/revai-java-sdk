@@ -11,6 +11,10 @@ public class CustomVocabularySubmission {
   @SerializedName("metadata")
   private String metadata;
 
+  /** Optional callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("callback_url")
+  private String callbackUrl;
+
   /** Optional parameter for information on the callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("notification_config")
   private CustomerUrlData notificationConfig;
@@ -36,6 +40,25 @@ public class CustomVocabularySubmission {
    */
   public void setMetadata(String metadata) {
     this.metadata = metadata;
+  }
+
+  /**
+   * Returns the callback url.
+   *
+   * @return the callback url.
+   */
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  /**
+   * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
+   * complete. This property is optional.
+   *
+   * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   */
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
   /**
@@ -84,6 +107,9 @@ public class CustomVocabularySubmission {
     return "{"
         + "metadata='"
         + metadata
+        + '\''
+        + ", callbackUrl='"
+        + callbackUrl
         + '\''
         + ", customVocabularies="
         + customVocabularies
