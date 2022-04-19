@@ -202,6 +202,7 @@ public class ApiClient {
     if (options == null) {
       options = new RevAiJobOptions();
     }
+    checkExclusiveOptions(options);
     options.setMediaUrl(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
   }
@@ -222,6 +223,7 @@ public class ApiClient {
     if (options == null || options.getSourceConfig() == null || options.getSourceConfig().getUrl() == null) {
       throw new IllegalArgumentException("Source config with a url must be provided");
     }
+    checkExclusiveOptions(options);
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
@@ -439,5 +441,14 @@ public class ApiClient {
     RequestBody fileRequest = FileStreamRequestBody.create(inputStream, MediaType.parse("audio/*"));
     MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
     return apiInterface.submitJobLocalFile(filePart, options).execute().body();
+  }
+
+  private void checkExclusiveOptions(RevAiJobOptions options){
+    if (options.getMediaUrl() != null && options.getSourceConfig() != null) {
+      throw new IllegalArgumentException("Only one of mediaUrl and sourceConfig may be provided");
+    }
+    if (options.getCallbackUrl() != null && options.getNotificationConfig() != null) {
+      throw new IllegalArgumentException("Only one of callbackUrl and notificationConfig may be provided");
+    }
   }
 }
