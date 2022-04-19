@@ -185,6 +185,7 @@ public class ApiClient {
    * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
    * the media file located at the url provided and returns a {@link RevAiJob} object.
    *
+   * @deprecated Use submitJobUrl with the sourceConfig job option rather than a separate mediaUrl argument
    * @param mediaUrl A direct download link to the media.
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
@@ -193,6 +194,7 @@ public class ApiClient {
     * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
+  @Deprecated
   public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
     if (mediaUrl == null) {
       throw new IllegalArgumentException("Media url must be provided");
