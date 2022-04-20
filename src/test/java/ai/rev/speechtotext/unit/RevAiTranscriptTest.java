@@ -2,15 +2,11 @@ package ai.rev.speechtotext.unit;
 
 import ai.rev.helpers.MockInterceptor;
 import ai.rev.topicextraction.TopicExtractionClient;
-import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
 import ai.rev.speechtotext.models.asynchronous.Monologue;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
-import ai.rev.topicextraction.models.TopicExtractionJobOptions;
-import ai.rev.topicextraction.models.TopicExtractionJobStatus;
-import ai.rev.topicextraction.models.TopicExtractionResult;
 import com.google.gson.Gson;
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -23,7 +19,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -92,6 +87,4 @@ public class RevAiTranscriptTest {
         .as("Transcript")
         .isEqualTo(gson.toJson(revAiTranscript));
   }
-
-
 }

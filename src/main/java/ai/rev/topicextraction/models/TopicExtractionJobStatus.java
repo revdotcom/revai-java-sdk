@@ -14,7 +14,7 @@ public enum TopicExtractionJobStatus {
   IN_PROGRESS("in_progress"),
 
   /** The status when job processing has been completed. */
-  @SerializedName("transcribed")
+  @SerializedName("completed")
   COMPLETED("completed");
 
   private String status;
