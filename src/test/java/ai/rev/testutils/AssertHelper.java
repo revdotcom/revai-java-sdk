@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.unit;
+package ai.rev.testutils;
 
 import ai.rev.helpers.MockInterceptor;
 import com.google.gson.Gson;

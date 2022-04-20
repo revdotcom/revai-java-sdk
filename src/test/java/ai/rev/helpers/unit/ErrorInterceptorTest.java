@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.unit;
+package ai.rev.helpers.unit;
 
 import ai.rev.exceptions.RevAiApiException;
 import ai.rev.helpers.ErrorInterceptor;
