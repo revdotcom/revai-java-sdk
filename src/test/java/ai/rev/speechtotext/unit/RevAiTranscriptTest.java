@@ -53,7 +53,6 @@ public class RevAiTranscriptTest {
             .client(mockOkHttpClient)
             .build();
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
-    topic = new TopicExtractionClient("025ofpXWIctaPELoqS3lnM4bFjikZN38BT6zkWIUC8JVTBGxVoeQ_Wh4UNw4hcOsCmaoDfIjuKWdbmEA0ySJDWL3FV42c");
   }
 
   @Test
