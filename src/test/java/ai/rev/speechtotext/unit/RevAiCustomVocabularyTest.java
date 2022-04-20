@@ -7,6 +7,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
+import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

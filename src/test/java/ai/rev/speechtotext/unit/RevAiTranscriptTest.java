@@ -1,6 +1,7 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.helpers.MockInterceptor;
+import ai.rev.testutils.AssertHelper;
 import ai.rev.topicextraction.TopicExtractionClient;
 import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
@@ -26,7 +27,6 @@ public class RevAiTranscriptTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
   private ApiClient sut;
-  private TopicExtractionClient topic;
 
   private Gson gson = new Gson();
   private String SAMPLE_TEXT = "sample text";

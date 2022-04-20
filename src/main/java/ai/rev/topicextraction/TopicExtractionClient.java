@@ -1,6 +1,9 @@
 package ai.rev.topicextraction;
 
 import ai.rev.helpers.ClientHelper;
+import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.models.asynchronous.RevAiJob;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.topicextraction.models.TopicExtractionJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionResult;
@@ -57,7 +60,7 @@ public class TopicExtractionClient {
    * @throws IOException If the response has a status code > 399.
    * @see TopicExtractionJob
    * @see <a
-   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs">https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs</a>
+   *     href="https://docs.rev.ai/api/topic-extraction/reference/#operation/GetListOfTopicExtractionJobs">https://docs.rev.ai/api/topic-extraction/reference/#operation/GetListOfTopicExtractionJobs</a>
    */
   public List<TopicExtractionJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
     Map<String, String> options = new HashMap<>();
@@ -128,7 +131,7 @@ public class TopicExtractionClient {
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID is null.
    * @see <a
-   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/DeleteJobById">https://docs.rev.ai/api/asynchronous/reference/#operation/DeleteJobById</a>
+   *     href="https://docs.rev.ai/api/topic-extraction/reference/#operation/DeleteTopicExtractionJobById">https://docs.rev.ai/api/topic-extraction/reference/#operation/DeleteTopicExtractionJobById</a>
    */
   public void deleteJob(String id) throws IOException {
     if (id == null) {
@@ -171,13 +174,13 @@ public class TopicExtractionClient {
    * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
    *
    * @param text A direct download link to the media.
-   * @param options The transcription options associated with this job.
-   * @return RevAiJob A representation of the transcription job.
+   * @param options The topic extraction options associated with this job.
+   * @return TopicExtractionJob A representation of the topic extraction job.
    * @throws IOException If the response has a status code > 399.
-   * @throws IllegalArgumentException if the media url is null.
+   * @throws IllegalArgumentException if the text is null.
    * @see TopicExtractionJob
    * @see <a
-   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/topic-extraction/reference/#operation/SubmitTopicExtractionJob">https://docs.rev.ai/api/topic-extraction/reference/#operation/SubmitTopicExtractionJob</a>
    */
   public TopicExtractionJob submitJobText(String text, TopicExtractionJobOptions options) throws IOException {
     if (text == null) {
@@ -189,19 +192,34 @@ public class TopicExtractionClient {
     options.setText(text);
     return apiInterface.submitJob(options).execute().body();
   }
+
+  /**
+   * An overload of {@link TopicExtractionClient#submitJobText(String, TopicExtractionJobOptions)} without the additional
+   * topic extraction options.
+   *
+   * @param text A direct download link to the media.
+   * @return TopicExtractionJob A representation of the topic extraction job.
+   * @throws IOException If the response has a status code > 399.
+   * @throws IllegalArgumentException if the text is null.
+   * @see TopicExtractionJob
+   * @see TopicExtractionClient#submitJobText(String, TopicExtractionJobOptions)
+   */
+  public TopicExtractionJob submitJobText(String text) throws IOException {
+    return submitJobText(text, null);
+  }
   
   /**
    * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
    * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
    *
-   * @param json A direct download link to the media.
-   * @param options The transcription options associated with this job.
-   * @return TopicExtractionJob A representation of the transcription job.
+   * @param json RevAiTranscript to submit for topic extraction
+   * @param options The topic extraction options associated with this job.
+   * @return TopicExtractionJob A representation of the topic extraction job.
    * @throws IOException If the response has a status code > 399.
-   * @throws IllegalArgumentException if the media url is null.
+   * @throws IllegalArgumentException if the json is null.
    * @see TopicExtractionJob
    * @see <a
-   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
+   *     href="https://docs.rev.ai/api/topic-extraction/reference/#operation/SubmitTopicExtractionJob">https://docs.rev.ai/api/topic-extraction/reference/#operation/SubmitTopicExtractionJob</a>
    */
   public TopicExtractionJob submitJobJson(RevAiTranscript json, TopicExtractionJobOptions options) throws IOException {
     if (json == null) {
@@ -212,6 +230,21 @@ public class TopicExtractionClient {
     }
     options.setJson(json);
     return apiInterface.submitJob(options).execute().body();
+  }
+
+  /**
+   * An overload of {@link TopicExtractionClient#submitJobText(String, TopicExtractionJobOptions)} without the additional
+   * topic extraction options.
+   *
+   * @param json RevAiTranscript to submit for topic extraction
+   * @return TopicExtractionJob A representation of the topic extraction job.
+   * @throws IOException If the response has a status code > 399.
+   * @throws IllegalArgumentException if the json is null.
+   * @see TopicExtractionJob
+   * @see TopicExtractionClient#submitJobJson(RevAiTranscript, TopicExtractionJobOptions)
+   */
+  public TopicExtractionJob submitJobJson(RevAiTranscript json) throws IOException {
+    return submitJobJson(json, null);
   }
 }
 

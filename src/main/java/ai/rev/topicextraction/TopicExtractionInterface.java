@@ -25,12 +25,15 @@ import java.util.Map;
  * to communicate with the Rev AI Topic Extraction API.
  */
 public interface TopicExtractionInterface {
+    String REV_TOPIC_CONTENT_TYPE = "application/vnd.rev.topic.v1.0+json";
+
     @GET("jobs/{id}")
     Call<TopicExtractionJob> getJobDetails(@Path("id") String jobID);
 
     @GET("jobs")
     Call<List<TopicExtractionJob>> getListOfJobs(@QueryMap Map<String, String> options);
 
+    @Headers("Accept: " + REV_TOPIC_CONTENT_TYPE)
     @GET("jobs/{id}/result")
     Call<TopicExtractionResult> getResultObject(@Path("id") String jobID, @QueryMap Map<String, Object> options);
 

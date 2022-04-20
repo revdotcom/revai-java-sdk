@@ -3,6 +3,7 @@ package ai.rev.speechtotext.unit;
 import ai.rev.helpers.MockInterceptor;
 import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
+import ai.rev.testutils.AssertHelper;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -17,7 +18,7 @@ import java.io.InputStream;
 
 import static ai.rev.speechtotext.models.asynchronous.RevAiCaptionType.SRT;
 import static ai.rev.speechtotext.models.asynchronous.RevAiCaptionType.VTT;
-import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
+import static ai.rev.testutils.ConversionUtil.convertInputStreamToString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 

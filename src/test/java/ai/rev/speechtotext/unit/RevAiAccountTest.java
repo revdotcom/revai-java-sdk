@@ -4,6 +4,7 @@ import ai.rev.helpers.MockInterceptor;
 import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
+import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
