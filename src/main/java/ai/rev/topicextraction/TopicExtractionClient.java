@@ -1,6 +1,7 @@
 package ai.rev.topicextraction;
 
 import ai.rev.helpers.ClientHelper;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.topicextraction.models.TopicExtractionJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionResult;
@@ -189,6 +190,9 @@ public class TopicExtractionClient {
     if (text == null) {
       throw new IllegalArgumentException("Text must be provided");
     }
+    if (options == null) {
+      options = new TopicExtractionJobOptions();
+    }
     options.setText(text);
     return apiInterface.submitJob(options).execute().body();
   }
@@ -209,6 +213,9 @@ public class TopicExtractionClient {
   public TopicExtractionJob submitJobJson(RevAiTranscript json, TopicExtractionJobOptions options) throws IOException {
     if (json == null) {
       throw new IllegalArgumentException("Json must be provided");
+    }
+    if (options == null) {
+      options = new TopicExtractionJobOptions();
     }
     options.setJson(json);
     return apiInterface.submitJob(options).execute().body();

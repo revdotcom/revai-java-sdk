@@ -1,6 +1,5 @@
 package ai.rev.topicextraction.models;
 
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import ai.rev.speechtotext.models.asynchronous.RevAiFailureType;
 import java.util.List;
@@ -14,7 +13,7 @@ public class TopicExtractionJob {
   private String jobId;
 
   @SerializedName("status")
-  private RevAiJobStatus jobStatus;
+  private TopicExtractionJobStatus jobStatus;
 
   @SerializedName("created_on")
   private String createdOn;
@@ -65,22 +64,22 @@ public class TopicExtractionJob {
   }
 
   /**
-   * Returns the {@link RevAiJobStatus} enumeration value.
+   * Returns the {@link TopicExtractionJobStatus} enumeration value.
    *
-   * @return The {@link RevAiJobStatus} enumeration value.
-   * @see RevAiJobStatus
+   * @return The {@link TopicExtractionJobStatus} enumeration value.
+   * @see TopicExtractionJobStatus
    */
-  public RevAiJobStatus getJobStatus() {
+  public TopicExtractionJobStatus getJobStatus() {
     return jobStatus;
   }
 
   /**
-   * Sets the job status to the provided {@link RevAiJobStatus} enumeration value.
+   * Sets the job status to the provided {@link TopicExtractionJobStatus} enumeration value.
    *
    * @param jobStatus The enumeration value to set as the job status.
-   * @see RevAiJobStatus
+   * @see TopicExtractionJobStatus
    */
-  public void setJobStatus(RevAiJobStatus jobStatus) {
+  public void setJobStatus(TopicExtractionJobStatus jobStatus) {
     this.jobStatus = jobStatus;
   }
 

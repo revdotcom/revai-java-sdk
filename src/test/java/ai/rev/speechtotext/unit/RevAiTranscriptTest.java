@@ -8,6 +8,9 @@ import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
 import ai.rev.speechtotext.models.asynchronous.Monologue;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+import ai.rev.topicextraction.models.TopicExtractionJobOptions;
+import ai.rev.topicextraction.models.TopicExtractionJobStatus;
+import ai.rev.topicextraction.models.TopicExtractionResult;
 import com.google.gson.Gson;
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -90,4 +93,6 @@ public class RevAiTranscriptTest {
         .as("Transcript")
         .isEqualTo(gson.toJson(revAiTranscript));
   }
+
+
 }
