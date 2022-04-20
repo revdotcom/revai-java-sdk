@@ -1,6 +1,8 @@
 package ai.rev.speechtotext;
 
 import ai.rev.helpers.SDKHelper;
+import ai.rev.helpers.ApiInterceptor;
+import ai.rev.helpers.ErrorInterceptor;
 import ai.rev.speechtotext.models.streaming.ConnectedMessage;
 import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.SessionConfig;

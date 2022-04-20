@@ -2,7 +2,7 @@ package ai.rev.topicextraction;
 
 import ai.rev.helpers.ClientHelper;
 import ai.rev.topicextraction.models.TopicExtractionJob;
-import ai.rev.topicextraction.models.TopicExtractionSubmission;
+import ai.rev.topicextraction.models.TopicExtractionJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionResult;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 import okhttp3.MediaType;
@@ -54,14 +54,14 @@ public class TopicExtractionClient {
   }
 
   /**
-   * This method sends a GET request to the /jobs endpoint and returns a list of {@link RevAiJob}
+   * This method sends a GET request to the /jobs endpoint and returns a list of {@link TopicExtractionJob}
    * objects.
    *
    * @param limit The maximum number of jobs to return. The default is 100, max is 1000.
    * @param startingAfter The job ID at which the list begins.
-   * @return A list of {@link RevAiJob} objects.
+   * @return A list of {@link TopicExtractionJob} objects.
    * @throws IOException If the response has a status code > 399.
-   * @see RevAiJob
+   * @see TopicExtractionJob
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs">https://docs.rev.ai/api/asynchronous/reference/#operation/GetListOfJobs</a>
    */
@@ -77,11 +77,11 @@ public class TopicExtractionClient {
   }
 
   /**
-   * Overload of {@link ApiClient#getListOfJobs(Integer, String)} without the optional startingAfter
+   * Overload of {@link TopicExtractionClient#getListOfJobs(Integer, String)} without the optional startingAfter
    * parameter.
    *
    * @param limit The maximum number of jobs to return. The default is 100, max is 1000.
-   * @return A list of {@link RevAiJob} objects.
+   * @return A list of {@link TopicExtractionJob} objects.
    * @throws IOException If the response has a status code > 399.
    */
   public List<TopicExtractionJob> getListOfJobs(Integer limit) throws IOException {
@@ -89,11 +89,11 @@ public class TopicExtractionClient {
   }
 
   /**
-   * Overload of {@link ApiClient#getListOfJobs(Integer, String)} without the optional limit
+   * Overload of {@link TopicExtractionClient#getListOfJobs(Integer, String)} without the optional limit
    * parameter.
    *
    * @param startingAfter The job ID at which the list begins.
-   * @return A list of {@link RevAiJob} objects.
+   * @return A list of {@link TopicExtractionJob} objects.
    * @throws IOException If the response has a status code > 399.
    */
   public List<TopicExtractionJob> getListOfJobs(String startingAfter) throws IOException {
@@ -101,10 +101,10 @@ public class TopicExtractionClient {
   }
 
   /**
-   * Overload of {@link ApiClient#getListOfJobs(Integer, String)} without the optional limit and
+   * Overload of {@link TopicExtractionClient#getListOfJobs(Integer, String)} without the optional limit and
    * startingAfter parameter.
    *
-   * @return A list of {@link RevAiJob} objects.
+   * @return A list of {@link TopicExtractionJob} objects.
    * @throws IOException If the response has a status code > 399.
    */
   public List<TopicExtractionJob> getListOfJobs() throws IOException {
@@ -112,11 +112,11 @@ public class TopicExtractionClient {
   }
 
   /**
-   * This method sends a GET request to the /jobs/{id} endpoint and returns a {@link RevAiJob}
+   * This method sends a GET request to the /jobs/{id} endpoint and returns a {@link TopicExtractionJob}
    * object.
    *
    * @param id The ID of the job to return an object for.
-   * @return A {@link RevAiJob} object.
+   * @return A {@link TopicExtractionJob} object.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID is null.
    */
@@ -152,24 +152,40 @@ public class TopicExtractionClient {
    * @throws IOException If the response has a status code > 399.
    * @see TopicExtractionResult
    */
+  public TopicExtractionResult getResultObject(String id, Double threshold) throws IOException {
+    Map<String, Object> options = new HashMap<>();
+    options.put("threshold", threshold);
+    return apiInterface.getResultObject(id, options).execute().body();
+  }
+
+  /**
+   * The method sends a GET request to the /jobs/{id}/transcript endpoint and returns a {@link
+   * TopicExtractionResult} object.
+   *
+   * @param id The ID of the job to return a transcript for.
+   * @return TopicExtractionResult The result object.
+   * @throws IOException If the response has a status code > 399.
+   * @see TopicExtractionResult
+   */
   public TopicExtractionResult getResultObject(String id) throws IOException {
-    return apiInterface.getResultObject(id).execute().body();
+    Map<String, Object> options = new HashMap<>();
+    return apiInterface.getResultObject(id, options).execute().body();
   }
 
   /**
    * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
-   * the media file located at the url provided and returns a {@link RevAiJob} object.
+   * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
    *
-   * @param mediaUrl A direct download link to the media.
+   * @param text A direct download link to the media.
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException if the media url is null.
-   * @see RevAiJob
+   * @see TopicExtractionJob
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
-  public TopicExtractionJob submitJobText(String text, TopicExtractionSubmission options) throws IOException {
+  public TopicExtractionJob submitJobText(String text, TopicExtractionJobOptions options) throws IOException {
     if (text == null) {
       throw new IllegalArgumentException("Text must be provided");
     }
@@ -179,18 +195,18 @@ public class TopicExtractionClient {
   
   /**
    * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
-   * the media file located at the url provided and returns a {@link RevAiJob} object.
+   * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
    *
-   * @param mediaUrl A direct download link to the media.
+   * @param json A direct download link to the media.
    * @param options The transcription options associated with this job.
-   * @return RevAiJob A representation of the transcription job.
+   * @return TopicExtractionJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException if the media url is null.
-   * @see RevAiJob
+   * @see TopicExtractionJob
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
-  public TopicExtractionJob submitJobJson(RevAiTranscript json, TopicExtractionSubmission options) throws IOException {
+  public TopicExtractionJob submitJobJson(RevAiTranscript json, TopicExtractionJobOptions options) throws IOException {
     if (json == null) {
       throw new IllegalArgumentException("Json must be provided");
     }

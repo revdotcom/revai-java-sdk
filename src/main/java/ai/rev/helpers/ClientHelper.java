@@ -20,11 +20,11 @@ public class ClientHelper {
 
   public static Retrofit createRetrofitInstance(
     OkHttpClient client,
-    string apiName,
-    string apiVersion
+    String apiName,
+    String apiVersion
     ) {
     return new Retrofit.Builder()
-        .baseUrl(String.format("https://api.rev.ai/%s/%s/", apiName, apiVersion)
+        .baseUrl(String.format("https://api.rev.ai/%s/%s/", apiName, apiVersion))
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)

@@ -1,6 +1,8 @@
 package ai.rev.speechtotext.unit;
 
 import ai.rev.helpers.MockInterceptor;
+import ai.rev.topicextraction.TopicExtractionClient;
+import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.speechtotext.ApiInterface;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.Element;
@@ -18,6 +20,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,6 +28,7 @@ public class RevAiTranscriptTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
   private ApiClient sut;
+  private TopicExtractionClient topic;
 
   private Gson gson = new Gson();
   private String SAMPLE_TEXT = "sample text";
@@ -46,6 +50,7 @@ public class RevAiTranscriptTest {
             .client(mockOkHttpClient)
             .build();
     sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    topic = new TopicExtractionClient("025ofpXWIctaPELoqS3lnM4bFjikZN38BT6zkWIUC8JVTBGxVoeQ_Wh4UNw4hcOsCmaoDfIjuKWdbmEA0ySJDWL3FV42c");
   }
 
   @Test

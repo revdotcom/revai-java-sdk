@@ -1,5 +1,8 @@
 package ai.rev.topicextraction.models;
 
+import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
+import ai.rev.speechtotext.models.asynchronous.RevAiFailureType;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
@@ -136,22 +139,22 @@ public class TopicExtractionJob {
   }
   
   /**
-     * Returns the word count of the submission.
-     *
-     * @return A String containing the word count of the submission.
-     */
-    public String getWordCount() {
-      return wordCount;
-    }
+   * Returns the word count of the submission.
+   *
+   * @return A String containing the word count of the submission.
+   */
+  public Integer getWordCount() {
+    return wordCount;
+  }
   
-    /**
-     * Sets the word count.
-     *
-     * @param callbackUrl An Integer value to set as the word count.
-     */
-    public void setWordCount(Integer wordCount) {
-      this.wordCount = wordCount;
-    }
+  /**
+   * Sets the word count.
+   *
+   * @param wordCount An Integer value to set as the word count.
+   */
+  public void setWordCount(Integer wordCount) {
+    this.wordCount = wordCount;
+  }
 
   /**
    * Returns the metadata provided in the submission request.

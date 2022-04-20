@@ -1,6 +1,5 @@
 package ai.rev.topicextraction.models;
 
-import java.util.List;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 
 import com.google.gson.annotations.SerializedName;
