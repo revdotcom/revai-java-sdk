@@ -1,34 +1,27 @@
 package ai.rev.topicextraction;
 
 import ai.rev.helpers.ClientHelper;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.topicextraction.models.TopicExtractionJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionResult;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * The ApiClient object provides methods to send and retrieve information from all the Rev AI API
- * endpoints using the Retrofit HTTP client.
+ * The TopicExtractionClient object provides methods to send and retrieve information from all the
+ * Rev AI Topic Extraction API endpoints using the Retrofit HTTP client.
  */
 public class TopicExtractionClient {
 
   private OkHttpClient client;
 
-  /** Interface that ApiClient methods use to make requests */
+  /** Interface that TopicExtractionClient methods use to make requests */
   public TopicExtractionInterface apiInterface;
   
   /**

@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The ApiInterface is a type-safe Retrofit interface that presents all the endpoints that are made
- * to communicate with any newer Rev AI API.
+ * The TopicExtractionInterface is a type-safe Retrofit interface that presents all the endpoints that are made
+ * to communicate with the Rev AI Topic Extraction API.
  */
 public interface TopicExtractionInterface {
     @GET("jobs/{id}")

@@ -3,7 +3,7 @@ package ai.rev.exceptions;
 import org.json.JSONObject;
 
 /**
- * ThrottlingLimitException occurs when the number of queries within a given period reaches a
+ * ThrottlingLimitException occurs when the number of queries within a given period exceeds a
  * throttling limit.
  */
 public class ThrottlingLimitException extends RevAiApiException {
