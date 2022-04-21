@@ -141,10 +141,10 @@ public class TopicExtractionClient {
   }
 
   /**
-   * The method sends a GET request to the /jobs/{id}/transcript endpoint and returns a {@link
+   * The method sends a GET request to the /jobs/{id}/result endpoint and returns a {@link
    * TopicExtractionResult} object.
    *
-   * @param id The ID of the job to return a transcript for.
+   * @param id The ID of the job to return a result for.
    * @return TopicExtractionResult The result object.
    * @throws IOException If the response has a status code > 399.
    * @see TopicExtractionResult
@@ -156,10 +156,10 @@ public class TopicExtractionClient {
   }
 
   /**
-   * The method sends a GET request to the /jobs/{id}/transcript endpoint and returns a {@link
+   * The method sends a GET request to the /jobs/{id}/result endpoint and returns a {@link
    * TopicExtractionResult} object.
    *
-   * @param id The ID of the job to return a transcript for.
+   * @param id The ID of the job to return a result for.
    * @return TopicExtractionResult The result object.
    * @throws IOException If the response has a status code > 399.
    * @see TopicExtractionResult
@@ -170,10 +170,10 @@ public class TopicExtractionClient {
   }
 
   /**
-   * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
-   * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
+   * The method sends a POST request to the /jobs endpoint, starts a topic extraction job for the
+   * provided text and returns a {@link TopicExtractionJob} object.
    *
-   * @param text A direct download link to the media.
+   * @param text Text to have topics extracted from it.
    * @param options The topic extraction options associated with this job.
    * @return TopicExtractionJob A representation of the topic extraction job.
    * @throws IOException If the response has a status code > 399.
@@ -197,7 +197,7 @@ public class TopicExtractionClient {
    * An overload of {@link TopicExtractionClient#submitJobText(String, TopicExtractionJobOptions)} without the additional
    * topic extraction options.
    *
-   * @param text A direct download link to the media.
+   * @param text Text to have topics extracted from it.
    * @return TopicExtractionJob A representation of the topic extraction job.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException if the text is null.
@@ -209,8 +209,8 @@ public class TopicExtractionClient {
   }
   
   /**
-   * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
-   * the media file located at the url provided and returns a {@link TopicExtractionJob} object.
+   * The method sends a POST request to the /jobs endpoint, starts a topic extraction job for the
+   * provided RevAiTranscript and returns a {@link TopicExtractionJob} object.
    *
    * @param json RevAiTranscript to submit for topic extraction
    * @param options The topic extraction options associated with this job.
