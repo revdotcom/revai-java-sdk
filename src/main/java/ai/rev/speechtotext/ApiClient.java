@@ -1,6 +1,6 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.helpers.ClientHelper;
+import ai.rev.helpers.ClientHelper;
 import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
@@ -44,7 +44,7 @@ public class ApiClient {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
-    Retrofit retrofit = ClientHelper.createRetrofitInstance(client);
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "speechtotext", "v1");
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 

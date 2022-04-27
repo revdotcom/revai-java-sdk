@@ -11,7 +11,11 @@ public enum RevAiJobType {
 
   /** The type used for streaming jobs. */
   @SerializedName("stream")
-  STREAM("stream");
+  STREAM("stream"),
+
+  /** The type used for topic extraction jobs. */
+  @SerializedName("topic_extraction")
+  TOPICEXTRACTION("topic_extraction");
 
   private String jobType;
 

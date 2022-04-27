@@ -6,6 +6,7 @@ import ai.rev.speechtotext.models.streaming.Hypothesis;
 import ai.rev.speechtotext.models.streaming.MessageType;
 import ai.rev.speechtotext.models.streaming.SessionConfig;
 import ai.rev.speechtotext.models.streaming.StreamContentType;
+import ai.rev.testutils.EnvHelper;
 import okio.ByteString;
 import org.junit.Rule;
 import org.junit.Test;

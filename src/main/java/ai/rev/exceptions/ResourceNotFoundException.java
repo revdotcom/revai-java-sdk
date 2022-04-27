@@ -1,10 +1,9 @@
-package ai.rev.speechtotext.exceptions;
+package ai.rev.exceptions;
 
 import org.json.JSONObject;
 
 /**
- * The ResourceNotFoundException occurs when a job ID queried is not associated with a job submitted
- * by the user.
+ * The ResourceNotFoundException occurs when a job ID queried cannot be found.
  */
 public class ResourceNotFoundException extends RevAiApiException {
 

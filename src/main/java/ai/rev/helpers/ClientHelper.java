@@ -1,7 +1,7 @@
-package ai.rev.speechtotext.helpers;
+package ai.rev.helpers;
 
-import ai.rev.speechtotext.ApiInterceptor;
-import ai.rev.speechtotext.ErrorInterceptor;
+import ai.rev.helpers.ApiInterceptor;
+import ai.rev.helpers.ErrorInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,9 +18,13 @@ public class ClientHelper {
         .build();
   }
 
-  public static Retrofit createRetrofitInstance(OkHttpClient client) {
+  public static Retrofit createRetrofitInstance(
+    OkHttpClient client,
+    String apiName,
+    String apiVersion
+    ) {
     return new Retrofit.Builder()
-        .baseUrl("https://api.rev.ai/speechtotext/v1/")
+        .baseUrl(String.format("https://api.rev.ai/%s/%s/", apiName, apiVersion))
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)

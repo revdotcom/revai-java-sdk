@@ -1,12 +1,12 @@
-package ai.rev.speechtotext;
+package ai.rev.helpers;
 
-import ai.rev.speechtotext.exceptions.AuthorizationException;
-import ai.rev.speechtotext.exceptions.ForbiddenStateException;
-import ai.rev.speechtotext.exceptions.InvalidHeaderException;
-import ai.rev.speechtotext.exceptions.InvalidParameterException;
-import ai.rev.speechtotext.exceptions.ResourceNotFoundException;
-import ai.rev.speechtotext.exceptions.RevAiApiException;
-import ai.rev.speechtotext.exceptions.ThrottlingLimitException;
+import ai.rev.exceptions.AuthorizationException;
+import ai.rev.exceptions.ForbiddenStateException;
+import ai.rev.exceptions.InvalidHeaderException;
+import ai.rev.exceptions.InvalidParameterException;
+import ai.rev.exceptions.ResourceNotFoundException;
+import ai.rev.exceptions.RevAiApiException;
+import ai.rev.exceptions.ThrottlingLimitException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

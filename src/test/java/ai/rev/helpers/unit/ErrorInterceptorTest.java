@@ -1,7 +1,7 @@
-package ai.rev.speechtotext.unit;
+package ai.rev.helpers.unit;
 
-import ai.rev.speechtotext.exceptions.RevAiApiException;
-import ai.rev.speechtotext.ErrorInterceptor;
+import ai.rev.exceptions.RevAiApiException;
+import ai.rev.helpers.ErrorInterceptor;
 import okhttp3.Interceptor.Chain;
 import okhttp3.MediaType;
 import okhttp3.Protocol;

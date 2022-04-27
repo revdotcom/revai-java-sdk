@@ -4,13 +4,14 @@ import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.testutils.EnvHelper;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static ai.rev.speechtotext.testutils.ConversionUtil.convertInputStreamToString;
+import static ai.rev.testutils.ConversionUtil.convertInputStreamToString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetCaptionsTest {

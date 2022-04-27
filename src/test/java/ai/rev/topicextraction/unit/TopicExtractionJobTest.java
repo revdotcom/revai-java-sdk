@@ -1,16 +1,16 @@
-package ai.rev.speechtotext.unit;
+package ai.rev.topicextraction.unit;
 
 import ai.rev.helpers.MockInterceptor;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
+import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 import ai.rev.testutils.AssertHelper;
+import ai.rev.topicextraction.TopicExtractionClient;
+import ai.rev.topicextraction.TopicExtractionInterface;
+import ai.rev.topicextraction.models.TopicExtractionJob;
+import ai.rev.topicextraction.models.TopicExtractionJobOptions;
+import ai.rev.topicextraction.models.TopicExtractionJobStatus;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,103 +25,99 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class RevAiJobTest {
+public class TopicExtractionJobTest {
   private OkHttpClient mockOkHttpClient;
   private MockInterceptor mockInterceptor;
-  private ApiClient sut;
+  private TopicExtractionClient sut;
 
   private final String JOB_ID = "testingID";
   private final String CREATED_ON = "2020-01-22T11:10:22.29Z";
   private final String COMPLETED_ON = "2020-01-22T11:13:22.29Z";
-  private final String SAMPLE_FILENAME = "sampleAudio.mp3";
-  private final String FORM_CONTENT_TYPE = "form-data";
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
-  private final String JOBS_URL = "https://api.rev.ai/revspeech/v1/jobs";
+  private final String JOBS_URL = "https://api.rev.ai/topic_extraction/v1beta/jobs";
   private final String METADATA = "unit test";
   private Gson gson;
-  private RevAiJob mockInProgressJob;
-  private RevAiJob mockCompletedJob;
+  private TopicExtractionJob mockInProgressJob;
+  private TopicExtractionJob mockCompletedJob;
 
   @Before
   public void setup() {
     gson = new Gson();
 
-    mockInProgressJob = new RevAiJob();
+    mockInProgressJob = new TopicExtractionJob();
     mockInProgressJob.setJobId(JOB_ID);
     mockInProgressJob.setCreatedOn(CREATED_ON);
-    mockInProgressJob.setName(SAMPLE_FILENAME);
-    mockInProgressJob.setJobStatus(RevAiJobStatus.IN_PROGRESS);
-    mockInProgressJob.setDurationSeconds(107.04);
-    mockInProgressJob.setType(RevAiJobType.ASYNC);
+    mockInProgressJob.setJobStatus(TopicExtractionJobStatus.IN_PROGRESS);
+    mockInProgressJob.setType(RevAiJobType.TOPICEXTRACTION);
     mockInProgressJob.setMetadata(METADATA);
 
     mockCompletedJob = mockInProgressJob;
-    mockCompletedJob.setJobStatus(RevAiJobStatus.TRANSCRIBED);
+    mockCompletedJob.setJobStatus(TopicExtractionJobStatus.COMPLETED);
     mockCompletedJob.setCompletedOn(COMPLETED_ON);
 
-    sut = new ApiClient("validToken");
+    sut = new TopicExtractionClient("validToken");
     mockInterceptor = new MockInterceptor(MEDIA_TYPE, 200);
     mockOkHttpClient = new OkHttpClient.Builder().addInterceptor(mockInterceptor).build();
     Retrofit mockRetrofit =
         new Retrofit.Builder()
-            .baseUrl("https://api.rev.ai/revspeech/v1/")
+            .baseUrl("https://api.rev.ai/topic_extraction/v1beta/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(mockOkHttpClient)
             .build();
 
-    sut.apiInterface = mockRetrofit.create(ApiInterface.class);
+    sut.apiInterface = mockRetrofit.create(TopicExtractionInterface.class);
   }
 
   @Test
   public void GetJobDetails_JobIdIsValid_ReturnsRevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
-    RevAiJob revAiJob = sut.getJobDetails(JOB_ID);
+    TopicExtractionJob job = sut.getJobDetails(JOB_ID);
 
     String expectedUrl = JOBS_URL + "/" + JOB_ID;
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
-    assertRevAiJob(revAiJob, mockInProgressJob);
+    assertRevAiJob(job, mockInProgressJob);
   }
 
   @Test
   public void GetListOfJobs_NoArguments_ReturnsAListOfRevAiJobs() throws IOException {
-    List<RevAiJob> mockJobList = new ArrayList<>();
+    List<TopicExtractionJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
 
-    List<RevAiJob> revAiJobs = sut.getListOfJobs();
+    List<TopicExtractionJob> jobs = sut.getListOfJobs();
 
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", JOBS_URL);
-    assertThat(revAiJobs.size()).isEqualTo(mockJobList.size());
-    assertJobsList(revAiJobs);
+    assertThat(jobs.size()).isEqualTo(mockJobList.size());
+    assertJobsList(jobs);
   }
 
   @Test
   public void GetListOfJobs_JobLimitIsOne_ReturnsARevAiJobListSizeOfOne() throws IOException {
     Integer SAMPLE_LIMIT = 1;
-    List<RevAiJob> mockJobList = new ArrayList<>();
+    List<TopicExtractionJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockCompletedJob);
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
 
-    List<RevAiJob> revAiJobs = sut.getListOfJobs(SAMPLE_LIMIT);
+    List<TopicExtractionJob> jobs = sut.getListOfJobs(SAMPLE_LIMIT);
 
     String expectedUrl = JOBS_URL + "?limit=" + SAMPLE_LIMIT;
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
-    assertThat(revAiJobs.size()).isEqualTo(1);
-    assertRevAiJob(revAiJobs.get(0), mockCompletedJob);
+    assertThat(jobs.size()).isEqualTo(1);
+    assertRevAiJob(jobs.get(0), mockCompletedJob);
   }
 
   @Test
   public void GetListOfJobs_StartAfterIsSpecified_ReturnsAListOfRevAiJobs() throws IOException {
     String sampleID = "sampleID";
-    List<RevAiJob> mockJobList = new ArrayList<>();
+    List<TopicExtractionJob> mockJobList = new ArrayList<>();
     mockJobList.add(mockInProgressJob);
     mockJobList.add(mockCompletedJob);
     mockInterceptor.setSampleResponse(gson.toJson(mockJobList));
 
-    List<RevAiJob> revAiJobs = sut.getListOfJobs(sampleID);
+    List<TopicExtractionJob> revAiJobs = sut.getListOfJobs(sampleID);
 
     String expectedUrl = JOBS_URL + "?starting_after=" + sampleID;
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
@@ -129,90 +125,73 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsARevAiJob() throws IOException {
-    String SAMPLE_MEDIA_URL = "sample-url.com";
+  public void SubmitJobText_OnlyTextIsSpecified_ReturnsARevAiJob() throws IOException {
+    String SAMPLE_TEXT = "sample";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
 
-    RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL);
+    TopicExtractionJob revAiJob = sut.submitJobText(SAMPLE_TEXT, null);
 
-    RevAiJobOptions options = new RevAiJobOptions();
-    options.setMediaUrl(SAMPLE_MEDIA_URL);
-    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    TopicExtractionJobOptions options = new TopicExtractionJobOptions();
+    options.setText(SAMPLE_TEXT);
+    AssertHelper.assertRequestBody(mockInterceptor, options, TopicExtractionJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
-  public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
-    String SAMPLE_MEDIA_URL = "sample-url.com";
+  public void SubmitJobText_TextAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
+    String SAMPLE_TEXT = "sample";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    RevAiJobOptions options = new RevAiJobOptions();
-    options.setFilterProfanity(true);
-    options.setRemoveDisfluencies(true);
-    options.setSkipPunctuation(true);
-    options.setSkipDiarization(true);
+    TopicExtractionJobOptions options = new TopicExtractionJobOptions();
     options.setCallbackUrl("https://example.com");
     options.setMetadata(METADATA);
-    options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
-    options.setLanguage("en");
-    options.setTranscriber("machine_v2");
 
-    RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
+    TopicExtractionJob revAiJob = sut.submitJobText(SAMPLE_TEXT, options);
 
-    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestBody(mockInterceptor, options, TopicExtractionJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
-  public void SubmitJobUrl_JobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobText_TextIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> sut.submitJobUrl(null, null));
+        .isThrownBy(() -> sut.submitJobText(null, null));
   }
 
   @Test
-  public void SubmitJobLocalFile_OnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
+  public void SubmitJobJson_OnlyJsonIsSpecified_ReturnsARevAiJob() throws IOException {
+    RevAiTranscript SAMPLE_JSON = new RevAiTranscript();
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
 
-    RevAiJob revAiJob = sut.submitJobLocalFile(filePath, null);
+    TopicExtractionJob revAiJob = sut.submitJobJson(SAMPLE_JSON);
 
-    MultipartBody body = (MultipartBody) mockInterceptor.request.body();
-    String headers = body.part(0).headers().toString();
-    assertThat(headers).contains(SAMPLE_FILENAME);
-    assertThat(headers).contains(FORM_CONTENT_TYPE);
+    TopicExtractionJobOptions options = new TopicExtractionJobOptions();
+    options.setJson(SAMPLE_JSON);
+    AssertHelper.assertRequestBody(mockInterceptor, options, TopicExtractionJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
-  public void SubmitJobLocalFile_FilePathAndOptionsAreSpecified_ReturnsARevAiJob()
+  public void SubmitJobJson_JsonAndOptionsAreSpecified_ReturnsARevAiJob()
       throws IOException {
+    RevAiTranscript SAMPLE_JSON = new RevAiTranscript();
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
-    RevAiJobOptions options = new RevAiJobOptions();
+    TopicExtractionJobOptions options = new TopicExtractionJobOptions();
 
-    RevAiJob revAiJob = sut.submitJobLocalFile(filePath, options);
+    TopicExtractionJob revAiJob = sut.submitJobJson(SAMPLE_JSON, options);
 
-    MultipartBody body = (MultipartBody) mockInterceptor.request.body();
-    String headers = body.part(0).headers().toString();
-    assertThat(headers).as("Headers include").contains(SAMPLE_FILENAME);
-    assertThat(headers).as("Headers include").contains(FORM_CONTENT_TYPE);
+    AssertHelper.assertRequestBody(mockInterceptor, options, TopicExtractionJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
   @Test
-  public void SubmitJobLocalFile_InputStreamIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobJson_JsonIsNotSpecified_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> sut.submitJobLocalFile(null, null, null));
-  }
-
-  @Test
-  public void SubmitJobLocalFile_FilePathIsNotSpecified_ReturnsIllegalArgumentException() {
-    assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> sut.submitJobLocalFile((String) null, null));
+        .isThrownBy(() -> sut.submitJobJson(null, null));
   }
 
   @Test
@@ -226,10 +205,10 @@ public class RevAiJobTest {
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "DELETE", expectedUrl);
   }
 
-  private void assertJobsList(List<RevAiJob> revAiJobs) {
-    revAiJobs.forEach(
+  private void assertJobsList(List<TopicExtractionJob> jobs) {
+    jobs.forEach(
         job -> {
-          if (job.getJobStatus().equals(RevAiJobStatus.TRANSCRIBED)) {
+          if (job.getJobStatus().equals(TopicExtractionJobStatus.COMPLETED)) {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockCompletedJob));
           } else {
             assertThat(gson.toJson(job)).isEqualTo(gson.toJson(mockInProgressJob));
@@ -237,7 +216,7 @@ public class RevAiJobTest {
         });
   }
 
-  private void assertRevAiJob(RevAiJob actualJob, RevAiJob expectedJob) {
-    assertThat(gson.toJson(actualJob)).as("RevAiJob").isEqualTo(gson.toJson(expectedJob));
+  private void assertRevAiJob(TopicExtractionJob actualJob, TopicExtractionJob expectedJob) {
+    assertThat(gson.toJson(actualJob)).as("TopicExtractionJob").isEqualTo(gson.toJson(expectedJob));
   }
 }
