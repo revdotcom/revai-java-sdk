@@ -120,7 +120,6 @@ public class RevAiJobOptions {
   @SerializedName("segments_to_transcribe")
   private List<SegmentToTranscribe> segmentsToTranscribe;
 
-
   /**
    * Returns the media url.
    *

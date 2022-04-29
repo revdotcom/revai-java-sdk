@@ -141,13 +141,13 @@ public class SubmitJobTest {
 
   private RevAiJobOptions getJobOptions() {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
-    revAiJobOptions.setSourceConfig(SOURCE_URL, null);
+    revAiJobOptions.setSourceConfig(SOURCE_URL);
     revAiJobOptions.setMetadata(testName.getMethodName());
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSkipPunctuation(true);
     revAiJobOptions.setSkipDiarization(true);
-    revAiJobOptions.setNotificationConfig("https://example.com", null);
+    revAiJobOptions.setNotificationConfig("https://example.com");
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");
