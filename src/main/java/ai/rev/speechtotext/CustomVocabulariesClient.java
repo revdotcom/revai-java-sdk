@@ -42,7 +42,7 @@ public class CustomVocabulariesClient {
    * submission and its progress.
    *
    * @param submission An object that contains the custom vocabularies as well as optional metadata
-   *     and callback url
+   *     and notification config
    * @return A {@link CustomVocabularyInformation} object.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the list of custom vocabularies is null or empty.

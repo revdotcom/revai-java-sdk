@@ -200,6 +200,9 @@ public class RevAiCustomVocabularyTest {
     assertThat(customVocabularyInformation.getCreatedOn()).as("Created on").isEqualTo(createdOn);
     assertThat(customVocabularyInformation.getId()).as("Custom vocabulary Id").isEqualTo(id);
     assertThat(customVocabularyInformation.getMetadata()).as("Metadata").isEqualTo(metadata);
+    assertThat(customVocabularyInformation.getCallbackUrl())
+            .as("Callback url")
+            .isEqualTo(callbackUrl);
   }
 
   private void assertRequest(
@@ -216,6 +219,7 @@ public class RevAiCustomVocabularyTest {
     customVocabularyInformation.setId(id);
     customVocabularyInformation.setStatus(status);
     customVocabularyInformation.setMetadata(metadata);
+    customVocabularyInformation.setCallbackUrl(callbackUrl);
     return customVocabularyInformation;
   }
 

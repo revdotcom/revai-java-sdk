@@ -24,6 +24,7 @@ public class RevAiJobOptions {
 
   /** The callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("callback_url")
+  @Deprecated
   private String callbackUrl;
 
   /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
@@ -162,6 +163,7 @@ public class RevAiJobOptions {
    * Returns the callback url.
    *
    * @return the callback url.
+   * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
    */
   public String getCallbackUrl() {
     return callbackUrl;
