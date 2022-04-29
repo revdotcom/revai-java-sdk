@@ -1,5 +1,4 @@
-package ai.rev;
-
+import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
@@ -7,6 +6,8 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomVocabularies {
 
@@ -19,19 +20,24 @@ public class CustomVocabularies {
 
     // Create a custom vocabulary for your submission
     CustomVocabulary customVocabulary =
-        new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
+            new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
+
+    // Set up the notification url if desired
+    String notificationUrl = "https://example.com";
+    // Authorization header is optional; use it if needed to access the callback notification url
+    Map<String, String> notificationAuth = new HashMap<>();
+    notificationAuth.put("Authorization", "Bearer <callback_token>");
 
     CustomVocabularySubmission customVocabularySubmission = new CustomVocabularySubmission();
     customVocabularySubmission.setCustomVocabularies(Arrays.asList(customVocabulary));
-    // Authorization header is optional; use it if needed to access the callback url
-    customVocabularySubmission.setNotificationConfig("https://example.com", "Authorization: Bearer <token>");
+    customVocabularySubmission.setNotificationConfig(notificationUrl, notificationAuth);
     customVocabularySubmission.setMetadata("My first submission");
 
     CustomVocabularyInformation submittedCustomVocabularyInfo;
 
     try {
       submittedCustomVocabularyInfo =
-          customVocabulariesClient.submitCustomVocabularies(customVocabularySubmission);
+              customVocabulariesClient.submitCustomVocabularies(customVocabularySubmission);
     } catch (IOException e) {
       throw new RuntimeException("Failed to submit custom vocabulary " + e.getMessage());
     }
@@ -47,23 +53,23 @@ public class CustomVocabularies {
       CustomVocabularyInformation retrievedVocabularyInfo;
       try {
         retrievedVocabularyInfo =
-            customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
+                customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
       } catch (IOException e) {
         throw new RuntimeException(
-            "Failed to retrieve custom vocabulary info ["
-                + customVocabularyId
-                + "] "
-                + e.getMessage());
+                "Failed to retrieve custom vocabulary info ["
+                        + customVocabularyId
+                        + "] "
+                        + e.getMessage());
       }
 
       CustomVocabularyStatus retrievedVocabularyInfoStatus = retrievedVocabularyInfo.getStatus();
       if (retrievedVocabularyInfoStatus == CustomVocabularyStatus.COMPLETE
-          || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
+              || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
         System.out.println(
-            "Custom vocabulary processing for "
-                + customVocabularyId
-                + ": "
-                + retrievedVocabularyInfoStatus.getStatus());
+                "Custom vocabulary processing for "
+                        + customVocabularyId
+                        + ": "
+                        + retrievedVocabularyInfoStatus.getStatus());
         isProcessingComplete = true;
       } else {
         try {
