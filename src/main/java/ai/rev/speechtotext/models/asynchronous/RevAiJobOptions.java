@@ -148,6 +148,7 @@ public class RevAiJobOptions {
   {
     return this.sourceConfig;
   }
+
   /**
    * Specifies the url and any optional auth headers to access the source media download url.
    *
@@ -157,6 +158,16 @@ public class RevAiJobOptions {
 
   public void setSourceConfig(String sourceMediaUrl, String sourceAuth) {
     this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
+  }
+
+  /**
+   * Specifies the source media download url.
+   *
+   * @param sourceMediaUrl The direct download url to the file.
+   */
+
+  public void setSourceConfig(String sourceMediaUrl) {
+    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, null);
   }
 
   /**
@@ -190,14 +201,22 @@ public class RevAiJobOptions {
   }
 
   /**
-   * Specifies the callback url that Rev AI will POST to when job processing is complete. This
-   * property is optional.
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
    *
    * @param callbackUrl The url to POST to when job processing is complete.
    * @param authHeaders Optional parameter to authenticate access to the callback url
    */
   public void setNotificationConfig(String callbackUrl, String authHeaders) {
     this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
+  }
+
+  /**
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   */
+  public void setNotificationConfig(String callbackUrl) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, null);
   }
 
   /**

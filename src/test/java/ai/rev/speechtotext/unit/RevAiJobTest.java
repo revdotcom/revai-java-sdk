@@ -146,12 +146,35 @@ public class RevAiJobTest {
   public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig("sample-url.com", null);
+    options.setSourceConfig("sample-url.com");
     options.setFilterProfanity(true);
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
-    options.setNotificationConfig("https://example.com", null);
+    options.setNotificationConfig("https://example.com");
+    options.setMetadata(METADATA);
+    options.setSpeakerChannelsCount(2);
+    options.setDeleteAfterSeconds(0);
+    options.setLanguage("en");
+    options.setTranscriber("machine_v2");
+
+    RevAiJob revAiJob = sut.submitJobUrl(options);
+
+    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
+  }
+
+  @Test
+  public void SubmitJobUrl_UrlAndOptionsAreSpecified_WithAuthHeaders_ReturnsARevAiJob() throws IOException {
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig("sample-url.com", "Authentication: Bearer <token>");
+    options.setFilterProfanity(true);
+    options.setRemoveDisfluencies(true);
+    options.setSkipPunctuation(true);
+    options.setSkipDiarization(true);
+    options.setNotificationConfig("https://example.com", "Authentication: Bearer <token>");
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
