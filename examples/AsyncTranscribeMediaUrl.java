@@ -30,11 +30,11 @@ public class AsyncTranscribeMediaUrl {
     // Initialize the RevAiJobOptions object and assign
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     // Authorization header is optional; use it if needed to access the media url
-    revAiJobOptions.setSourceConfig(mediaUrl, 'Authorization: Bearer <token>')
+    revAiJobOptions.setSourceConfig(mediaUrl, "Authorization: Bearer <token>");
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
     // Authorization header is optional; use it if needed to access the callback url
-    revAiJobOptions.setNotificationConfig(callbackUrl, 'Authorization: Bearer <token>');
+    revAiJobOptions.setNotificationConfig(callbackUrl, "Authorization: Bearer <token>");
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);
