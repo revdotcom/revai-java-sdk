@@ -219,7 +219,7 @@ public class ApiClient {
    */
   public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig(mediaUrl, null);
+    options.setSourceConfig(mediaUrl);
     return submitJobUrl(options);
   }
 
