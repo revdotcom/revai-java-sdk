@@ -190,7 +190,6 @@ public class ApiClient {
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
-   @@ -194,29 +193,27 @@ public String getTranscriptText(String id) throws IOException {
     * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
