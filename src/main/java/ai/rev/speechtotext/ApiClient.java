@@ -225,7 +225,6 @@ public class ApiClient {
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
    * @throws IOException If the response has a status code > 399.
-   * @throws IllegalArgumentException if the media url is null.
    * @see RevAiJob
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
