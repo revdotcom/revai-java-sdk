@@ -93,11 +93,15 @@ RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 
 `RevAiJob` objects contain job information as defined by the [documentation](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob).
 
-If you want to get fancy, all submit job methods have overrides that allow specifying
-[RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
-In RevAiJobOptions, you could include `metadata`, `source_config`, `callback_url`,
-`skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity`, `remove_disfluencies`, `delete_after_seconds` and `language` as optional parameters, these are described in the request body of
-the [Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
+If you want to get fancy, both submit job methods take `metadata`,`notification_config`,
+`skip_diarization`, `skip_punctuation`, `speaker_channels_count`,`custom_vocabularies`,
+`filter_profanity`, `remove_disfluencies`, `delete_after_seconds`,`language`,
+and `custom_vocabulary_id` as optional parameters.
+
+The url submission option also supports authentication headers by using the `source_config` option.
+
+All options are described in the request body of the
+[Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
 
 ### Checking your job's status
 

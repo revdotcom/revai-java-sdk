@@ -48,7 +48,7 @@ public class AsyncTranscribeMediaUrl {
       // Submit the local file and transcription options
       submittedJob = apiClient.submitJobUrl(revAiJobOptions);
     } catch (IOException e) {
-      throw new RuntimeException("Failed to submit url [" + mediaUrl. + "] " + e.getMessage());
+      throw new RuntimeException("Failed to submit url [" + mediaUrl + "] " + e.getMessage());
     }
     String jobId = submittedJob.getJobId();
     System.out.println("Job Id: " + jobId);
