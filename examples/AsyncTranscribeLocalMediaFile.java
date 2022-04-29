@@ -1,5 +1,6 @@
 package ai.rev;
 
+import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
