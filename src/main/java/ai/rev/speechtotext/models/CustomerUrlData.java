@@ -7,7 +7,9 @@ public class CustomerUrlData {
     @SerializedName("url")
     private String url;
 
-    /** Authentication headers to access the url */
+    /** Authentication headers to access the url
+     * Only authorization is currently supported
+     * Example: "Authorization: Bearer <token>"*/
     @SerializedName("auth_headers")
     private String authHeaders;
 
