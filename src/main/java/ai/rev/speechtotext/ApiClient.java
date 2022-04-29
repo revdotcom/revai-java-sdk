@@ -208,6 +208,20 @@ public class ApiClient {
   }
 
   /**
+   * An overload of {@link ApiClient#submitJobUrl(String, RevAiJobOptions)} without the additional
+   * transcription options.
+   *
+   * @param mediaUrl A direct download link to the media.
+   * @return RevAiJob A representation of the transcription job.
+   * @throws IOException If the response has a status code > 399.
+   * @see RevAiJob
+   * @see ApiClient#submitJobUrl(String, RevAiJobOptions)
+   */
+  public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
+    return submitJobUrl(mediaUrl, null);
+  }
+
+  /**
    * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
    * the media file located at the url provided, and returns a {@link RevAiJob} object.
    *
@@ -225,22 +239,6 @@ public class ApiClient {
     }
     checkExclusiveOptions(options);
     return apiInterface.submitJobUrl(options).execute().body();
-  }
-
-  /**
-   * Sends a POST request to the /jobs endpoint without any additional transcription options, starts an asynchronous job
-   * to transcribe the media file located at the url provided, and returns a {@link RevAiJob} object.
-   *
-   * @param sourceUrl A direct download link to the source media.
-   * @return RevAiJob A representation of the transcription job.
-   * @throws IOException If the response has a status code > 399.
-   * @see RevAiJob
-   * @see ApiClient#submitJobUrl(RevAiJobOptions)
-   */
-  public RevAiJob submitJobUrl(String sourceUrl) throws IOException {
-    RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig(sourceUrl, null);
-    return submitJobUrl(options);
   }
 
   /**
