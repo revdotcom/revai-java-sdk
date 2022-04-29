@@ -136,7 +136,7 @@ public class RevAiJobTest {
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL);
 
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig(SAMPLE_MEDIA_URL, null);
+    options.setSourceConfig(SAMPLE_MEDIA_URL);
     AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
