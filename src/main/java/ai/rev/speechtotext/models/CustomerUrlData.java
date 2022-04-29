@@ -2,6 +2,8 @@ package ai.rev.speechtotext.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class CustomerUrlData {
     /** Customer provided url */
     @SerializedName("url")
@@ -11,9 +13,9 @@ public class CustomerUrlData {
      * Only authorization is currently supported
      * Example: "Authorization: Bearer <token>"*/
     @SerializedName("auth_headers")
-    private String authHeaders;
+    private Map<String, String> authHeaders;
 
-    public CustomerUrlData(String url, String authHeaders)
+    public CustomerUrlData(String url, Map<String, String> authHeaders)
     {
         this.url = url;
         this.authHeaders = authHeaders;
@@ -23,7 +25,7 @@ public class CustomerUrlData {
         this.url = url;
     }
 
-    public void setAuthHeaders(String authHeaders) {
+    public void setAuthHeaders(Map<String, String> authHeaders) {
         this.authHeaders = authHeaders;
     }
 
@@ -31,7 +33,7 @@ public class CustomerUrlData {
         return url;
     }
 
-    public String getAuthHeaders() {
+    public Map<String, String> getAuthHeaders() {
         return authHeaders;
     }
 }

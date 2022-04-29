@@ -5,6 +5,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A RevAiJobOptions object represents parameters that are submitted along a new job.
@@ -157,7 +158,7 @@ public class RevAiJobOptions {
    * @param sourceAuth The auth headers to the source media download url.
    */
 
-  public void setSourceConfig(String sourceMediaUrl, String sourceAuth) {
+  public void setSourceConfig(String sourceMediaUrl, Map<String, String> sourceAuth) {
     this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
   }
 
@@ -207,7 +208,7 @@ public class RevAiJobOptions {
    * @param callbackUrl The url to POST to when job processing is complete.
    * @param authHeaders Optional parameter to authenticate access to the callback url
    */
-  public void setNotificationConfig(String callbackUrl, String authHeaders) {
+  public void setNotificationConfig(String callbackUrl, Map<String, String> authHeaders) {
     this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
   }
 

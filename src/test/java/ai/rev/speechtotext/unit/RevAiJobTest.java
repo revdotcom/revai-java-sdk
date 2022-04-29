@@ -20,7 +20,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -38,6 +40,10 @@ public class RevAiJobTest {
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private final String JOBS_URL = "https://api.rev.ai/revspeech/v1/jobs";
   private final String METADATA = "unit test";
+  private final String SOURCE_URL = "sample-url.com";
+  private final Map<String, String> SOURCE_AUTH = Collections.singletonMap("Authorization", "Bearer <source token>");
+  private final String NOTIFICATION_URL = "https://example.com";
+  private final Map<String, String> NOTIFICATION_AUTH = Collections.singletonMap("Authorization", "Bearer <source token>");
   private Gson gson;
   private RevAiJob mockInProgressJob;
   private RevAiJob mockCompletedJob;
@@ -169,12 +175,12 @@ public class RevAiJobTest {
   public void SubmitJobUrl_UrlAndOptionsAreSpecified_WithAuthHeaders_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig("sample-url.com", "Authentication: Bearer <token>");
+    options.setSourceConfig(SOURCE_URL, SOURCE_AUTH);
     options.setFilterProfanity(true);
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
-    options.setNotificationConfig("https://example.com", "Authentication: Bearer <token>");
+    options.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);

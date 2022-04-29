@@ -14,7 +14,9 @@ import org.junit.rules.TestName;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,8 +26,8 @@ public class CustomVocabulariesTest {
 
   private static final List<String> PHRASES = Arrays.asList("test", "this", "vocab");
   private static final String NOTIFICATION_URL = "https://www.example.com";
-  private static final String NOTIFICATION_AUTH = "auth header";
-
+  private static final Map<String, String> NOTIFICATION_AUTH = Collections.singletonMap("Authorization",
+          "Bearer <token>");
   private CustomVocabulariesClient customVocabularyClient =
       new CustomVocabulariesClient(EnvHelper.getToken());
 

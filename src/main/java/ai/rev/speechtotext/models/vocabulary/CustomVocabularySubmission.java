@@ -4,6 +4,7 @@ import ai.rev.speechtotext.models.CustomerUrlData;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 public class CustomVocabularySubmission {
 
@@ -81,7 +82,7 @@ public class CustomVocabularySubmission {
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
    * @param authHeaders Optional parameter to authenticate access to the callback url
    */
-  public void setNotificationConfig(String callbackUrl, String authHeaders) {
+  public void setNotificationConfig(String callbackUrl, Map<String, String> authHeaders) {
     this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
   }
 
