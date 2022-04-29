@@ -11,7 +11,10 @@ public class CustomerUrlData {
 
     /** Authentication headers to access the url
      * Only authorization is currently supported
-     * Example: "Authorization: Bearer <token>"*/
+     * Example:
+     *  Map<String, String> authHeaders = new HashMap<>();
+     *  authHeaders.put("Authorization", "Bearer <token>");
+     *  "*/
     @SerializedName("auth_headers")
     private Map<String, String> authHeaders;
 
