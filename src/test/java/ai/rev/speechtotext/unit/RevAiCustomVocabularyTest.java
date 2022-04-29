@@ -69,7 +69,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
-    options.setNotificationConfig(CALLBACK_URL, null);
+    options.setNotificationConfig(CALLBACK_URL);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
@@ -107,7 +107,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
-    options.setNotificationConfig(CALLBACK_URL, null);
+    options.setNotificationConfig(CALLBACK_URL);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 

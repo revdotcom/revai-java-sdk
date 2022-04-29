@@ -86,6 +86,17 @@ public class CustomVocabularySubmission {
   }
 
   /**
+   * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
+   * complete
+   * This property is optional.
+   *
+   * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   */
+  public void setNotificationConfig(String callbackUrl) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, null);
+  }
+
+  /**
    * Returns a list of {@link CustomVocabulary} objects.
    *
    * @return A list of {@link CustomVocabulary} objects.
