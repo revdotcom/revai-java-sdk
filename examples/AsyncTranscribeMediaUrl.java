@@ -45,7 +45,7 @@ public class AsyncTranscribeMediaUrl {
     RevAiJob submittedJob;
 
     try {
-      // Submit the local file and transcription options
+      // Submit job with transcription options
       submittedJob = apiClient.submitJobUrl(revAiJobOptions);
     } catch (IOException e) {
       throw new RuntimeException("Failed to submit url [" + mediaUrl + "] " + e.getMessage());
