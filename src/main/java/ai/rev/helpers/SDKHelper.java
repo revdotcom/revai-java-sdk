@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.helpers;
+package ai.rev.helpers;
 
 /** A helper class that provides methods for getting SDK information. */
 public class SDKHelper {

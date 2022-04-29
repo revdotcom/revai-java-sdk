@@ -1,4 +1,4 @@
-package ai.rev.speechtotext;
+package ai.rev;
 
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;

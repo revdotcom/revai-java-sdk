@@ -1,12 +1,13 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.helpers.MockInterceptor;
 import ai.rev.speechtotext.CustomVocabulariesClient;
 import ai.rev.speechtotext.CustomVocabularyApiInterface;
-import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
+import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

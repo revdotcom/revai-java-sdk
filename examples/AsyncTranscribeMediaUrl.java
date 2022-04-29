@@ -1,4 +1,4 @@
-package ai.rev.speechtotext;
+package ai.rev;
 
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;

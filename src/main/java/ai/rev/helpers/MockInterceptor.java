@@ -1,4 +1,4 @@
-package ai.rev.speechtotext;
+package ai.rev.helpers;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;

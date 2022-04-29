@@ -1,12 +1,13 @@
 package ai.rev.speechtotext.unit;
 
+import ai.rev.helpers.MockInterceptor;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.ApiInterface;
-import ai.rev.speechtotext.MockInterceptor;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
+import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

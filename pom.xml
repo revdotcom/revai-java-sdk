@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ai.rev.speechtotext</groupId>
-    <artifactId>revai-java-sdk-speechtotext</artifactId>
-    <version>1.4.0</version>
-    <name>Rev AI speech to text SDK for Java</name>
-    <description>Java SDK for Rev AI speech to text API</description>
+    <groupId>ai.rev</groupId>
+    <artifactId>revai-java-sdk</artifactId>
+    <version>2.0.0</version>
+    <name>Rev AI SDK for Java</name>
+    <description>Java SDK for Rev AI API</description>
     <url>https://docs.rev.ai/</url>
     <licenses>
         <license>

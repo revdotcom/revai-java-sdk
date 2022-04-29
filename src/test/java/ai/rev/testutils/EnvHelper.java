@@ -1,4 +1,4 @@
-package ai.rev.speechtotext.integration;
+package ai.rev.testutils;
 
 public class EnvHelper {
 

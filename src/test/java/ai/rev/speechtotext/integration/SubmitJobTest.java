@@ -4,6 +4,7 @@ import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.testutils.EnvHelper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

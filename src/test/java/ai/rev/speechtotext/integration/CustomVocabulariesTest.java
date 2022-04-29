@@ -6,6 +6,7 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabularyFailureType;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyInformation;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularyStatus;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabularySubmission;
+import ai.rev.testutils.EnvHelper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
