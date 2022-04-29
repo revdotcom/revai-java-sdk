@@ -19,7 +19,7 @@ The recommended way to use the Rev AI Java SDK is to import it into the project 
 ## Build and install locally from source
 Once you've cloned the repo you can use Maven to build it locally and install it in your local Maven .m2 repository.
 
-    mvn install -Dmaven.test.skip=true
+    mvn install -DskipTests=true      
 
 ## Support
 
