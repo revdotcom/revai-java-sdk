@@ -16,6 +16,7 @@ public class RevAiJobOptions {
 
   /** The media url where the file can be downloaded. */
   @SerializedName("media_url")
+  @Deprecated
   private String mediaUrl;
 
   /** Object containing source media file information. */
@@ -124,6 +125,7 @@ public class RevAiJobOptions {
    * Returns the media url.
    *
    * @return The media url.
+   * @deprecated Set sourceConfig and use getSourceConfig instead
    */
   public String getMediaUrl() {
     return mediaUrl;
