@@ -24,14 +24,11 @@ public class AsyncTranscribeLocalMediaFile {
     CustomVocabulary customVocabulary =
         new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
 
-    // Optionally set up a callback url to be notified of completion
-    CustomerUrlData notificationConfig = new CustomerUrlData("https://example.com")
-
     // Initialize the RevAiJobOptions object and assign
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
-    revAiJobOptions.setNotificationConfig(notificationConfig);
+    revAiJobOptions.setNotificationConfig("https://example.com");
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);
