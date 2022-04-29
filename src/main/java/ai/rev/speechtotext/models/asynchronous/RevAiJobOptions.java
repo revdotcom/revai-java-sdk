@@ -132,6 +132,7 @@ public class RevAiJobOptions {
    * Specifies the url where the media can be downloaded.
    *
    * @param mediaUrl The direct download url to the file.
+   * @deprecated Use setSourceConfig instead
    */
   public void setMediaUrl(String mediaUrl) {
     this.mediaUrl = mediaUrl;
@@ -171,6 +172,7 @@ public class RevAiJobOptions {
    * property is optional.
    *
    * @param callbackUrl The url to POST to when job processing is complete.
+   * @deprecated Use setNotificationConfig instead
    */
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;

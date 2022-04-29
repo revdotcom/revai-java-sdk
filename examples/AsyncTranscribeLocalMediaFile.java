@@ -28,7 +28,7 @@ public class AsyncTranscribeLocalMediaFile {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig("https://example.com");
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);
