@@ -178,7 +178,7 @@ public class StreamingClient {
     if (host != null) {
       urlBuilder.host(host);
     } else {
-      urlBuilder.host("api-test.rev.ai");
+      urlBuilder.host("api.rev.ai");
     }
     if (port != null) {
       urlBuilder.port(port);

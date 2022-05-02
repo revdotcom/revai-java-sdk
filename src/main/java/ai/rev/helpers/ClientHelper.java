@@ -24,7 +24,7 @@ public class ClientHelper {
     String apiVersion
     ) {
     return new Retrofit.Builder()
-        .baseUrl(String.format("https://api-test.rev.ai/%s/%s/", apiName, apiVersion))
+        .baseUrl(String.format("https://api.rev.ai/%s/%s/", apiName, apiVersion))
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
