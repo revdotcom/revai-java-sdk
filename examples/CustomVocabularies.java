@@ -36,8 +36,7 @@ public class CustomVocabularies {
     CustomVocabularyInformation submittedCustomVocabularyInfo;
 
     try {
-      submittedCustomVocabularyInfo =
-              customVocabulariesClient.submitCustomVocabularies(customVocabularySubmission);
+      submittedCustomVocabularyInfo = customVocabulariesClient.submitCustomVocabularies(customVocabularySubmission);
     } catch (IOException e) {
       throw new RuntimeException("Failed to submit custom vocabulary " + e.getMessage());
     }
