@@ -20,7 +20,7 @@ public class CustomVocabularies {
 
     // Create a custom vocabulary for your submission
     CustomVocabulary customVocabulary =
-            new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
+        new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
 
     // Set up the notification url if desired
     String notificationUrl = "https://example.com";
@@ -52,23 +52,21 @@ public class CustomVocabularies {
       CustomVocabularyInformation retrievedVocabularyInfo;
       try {
         retrievedVocabularyInfo =
-                customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
+            customVocabulariesClient.getCustomVocabularyInformation(customVocabularyId);
       } catch (IOException e) {
-        throw new RuntimeException(
-                "Failed to retrieve custom vocabulary info ["
-                        + customVocabularyId
-                        + "] "
-                        + e.getMessage());
+        String message = String.format("Failed to retrieve custom vocabulary info [{0}] {1}", customVocabularyId,
+            e.getMessage());
+        throw new RuntimeException(message);
       }
 
       CustomVocabularyStatus retrievedVocabularyInfoStatus = retrievedVocabularyInfo.getStatus();
       if (retrievedVocabularyInfoStatus == CustomVocabularyStatus.COMPLETE
-              || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
+          || retrievedVocabularyInfoStatus == CustomVocabularyStatus.FAILED) {
         System.out.println(
-                "Custom vocabulary processing for "
-                        + customVocabularyId
-                        + ": "
-                        + retrievedVocabularyInfoStatus.getStatus());
+            "Custom vocabulary processing for "
+                + customVocabularyId
+                + ": "
+                + retrievedVocabularyInfoStatus.getStatus());
         isProcessingComplete = true;
       } else {
         try {
