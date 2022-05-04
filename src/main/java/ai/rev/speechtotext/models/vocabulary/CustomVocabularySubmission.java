@@ -76,7 +76,7 @@ public class CustomVocabularySubmission {
 
   /**
    * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
-   * complete and the auth headers
+   * complete and the auth headers to use when calling the url
    * This property is optional.
    *
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
