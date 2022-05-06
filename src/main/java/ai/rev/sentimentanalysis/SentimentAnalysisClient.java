@@ -152,7 +152,7 @@ public class SentimentAnalysisClient {
    */
   public SentimentAnalysisResult getResultObject(String id, Sentiment filterFor) throws IOException {
     Map<String, Object> options = new HashMap<>();
-    options.put("filter_for", filterFor.getSentiment();
+    options.put("filter_for", filterFor.getSentiment());
     return apiInterface.getResultObject(id, options).execute().body();
   }
 

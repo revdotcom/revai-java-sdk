@@ -48,7 +48,7 @@ public class SentimentAnalysisJobTest {
     mockInProgressJob.setJobId(JOB_ID);
     mockInProgressJob.setCreatedOn(CREATED_ON);
     mockInProgressJob.setJobStatus(SentimentAnalysisJobStatus.IN_PROGRESS);
-    mockInProgressJob.setType(RevAiJobType.TOPICEXTRACTION);
+    mockInProgressJob.setType(RevAiJobType.SENTIMENTANALYSIS);
     mockInProgressJob.setMetadata(METADATA);
 
     mockCompletedJob = mockInProgressJob;

@@ -1,4 +1,4 @@
-package ai.rev.topicextraction.integration;
+package ai.rev.sentimentanalysis.integration;
 
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
@@ -74,7 +74,7 @@ public class SubmitJobTest {
 
   public void assertSentimentAnalysisJob(SentimentAnalysisJob job) {
     assertThat(job.getJobId()).as("Job Id").isNotNull();
-    assertThat(job.getType()).as("Job Type").isEqualTo(RevAiJobType.TOPICEXTRACTION);
+    assertThat(job.getType()).as("Job Type").isEqualTo(RevAiJobType.SENTIMENTANALYSIS);
     assertThat(job.getJobStatus()).as("Job status").isEqualTo(SentimentAnalysisJobStatus.IN_PROGRESS);
   }
 
