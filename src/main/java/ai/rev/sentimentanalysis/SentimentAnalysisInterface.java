@@ -1,8 +1,8 @@
 package ai.rev.sentimentanalysis;
 
-import ai.rev.topicextraction.models.TopicExtractionJob;
-import ai.rev.topicextraction.models.TopicExtractionJobOptions;
-import ai.rev.topicextraction.models.TopicExtractionResult;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisResult;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,17 +28,17 @@ public interface SentimentAnalysisInterface {
     String REV_SENTIMENT_CONTENT_TYPE = "application/vnd.rev.sentiment.v1.0+json";
 
     @GET("jobs/{id}")
-    Call<TopicExtractionJob> getJobDetails(@Path("id") String jobID);
+    Call<SentimentAnalysisJob> getJobDetails(@Path("id") String jobID);
 
     @GET("jobs")
-    Call<List<TopicExtractionJob>> getListOfJobs(@QueryMap Map<String, String> options);
+    Call<List<SentimentAnalysisJob>> getListOfJobs(@QueryMap Map<String, String> options);
 
     @Headers("Accept: " + REV_SENTIMENT_CONTENT_TYPE)
     @GET("jobs/{id}/result")
-    Call<TopicExtractionResult> getResultObject(@Path("id") String jobID, @QueryMap Map<String, Object> options);
+    Call<SentimentAnalysisResult> getResultObject(@Path("id") String jobID, @QueryMap Map<String, Object> options);
 
     @POST("jobs")
-    Call<TopicExtractionJob> submitJob(@Body TopicExtractionJobOptions options);
+    Call<SentimentAnalysisJob> submitJob(@Body SentimentAnalysisJobOptions options);
 
     @DELETE("jobs/{id}")
     Call<Void> deleteJob(@Path("id") String jobID);

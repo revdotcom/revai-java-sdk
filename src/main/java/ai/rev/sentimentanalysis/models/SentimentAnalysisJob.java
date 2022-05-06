@@ -13,7 +13,7 @@ public class SentimentAnalysisJob {
   private String jobId;
 
   @SerializedName("status")
-  private TopicExtractionJobStatus jobStatus;
+  private SentimentAnalysisJobStatus jobStatus;
 
   @SerializedName("created_on")
   private String createdOn;
@@ -69,7 +69,7 @@ public class SentimentAnalysisJob {
    * @return The {@link SentimentAnalysisJobStatus} enumeration value.
    * @see SentimentAnalysisJobStatus
    */
-  public TopicExtractionJobStatus getJobStatus() {
+  public SentimentAnalysisJobStatus getJobStatus() {
     return jobStatus;
   }
 

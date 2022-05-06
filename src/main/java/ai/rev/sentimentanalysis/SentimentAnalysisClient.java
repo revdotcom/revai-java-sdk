@@ -4,9 +4,10 @@ import ai.rev.helpers.ClientHelper;
 import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.SentimentAnalysis.models.SentimentAnalysisJob;
-import ai.rev.SentimentAnalysis.models.SentimentAnalysisJobOptions;
-import ai.rev.SentimentAnalysis.models.SentimentAnalysisResult;
+import ai.rev.sentimentanalysis.models.Sentiment;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisResult;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -149,9 +150,9 @@ public class SentimentAnalysisClient {
    * @throws IOException If the response has a status code > 399.
    * @see SentimentAnalysisResult
    */
-  public SentimentAnalysisResult getResultObject(String id, Double threshold) throws IOException {
+  public SentimentAnalysisResult getResultObject(String id, Sentiment filterFor) throws IOException {
     Map<String, Object> options = new HashMap<>();
-    options.put("threshold", threshold);
+    options.put("filter_for", filterFor.getSentiment();
     return apiInterface.getResultObject(id, options).execute().body();
   }
 
