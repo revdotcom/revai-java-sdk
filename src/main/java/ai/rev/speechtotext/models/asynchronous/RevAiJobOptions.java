@@ -218,7 +218,7 @@ public class RevAiJobOptions {
    * @param callbackUrl The url to POST to when job processing is complete.
    */
   public void setNotificationConfig(String callbackUrl) {
-    this.notificationConfig = new CustomerUrlData(callbackUrl, null);
+    setNotificationConfig(callbackUrl, null);
   }
 
   /**
