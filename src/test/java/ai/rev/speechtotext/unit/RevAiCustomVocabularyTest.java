@@ -60,10 +60,10 @@ public class RevAiCustomVocabularyTest {
 
   @Test
   public void
-      submitCustomVocabulary_VocabularyCallbackMetadataAreSpecified_ReturnsACustomVocabularyInformation()
+      submitCustomVocabulary_WithCallback_ReturnsCustomVocabularyInformation()
           throws IOException {
     CustomVocabularyInformation mockCustomVocabularyInfo =
-        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), null);
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), CALLBACK_URL);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
     CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularySubmission options = new CustomVocabularySubmission();
@@ -75,13 +75,13 @@ public class RevAiCustomVocabularyTest {
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation, IN_PROGRESS, DATE, null, testName.getMethodName(), ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, CALLBACK_URL, testName.getMethodName(), ID);
   }
 
   @Test
   public void
-      submitCustomVocabulary_VocabularyAndMetadataAreSpecified_ReturnsACustomVocabularyInformation()
-          throws IOException {
+  submitCustomVocabulary_WithNotificationConfig_ReturnsACustomVocabularyInformation()
+      throws IOException {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
@@ -89,6 +89,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
+    options.setNotificationConfig(CALLBACK_URL);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
@@ -98,26 +99,7 @@ public class RevAiCustomVocabularyTest {
   }
 
   @Test
-  public void
-      submitCustomVocabulary_VocabularyAndCallbackAreSpecified_ReturnsACustomVocabularyInformation()
-          throws IOException {
-    CustomVocabularyInformation mockCustomVocabularyInfo =
-        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, CALLBACK_URL);
-    mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
-    CustomVocabulary customVocabulary = createCustomVocabulary();
-    CustomVocabularySubmission options = new CustomVocabularySubmission();
-    options.setCustomVocabularies(Collections.singletonList(customVocabulary));
-    options.setCallbackUrl(CALLBACK_URL);
-
-    CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
-
-    assertRequest(VOCABULARY_URL, "POST", options);
-    assertCustomVocabularyInformation(
-        customVocabularyInformation, IN_PROGRESS, DATE, CALLBACK_URL, null, ID);
-  }
-
-  @Test
-  public void submitCustomVocabulary_VocabularyIsSpecified_ReturnsACustomVocabularyInformation()
+  public void submitCustomVocabulary_VocabularyOnly_ReturnsACustomVocabularyInformation()
       throws IOException {
     CustomVocabularyInformation mockCustomVocabularyInfo =
         createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, null, null);
@@ -196,14 +178,13 @@ public class RevAiCustomVocabularyTest {
       String callbackUrl,
       String metadata,
       String id) {
-    if callbackUrl != null)
     assertThat(customVocabularyInformation.getStatus()).as("Status").isEqualTo(status);
     assertThat(customVocabularyInformation.getCreatedOn()).as("Created on").isEqualTo(createdOn);
+    assertThat(customVocabularyInformation.getCallbackUrl())
+        .as("Callback url")
+        .isEqualTo(callbackUrl);
     assertThat(customVocabularyInformation.getId()).as("Custom vocabulary Id").isEqualTo(id);
     assertThat(customVocabularyInformation.getMetadata()).as("Metadata").isEqualTo(metadata);
-    assertThat(customVocabularyInformation.getCallbackUrl())
-            .as("Callback url")
-            .isEqualTo(callbackUrl);
   }
 
   private void assertRequest(
