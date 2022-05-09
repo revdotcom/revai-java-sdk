@@ -12,7 +12,10 @@ public class CustomVocabularySubmission {
   @SerializedName("metadata")
   private String metadata;
 
-  /** Optional callback url that Rev AI will send a POST to when the job has finished. */
+  /**
+   * Optional callback url that Rev AI will send a POST to when the job has finished.
+   * @deprecated Use notification_config instead
+   */
   @SerializedName("callback_url")
   @Deprecated
   private String callbackUrl;

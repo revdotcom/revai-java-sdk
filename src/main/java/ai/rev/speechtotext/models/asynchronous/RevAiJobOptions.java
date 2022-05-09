@@ -15,7 +15,9 @@ import java.util.Map;
  */
 public class RevAiJobOptions {
 
-  /** The media url where the file can be downloaded. */
+  /** The media url where the file can be downloaded.
+   * @deprecated Use source_config instead
+   */
   @SerializedName("media_url")
   @Deprecated
   private String mediaUrl;
@@ -25,8 +27,8 @@ public class RevAiJobOptions {
   private CustomerUrlData sourceConfig;
 
   /** The callback url that Rev AI will send a POST to when the job has finished.
-   * @deprecated Use {@link #notificationConfig} instead
-   **/
+   * @deprecated Use notification_config instead
+   */
   @SerializedName("callback_url")
   @Deprecated
   private String callbackUrl;
