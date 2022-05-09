@@ -63,19 +63,19 @@ public class RevAiCustomVocabularyTest {
       submitCustomVocabulary_VocabularyCallbackMetadataAreSpecified_ReturnsACustomVocabularyInformation()
           throws IOException {
     CustomVocabularyInformation mockCustomVocabularyInfo =
-        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), CALLBACK_URL);
+        createCustomVocabularyInfo(DATE, ID, IN_PROGRESS, testName.getMethodName(), null);
     mockInterceptor.setSampleResponse(gson.toJson(mockCustomVocabularyInfo));
     CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
     options.setMetadata(testName.getMethodName());
-    options.setNotificationConfig(CALLBACK_URL);
+    options.setCallbackUrl(CALLBACK_URL);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
     assertRequest(VOCABULARY_URL, "POST", options);
     assertCustomVocabularyInformation(
-        customVocabularyInformation, IN_PROGRESS, DATE, CALLBACK_URL, testName.getMethodName(), ID);
+        customVocabularyInformation, IN_PROGRESS, DATE, null, testName.getMethodName(), ID);
   }
 
   @Test
@@ -107,7 +107,7 @@ public class RevAiCustomVocabularyTest {
     CustomVocabulary customVocabulary = createCustomVocabulary();
     CustomVocabularySubmission options = new CustomVocabularySubmission();
     options.setCustomVocabularies(Collections.singletonList(customVocabulary));
-    options.setNotificationConfig(CALLBACK_URL);
+    options.setCallbackUrl(CALLBACK_URL);
 
     CustomVocabularyInformation customVocabularyInformation = sut.submitCustomVocabularies(options);
 
@@ -196,6 +196,7 @@ public class RevAiCustomVocabularyTest {
       String callbackUrl,
       String metadata,
       String id) {
+    if callbackUrl != null)
     assertThat(customVocabularyInformation.getStatus()).as("Status").isEqualTo(status);
     assertThat(customVocabularyInformation.getCreatedOn()).as("Created on").isEqualTo(createdOn);
     assertThat(customVocabularyInformation.getId()).as("Custom vocabulary Id").isEqualTo(id);
