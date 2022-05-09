@@ -20,7 +20,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -38,6 +40,10 @@ public class RevAiJobTest {
   private final MediaType MEDIA_TYPE = MediaType.get("application/json; charset=utf-8");
   private final String JOBS_URL = "https://api.rev.ai/revspeech/v1/jobs";
   private final String METADATA = "unit test";
+  private final String SOURCE_URL = "sample-url.com";
+  private final Map<String, String> SOURCE_AUTH = Collections.singletonMap("Authorization", "Bearer <source token>");
+  private final String NOTIFICATION_URL = "https://example.com";
+  private final Map<String, String> NOTIFICATION_AUTH = Collections.singletonMap("Authorization", "Bearer <source token>");
   private Gson gson;
   private RevAiJob mockInProgressJob;
   private RevAiJob mockCompletedJob;
@@ -136,7 +142,7 @@ public class RevAiJobTest {
     RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL);
 
     RevAiJobOptions options = new RevAiJobOptions();
-    options.setMediaUrl(SAMPLE_MEDIA_URL);
+    options.setSourceConfig(SAMPLE_MEDIA_URL);
     AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
     assertRevAiJob(revAiJob, mockInProgressJob);
@@ -144,21 +150,21 @@ public class RevAiJobTest {
 
   @Test
   public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsARevAiJob() throws IOException {
-    String SAMPLE_MEDIA_URL = "sample-url.com";
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig("sample-url.com");
     options.setFilterProfanity(true);
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
-    options.setCallbackUrl("https://example.com");
+    options.setNotificationConfig("https://example.com");
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
     options.setTranscriber("machine_v2");
 
-    RevAiJob revAiJob = sut.submitJobUrl(SAMPLE_MEDIA_URL, options);
+    RevAiJob revAiJob = sut.submitJobUrl(options);
 
     AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
     AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
@@ -166,9 +172,46 @@ public class RevAiJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_JobUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+  public void SubmitJobUrl_UrlAndOptionsAreSpecified_WithAuthHeaders_ReturnsARevAiJob() throws IOException {
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(SOURCE_URL, SOURCE_AUTH);
+    options.setFilterProfanity(true);
+    options.setRemoveDisfluencies(true);
+    options.setSkipPunctuation(true);
+    options.setSkipDiarization(true);
+    options.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
+    options.setMetadata(METADATA);
+    options.setSpeakerChannelsCount(2);
+    options.setDeleteAfterSeconds(0);
+    options.setLanguage("en");
+    options.setTranscriber("machine_v2");
+
+    RevAiJob revAiJob = sut.submitJobUrl(options);
+
+    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
+  }
+
+  @Test
+  public void SubmitJobUrl_NullOptions_ReturnsIllegalArgumentException() {
     assertThatExceptionOfType(IllegalArgumentException.class)
-        .isThrownBy(() -> sut.submitJobUrl(null, null));
+            .isThrownBy(() -> sut.submitJobUrl((RevAiJobOptions) null));
+  }
+
+  @Test
+  public void SubmitJobUrl_NullSourceConfig_ReturnsIllegalArgumentException() {
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl(new RevAiJobOptions()));
+  }
+
+  @Test
+  public void SubmitJobUrl_NullSourceConfigUrl_ReturnsIllegalArgumentException() {
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(null, null);
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl(options));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package ai.rev;
 
+import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
@@ -10,6 +11,8 @@ import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AsyncTranscribeMediaUrl {
 
@@ -24,11 +27,24 @@ public class AsyncTranscribeMediaUrl {
     CustomVocabulary customVocabulary =
         new CustomVocabulary(Arrays.asList("Robert Berwick", "Noam Chomsky", "Evelina Fedorenko"));
 
+    // Set up source configuration parameters
+    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
+    // Authorization header is optional; use it if needed to access the source media url
+    Map<String, String> sourceAuth = new HashMap<>();
+    sourceAuth.put("Authorization", "Bearer <source_token>");
+
+    // Set up notification configuration parameters
+    String callbackUrl = "https://example.com";
+    // Authorization header is optional; use it if needed to access the callback url
+    Map<String, String> notificationAuth = new HashMap<>();
+    notificationAuth.put("Authorization", "Bearer <notification_token>");
+
     // Initialize the RevAiJobOptions object and assign
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setSourceConfig(mediaUrl, sourceAuth);
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig(callbackUrl, notificationAuth);
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);
@@ -40,11 +56,9 @@ public class AsyncTranscribeMediaUrl {
 
     RevAiJob submittedJob;
 
-    String mediaUrl = "https://www.rev.ai/FTC_Sample_1.mp3";
-
     try {
-      // Submit the local file and transcription options
-      submittedJob = apiClient.submitJobUrl(mediaUrl, revAiJobOptions);
+      // Submit job with transcription options
+      submittedJob = apiClient.submitJobUrl(revAiJobOptions);
     } catch (IOException e) {
       throw new RuntimeException("Failed to submit url [" + mediaUrl + "] " + e.getMessage());
     }

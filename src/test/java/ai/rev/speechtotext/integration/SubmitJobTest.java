@@ -20,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SubmitJobTest {
 
   private final String LOCAL_FILE = "./src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";
-  private final String MEDIA_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
+  private final String SOURCE_URL = "https://www.rev.ai/FTC_Sample_1.mp3";
+  private final String CALLBACK_URL = "https://example.com";
   private static ApiClient apiClient;
 
   @Rule public TestName testName = new TestName();
@@ -118,18 +119,41 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobUrl_OptionsOnly_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
 
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, revAiJobOptions);
+    RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
+
+    assertRevAiJob(revAiJob);
+  }
+
+  @Test
+  public void SubmitJobUrl_OptionsOnlyWithCallback_ReturnsRevAiJobInProgress()
+      throws IOException {
+    RevAiJobOptions revAiJobOptions = getJobOptions();
+    revAiJobOptions.setNotificationConfig(null);
+    revAiJobOptions.setCallbackUrl(CALLBACK_URL);
+
+    RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
+
+    assertRevAiJob(revAiJob);
+  }
+
+  @Test
+  public void SubmitJobUrl_UrlAndOptionsSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
+    RevAiJobOptions revAiJobOptions = getJobOptions();
+    revAiJobOptions.setSourceConfig(null);
+
+    RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL, revAiJobOptions);
 
     assertRevAiJob(revAiJob);
   }
 
   @Test
   public void SubmitJobUrl_OnlyUrlIsSpecified_ReturnsRevAiJobInProgress() throws IOException {
-    RevAiJob revAiJob = apiClient.submitJobUrl(MEDIA_URL, null);
+    RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL);
 
     assertRevAiJob(revAiJob);
   }
@@ -141,12 +165,13 @@ public class SubmitJobTest {
 
   private RevAiJobOptions getJobOptions() {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setSourceConfig(SOURCE_URL);
     revAiJobOptions.setMetadata(testName.getMethodName());
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSkipPunctuation(true);
     revAiJobOptions.setSkipDiarization(true);
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig(CALLBACK_URL);
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");

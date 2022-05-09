@@ -1,9 +1,11 @@
 package ai.rev.speechtotext.models.asynchronous;
 
+import ai.rev.speechtotext.models.CustomerUrlData;
 import ai.rev.speechtotext.models.vocabulary.CustomVocabulary;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A RevAiJobOptions object represents parameters that are submitted along a new job.
@@ -13,13 +15,27 @@ import java.util.List;
  */
 public class RevAiJobOptions {
 
-  /** The media url where the file can be downloaded. */
+  /** The media url where the file can be downloaded.
+   * @deprecated Use source_config instead
+   */
   @SerializedName("media_url")
+  @Deprecated
   private String mediaUrl;
 
-  /** The callback url that Rev AI will send a POST to when the job has finished. */
+  /** Object containing source media file information. */
+  @SerializedName("source_config")
+  private CustomerUrlData sourceConfig;
+
+  /** The callback url that Rev AI will send a POST to when the job has finished.
+   * @deprecated Use notification_config instead
+   */
   @SerializedName("callback_url")
+  @Deprecated
   private String callbackUrl;
+
+  /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("notification_config")
+  private CustomerUrlData notificationConfig;
 
   /** Optional parameter for the speech engine to skip diarization. */
   @SerializedName("skip_diarization")
@@ -113,6 +129,7 @@ public class RevAiJobOptions {
    * Returns the media url.
    *
    * @return The media url.
+   * @deprecated Set sourceConfig and use getSourceConfig instead
    */
   public String getMediaUrl() {
     return mediaUrl;
@@ -122,15 +139,48 @@ public class RevAiJobOptions {
    * Specifies the url where the media can be downloaded.
    *
    * @param mediaUrl The direct download url to the file.
+   * @deprecated Use setSourceConfig instead
    */
   public void setMediaUrl(String mediaUrl) {
     this.mediaUrl = mediaUrl;
   }
 
   /**
+   * Returns the source config object.
+   *
+   * @return the source config.
+   */
+  public CustomerUrlData getSourceConfig()
+  {
+    return this.sourceConfig;
+  }
+
+  /**
+   * Specifies the url and any optional auth headers to access the source media download url.
+   *
+   * @param sourceMediaUrl The direct download url to the file.
+   * @param sourceAuth The auth headers to the source media download url.
+   */
+
+  public void setSourceConfig(String sourceMediaUrl, Map<String, String> sourceAuth) {
+    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, sourceAuth);
+  }
+
+  /**
+   * Specifies the source media download url.
+   *
+   * @param sourceMediaUrl The direct download url to the file.
+   */
+
+  public void setSourceConfig(String sourceMediaUrl) {
+    this.sourceConfig = new CustomerUrlData(sourceMediaUrl, null);
+  }
+
+  /**
    * Returns the callback url.
    *
    * @return the callback url.
+   * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
    */
   public String getCallbackUrl() {
     return callbackUrl;
@@ -141,9 +191,38 @@ public class RevAiJobOptions {
    * property is optional.
    *
    * @param callbackUrl The url to POST to when job processing is complete.
+   * @deprecated Use setNotificationConfig instead
    */
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;
+  }
+
+  /**
+   * Returns the notification config object.
+   *
+   * @return the notification config.
+   */
+  public CustomerUrlData getNotificationConfig() {
+    return notificationConfig;
+  }
+
+  /**
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   * @param authHeaders Optional parameter to authenticate access to the callback url
+   */
+  public void setNotificationConfig(String callbackUrl, Map<String, String> authHeaders) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
+  }
+
+  /**
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   */
+  public void setNotificationConfig(String callbackUrl) {
+    setNotificationConfig(callbackUrl, null);
   }
 
   /**

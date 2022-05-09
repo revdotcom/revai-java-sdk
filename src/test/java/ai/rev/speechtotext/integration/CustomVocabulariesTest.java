@@ -14,7 +14,9 @@ import org.junit.rules.TestName;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,6 +25,9 @@ public class CustomVocabulariesTest {
   @Rule public TestName testName = new TestName();
 
   private static final List<String> PHRASES = Arrays.asList("test", "this", "vocab");
+  private static final String NOTIFICATION_URL = "https://www.example.com";
+  private static final Map<String, String> NOTIFICATION_AUTH = Collections.singletonMap("Authorization",
+          "Bearer <token>");
   private CustomVocabulariesClient customVocabularyClient =
       new CustomVocabulariesClient(EnvHelper.getToken());
 
@@ -63,9 +68,6 @@ public class CustomVocabulariesTest {
     assertThat(retrievedVocabulary.getCreatedOn())
         .as("Created on date")
         .isEqualTo(submittedVocabulary.getCreatedOn());
-    assertThat(retrievedVocabulary.getCallbackUrl())
-        .as("Callback URL")
-        .isEqualTo(submittedVocabulary.getCallbackUrl());
     assertThat(retrievedVocabulary.getFailure()).as("Failure").isNull();
     assertThat(retrievedVocabulary.getFailureDetail()).as("Failure detail").isNull();
   }
@@ -121,7 +123,7 @@ public class CustomVocabulariesTest {
     CustomVocabularySubmission submission = new CustomVocabularySubmission();
     submission.setCustomVocabularies(Collections.singletonList(customVocabulary));
     submission.setMetadata(testName.getMethodName());
-    submission.setCallbackUrl("https://www.example.com");
+    submission.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
     return submission;
   }
 

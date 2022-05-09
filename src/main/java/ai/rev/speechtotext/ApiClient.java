@@ -182,9 +182,10 @@ public class ApiClient {
   }
 
   /**
-   * The method sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
+   * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
    * the media file located at the url provided and returns a {@link RevAiJob} object.
    *
+   * @deprecated Use submitJobUrl with the sourceConfig job option rather than a separate mediaUrl argument
    * @param mediaUrl A direct download link to the media.
    * @param options The transcription options associated with this job.
    * @return RevAiJob A representation of the transcription job.
@@ -194,6 +195,7 @@ public class ApiClient {
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
    */
+  @Deprecated
   public RevAiJob submitJobUrl(String mediaUrl, RevAiJobOptions options) throws IOException {
     if (mediaUrl == null) {
       throw new IllegalArgumentException("Media url must be provided");
@@ -216,7 +218,24 @@ public class ApiClient {
    * @see ApiClient#submitJobUrl(String, RevAiJobOptions)
    */
   public RevAiJob submitJobUrl(String mediaUrl) throws IOException {
-    return submitJobUrl(mediaUrl, null);
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(mediaUrl);
+    return submitJobUrl(options);
+  }
+
+  /**
+   * Sends a POST request to the /jobs endpoint, starts an asynchronous job to transcribe
+   * the media file located at the url provided, and returns a {@link RevAiJob} object.
+   *
+   * @param options The transcription options associated with this job.
+   * @return RevAiJob A representation of the transcription job.
+   * @throws IOException If the response has a status code > 399.
+   * @see RevAiJob
+   * @see <a
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
+   */
+  public RevAiJob submitJobUrl(RevAiJobOptions options) throws IOException {
+    return apiInterface.submitJobUrl(options).execute().body();
   }
 
   /**

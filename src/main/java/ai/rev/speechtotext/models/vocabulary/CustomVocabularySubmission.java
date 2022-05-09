@@ -1,8 +1,10 @@
 package ai.rev.speechtotext.models.vocabulary;
 
+import ai.rev.speechtotext.models.CustomerUrlData;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 public class CustomVocabularySubmission {
 
@@ -10,9 +12,17 @@ public class CustomVocabularySubmission {
   @SerializedName("metadata")
   private String metadata;
 
-  /** Optional callback url that Rev AI will send a POST to when the job has finished. */
+  /**
+   * Optional callback url that Rev AI will send a POST to when the job has finished.
+   * @deprecated Use notification_config instead
+   */
   @SerializedName("callback_url")
+  @Deprecated
   private String callbackUrl;
+
+  /** Optional parameter for information on the callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("notification_config")
+  private CustomerUrlData notificationConfig;
 
   /** Array of {@link CustomVocabulary} objects. */
   @SerializedName("custom_vocabularies")
@@ -41,7 +51,9 @@ public class CustomVocabularySubmission {
    * Returns the callback url.
    *
    * @return the callback url.
+   * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
    */
+  @Deprecated
   public String getCallbackUrl() {
     return callbackUrl;
   }
@@ -51,9 +63,43 @@ public class CustomVocabularySubmission {
    * complete. This property is optional.
    *
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   * @deprecated Use setNotificationConfig instead
    */
+  @Deprecated
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;
+  }
+
+  /**
+   * Returns the notification config.
+   *
+   * @return the notification config.
+   */
+  public CustomerUrlData getNotificationConfig() {
+    return notificationConfig;
+  }
+
+  /**
+   * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
+   * complete and the auth headers to use when calling the url
+   * This property is optional.
+   *
+   * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   * @param authHeaders Optional parameter to authenticate access to the callback url
+   */
+  public void setNotificationConfig(String callbackUrl, Map<String, String> authHeaders) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
+  }
+
+  /**
+   * Specifies the callback url that Rev AI will POST to when custom vocabulary processing is
+   * complete
+   * This property is optional.
+   *
+   * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
+   */
+  public void setNotificationConfig(String callbackUrl) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, null);
   }
 
   /**

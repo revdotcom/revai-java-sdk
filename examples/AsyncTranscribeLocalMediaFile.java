@@ -1,5 +1,6 @@
 package ai.rev;
 
+import ai.rev.speechtotext.ApiClient;
 import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
@@ -28,7 +29,7 @@ public class AsyncTranscribeLocalMediaFile {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
     revAiJobOptions.setCustomVocabularies(Arrays.asList(customVocabulary));
     revAiJobOptions.setMetadata("My first submission");
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setNotificationConfig("https://example.com");
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
     revAiJobOptions.setFilterProfanity(true);

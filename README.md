@@ -11,15 +11,15 @@ See the [API docs](https://docs.rev.ai) for more information about the API.
 The recommended way to use the Rev AI Java SDK is to import it into the project using Maven.
 
       <dependency>
-        <groupId>ai.rev.speechtotext</groupId>
-        <artifactId>revai-java-sdk-speechtotext</artifactId>
-        <version>1.4.0</version>
+        <groupId>ai.rev</groupId>
+        <artifactId>revai-java-sdk</artifactId>
+        <version>2.1.0</version>
       </dependency>
 
 ## Build and install locally from source
 Once you've cloned the repo you can use Maven to build it locally and install it in your local Maven .m2 repository.
 
-    mvn install -Dmaven.test.skip=true
+    mvn install -DskipTests=true      
 
 ## Support
 
@@ -95,9 +95,14 @@ RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 
 If you want to get fancy, all submit job methods have overrides that allow specifying
 [RevAiJobOptions](src/main/java/ai/rev/speechtotext/models/asynchronous/RevAiJobOptions.java) to configure job specific settings.
-In RevAiJobOptions, you could include `metadata`, `callback_url`,
-`skip_diarization`, `skip_punctuation`, `speaker_channels_count`, `custom_vocabularies`, `filter_profanity`, `remove_disfluencies`, `delete_after_seconds` and `language` as optional parameters, these are described in the request body of
-the [Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
+In RevAiJobOptions, you could include `metadata`,`notification_config`,
+`skip_diarization`, `skip_punctuation`, `speaker_channels_count`,`custom_vocabularies`,
+`filter_profanity`, `remove_disfluencies`, `delete_after_seconds`, and `language` as optional parameters.
+
+The url submission option also supports authentication headers by using the `source_config` option.
+
+All options are described in the request body of the
+[Submit Job](https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob) endpoint.
 
 ### Checking your job's status
 
