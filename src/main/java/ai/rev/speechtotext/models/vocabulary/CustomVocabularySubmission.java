@@ -53,6 +53,7 @@ public class CustomVocabularySubmission {
    * @return the callback url.
    * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
    */
+  @Deprecated
   public String getCallbackUrl() {
     return callbackUrl;
   }
@@ -64,6 +65,7 @@ public class CustomVocabularySubmission {
    * @param callbackUrl The url to POST to when custom vocabulary processing is complete.
    * @deprecated Use setNotificationConfig instead
    */
+  @Deprecated
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;
   }
