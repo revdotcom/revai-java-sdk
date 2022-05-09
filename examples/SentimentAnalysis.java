@@ -1,25 +1,25 @@
 package ai.rev;
 
-import ai.rev.topicextraction.models.TopicExtractionJobOptions;
-import ai.rev.topicextraction.models.TopicExtractionJob;
-import ai.rev.topicextraction.models.TopicExtractionJobStatus;
-import ai.rev.topicextraction.models.TopicExtractionResult;
-import ai.rev.topicextraction.TopicExtractionClient;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJobStatus;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisResult;
+import ai.rev.sentimentanalysis.SentimentAnalysisClient;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class TopicExtraction {
+public class SentimentAnalysis {
 
   public static void main(String[] args) {
     // Assign your access token to a String
     String accessToken = "<YOUR_ACCESS_TOKEN>";
 
-    // Initialize the TopicExtractionClient with your access token
-    TopicExtractionClient topicExtractionClient = new TopicExtractionClient(accessToken);
+    // Initialize the SentimentAnalysisClient with your access token
+    SentimentAnalysisClient sentimentAnalysisClient = new SentimentAnalysisClient(accessToken);
 
-    // Create TopicExtractionJobOptions for your submission
-    TopicExtractionJobOptions jobOptions = new TopicExtractionJobOptions();
+    // Create SentimentAnalysisJobOptions for your submission
+    SentimentAnalysisJobOptions jobOptions = new SentimentAnalysisJobOptions();
     String textSubmission = "An orange is a fruit of various citrus species in the family Rutaceae " +
             "it primarily refers to Citrus sinensis which is also called sweet orange, " +
             "to distinguish it from the related Citrus aurantium, referred to as bitter orange. " +
@@ -29,11 +29,11 @@ public class TopicExtraction {
             "The sweet orange has had its full genome sequenced.";
 
 
-    TopicExtractionJob submittedJob;
+    SentimentAnalysisJob submittedJob;
     try {
-      submittedJob = topicExtractionClient.submitJobText(textSubmission, jobOptions);
+      submittedJob = sentimentAnalysisClient.submitJobText(textSubmission, jobOptions);
     } catch (IOException e) {
-      throw new RuntimeException("Failed to submit topic extraction job " + e.getMessage());
+      throw new RuntimeException("Failed to submit sentiment analysis job " + e.getMessage());
     }
 
     String jobId = submittedJob.getJobId();
@@ -44,20 +44,20 @@ public class TopicExtraction {
     // Waits 5 seconds between each status check to see if job is complete
     boolean isProcessingComplete = false;
     while (!isProcessingComplete) {
-      TopicExtractionJob retrievedJob;
+      SentimentAnalysisJob retrievedJob;
       try {
-        retrievedJob = topicExtractionClient.getJobDetails(jobId);
+        retrievedJob = sentimentAnalysisClient.getJobDetails(jobId);
       } catch (IOException e) {
         throw new RuntimeException(
-                "Failed to retrieve topic extraction job info ["
+                "Failed to retrieve sentiment analysis job info ["
                         + jobId
                         + "] "
                         + e.getMessage());
       }
 
-      TopicExtractionJobStatus status = retrievedJob.getJobStatus();
-      if (status == TopicExtractionJobStatus.COMPLETED
-              || status == TopicExtractionJobStatus.FAILED) {
+      SentimentAnalysisJobStatus status = retrievedJob.getJobStatus();
+      if (status == SentimentAnalysisJobStatus.COMPLETED
+              || status == SentimentAnalysisJobStatus.FAILED) {
         System.out.println(
                 "Processing for "
                         + jobId
@@ -74,8 +74,8 @@ public class TopicExtraction {
     }
 
     try {
-      TopicExtractionResult result =
-              topicExtractionClient.getResultObject(jobId);
+      SentimentAnalysisResult result =
+              sentimentAnalysisClient.getResultObject(jobId);
     } catch (IOException e) {
       e.printStackTrace();
     }

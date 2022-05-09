@@ -15,7 +15,11 @@ public enum RevAiJobType {
 
   /** The type used for topic extraction jobs. */
   @SerializedName("topic_extraction")
-  TOPICEXTRACTION("topic_extraction");
+  TOPICEXTRACTION("topic_extraction"),
+    
+  /** The Type used for sentiment analysis jobs. */
+  @SerializedName("sentiment_analysis")
+  SENTIMENTANALYSIS("sentiment_analysis");
 
   private String jobType;
 

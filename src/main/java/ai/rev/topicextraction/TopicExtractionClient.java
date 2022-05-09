@@ -40,7 +40,7 @@ public class TopicExtractionClient {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
-    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "topic_extraction", "v1beta");
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "topic_extraction", "v1");
     this.apiInterface = retrofit.create(TopicExtractionInterface.class);
   }
   

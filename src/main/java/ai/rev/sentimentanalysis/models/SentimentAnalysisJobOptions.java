@@ -1,0 +1,135 @@
+package ai.rev.sentimentanalysis.models;
+
+import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * A SentimentAnalysisJobOptions object represents parameters that are submitted along a new job.
+ *
+ * @see <a
+ *     href="https://docs.rev.ai/api/sentiment-analysis/reference/#operation/SubmitSentimentAnalysisJob">https://docs.rev.ai/api/sentiment-analysis/reference/#operation/SubmitSentimentAnalysisJob</a>
+ */
+public class SentimentAnalysisJobOptions {
+  /**
+   * Plain text string to be sentiment analyzed.
+   */
+  @SerializedName("text")
+  private String text;
+    
+  /**
+   * RevAiTranscript from an async speech to text job to be sentiment analyzed.
+   */
+  @SerializedName("json")
+  private RevAiTranscript json;
+  
+  /** 
+   * The callback url that Rev AI will send a POST to when the job has finished. 
+   */
+  @SerializedName("callback_url")
+  private String callbackUrl;
+    
+  /**
+   * Optional information that can be provided.
+   */
+  @SerializedName("metadata")
+  private String metadata;
+  
+  /**
+   * Optional number of seconds after job completion when job is auto-deleted.
+   */
+  @SerializedName("delete_after_seconds")
+  private Integer deleteAfterSeconds;
+ 
+  /**
+   * Returns the text.
+   *
+   * @return the text.
+   */
+  public String getText() {
+    return text;
+  }
+
+  /**
+   * Specifies plain text that will have sentiment analysis run on it.
+   *
+   * @param text plain text to be sentiment analyzed.
+   */
+  public void setText(String text) {
+    this.text = text;
+  } 
+  
+  /**
+   * Returns the json.
+   *
+   * @return the json.
+   */
+  public RevAiTranscript getJson() {
+    return json;
+  }
+
+  /**
+   * Specifies a RevAiTranscript from the async api that will have sentiment analysis run on it
+   *
+   * @param json RevAiTranscript to be sentiment analyzed.
+   */
+  public void setJson(RevAiTranscript json) {
+    this.json = json;
+  }
+  
+  /**
+   * Returns the callback url.
+   *
+   * @return the callback url.
+   */
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  /**
+   * Specifies the callback url that Rev AI will POST to when job processing is complete. This
+   * property is optional.
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   */
+  public void setCallbackUrl(String callbackUrl) {
+    this.callbackUrl = callbackUrl;
+  }
+  
+  /**
+   * Returns the metadata.
+   *
+   * @return A String that contains the metadata.
+   */
+  public String getMetadata() {
+    return metadata;
+  }
+
+  /**
+   * Optional metadata that is provided during job submission limited to 512 characters.
+   *
+   * @param metadata A String to set as the metadata.
+   */
+  public void setMetadata(String metadata) {
+    this.metadata = metadata;
+  }
+  
+  /**
+   * Returns the value of deleteAfterSeconds.
+   *
+   * @return The deleteAfterSeconds value.
+   */
+  public Integer getDeleteAfterSeconds() {
+    return deleteAfterSeconds;
+  }
+
+  /**
+   * Specifies the number of seconds to be waited until the job is auto-deleted after its
+   * completion.
+   *
+   * @param deleteAfterSeconds The number of seconds after job completion when job is auto-deleted.
+   */
+  public void setDeleteAfterSeconds(Integer deleteAfterSeconds) {
+    this.deleteAfterSeconds = deleteAfterSeconds;
+  }
+}

@@ -12,7 +12,7 @@ public class CustomVocabularies {
 
   public static void main(String[] args) {
     // Assign your access token to a String
-    String accessToken = "your_access_token";
+    String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Initialize the CustomVocabulariesClient with your access token
     CustomVocabulariesClient customVocabulariesClient = new CustomVocabulariesClient(accessToken);

@@ -15,7 +15,7 @@ public class AsyncTranscribeLocalMediaFile {
 
   public static void main(String[] args) {
     // Assign your access token to a String
-    String accessToken = "your_access_token";
+    String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Initialize the ApiClient with your access token
     ApiClient apiClient = new ApiClient(accessToken);
