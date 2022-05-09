@@ -122,6 +122,8 @@ public class SubmitJobTest {
   public void SubmitJobUrl_OptionsOnly_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
+    revAiJobOptions.setSourceConfig(SOURCE_URL);
+    revAiJobOptions.setNotificationConfig(CALLBACK_URL);
 
     RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
 
@@ -132,7 +134,7 @@ public class SubmitJobTest {
   public void SubmitJobUrl_OptionsOnlyWithCallback_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
-    revAiJobOptions.setNotificationConfig(null);
+    revAiJobOptions.setSourceConfig(SOURCE_URL);
     revAiJobOptions.setCallbackUrl(CALLBACK_URL);
 
     RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
@@ -144,7 +146,6 @@ public class SubmitJobTest {
   public void SubmitJobUrl_UrlAndOptionsSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
-    revAiJobOptions.setSourceConfig(null);
 
     RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL, revAiJobOptions);
 
@@ -165,13 +166,11 @@ public class SubmitJobTest {
 
   private RevAiJobOptions getJobOptions() {
     RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
-    revAiJobOptions.setSourceConfig(SOURCE_URL);
     revAiJobOptions.setMetadata(testName.getMethodName());
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSkipPunctuation(true);
     revAiJobOptions.setSkipDiarization(true);
-    revAiJobOptions.setNotificationConfig(CALLBACK_URL);
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");
