@@ -19,7 +19,7 @@ public class StreamingFromLocalFile {
 
   public static void main(String[] args) throws InterruptedException {
     // Assign your access token to a String
-    String accessToken = "your_access_token";
+    String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Configure the streaming content type
     StreamContentType streamContentType = new StreamContentType();

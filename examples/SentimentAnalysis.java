@@ -13,7 +13,7 @@ public class SentimentAnalysis {
 
   public static void main(String[] args) {
     // Assign your access token to a String
-    String accessToken = "your_access_token";
+    String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Initialize the SentimentAnalysisClient with your access token
     SentimentAnalysisClient sentimentAnalysisClient = new SentimentAnalysisClient(accessToken);

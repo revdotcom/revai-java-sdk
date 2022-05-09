@@ -13,7 +13,7 @@ public class TopicExtraction {
 
   public static void main(String[] args) {
     // Assign your access token to a String
-    String accessToken = "your_access_token";
+    String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Initialize the TopicExtractionClient with your access token
     TopicExtractionClient topicExtractionClient = new TopicExtractionClient(accessToken);
