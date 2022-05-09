@@ -118,11 +118,22 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_UrlAndOptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobUrl_OptionsOnly_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
 
     RevAiJob revAiJob = apiClient.submitJobUrl(revAiJobOptions);
+
+    assertRevAiJob(revAiJob);
+  }
+
+  @Test
+  public void SubmitJobUrl_OptionsAreSpecified_ReturnsRevAiJobInProgress()
+      throws IOException {
+    RevAiJobOptions revAiJobOptions = getJobOptions();
+    revAiJobOptions.setSourceConfig(null);
+
+    RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL, revAiJobOptions);
 
     assertRevAiJob(revAiJob);
   }
