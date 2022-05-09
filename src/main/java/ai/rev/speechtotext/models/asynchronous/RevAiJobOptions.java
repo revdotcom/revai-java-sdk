@@ -24,7 +24,9 @@ public class RevAiJobOptions {
   @SerializedName("source_config")
   private CustomerUrlData sourceConfig;
 
-  /** The callback url that Rev AI will send a POST to when the job has finished. */
+  /** The callback url that Rev AI will send a POST to when the job has finished.
+   * @deprecated Use {@link #notificationConfig} instead
+   **/
   @SerializedName("callback_url")
   @Deprecated
   private String callbackUrl;
