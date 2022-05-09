@@ -128,7 +128,7 @@ public class SubmitJobTest {
   }
 
   @Test
-  public void SubmitJobUrl_OptionsAreSpecified_ReturnsRevAiJobInProgress()
+  public void SubmitJobUrl_UrlAndOptionsSpecified_ReturnsRevAiJobInProgress()
       throws IOException {
     RevAiJobOptions revAiJobOptions = getJobOptions();
     revAiJobOptions.setSourceConfig(null);
