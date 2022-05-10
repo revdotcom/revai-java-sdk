@@ -1,7 +1,5 @@
 package ai.rev.helpers;
 
-import ai.rev.helpers.ApiInterceptor;
-import ai.rev.helpers.ErrorInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
