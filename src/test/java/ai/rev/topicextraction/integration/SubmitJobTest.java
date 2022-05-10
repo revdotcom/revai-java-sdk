@@ -1,5 +1,7 @@
 package ai.rev.topicextraction.integration;
 
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
+import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 import ai.rev.testutils.EnvHelper;
@@ -27,6 +29,7 @@ public class SubmitJobTest {
           (new Gson()).fromJson(
                   getFileContents(Paths.get("./src/test/java/ai/rev/topicextraction/resources/sample.json")),
                   RevAiTranscript.class);
+  private final String CALLBACK_URL ="https://example.com";
   private static TopicExtractionClient apiClient;
 
   @Rule public TestName testName = new TestName();
@@ -44,6 +47,19 @@ public class SubmitJobTest {
     TopicExtractionJob job = apiClient.submitJobText(TEXT_SOURCE, jobOptions);
 
     assertTopicExtractionJob(job);
+  }
+
+  @Test
+  public void SubmitJobText_TextAndOptionsWithNotificationConfig_ReturnsJobInProgress()
+      throws IOException {
+    TopicExtractionJobOptions jobOptions = getJobOptions();
+    jobOptions.setCallbackUrl(null);
+    jobOptions.setNotificationConfig(CALLBACK_URL);
+
+    TopicExtractionJob job = apiClient.submitJobText(TEXT_SOURCE, jobOptions);
+
+    assertTopicExtractionJob(job);
+    assert job.getCallbackUrl() == null;
   }
 
   @Test
