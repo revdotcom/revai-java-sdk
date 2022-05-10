@@ -182,7 +182,7 @@ public class RevAiJobOptions {
    * Returns the callback url.
    *
    * @return the callback url.
-   * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
+   * @deprecated Use notificationConfig and getNotificationConfig instead
    */
   @Deprecated
   public String getCallbackUrl() {

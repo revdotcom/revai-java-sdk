@@ -90,7 +90,7 @@ public class SentimentAnalysisJobOptions {
    * Returns the callback url.
    *
    * @return the callback url.
-   * @deprecated Use setNotificationConfig instead
+   * @deprecated Use notificationConfig and getNotificationConfig instead
    */
   @Deprecated
   public String getCallbackUrl() {
