@@ -131,6 +131,7 @@ public class RevAiJobOptions {
    * @return The media url.
    * @deprecated Set sourceConfig and use getSourceConfig instead
    */
+  @Deprecated
   public String getMediaUrl() {
     return mediaUrl;
   }
@@ -141,6 +142,7 @@ public class RevAiJobOptions {
    * @param mediaUrl The direct download url to the file.
    * @deprecated Use setSourceConfig instead
    */
+  @Deprecated
   public void setMediaUrl(String mediaUrl) {
     this.mediaUrl = mediaUrl;
   }
@@ -182,6 +184,7 @@ public class RevAiJobOptions {
    * @return the callback url.
    * @deprecated Set the notificationConfig option with setNotificationConfig, then use getNotificationConfig instead
    */
+  @Deprecated
   public String getCallbackUrl() {
     return callbackUrl;
   }
@@ -193,6 +196,7 @@ public class RevAiJobOptions {
    * @param callbackUrl The url to POST to when job processing is complete.
    * @deprecated Use setNotificationConfig instead
    */
+  @Deprecated
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;
   }

@@ -1,8 +1,11 @@
 package ai.rev.topicextraction.models;
 
+import ai.rev.speechtotext.models.CustomerUrlData;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Map;
 
 /**
  * A TopicExtractionJobOptions object represents parameters that are submitted along a new job.
@@ -22,12 +25,19 @@ public class TopicExtractionJobOptions {
    */
   @SerializedName("json")
   private RevAiTranscript json;
-  
-  /** 
-   * The callback url that Rev AI will send a POST to when the job has finished. 
+
+  /**
+   * The callback url that Rev AI will send a POST to when the job has finished.
+   * @deprecated Use notification_config instead
    */
   @SerializedName("callback_url")
+  @Deprecated
   private String callbackUrl;
+
+  /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
+  @SerializedName("notification_config")
+  private CustomerUrlData notificationConfig;
+
     
   /**
    * Optional information that can be provided.
@@ -76,12 +86,14 @@ public class TopicExtractionJobOptions {
   public void setJson(RevAiTranscript json) {
     this.json = json;
   }
-  
+
   /**
    * Returns the callback url.
    *
    * @return the callback url.
+   * @deprecated Use setNotificationConfig instead
    */
+  @Deprecated
   public String getCallbackUrl() {
     return callbackUrl;
   }
@@ -91,9 +103,39 @@ public class TopicExtractionJobOptions {
    * property is optional.
    *
    * @param callbackUrl The url to POST to when job processing is complete.
+   * @deprecated Use setNotificationConfig instead
    */
+  @Deprecated
   public void setCallbackUrl(String callbackUrl) {
     this.callbackUrl = callbackUrl;
+  }
+
+  /**
+   * Returns the notification config object.
+   *
+   * @return the notification config.
+   */
+  public CustomerUrlData getNotificationConfig() {
+    return notificationConfig;
+  }
+
+  /**
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   * @param authHeaders Optional parameter to authenticate access to the callback url
+   */
+  public void setNotificationConfig(String callbackUrl, Map<String, String> authHeaders) {
+    this.notificationConfig = new CustomerUrlData(callbackUrl, authHeaders);
+  }
+
+  /**
+   * Optional property to specify the callback url that Rev AI will POST to when job processing is complete
+   *
+   * @param callbackUrl The url to POST to when job processing is complete.
+   */
+  public void setNotificationConfig(String callbackUrl) {
+    setNotificationConfig(callbackUrl, null);
   }
   
   /**
