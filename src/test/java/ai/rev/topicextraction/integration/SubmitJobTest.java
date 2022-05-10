@@ -1,7 +1,5 @@
 package ai.rev.topicextraction.integration;
 
-import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
-import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
 import ai.rev.testutils.EnvHelper;

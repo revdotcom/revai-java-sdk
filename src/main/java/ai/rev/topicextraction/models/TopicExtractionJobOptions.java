@@ -2,7 +2,6 @@ package ai.rev.topicextraction.models;
 
 import ai.rev.speechtotext.models.CustomerUrlData;
 import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;

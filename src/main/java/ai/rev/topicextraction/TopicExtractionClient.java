@@ -1,9 +1,6 @@
 package ai.rev.topicextraction;
 
 import ai.rev.helpers.ClientHelper;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionJob;
 import ai.rev.topicextraction.models.TopicExtractionJobOptions;
 import ai.rev.topicextraction.models.TopicExtractionResult;
