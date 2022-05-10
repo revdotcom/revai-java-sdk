@@ -1,9 +1,6 @@
 package ai.rev.sentimentanalysis;
 
 import ai.rev.helpers.ClientHelper;
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.sentimentanalysis.models.Sentiment;
 import ai.rev.sentimentanalysis.models.SentimentAnalysisJob;
 import ai.rev.sentimentanalysis.models.SentimentAnalysisJobOptions;

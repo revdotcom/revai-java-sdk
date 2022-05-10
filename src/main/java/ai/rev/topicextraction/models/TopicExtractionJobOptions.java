@@ -37,7 +37,6 @@ public class TopicExtractionJobOptions {
   /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
   @SerializedName("notification_config")
   private CustomerUrlData notificationConfig;
-
     
   /**
    * Optional information that can be provided.

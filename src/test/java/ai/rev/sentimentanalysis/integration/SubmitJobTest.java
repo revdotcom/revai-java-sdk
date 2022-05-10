@@ -27,6 +27,7 @@ public class SubmitJobTest {
           (new Gson()).fromJson(
                   getFileContents(Paths.get("./src/test/java/ai/rev/sentimentanalysis/resources/sample.json")),
                   RevAiTranscript.class);
+  private final String CALLBACK_URL = "https://example.com";
   private static SentimentAnalysisClient apiClient;
 
   @Rule public TestName testName = new TestName();
@@ -44,6 +45,19 @@ public class SubmitJobTest {
     SentimentAnalysisJob job = apiClient.submitJobText(TEXT_SOURCE, jobOptions);
 
     assertSentimentAnalysisJob(job);
+  }
+
+  @Test
+  public void SubmitJobText_TextAndOptionsWithNotificationConfig_ReturnsJobInProgress()
+      throws IOException {
+    SentimentAnalysisJobOptions jobOptions = getJobOptions();
+    jobOptions.setCallbackUrl(null);
+    jobOptions.setNotificationConfig(CALLBACK_URL);
+
+    SentimentAnalysisJob job = apiClient.submitJobText(TEXT_SOURCE, jobOptions);
+
+    assertSentimentAnalysisJob(job);
+    assert job.getCallbackUrl() == null;
   }
 
   @Test
@@ -81,7 +95,7 @@ public class SubmitJobTest {
   private SentimentAnalysisJobOptions getJobOptions() {
     SentimentAnalysisJobOptions revAiJobOptions = new SentimentAnalysisJobOptions();
     revAiJobOptions.setMetadata(testName.getMethodName());
-    revAiJobOptions.setCallbackUrl("https://example.com");
+    revAiJobOptions.setCallbackUrl(CALLBACK_URL);
     revAiJobOptions.setDeleteAfterSeconds(0);
     return revAiJobOptions;
   }
