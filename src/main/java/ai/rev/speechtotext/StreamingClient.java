@@ -214,6 +214,9 @@ public class StreamingClient {
       if (sessionConfig.getTranscriber() != null) {
         urlBuilder.addQueryParameter("transcriber", sessionConfig.getTranscriber());
       }
+      if (sessionConfig.getLanguage() != null) {
+        urlBuilder.addQueryParameter("language", sessionConfig.getLanguage());
+      }
     }
     return urlBuilder.build().toString()
       + "&content_type="

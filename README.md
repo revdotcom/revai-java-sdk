@@ -13,7 +13,7 @@ The recommended way to use the Rev AI Java SDK is to import it into the project 
       <dependency>
         <groupId>ai.rev</groupId>
         <artifactId>revai-java-sdk</artifactId>
-        <version>2.1.0</version>
+        <version>2.2.0</version>
       </dependency>
 
 ## Build and install locally from source
