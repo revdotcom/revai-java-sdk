@@ -133,6 +133,7 @@ public class StreamingTest {
     sessionConfig.setDetailedPartials(true);
     sessionConfig.setStartTs(10.0);
     sessionConfig.setTranscriber("machine");
+    sessionConfig.setLanguage("en");
     return sessionConfig;
   }
 

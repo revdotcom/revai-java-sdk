@@ -29,6 +29,7 @@ public class RevAiStreamingClientOptionalParametersTest {
   private static final String METADATA = "Best Metadata";
   private static final String FAKE_ACCESS_TOKEN = "foo";
   private static final String TRANSCRIBER = "machine";
+  private static final String LANGUAGE = "en";
 
   private MockWebServer mockWebServer;
   private StreamContentType defaultContentType;
@@ -63,6 +64,11 @@ public class RevAiStreamingClientOptionalParametersTest {
   @DataPoints("transcriberAndNull")
   public static String[] transcriberAndNull() {
     return new String[] {TRANSCRIBER, null};
+  }
+
+  @DataPoints("languageAndNull")
+  public static String[] languageAndNull() {
+    return new String[] {lANGUAGE, null};
   }
 
   public RevAiStreamingClientOptionalParametersTest() {
@@ -107,7 +113,8 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("deleteAfterSecondsAndNull") Integer deleteAfterSeconds,
       @FromDataPoints("booleanValuesAndNull") Boolean detailedPartials,
       @FromDataPoints("startTsAndNull") Double startTs,
-      @FromDataPoints("transcriberAndNull") String transcriber)
+      @FromDataPoints("transcriberAndNull") String transcriber,
+      @FromDataPoints("languageAndNull") String language)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
     sessionConfig.setFilterProfanity(filterProfanity);
@@ -117,6 +124,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     sessionConfig.setDetailedPartials(detailedPartials);
     sessionConfig.setStartTs(startTs);
     sessionConfig.setTranscriber(transcriber);
+    sessionConfig.setLanguage(language);
 
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
@@ -166,6 +174,10 @@ public class RevAiStreamingClientOptionalParametersTest {
     if (sessionConfig.getTranscriber() != null) {
       assertThat(request.getPath())
         .contains("transcriber=" + sessionConfig.getTranscriber());
+    }
+    if (sessionConfig.getLanguage() != null) {
+      assertThat(request.getPath())
+        .contains("language=" + sessionConfig.getLanguage());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }

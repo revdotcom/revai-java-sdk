@@ -11,6 +11,7 @@ public class SessionConfig {
   private Boolean detailedPartials;
   private Double startTs;
   private String transcriber;
+  private String language;
 
   /**
    * Returns the metadata.
@@ -159,4 +160,18 @@ public class SessionConfig {
    * @param transcriber The type of transcriber to use to transcribe the media.
    */
   public void setTranscriber(String transcriber) { this.transcriber = transcriber; }
+
+  /**
+   * Returns the value of language.
+   *
+   * @return The language value.
+   */
+  public String getLanguage() { return language; }
+
+  /**
+   * Specifies the language to use for the streaming job.
+   *
+   * @param language The language to use for the streaming job.
+   */
+  public void setLanguage(String language) { this.language = language; }
 }
