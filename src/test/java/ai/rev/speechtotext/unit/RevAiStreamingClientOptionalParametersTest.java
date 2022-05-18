@@ -68,7 +68,7 @@ public class RevAiStreamingClientOptionalParametersTest {
 
   @DataPoints("languageAndNull")
   public static String[] languageAndNull() {
-    return new String[] {lANGUAGE, null};
+    return new String[] {LANGUAGE, null};
   }
 
   public RevAiStreamingClientOptionalParametersTest() {
