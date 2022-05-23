@@ -1,6 +1,6 @@
 # Rev AI Java SDK
 
-[![Maven Central](https://img.shields.io/maven-central/v/ai.rev.speechtotext/revai-java-sdk-speechtotext)](https://mvnrepository.com/artifact/ai.rev.speechtotext/revai-java-sdk-speechtotext)
+[![Maven Central](https://img.shields.io/maven-central/v/ai.rev/revai-java-sdk)](https://mvnrepository.com/artifact/ai.rev/revai-java-sdk)
 [![Build Status](https://github.com/revdotcom/revai-java-sdk/workflows/Build/badge.svg?branch=develop)](https://github.com/revdotcom/revai-java-sdk/actions?query=workflow%3ABuild+branch%3Adevelop)
 
 ## Documentation
