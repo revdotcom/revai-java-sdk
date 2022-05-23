@@ -2,7 +2,6 @@ package ai.rev.languageid.models;
 
 import ai.rev.speechtotext.models.asynchronous.RevAiFailureType;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
-import ai.rev.topicextraction.models.TopicExtractionJobStatus;
 import com.google.gson.annotations.SerializedName;
 
 public class LanguageIdJob {
@@ -11,7 +10,7 @@ public class LanguageIdJob {
     private String jobId;
 
     @SerializedName("status")
-    private TopicExtractionJobStatus jobStatus;
+    private LanguageIdJobStatus jobStatus;
 
     @SerializedName("created_on")
     private String createdOn;
@@ -25,6 +24,9 @@ public class LanguageIdJob {
     @SerializedName("metadata")
     private String metadata;
 
+    @SerializedName("media_url")
+    private String mediaUrl;
+
     @SerializedName("type")
     private RevAiJobType type;
 
@@ -33,6 +35,9 @@ public class LanguageIdJob {
 
     @SerializedName("failure")
     private RevAiFailureType failure;
+
+    @SerializedName("processed_duration_seconds")
+    private Double processedDurationSeconds;
 
     @SerializedName("delete_after_seconds")
     private Integer deleteAfterSeconds;
@@ -56,22 +61,22 @@ public class LanguageIdJob {
     }
 
     /**
-     * Returns the {@link TopicExtractionJobStatus} enumeration value.
+     * Returns the {@link LanguageIdJobStatus} enumeration value.
      *
-     * @return The {@link TopicExtractionJobStatus} enumeration value.
-     * @see TopicExtractionJobStatus
+     * @return The {@link LanguageIdJobStatus} enumeration value.
+     * @see LanguageIdJobStatus
      */
-    public TopicExtractionJobStatus getJobStatus() {
+    public LanguageIdJobStatus getJobStatus() {
         return jobStatus;
     }
 
     /**
-     * Sets the job status to the provided {@link TopicExtractionJobStatus} enumeration value.
+     * Sets the job status to the provided {@link LanguageIdJobStatus} enumeration value.
      *
      * @param jobStatus The enumeration value to set as the job status.
-     * @see TopicExtractionJobStatus
+     * @see LanguageIdJobStatus
      */
-    public void setJobStatus(TopicExtractionJobStatus jobStatus) {
+    public void setJobStatus(LanguageIdJobStatus jobStatus) {
         this.jobStatus = jobStatus;
     }
 
@@ -148,6 +153,24 @@ public class LanguageIdJob {
     }
 
     /**
+     * Returns the media url provided in the submission request.
+     *
+     * @return A String containing the media url provided in the submission request.
+     */
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    /**
+     * Sets the media url.
+     *
+     * @param mediaUrl A String value to set as the media url.
+     */
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
+    /**
      * Returns the {@link RevAiJobType} enumeration value.
      *
      * @return the enumeration value.
@@ -206,6 +229,24 @@ public class LanguageIdJob {
     }
 
     /**
+     * Returns the processed audio duration of the file in seconds.
+     *
+     * @return The processed audio duration of the file in seconds.
+     */
+    public Double getProcessedDurationSeconds() {
+        return processedDurationSeconds;
+    }
+
+    /**
+     * Sets the processed audio duration.
+     *
+     * @param processedDurationSeconds A Double value to set as processed audio duration.
+     */
+    public void setDurationSeconds(Double processedDurationSeconds) {
+        this.processedDurationSeconds = processedDurationSeconds;
+    }
+
+    /**
      * Returns the duration in seconds before job is deleted
      *
      * @return The duration in seconds.
@@ -243,6 +284,9 @@ public class LanguageIdJob {
             + ", metadata='"
             + metadata
             + '\''
+            + ", mediaUrl='"
+            + mediaUrl
+            + '\''
             + ", type='"
             + type.getJobType()
             + '\''
@@ -251,6 +295,12 @@ public class LanguageIdJob {
             + '\''
             + ", failure='"
             + failure.getFailureType()
+            + '\''
+            + ", processedDurationSeconds="
+            + processedDurationSeconds
+            + '\''
+            + ", deleteAfterSeconds='"
+            + deleteAfterSeconds
             + '\''
             + '}';
     }
