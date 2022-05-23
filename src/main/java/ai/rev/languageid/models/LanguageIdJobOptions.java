@@ -9,18 +9,21 @@ import java.util.Map;
  * A LanguageIdJobOptions object represents parameters that are submitted along a new job.
  *
  * @see <a
- *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+ * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
  */
 public class LanguageIdJobOptions {
     /**
      * The callback url that Rev AI will send a POST to when the job has finished.
+     *
      * @deprecated Use notification_config instead
      */
     @SerializedName("callback_url")
     @Deprecated
     private String callbackUrl;
 
-    /** Object containing information on the callback url that Rev AI will send a POST to when the job has finished. */
+    /**
+     * Object containing information on the callback url that Rev AI will send a POST to when the job has finished.
+     */
     @SerializedName("notification_config")
     private CustomerUrlData notificationConfig;
 
@@ -36,14 +39,18 @@ public class LanguageIdJobOptions {
     @SerializedName("delete_after_seconds")
     private Integer deleteAfterSeconds;
 
-    /** The media url where the file can be downloaded.
+    /**
+     * The media url where the file can be downloaded.
+     *
      * @deprecated Use source_config instead
      */
     @SerializedName("media_url")
     @Deprecated
     private String mediaUrl;
 
-    /** Object containing source media file information. */
+    /**
+     * Object containing source media file information.
+     */
     @SerializedName("source_config")
     private CustomerUrlData sourceConfig;
 
@@ -162,8 +169,7 @@ public class LanguageIdJobOptions {
      *
      * @return the source config.
      */
-    public CustomerUrlData getSourceConfig()
-    {
+    public CustomerUrlData getSourceConfig() {
         return this.sourceConfig;
     }
 
@@ -171,7 +177,7 @@ public class LanguageIdJobOptions {
      * Specifies the url and any optional auth headers to access the source media download url.
      *
      * @param sourceMediaUrl The direct download url to the file.
-     * @param sourceAuth The auth headers to the source media download url.
+     * @param sourceAuth     The auth headers to the source media download url.
      */
 
     public void setSourceConfig(String sourceMediaUrl, Map<String, String> sourceAuth) {

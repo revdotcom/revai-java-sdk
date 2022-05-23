@@ -267,41 +267,41 @@ public class LanguageIdJob {
     @Override
     public String toString() {
         return "{"
-            + "jobID='"
-            + jobId
-            + '\''
-            + ", jobStatus="
-            + jobStatus
-            + ", createdOn='"
-            + createdOn
-            + '\''
-            + ", completedOn='"
-            + completedOn
-            + '\''
-            + ", callbackUrl='"
-            + callbackUrl
-            + '\''
-            + ", metadata='"
-            + metadata
-            + '\''
-            + ", mediaUrl='"
-            + mediaUrl
-            + '\''
-            + ", type='"
-            + type.getJobType()
-            + '\''
-            + ", failureDetails='"
-            + failureDetails
-            + '\''
-            + ", failure='"
-            + failure.getFailureType()
-            + '\''
-            + ", processedDurationSeconds="
-            + processedDurationSeconds
-            + '\''
-            + ", deleteAfterSeconds='"
-            + deleteAfterSeconds
-            + '\''
-            + '}';
+                + "jobID='"
+                + jobId
+                + '\''
+                + ", jobStatus="
+                + jobStatus
+                + ", createdOn='"
+                + createdOn
+                + '\''
+                + ", completedOn='"
+                + completedOn
+                + '\''
+                + ", callbackUrl='"
+                + callbackUrl
+                + '\''
+                + ", metadata='"
+                + metadata
+                + '\''
+                + ", mediaUrl='"
+                + mediaUrl
+                + '\''
+                + ", type='"
+                + type.getJobType()
+                + '\''
+                + ", failureDetails='"
+                + failureDetails
+                + '\''
+                + ", failure='"
+                + failure.getFailureType()
+                + '\''
+                + ", processedDurationSeconds="
+                + processedDurationSeconds
+                + '\''
+                + ", deleteAfterSeconds='"
+                + deleteAfterSeconds
+                + '\''
+                + '}';
     }
 }

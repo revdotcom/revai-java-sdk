@@ -27,7 +27,9 @@ public class LanguageIdClient {
 
     private OkHttpClient client;
 
-    /** Interface that LanguageIdClient methods use to make requests */
+    /**
+     * Interface that LanguageIdClient methods use to make requests
+     */
     public LanguageIdInterface apiInterface;
 
     /**
@@ -47,7 +49,9 @@ public class LanguageIdClient {
         this.apiInterface = retrofit.create(LanguageIdInterface.class);
     }
 
-    /** Manually closes the connection when the code is running in a JVM */
+    /**
+     * Manually closes the connection when the code is running in a JVM
+     */
     public void closeConnection() {
         client.dispatcher().executorService().shutdown();
         client.connectionPool().evictAll();
@@ -57,13 +61,13 @@ public class LanguageIdClient {
      * This method sends a GET request to the /jobs endpoint and returns a list of {@link LanguageIdJob}
      * objects.
      *
-     * @param limit The maximum number of jobs to return. The default is 100, max is 1000.
+     * @param limit         The maximum number of jobs to return. The default is 100, max is 1000.
      * @param startingAfter The job ID at which the list begins.
      * @return A list of {@link LanguageIdJob} objects.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/GetListOfLanguageIdentificationJobs">https://docs.rev.ai/api/language-identification/reference/#operation/GetListOfLanguageIdentificationJobs</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/GetListOfLanguageIdentificationJobs">https://docs.rev.ai/api/language-identification/reference/#operation/GetListOfLanguageIdentificationJobs</a>
      */
     public List<LanguageIdJob> getListOfJobs(Integer limit, String startingAfter) throws IOException {
         Map<String, String> options = new HashMap<>();
@@ -117,7 +121,7 @@ public class LanguageIdClient {
      *
      * @param id The ID of the job to return an object for.
      * @return A {@link LanguageIdJob} object.
-     * @throws IOException If the response has a status code > 399.
+     * @throws IOException              If the response has a status code > 399.
      * @throws IllegalArgumentException If the job ID is null.
      */
     public LanguageIdJob getJobDetails(String id) throws IOException {
@@ -131,10 +135,10 @@ public class LanguageIdClient {
      * This method sends a DELETE request to the /jobs/{id} endpoint.
      *
      * @param id The Id of the job to be deleted.
-     * @throws IOException If the response has a status code > 399.
+     * @throws IOException              If the response has a status code > 399.
      * @throws IllegalArgumentException If the job ID is null.
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById">https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById">https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById</a>
      */
     public void deleteJob(String id) throws IOException {
         if (id == null) {
@@ -151,7 +155,7 @@ public class LanguageIdClient {
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdResult
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/GetLanguageIdentificationResultById">https://docs.rev.ai/api/language-identification/reference/#operation/GetLanguageIdentificationResultById</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/GetLanguageIdentificationResultById">https://docs.rev.ai/api/language-identification/reference/#operation/GetLanguageIdentificationResultById</a>
      */
     public LanguageIdResult getResultObject(String id) throws IOException {
         return apiInterface.getResultObject(id).execute().body();
@@ -161,15 +165,15 @@ public class LanguageIdClient {
      * The method sends a POST request to the /jobs endpoint, starts a language id job for the
      * provided media url and returns a {@link LanguageIdJob} object.
      *
-     * @deprecated Use submitJobUrl with the sourceConfig job option rather than a separate mediaUrl argument
      * @param mediaUrl A direct download link to the media.
-     * @param options The language id options associated with this job.
+     * @param options  The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException If the response has a status code > 399.
+     * @throws IOException              If the response has a status code > 399.
      * @throws IllegalArgumentException If the media url is null.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * @deprecated Use submitJobUrl with the sourceConfig job option rather than a separate mediaUrl argument
      */
     public LanguageIdJob submitJobUrl(String mediaUrl, LanguageIdJobOptions options) throws IOException {
         if (mediaUrl == null) {
@@ -191,7 +195,7 @@ public class LanguageIdClient {
      * @throws IOException if the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobUrl(LanguageIdJobOptions options) throws IOException {
         return apiInterface.submitJobUrl(options).execute().body();
@@ -202,13 +206,13 @@ public class LanguageIdClient {
      * provided local media file and returns a {@link LanguageIdJob} object.
      *
      * @param filePath A local path to the file on the computer.
-     * @param options The language id options associated with this job.
+     * @param options  The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException If the response has a status code > 399.
+     * @throws IOException              If the response has a status code > 399.
      * @throws IllegalArgumentException If the file path is null.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobLocalFile(String filePath, LanguageIdJobOptions options) throws IOException {
         if (filePath == null) {
@@ -227,14 +231,14 @@ public class LanguageIdClient {
      * provided media file provided by InputStream and returns a {@link LanguageIdJob} object.
      *
      * @param inputStream An InputStream of the media file.
-     * @param fileName The name of the file being streamed.
-     * @param options The language id options associated with this job.
+     * @param fileName    The name of the file being streamed.
+     * @param options     The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException If the response has a status code > 399.
+     * @throws IOException              If the response has a status code > 399.
      * @throws IllegalArgumentException If the InputStream provided is null.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobLocalFile(
             InputStream inputStream, String fileName, LanguageIdJobOptions options) throws IOException {
@@ -259,7 +263,7 @@ public class LanguageIdClient {
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobLocalFile(InputStream inputStream) throws IOException {
         return submitJobLocalFile(inputStream, null, null);
@@ -270,12 +274,12 @@ public class LanguageIdClient {
      * without the additional language id options.
      *
      * @param inputStream An InputStream of the media file.
-     * @param fileName The name of the file being streamed.
+     * @param fileName    The name of the file being streamed.
      * @return LanguageIdJob A representation of the language id job.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobLocalFile(InputStream inputStream, String fileName) throws IOException {
         return submitJobLocalFile(inputStream, fileName, null);
@@ -286,12 +290,12 @@ public class LanguageIdClient {
      * without the optional filename.
      *
      * @param inputStream An InputStream of the media file.
-     * @param options The language id options associated with this job.
+     * @param options     The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
-     *     href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
+     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
     public LanguageIdJob submitJobLocalFile(InputStream inputStream, LanguageIdJobOptions options)
             throws IOException {

@@ -2,17 +2,25 @@ package ai.rev.languageid.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Specifies constants that define Rev AI job statuses. */
+/**
+ * Specifies constants that define Rev AI job statuses.
+ */
 public enum LanguageIdJobStatus {
-    /** The status when job has failed. */
+    /**
+     * The status when job has failed.
+     */
     @SerializedName("failed")
     FAILED("failed"),
 
-    /** The status when job is in progress. */
+    /**
+     * The status when job is in progress.
+     */
     @SerializedName("in_progress")
     IN_PROGRESS("in_progress"),
 
-    /** The status when job processing has been completed. */
+    /**
+     * The status when job processing has been completed.
+     */
     @SerializedName("completed")
     COMPLETED("completed");
 

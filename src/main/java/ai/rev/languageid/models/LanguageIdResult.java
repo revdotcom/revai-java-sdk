@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-/** A Topic Extraction Result object provides all the information associated with the result of a job. */
+/**
+ * A Topic Extraction Result object provides all the information associated with the result of a job.
+ */
 public class LanguageIdResult {
 
     /**
@@ -24,7 +26,9 @@ public class LanguageIdResult {
      *
      * @param topLanguage the top language to be set for the result.
      */
-    public void setTopLanguage(String topLanguage) { this.topLanguage = topLanguage; }
+    public void setTopLanguage(String topLanguage) {
+        this.topLanguage = topLanguage;
+    }
 
     /**
      * Set the language confidences of the result;
