@@ -80,7 +80,7 @@ public class LanguageIdMediaUrl {
         LanguageIdResult languageIdResult;
 
         try {
-            objectTranscript = languageIdClient.getResultObject(jobId)
+            languageIdResult = languageIdClient.getResultObject(jobId);
         } catch (IOException e) {
             e.printStackTrace();
         }
