@@ -1,9 +1,7 @@
 package ai.rev.languageid.integration;
 
 import ai.rev.languageid.LanguageIdClient;
-import ai.rev.languageid.models.LanguageIdJob;
-import ai.rev.languageid.models.LanguageIdJobOptions;
-import ai.rev.languageid.models.LanguageIdJobStatus;
+import ai.rev.languageid.models.*;
 import ai.rev.testutils.EnvHelper;
 import org.junit.Before;
 import org.junit.Rule;

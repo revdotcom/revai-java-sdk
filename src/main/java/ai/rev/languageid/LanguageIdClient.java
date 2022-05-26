@@ -61,7 +61,7 @@ public class LanguageIdClient {
      * This method sends a GET request to the /jobs endpoint and returns a list of {@link LanguageIdJob}
      * objects.
      *
-     * @param limit         The maximum number of jobs to return. The default is 100, max is 1000.
+     * @param limit The maximum number of jobs to return. The default is 100, max is 1000.
      * @param startingAfter The job ID at which the list begins.
      * @return A list of {@link LanguageIdJob} objects.
      * @throws IOException If the response has a status code > 399.
@@ -121,7 +121,7 @@ public class LanguageIdClient {
      *
      * @param id The ID of the job to return an object for.
      * @return A {@link LanguageIdJob} object.
-     * @throws IOException              If the response has a status code > 399.
+     * @throws IOException If the response has a status code > 399.
      * @throws IllegalArgumentException If the job ID is null.
      */
     public LanguageIdJob getJobDetails(String id) throws IOException {
@@ -134,8 +134,8 @@ public class LanguageIdClient {
     /**
      * This method sends a DELETE request to the /jobs/{id} endpoint.
      *
-     * @param id The Id of the job to be deleted.
-     * @throws IOException              If the response has a status code > 399.
+     * @param id The id of the job to be deleted.
+     * @throws IOException If the response has a status code > 399.
      * @throws IllegalArgumentException If the job ID is null.
      * @see <a
      * href="https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById">https://docs.rev.ai/api/language-identification/reference/#operation/DeleteLanguageIdentificationJobById</a>
@@ -150,7 +150,7 @@ public class LanguageIdClient {
     /**
      * The method sends a GET request to the /jobs/{id}/result endpoint and returns a {@link LanguageIdResult} object.
      *
-     * @param id The ID of the job to return a result for.
+     * @param id The id of the job to return a result for.
      * @return LanguageIdResult The result object.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdResult
@@ -166,9 +166,9 @@ public class LanguageIdClient {
      * provided media url and returns a {@link LanguageIdJob} object.
      *
      * @param mediaUrl A direct download link to the media.
-     * @param options  The language id options associated with this job.
+     * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException              If the response has a status code > 399.
+     * @throws IOException If the response has a status code > 399.
      * @throws IllegalArgumentException If the media url is null.
      * @see LanguageIdJob
      * @see <a
@@ -192,7 +192,7 @@ public class LanguageIdClient {
      *
      * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException if the response has a status code > 399.
+     * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
      * @see <a
      * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
@@ -208,7 +208,7 @@ public class LanguageIdClient {
      * @param filePath A local path to the file on the computer.
      * @param options  The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException              If the response has a status code > 399.
+     * @throws IOException If the response has a status code > 399.
      * @throws IllegalArgumentException If the file path is null.
      * @see LanguageIdJob
      * @see <a
@@ -231,10 +231,10 @@ public class LanguageIdClient {
      * provided media file provided by InputStream and returns a {@link LanguageIdJob} object.
      *
      * @param inputStream An InputStream of the media file.
-     * @param fileName    The name of the file being streamed.
-     * @param options     The language id options associated with this job.
+     * @param fileName The name of the file being streamed.
+     * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException              If the response has a status code > 399.
+     * @throws IOException If the response has a status code > 399.
      * @throws IllegalArgumentException If the InputStream provided is null.
      * @see LanguageIdJob
      * @see <a
@@ -274,7 +274,7 @@ public class LanguageIdClient {
      * without the additional language id options.
      *
      * @param inputStream An InputStream of the media file.
-     * @param fileName    The name of the file being streamed.
+     * @param fileName The name of the file being streamed.
      * @return LanguageIdJob A representation of the language id job.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
@@ -290,7 +290,7 @@ public class LanguageIdClient {
      * without the optional filename.
      *
      * @param inputStream An InputStream of the media file.
-     * @param options     The language id options associated with this job.
+     * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
      * @throws IOException If the response has a status code > 399.
      * @see LanguageIdJob
@@ -308,6 +308,4 @@ public class LanguageIdClient {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", fileName, fileRequest);
         return apiInterface.submitJobLocalFile(filePart, options).execute().body();
     }
-
-
 }

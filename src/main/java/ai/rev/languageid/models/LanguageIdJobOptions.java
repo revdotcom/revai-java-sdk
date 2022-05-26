@@ -191,6 +191,6 @@ public class LanguageIdJobOptions {
      */
 
     public void setSourceConfig(String sourceMediaUrl) {
-        this.sourceConfig = new CustomerUrlData(sourceMediaUrl, null);
+        setSourceConfig(sourceMediaUrl, null);
     }
 }

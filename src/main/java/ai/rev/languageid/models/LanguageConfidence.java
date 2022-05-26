@@ -18,4 +18,40 @@ public class LanguageConfidence {
      */
     @SerializedName("confidence")
     private Double confidence;
+
+    /**
+     * Get the language of the result.
+     *
+     * @return The language of the result.
+     */
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * Set the language of the result.
+     *
+     * @param language the language to be set for the result.
+     */
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    /**
+     * Get the confidence of the result.
+     *
+     * @return The confidence of the result.
+     */
+    public Double getConfidence() {
+        return confidence;
+    }
+
+    /**
+     * Set the confidence of the result.
+     *
+     * @param confidence the confidence to be set for the result.
+     */
+    public void setConfidence(Double confidence) {
+        this.confidence = confidence;
+    }
 }

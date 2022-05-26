@@ -51,7 +51,7 @@ public class LanguageIdLocalMediaFile {
             }
 
             LanguageIdJobStatus retrievedJobStatus = retrievedJob.getJobStatus();
-            if (retrievedJobStatus == LanguageIdJobStatus.COMPLETE
+            if (retrievedJobStatus == LanguageIdJobStatus.COMPLETED
                     || retrievedJobStatus == LanguageIdJobStatus.FAILED) {
                 isJobComplete = true;
             } else {
@@ -68,6 +68,10 @@ public class LanguageIdLocalMediaFile {
 
         try {
             languageIdResult = languageIdClient.getResultObject(jobId);
+            System.out.printf("Top Language: %s\n", languageIdResult.getTopLanguage());
+            for (LanguageConfidence languageConfidence : languageIdResult.getLanguageConfidences()) {
+                System.out.printf("Language: %s Confidence: %f\n", languageConfidence.getLanguage(), languageConfidence.getConfidence());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

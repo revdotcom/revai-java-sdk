@@ -81,6 +81,10 @@ public class LanguageIdMediaUrl {
 
         try {
             languageIdResult = languageIdClient.getResultObject(jobId);
+            System.out.printf("Top Language: %s\n", languageIdResult.getTopLanguage());
+            for (LanguageConfidence languageConfidence : languageIdResult.getLanguageConfidences()) {
+                System.out.printf("Language: %s Confidence: %f\n", languageConfidence.getLanguage(), languageConfidence.getConfidence());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

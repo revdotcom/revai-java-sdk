@@ -3,7 +3,7 @@ package ai.rev.languageid.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Specifies constants that define Rev AI job statuses.
+ * Specifies constants that define Rev AI job language id statuses.
  */
 public enum LanguageIdJobStatus {
     /**
