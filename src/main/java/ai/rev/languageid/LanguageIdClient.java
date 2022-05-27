@@ -5,6 +5,7 @@ import ai.rev.languageid.models.LanguageIdJob;
 import ai.rev.languageid.models.LanguageIdJobOptions;
 import ai.rev.languageid.models.LanguageIdResult;
 import ai.rev.speechtotext.FileStreamRequestBody;
+import ai.rev.speechtotext.models.CustomerUrlData;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -165,31 +166,6 @@ public class LanguageIdClient {
      * The method sends a POST request to the /jobs endpoint, starts a language id job for the
      * provided media url and returns a {@link LanguageIdJob} object.
      *
-     * @param mediaUrl A direct download link to the media.
-     * @param options The language id options associated with this job.
-     * @return LanguageIdJob A representation of the language id job.
-     * @throws IOException If the response has a status code > 399.
-     * @throws IllegalArgumentException If the media url is null.
-     * @see LanguageIdJob
-     * @see <a
-     * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
-     * @deprecated Use submitJobUrl with the sourceConfig job option rather than a separate mediaUrl argument
-     */
-    public LanguageIdJob submitJobUrl(String mediaUrl, LanguageIdJobOptions options) throws IOException {
-        if (mediaUrl == null) {
-            throw new IllegalArgumentException("Media url must be provided");
-        }
-        if (options == null) {
-            options = new LanguageIdJobOptions();
-        }
-        options.setMediaUrl(mediaUrl);
-        return apiInterface.submitJobUrl(options).execute().body();
-    }
-
-    /**
-     * The method sends a POST request to the /jobs endpoint, starts a language id job for the
-     * provided media url and returns a {@link LanguageIdJob} object.
-     *
      * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
      * @throws IOException If the response has a status code > 399.
@@ -197,8 +173,8 @@ public class LanguageIdClient {
      * @see <a
      * href="https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob">https://docs.rev.ai/api/language-identification/reference/#operation/SubmitLanguageIdentificationJob</a>
      */
-    public LanguageIdJob submitJobUrl(LanguageIdJobOptions options) throws IOException {
-        return apiInterface.submitJobUrl(options).execute().body();
+    public LanguageIdJob submitJob(LanguageIdJobOptions options) throws IOException {
+        return apiInterface.submitJob(options).execute().body();
     }
 
     /**

@@ -117,35 +117,13 @@ public class SubmitJobTest {
     }
 
     @Test
-    public void SubmitJobUrl_OptionsOnly_ReturnsLanguageIdJobInProgress()
+    public void SubmitJob_SourceConfigAndNotificationConfigSet_ReturnsLanguageIdJobInProgress()
             throws IOException {
         LanguageIdJobOptions languageIdJobOptions = getJobOptions();
         languageIdJobOptions.setSourceConfig(SOURCE_URL);
         languageIdJobOptions.setNotificationConfig(CALLBACK_URL);
 
-        LanguageIdJob languageIdJob = apiClient.submitJobUrl(languageIdJobOptions);
-
-        assertLanguageIdJob(languageIdJob);
-    }
-
-    @Test
-    public void SubmitJobUrl_OptionsOnlyWithCallback_ReturnsLanguageIdJobInProgress()
-            throws IOException {
-        LanguageIdJobOptions languageIdJobOptions = getJobOptions();
-        languageIdJobOptions.setSourceConfig(SOURCE_URL);
-        languageIdJobOptions.setCallbackUrl(CALLBACK_URL);
-
-        LanguageIdJob languageIdJob = apiClient.submitJobUrl(languageIdJobOptions);
-
-        assertLanguageIdJob(languageIdJob);
-    }
-
-    @Test
-    public void SubmitJobUrl_UrlAndOptionsSpecified_ReturnsLanguageIdJobInProgress()
-            throws IOException {
-        LanguageIdJobOptions languageIdJobOptions = getJobOptions();
-
-        LanguageIdJob languageIdJob = apiClient.submitJobUrl(SOURCE_URL, languageIdJobOptions);
+        LanguageIdJob languageIdJob = apiClient.submitJob(languageIdJobOptions);
 
         assertLanguageIdJob(languageIdJob);
     }

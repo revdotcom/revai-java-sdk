@@ -36,7 +36,7 @@ public interface LanguageIdInterface {
     Call<LanguageIdResult> getResultObject(@Path("id") String jobID);
 
     @POST("jobs")
-    Call<LanguageIdJob> submitJobUrl(@Body LanguageIdJobOptions options);
+    Call<LanguageIdJob> submitJob(@Body LanguageIdJobOptions options);
 
     @Multipart
     @POST("jobs")

@@ -131,37 +131,9 @@ public class LanguageIdJobTest {
         AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "GET", expectedUrl);
         assertJobsList(languageIdJobs);
     }
-
+    
     @Test
-    public void SubmitJobUrl_OnlyMediaUrlIsSpecified_ReturnsALanguageIdJob() throws IOException {
-        mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-
-        LanguageIdJob languageIdJob = sut.submitJobUrl(SOURCE_URL, null);
-
-        LanguageIdJobOptions options = new LanguageIdJobOptions();
-        options.setMediaUrl(SOURCE_URL);
-        AssertHelper.assertRequestBody(mockInterceptor, options, LanguageIdJobOptions.class);
-        AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
-        assertLanguageIdJob(languageIdJob, mockInProgressJob);
-    }
-
-    @Test
-    public void SubmitJobUrl_MediaUrlAndOptionsAreSpecified_ReturnsALanguageIdJob() throws IOException {
-        mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-        LanguageIdJobOptions options = new LanguageIdJobOptions();
-        options.setNotificationConfig(NOTIFICATION_URL);
-        options.setMetadata(METADATA);
-        options.setDeleteAfterSeconds(0);
-
-        LanguageIdJob languageIdJob = sut.submitJobUrl(SOURCE_URL, options);
-
-        AssertHelper.assertRequestBody(mockInterceptor, options, LanguageIdJobOptions.class);
-        AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
-        assertLanguageIdJob(languageIdJob, mockInProgressJob);
-    }
-
-    @Test
-    public void SubmitJobUrl_SourceConfigAndOptionsAreSpecified_ReturnsALanguageIdJob() throws IOException {
+    public void SubmitJob_SourceConfigAndOptionsAreSpecified_ReturnsALanguageIdJob() throws IOException {
         mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
         LanguageIdJobOptions options = new LanguageIdJobOptions();
         options.setSourceConfig(SOURCE_URL);
@@ -169,7 +141,7 @@ public class LanguageIdJobTest {
         options.setMetadata(METADATA);
         options.setDeleteAfterSeconds(0);
 
-        LanguageIdJob languageIdJob = sut.submitJobUrl(options);
+        LanguageIdJob languageIdJob = sut.submitJob(options);
 
         AssertHelper.assertRequestBody(mockInterceptor, options, LanguageIdJobOptions.class);
         AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
@@ -177,14 +149,14 @@ public class LanguageIdJobTest {
     }
 
     @Test
-    public void SubmitJobUrl_SourceConficAndOptionsAreSpecified_WithAuthHeaders_ReturnsALanguageIdJob() throws IOException {
+    public void SubmitJob_SourceConfigAndOptionsAreSpecified_WithAuthHeaders_ReturnsALanguageIdJob() throws IOException {
         mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
         LanguageIdJobOptions options = new LanguageIdJobOptions();
         options.setSourceConfig(SOURCE_URL, SOURCE_AUTH);
         options.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
         options.setMetadata(METADATA);
 
-        LanguageIdJob languageIdJob = sut.submitJobUrl(options);
+        LanguageIdJob languageIdJob = sut.submitJob(options);
 
         AssertHelper.assertRequestBody(mockInterceptor, options, LanguageIdJobOptions.class);
         AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
@@ -192,29 +164,23 @@ public class LanguageIdJobTest {
     }
 
     @Test
-    public void SubmitJobUrl_MediaUrlIsNotSpecified_ReturnsIllegalArgumentException() {
+    public void SubmitJob_NullOptions_ReturnsIllegalArgumentException() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> sut.submitJobUrl(null, null));
+                .isThrownBy(() -> sut.submitJob((LanguageIdJobOptions) null));
     }
 
     @Test
-    public void SubmitJobUrl_NullOptions_ReturnsIllegalArgumentException() {
+    public void SubmitJob_NullSourceConfig_ReturnsIllegalArgumentException() {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> sut.submitJobUrl((LanguageIdJobOptions) null));
+                .isThrownBy(() -> sut.submitJob(new LanguageIdJobOptions()));
     }
 
     @Test
-    public void SubmitJobUrl_NullSourceConfig_ReturnsIllegalArgumentException() {
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> sut.submitJobUrl(new LanguageIdJobOptions()));
-    }
-
-    @Test
-    public void SubmitJobUrl_NullSourceConfigUrl_ReturnsIllegalArgumentException() {
+    public void SubmitJob_NullSourceConfigUrl_ReturnsIllegalArgumentException() {
         LanguageIdJobOptions options = new LanguageIdJobOptions();
         options.setSourceConfig(null, null);
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> sut.submitJobUrl(options));
+                .isThrownBy(() -> sut.submitJob(options));
     }
 
     @Test

@@ -44,7 +44,7 @@ public class LanguageIdMediaUrl {
 
         try {
             // Submit job with language id options
-            submittedJob = languageIdClient.submitJobUrl(languageIdJobOptions);
+            submittedJob = languageIdClient.submitJob(languageIdJobOptions);
         } catch (IOException e) {
             throw new RuntimeException("Failed to submit url [" + mediaUrl + "] " + e.getMessage());
         }
