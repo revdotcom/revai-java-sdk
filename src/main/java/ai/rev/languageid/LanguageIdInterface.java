@@ -23,26 +23,25 @@ import java.util.Map;
  * to communicate with the Rev AI Language Identification API.
  */
 public interface LanguageIdInterface {
-    String REV_LANGUAGE_ID_CONTENT_TYPE = "application/vnd.rev.languageid.v1.0+json";
+  String REV_LANGUAGE_ID_CONTENT_TYPE = "application/vnd.rev.languageid.v1.0+json";
 
-    @GET("jobs/{id}")
-    Call<LanguageIdJob> getJobDetails(@Path("id") String jobID);
+  @GET("jobs/{id}")
+  Call<LanguageIdJob> getJobDetails(@Path("id") String jobID);
 
-    @GET("jobs")
-    Call<List<LanguageIdJob>> getListOfJobs(@QueryMap Map<String, String> options);
+  @GET("jobs")
+  Call<List<LanguageIdJob>> getListOfJobs(@QueryMap Map<String, String> options);
 
-    @Headers("Accept: " + REV_LANGUAGE_ID_CONTENT_TYPE)
-    @GET("jobs/{id}/result")
-    Call<LanguageIdResult> getResultObject(@Path("id") String jobID);
+  @Headers("Accept: " + REV_LANGUAGE_ID_CONTENT_TYPE)
+  @GET("jobs/{id}/result")
+  Call<LanguageIdResult> getResultObject(@Path("id") String jobID);
 
-    @POST("jobs")
-    Call<LanguageIdJob> submitJob(@Body LanguageIdJobOptions options);
+  @POST("jobs")
+  Call<LanguageIdJob> submitJob(@Body LanguageIdJobOptions options);
 
-    @Multipart
-    @POST("jobs")
-    Call<LanguageIdJob> submitJobLocalFile(
-            @Part MultipartBody.Part file, @Part("options") LanguageIdJobOptions options);
+  @Multipart
+  @POST("jobs")
+  Call<LanguageIdJob> submitJobLocalFile(@Part MultipartBody.Part file, @Part("options") LanguageIdJobOptions options);
 
-    @DELETE("jobs/{id}")
-    Call<Void> deleteJob(@Path("id") String jobID);
+  @DELETE("jobs/{id}")
+  Call<Void> deleteJob(@Path("id") String jobID);
 }
