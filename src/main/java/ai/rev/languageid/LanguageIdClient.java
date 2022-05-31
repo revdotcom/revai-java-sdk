@@ -5,7 +5,6 @@ import ai.rev.languageid.models.LanguageIdJob;
 import ai.rev.languageid.models.LanguageIdJobOptions;
 import ai.rev.languageid.models.LanguageIdResult;
 import ai.rev.speechtotext.FileStreamRequestBody;
-import ai.rev.speechtotext.models.CustomerUrlData;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -164,7 +163,7 @@ public class LanguageIdClient {
 
     /**
      * The method sends a POST request to the /jobs endpoint, starts a language id job for the
-     * provided media url and returns a {@link LanguageIdJob} object.
+     * provided options and returns a {@link LanguageIdJob} object.
      *
      * @param options The language id options associated with this job.
      * @return LanguageIdJob A representation of the language id job.
