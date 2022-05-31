@@ -6,7 +6,7 @@ import ai.rev.topicextraction.models.Topic;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A Topic Extraction Result object provides all the information associated with the result of a job.
+ * A Language Id Result object provides all the information associated with the result of a job.
  */
 public class LanguageIdResult {
 
