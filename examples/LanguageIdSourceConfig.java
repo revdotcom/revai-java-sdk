@@ -95,5 +95,6 @@ public class LanguageIdMediaUrl {
          * use the deleted jobs Id will return 404's.
          */
         // languageIdClient.deleteJob(jobId);
+        // System.out.printf("Deleted language id job %s", jobId);
     }
 }
