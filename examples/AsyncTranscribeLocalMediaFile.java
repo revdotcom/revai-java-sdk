@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class AsyncTranscribeLocalMediaFile {
 
   public static void main(String[] args) {
-    // Assign your access token to a String
+         // Assign your access token to a String
     String accessToken = "<YOUR_ACCESS_TOKEN>";
 
     // Initialize the ApiClient with your access token
