@@ -19,7 +19,11 @@ public enum RevAiJobType {
     
   /** The Type used for sentiment analysis jobs. */
   @SerializedName("sentiment_analysis")
-  SENTIMENTANALYSIS("sentiment_analysis");
+  SENTIMENTANALYSIS("sentiment_analysis"),
+
+  /** The Type used for language id jobs. */
+  @SerializedName("language_id")
+  LANGUAGEID("language_id");
 
   private String jobType;
 
