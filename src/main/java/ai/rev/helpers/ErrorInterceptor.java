@@ -1,6 +1,7 @@
 package ai.rev.helpers;
 
 import ai.rev.exceptions.AuthorizationException;
+import ai.rev.exceptions.ForbiddenRequestException;
 import ai.rev.exceptions.ForbiddenStateException;
 import ai.rev.exceptions.InvalidHeaderException;
 import ai.rev.exceptions.InvalidParameterException;
@@ -31,6 +32,8 @@ public class ErrorInterceptor implements Interceptor {
           throw new AuthorizationException(errorResponse);
         case 400:
           throw new InvalidParameterException(errorResponse);
+        case 403:
+          throw new ForbiddenRequestException(errorResponse);
         case 404:
           throw new ResourceNotFoundException(errorResponse);
         case 406:
