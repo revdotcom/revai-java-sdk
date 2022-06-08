@@ -59,7 +59,7 @@ public class ErrorInterceptorTest {
 
   @Parameterized.Parameters
   public static Collection<Object[]> input() {
-    return Arrays.asList(new Object[][] {{400}, {401}, {404}, {406}, {409}, {429}, {500}});
+    return Arrays.asList(new Object[][] {{400}, {401}, {403}, {404}, {406}, {409}, {429}, {500}});
   }
 
   @Test
