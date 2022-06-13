@@ -172,6 +172,39 @@ public class RevAiJobTest {
   }
 
   @Test
+  public void SubmitJobUrl_UrlAndHumanTcOptionsSpecified_ReturnsARevAiJob() throws IOException {
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig("sample-url.com");
+    options.setFilterProfanity(true);
+    options.setSkipPunctuation(true);
+    options.setSkipDiarization(true);
+    options.setNotificationConfig("https://example.com");
+    options.setMetadata(METADATA);
+    options.setDeleteAfterSeconds(0);
+    options.setLanguage("en");
+    // human tc specific options
+    options.setTranscriber("human");
+    options.setVerbatim(true);
+    options.setRush(true);
+    options.setTestMode(true);
+    SegmentToTranscribe segment = new SegmentToTranscribe();
+    segment.setStartTimestamp(2.0);
+    segment.setEndTimestamp(100.5);
+    options.setSegmentsToTranscribe(List.of(segment));
+    List<String> names = new ArrayList<String>();
+    names.Add("Steve");
+    names.Add("Alex");
+    options.setSpeakerNames(names);
+
+    RevAiJob revAiJob = sut.submitJobUrl(options);
+
+    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
+  }
+
+  @Test
   public void SubmitJobUrl_UrlAndOptionsAreSpecified_WithAuthHeaders_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     RevAiJobOptions options = new RevAiJobOptions();
