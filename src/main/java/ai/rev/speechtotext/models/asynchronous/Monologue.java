@@ -12,6 +12,9 @@ public class Monologue {
   @SerializedName("speaker")
   private Integer speaker;
 
+  @SerializedName("speaker_info")
+  private SpeakerInfo speakerInfo;
+
   @SerializedName("elements")
   private List<Element> elements;
 
@@ -31,6 +34,24 @@ public class Monologue {
    */
   public void setSpeaker(Integer speaker) {
     this.speaker = speaker;
+  }
+
+  /**
+   * Returns the speaker info for this monologue.
+   *
+   * @return The speaker info for this monologue.
+   */
+  public SpeakerInfo getSpeakerInfo() {
+    return speakerInfo;
+  }
+
+  /**
+   * Sets the speaker info for this monologue.
+   *
+   * @param speakerInfo Info about the speaker for this monologue.
+   */
+  public void setSpeakerInfo(SpeakerInfo speakerInfo) {
+    this.speakerInfo = speakerInfo;
   }
 
   /**

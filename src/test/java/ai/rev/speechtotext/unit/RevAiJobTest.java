@@ -165,28 +165,6 @@ public class RevAiJobTest {
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
     options.setTranscriber("machine_v2");
-
-    RevAiJob revAiJob = sut.submitJobUrl(options);
-
-    AssertHelper.assertRequestBody(mockInterceptor, options, RevAiJobOptions.class);
-    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
-    assertRevAiJob(revAiJob, mockInProgressJob);
-  }
-
-  @Test
-  public void SubmitJobUrl_UrlAndHumanTcOptionsSpecified_ReturnsARevAiJob() throws IOException {
-    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
-    RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig("sample-url.com");
-    options.setFilterProfanity(true);
-    options.setSkipPunctuation(true);
-    options.setSkipDiarization(true);
-    options.setNotificationConfig("https://example.com");
-    options.setMetadata(METADATA);
-    options.setDeleteAfterSeconds(0);
-    options.setLanguage("en");
-    // human tc specific options
-    options.setTranscriber("human");
     options.setVerbatim(true);
     options.setRush(true);
     options.setTestMode(true);
@@ -224,6 +202,20 @@ public class RevAiJobTest {
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
     options.setTranscriber("machine_v2");
+    options.setVerbatim(true);
+    options.setRush(true);
+    options.setTestMode(true);
+    List<SegmentToTranscribe> segmentToTranscribeList = new ArrayList<>();
+    SegmentToTranscribe segment = new SegmentToTranscribe();
+    segment.setStartTimestamp(2.0);
+    segment.setEndTimestamp(100.5);
+    segmentToTranscribeList.add(segment);
+    options.setSegmentsToTranscribe(segmentToTranscribeList);
+    List<SpeakerInfo> speakerNamesList = new ArrayList<>();
+    SpeakerInfo speaker = new SpeakerInfo();
+    speaker.setDisplayName("Steve");
+    speakerNamesList.add(speaker);
+    options.setSpeakerNames(speakerNamesList);
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
 

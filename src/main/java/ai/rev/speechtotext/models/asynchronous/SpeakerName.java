@@ -3,33 +3,12 @@ package ai.rev.speechtotext.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A Segment object represents the information related to the speaker in a transcript
+ * A object representing information provided about a speaker
  * Used for speech-to-text jobs submitted to be transcribed by a human.
  * */
-public class SpeakerInfo {
-  @SerializedName("id")
-  private String id;
-
+public class SpeakerName {
   @SerializedName("display_name")
   private String displayName;
-
-  /**
-   * Returns the id of the speaker
-   *
-   * @return the id of the speaker
-   */
-  public String getIdName() {
-    return id;
-  }
-
-  /**
-   * Sets the id of the speaker
-   *
-   * @param displayName the displayed name of the speaker
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
 
   /**
    * Returns the displayed name of the speaker
