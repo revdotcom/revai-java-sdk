@@ -24,7 +24,7 @@ public class SpeakerName {
    *
    * @param displayName the displayed name of the speaker
    */
-  public String setDisplayName(String displayName) {
+  public void setDisplayName(String displayName) {
     this.displayName = displayName;
   }
 }
