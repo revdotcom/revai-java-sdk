@@ -194,11 +194,9 @@ public class RevAiJobTest {
     segment.setStartTimestamp(2.0);
     segment.setEndTimestamp(100.5);
     options.setSegmentsToTranscribe(List.of(segment));
-    List<SpeakerName> speakerNames = new ArrayList<SpeakerName>();
     SpeakerName speaker = new SpeakerName();
     speaker.setDisplayName("Steve");
-    speakerNames.add(speaker);
-    options.setSpeakerNames(speakerNames);
+    options.setSpeakerNames(List.of(speaker));
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
 
