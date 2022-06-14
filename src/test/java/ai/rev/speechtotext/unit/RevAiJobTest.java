@@ -194,7 +194,7 @@ public class RevAiJobTest {
     SegmentToTranscribe segment = new SegmentToTranscribe();
     segment.setStartTimestamp(2.0);
     segment.setEndTimestamp(100.5);
-    segmentToTranscribeList.add(segment)
+    segmentToTranscribeList.add(segment);
     options.setSegmentsToTranscribe(segmentToTranscribeList);
     List<SpeakerName> speakerNamesList = new ArrayList<>();
     SpeakerName speaker = new SpeakerName();
