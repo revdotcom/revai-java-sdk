@@ -2,6 +2,7 @@ package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
+
 /**
  * A Segment object represents a segment of transcript that needs to be transcribed.
  * Used for speech-to-text jobs submitted to be transcribed by a human.
