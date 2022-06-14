@@ -190,13 +190,17 @@ public class RevAiJobTest {
     options.setVerbatim(true);
     options.setRush(true);
     options.setTestMode(true);
+    List<SegmentToTranscribe> segmentToTranscribeList = new ArrayList<>();
     SegmentToTranscribe segment = new SegmentToTranscribe();
     segment.setStartTimestamp(2.0);
     segment.setEndTimestamp(100.5);
-    options.setSegmentsToTranscribe(List.of(segment));
+    segmentToTranscribeList.add(segment)
+    options.setSegmentsToTranscribe(segmentToTranscribeList);
+    List<SpeakerName> speakerNamesList = new ArrayList<>();
     SpeakerName speaker = new SpeakerName();
     speaker.setDisplayName("Steve");
-    options.setSpeakerNames(List.of(speaker));
+    speakerNamesList.add(speaker);
+    options.setSpeakerNames(speakerNamesList);
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
 
