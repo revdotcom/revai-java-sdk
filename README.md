@@ -90,7 +90,7 @@ options.setSegmentsToTranscribe(List.of(segment));
 
 // optional speaker names 
 SpeakerName speaker = new SpeakerName();
-speaker.SetDisplayName('Steve');
+speaker.setDisplayName('Steve');
 options.setSpeakerNames(List.of(speaker));
 
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
