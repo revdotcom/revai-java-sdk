@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * A Segment object represents a segment of transcript that needs to be transcribed.
  * Used for speech-to-text jobs submitted to be transcribed by a human.
  * */
-public class SpeakerName {
+public class SpeakerInfo {
   @SerializedName("display_name")
   private String displayName;
 

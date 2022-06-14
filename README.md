@@ -89,7 +89,7 @@ segment.setEndTimestamp(100.5);
 options.setSegmentsToTranscribe(List.of(segment));
 
 // optional speaker names 
-SpeakerName speaker = new SpeakerName();
+SpeakerInfo speaker = new SpeakerInfo();
 speaker.setDisplayName('Steve');
 options.setSpeakerNames(List.of(speaker));
 
