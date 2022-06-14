@@ -197,7 +197,7 @@ public class RevAiJobTest {
     List<SpeakerName> speakerNames = new ArrayList<SpeakerName>();
     SpeakerName speaker = new SpeakerName();
     speaker.setDisplayName("Steve");
-    speakerNames.Add(speaker);
+    speakerNames.add(speaker);
     options.setSpeakerNames(speakerNames);
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
