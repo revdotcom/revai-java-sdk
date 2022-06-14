@@ -88,10 +88,10 @@ segment.setStartTimestamp(2.0);
 segment.setEndTimestamp(100.5);
 options.setSegmentsToTranscribe(List.of(segment));
 
-// optional speaker names list
-ArrayList<String> speakerNamesList = new ArrayList<String>();
-speakerNamesList.Add('Steve');
-options.setSpeakerNames(speakerNamesList);
+// optional speaker names 
+SpeakerName speaker = new SpeakerName();
+speaker.SetDisplayName('Steve');
+options.setSpeakerNames(List.of(speaker));
 
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 ```
