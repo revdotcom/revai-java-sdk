@@ -90,7 +90,7 @@ options.setSegmentsToTranscribe(List.of(segment));
 
 // optional speaker names 
 SpeakerInfo speaker = new SpeakerInfo();
-speaker.setDisplayName('Steve');
+speaker.setDisplayName('Alan Mathison Turing');
 options.setSpeakerNames(List.of(speaker));
 
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);

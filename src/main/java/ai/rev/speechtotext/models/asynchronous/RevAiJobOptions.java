@@ -527,7 +527,7 @@ public class RevAiJobOptions {
    *
    * @return List of speaker names
    */
-  public List<SpeakerInfo> getSpeakerNames() {
+  public List<SpeakerName> getSpeakerNames() {
     return speakerNames;
   }
 
@@ -537,7 +537,7 @@ public class RevAiJobOptions {
    *
    * @param speakerNames List of speaker names
    */
-  public void setSpeakerNames(List<SpeakerInfo> speakerNames) {
+  public void setSpeakerNames(List<SpeakerName> speakerNames) {
     this.speakerNames = speakerNames;
   }
 }
