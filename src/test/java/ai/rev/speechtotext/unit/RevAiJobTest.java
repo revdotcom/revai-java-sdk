@@ -7,7 +7,7 @@ import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
-import ai.rev.speechtotext.models.asynchronous.SpeakerInfo;
+import ai.rev.speechtotext.models.asynchronous.SpeakerName;
 import ai.rev.speechtotext.models.asynchronous.SegmentToTranscribe;
 import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
