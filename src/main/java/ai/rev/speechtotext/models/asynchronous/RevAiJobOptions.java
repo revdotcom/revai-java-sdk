@@ -126,6 +126,13 @@ public class RevAiJobOptions {
   private List<SegmentToTranscribe> segmentsToTranscribe;
 
   /**
+   * Optional and only available with transcriber "human".
+   * Specifies a list of names for the speakers in an audio file.
+   */
+  @SerializedName("speaker_names")
+  private List<SpeakerName> speakerNames;
+
+  /**
    * Returns the media url.
    *
    * @return The media url.
@@ -513,5 +520,24 @@ public class RevAiJobOptions {
    */
   public void setSegmentsToTranscribe(List<SegmentToTranscribe> segmentsToTranscribe) {
     this.segmentsToTranscribe = segmentsToTranscribe;
+  }
+
+   /**
+   * Returns the list of speaker names
+   *
+   * @return List of speaker names
+   */
+  public List<SpeakerName> getSpeakerNames() {
+    return speakerNames;
+  }
+
+  /**
+   * Specifies the list of speaker names in an audio file
+   * This property is optional but can only be used with "human" transcriber.
+   *
+   * @param speakerNames List of speaker names
+   */
+  public void setSpeakerNames(List<SpeakerName> speakerNames) {
+    this.speakerNames = speakerNames;
   }
 }

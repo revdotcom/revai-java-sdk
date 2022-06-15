@@ -7,6 +7,8 @@ import ai.rev.speechtotext.models.asynchronous.RevAiJob;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
 import ai.rev.speechtotext.models.asynchronous.RevAiJobType;
+import ai.rev.speechtotext.models.asynchronous.SpeakerName;
+import ai.rev.speechtotext.models.asynchronous.SegmentToTranscribe;
 import ai.rev.testutils.AssertHelper;
 import com.google.gson.Gson;
 import okhttp3.MediaType;
@@ -163,6 +165,20 @@ public class RevAiJobTest {
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
     options.setTranscriber("machine_v2");
+    options.setVerbatim(true);
+    options.setRush(true);
+    options.setTestMode(true);
+    List<SegmentToTranscribe> segmentToTranscribeList = new ArrayList<>();
+    SegmentToTranscribe segment = new SegmentToTranscribe();
+    segment.setStartTimestamp(2.0);
+    segment.setEndTimestamp(100.5);
+    segmentToTranscribeList.add(segment);
+    options.setSegmentsToTranscribe(segmentToTranscribeList);
+    List<SpeakerName> speakerNamesList = new ArrayList<>();
+    SpeakerName speaker = new SpeakerName();
+    speaker.setDisplayName("Steve");
+    speakerNamesList.add(speaker);
+    options.setSpeakerNames(speakerNamesList);
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
 
@@ -186,6 +202,20 @@ public class RevAiJobTest {
     options.setDeleteAfterSeconds(0);
     options.setLanguage("en");
     options.setTranscriber("machine_v2");
+    options.setVerbatim(true);
+    options.setRush(true);
+    options.setTestMode(true);
+    List<SegmentToTranscribe> segmentToTranscribeList = new ArrayList<>();
+    SegmentToTranscribe segment = new SegmentToTranscribe();
+    segment.setStartTimestamp(2.0);
+    segment.setEndTimestamp(100.5);
+    segmentToTranscribeList.add(segment);
+    options.setSegmentsToTranscribe(segmentToTranscribeList);
+    List<SpeakerName> speakerNamesList = new ArrayList<>();
+    SpeakerName speaker = new SpeakerName();
+    speaker.setDisplayName("Steve");
+    speakerNamesList.add(speaker);
+    options.setSpeakerNames(speakerNamesList);
 
     RevAiJob revAiJob = sut.submitJobUrl(options);
 

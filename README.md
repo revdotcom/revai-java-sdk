@@ -88,6 +88,11 @@ segment.setStartTimestamp(2.0);
 segment.setEndTimestamp(100.5);
 options.setSegmentsToTranscribe(List.of(segment));
 
+// optional speaker names 
+SpeakerName speaker = new SpeakerName();
+speaker.setDisplayName('Alan Mathison Turing');
+options.setSpeakerNames(List.of(speaker));
+
 RevAiJob revAiJob = apiClient.submitJobUrl(urlLinkToFile, options);
 ```
 
