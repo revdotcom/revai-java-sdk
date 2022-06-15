@@ -130,7 +130,7 @@ public class RevAiJobOptions {
    * Specifies a list of names for the speakers in an audio file.
    */
   @SerializedName("speaker_names")
-  private List<SpeakerNames> speakerNames;
+  private List<SpeakerName> speakerNames;
 
   /**
    * Returns the media url.
