@@ -3,7 +3,7 @@ package ai.rev.speechtotext.models.asynchronous;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * A Segment object represents the information related to the speaker in a transcript
+ * A SpeakerInfo object represents the information related to the speaker in a transcript
  * Used for speech-to-text jobs submitted to be transcribed by a human.
  * */
 public class SpeakerInfo {
