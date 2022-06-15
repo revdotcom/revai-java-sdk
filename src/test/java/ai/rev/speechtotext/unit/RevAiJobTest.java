@@ -175,7 +175,7 @@ public class RevAiJobTest {
     segmentToTranscribeList.add(segment);
     options.setSegmentsToTranscribe(segmentToTranscribeList);
     List<SpeakerName> speakerNamesList = new ArrayList<>();
-    SpeakerName speaker = new SpeakerInfo();
+    SpeakerName speaker = new SpeakerName();
     speaker.setDisplayName("Steve");
     speakerNamesList.add(speaker);
     options.setSpeakerNames(speakerNamesList);
