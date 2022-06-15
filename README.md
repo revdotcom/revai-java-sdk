@@ -89,7 +89,7 @@ segment.setEndTimestamp(100.5);
 options.setSegmentsToTranscribe(List.of(segment));
 
 // optional speaker names 
-SpeakerInfo speaker = new SpeakerInfo();
+SpeakerName speaker = new SpeakerName();
 speaker.setDisplayName('Alan Mathison Turing');
 options.setSpeakerNames(List.of(speaker));
 
