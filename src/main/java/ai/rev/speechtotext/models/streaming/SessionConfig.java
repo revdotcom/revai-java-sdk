@@ -12,6 +12,7 @@ public class SessionConfig {
   private Double startTs;
   private String transcriber;
   private String language;
+  private Boolean skipPostprocessing;
 
   /**
    * Returns the metadata.
@@ -138,40 +139,71 @@ public class SessionConfig {
    *
    * @return The startTs value.
    */
-  public Double getStartTs() { return startTs; }
+  public Double getStartTs() {
+    return startTs;
+  }
 
   /**
    * Specifies the number of seconds to offset all hypotheses timings.
    *
    * @param startTs The number of seconds to offset all hypotheses timings.
    */
-  public void setStartTs(Double startTs) { this.startTs = startTs; }
+  public void setStartTs(Double startTs) {
+    this.startTs = startTs;
+  }
 
   /**
    * Returns the value of transcriber.
    *
    * @return The transcriber value.
    */
-  public String getTranscriber() { return transcriber; }
+  public String getTranscriber() 
+    return transcriber;
+  }
 
   /**
    * Specifies the type of transcriber to use to transcribe the media.
    *
    * @param transcriber The type of transcriber to use to transcribe the media.
    */
-  public void setTranscriber(String transcriber) { this.transcriber = transcriber; }
+  public void setTranscriber(String transcriber) {
+    this.transcriber = transcriber;
+  }
 
   /**
    * Returns the value of language.
    *
    * @return The language value.
    */
-  public String getLanguage() { return language; }
+  public String getLanguage() {
+    return language;
+  }
 
   /**
    * Specifies the language to use for the streaming job.
    *
    * @param language The language to use for the streaming job.
    */
-  public void setLanguage(String language) { this.language = language; }
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+  
+  /**
+   * Returns the value of the skip postprocessing Boolean.
+   *
+   * @return The skip postprocessing value.
+   */
+  public Boolean getSkipPostprocessing() {
+    return skipPostprocessing;
+  }
+
+  /**
+   * Specifies if all postprocessing (capitalization, punctuation, ITN) will be skipped by the speech engine. This property is
+   * optional and defaults to false.
+   *
+   * @param skipPostprocessing The value of the Boolean.
+   */
+  public void setSkipPostprocessing(Boolean skipPostprocessing) {
+    this.skipPostprocessing = skipPostprocessing;
+  }
 }

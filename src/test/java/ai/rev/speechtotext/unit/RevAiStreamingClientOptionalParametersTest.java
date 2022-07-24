@@ -114,7 +114,8 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("booleanValuesAndNull") Boolean detailedPartials,
       @FromDataPoints("startTsAndNull") Double startTs,
       @FromDataPoints("transcriberAndNull") String transcriber,
-      @FromDataPoints("languageAndNull") String language)
+      @FromDataPoints("languageAndNull") String language
+      @FromDataPoints("booleanValuesAndNull" Boolean skipPostprocessing)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
     sessionConfig.setFilterProfanity(filterProfanity);
@@ -125,6 +126,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     sessionConfig.setStartTs(startTs);
     sessionConfig.setTranscriber(transcriber);
     sessionConfig.setLanguage(language);
+    sessionConfig.setSkipPostprocessing(skipPostprocessing)
 
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
@@ -178,6 +180,10 @@ public class RevAiStreamingClientOptionalParametersTest {
     if (sessionConfig.getLanguage() != null) {
       assertThat(request.getPath())
         .contains("language=" + sessionConfig.getLanguage());
+    }
+    if (sessionConfig.getSkipPostprocessing() != null) {
+      assertThat(request.getPath())
+        .contains("skip_postprocessing=" + sessionConfig.getSkipPostprocessing());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }

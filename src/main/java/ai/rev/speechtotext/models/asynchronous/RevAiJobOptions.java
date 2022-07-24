@@ -44,6 +44,10 @@ public class RevAiJobOptions {
   /** Optional parameter for the speech engine to skip punctuation. */
   @SerializedName("skip_punctuation")
   private Boolean skipPunctuation;
+  
+  /** Optional parameter for the speech engine to skip all postprocessing */
+  @SerializedName("skip_postprocessing")
+  private Boolean skipPostprocessing
 
   /**
    * Optional parameter to process each audio channel separately. Account will be charged the file
@@ -272,6 +276,25 @@ public class RevAiJobOptions {
    */
   public void setSkipPunctuation(Boolean skipPunctuation) {
     this.skipPunctuation = skipPunctuation;
+  }
+  
+  /**
+   * Returns the value of the skip postprocessing Boolean.
+   *
+   * @return The skip postprocessing value.
+   */
+  public Boolean getSkipPostprocessing() {
+    return skipPostprocessing;
+  }
+
+  /**
+   * Specifies if all postprocessing (capitalization, punctuation, ITN) will be skipped by the speech engine. This property is
+   * optional and defaults to false.
+   *
+   * @param skipPostprocessing The value of the Boolean.
+   */
+  public void setSkipPostprocessing(Boolean skipPostprocessing) {
+    this.skipPostprocessing = skipPostprocessing;
   }
 
   /**

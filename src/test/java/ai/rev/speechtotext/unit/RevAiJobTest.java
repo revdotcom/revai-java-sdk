@@ -159,6 +159,7 @@ public class RevAiJobTest {
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
+    options.setSkipPostprocessing(true);
     options.setNotificationConfig("https://example.com");
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);
@@ -196,6 +197,7 @@ public class RevAiJobTest {
     options.setRemoveDisfluencies(true);
     options.setSkipPunctuation(true);
     options.setSkipDiarization(true);
+    options.setSkipPostprocessing(true);
     options.setNotificationConfig(NOTIFICATION_URL, NOTIFICATION_AUTH);
     options.setMetadata(METADATA);
     options.setSpeakerChannelsCount(2);

@@ -217,6 +217,9 @@ public class StreamingClient {
       if (sessionConfig.getLanguage() != null) {
         urlBuilder.addQueryParameter("language", sessionConfig.getLanguage());
       }
+      if (sessionConfig.getLanguage() != null) {
+        urlBuilder.addQueryParameter("skip_postprocessing", sessionConfig.getSkipPostprocessing());
+      }
     }
     return urlBuilder.build().toString()
       + "&content_type="

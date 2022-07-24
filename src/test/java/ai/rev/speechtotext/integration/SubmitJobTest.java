@@ -171,6 +171,7 @@ public class SubmitJobTest {
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSkipPunctuation(true);
     revAiJobOptions.setSkipDiarization(true);
+    revAiJobOptions.setSkipPostprocessing(true);
     revAiJobOptions.setSpeakerChannelsCount(null);
     revAiJobOptions.setDeleteAfterSeconds(0);
     revAiJobOptions.setLanguage("en");

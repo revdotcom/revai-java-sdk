@@ -47,6 +47,7 @@ public class AsyncTranscribeMediaUrl {
     revAiJobOptions.setNotificationConfig(callbackUrl, notificationAuth);
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
+    revAiJobOptions.setSkipPostprocessing(false);
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSpeakerChannelsCount(null);

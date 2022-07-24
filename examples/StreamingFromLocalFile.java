@@ -39,6 +39,7 @@ public class StreamingFromLocalFile {
     sessionConfig.setStartTs(0.0);
     sessionConfig.setTranscriber("machine");
     sessionConfig.setLanguage("en");
+    sessionConfig.setSkipPostprocessing(false);
 
     // Initialize your client with your access token
     StreamingClient streamingClient = new StreamingClient(accessToken);
