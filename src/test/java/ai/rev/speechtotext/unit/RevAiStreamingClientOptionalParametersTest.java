@@ -114,7 +114,7 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("booleanValuesAndNull") Boolean detailedPartials,
       @FromDataPoints("startTsAndNull") Double startTs,
       @FromDataPoints("transcriberAndNull") String transcriber,
-      @FromDataPoints("languageAndNull") String language
+      @FromDataPoints("languageAndNull") String language,
       @FromDataPoints("booleanValuesAndNull" Boolean skipPostprocessing)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
