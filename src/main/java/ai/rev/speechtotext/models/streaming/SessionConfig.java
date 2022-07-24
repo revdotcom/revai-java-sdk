@@ -157,7 +157,7 @@ public class SessionConfig {
    *
    * @return The transcriber value.
    */
-  public String getTranscriber() 
+  public String getTranscriber() {
     return transcriber;
   }
 

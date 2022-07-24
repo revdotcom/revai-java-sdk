@@ -47,7 +47,7 @@ public class RevAiJobOptions {
   
   /** Optional parameter for the speech engine to skip all postprocessing */
   @SerializedName("skip_postprocessing")
-  private Boolean skipPostprocessing
+  private Boolean skipPostprocessing;
 
   /**
    * Optional parameter to process each audio channel separately. Account will be charged the file
