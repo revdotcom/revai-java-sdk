@@ -48,17 +48,17 @@ public class RevAiStreamingClientOptionalParametersTest {
 
   @DataPoints("deleteAfterSecondsAndNull")
   public static Integer[] deleteAfterSecondsAndNull() {
-    return new Integer[] {0, 1, null};
+    return new Integer[] {1, null};
   }
 
   @DataPoints("booleanValuesAndNull")
   public static Boolean[] booleanValuesAndNull() {
-    return new Boolean[] {true, false, null};
+    return new Boolean[] {false, null};
   }
 
   @DataPoints("startTsAndNull")
   public static Double[] startTsAndNull() {
-    return new Double[] {0.0, 10.0, null};
+    return new Double[] {10.0, null};
   }
 
   @DataPoints("transcriberAndNull")
