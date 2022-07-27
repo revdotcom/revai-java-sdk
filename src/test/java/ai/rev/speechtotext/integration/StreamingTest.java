@@ -132,8 +132,9 @@ public class StreamingTest {
     sessionConfig.setDeleteAfterSeconds(0);
     sessionConfig.setDetailedPartials(true);
     sessionConfig.setStartTs(10.0);
-    sessionConfig.setTranscriber("machine");
+    sessionConfig.setTranscriber("machine_v2");
     sessionConfig.setLanguage("en");
+    sessionConfig.setSkipPostprocessing(false);
     return sessionConfig;
   }
 

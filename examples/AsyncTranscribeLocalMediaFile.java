@@ -32,6 +32,7 @@ public class AsyncTranscribeLocalMediaFile {
     revAiJobOptions.setNotificationConfig("https://example.com");
     revAiJobOptions.setSkipPunctuation(false);
     revAiJobOptions.setSkipDiarization(false);
+    revAiJobOptions.setSkipPostprocessing(false);
     revAiJobOptions.setFilterProfanity(true);
     revAiJobOptions.setRemoveDisfluencies(true);
     revAiJobOptions.setSpeakerChannelsCount(null);

@@ -48,17 +48,17 @@ public class RevAiStreamingClientOptionalParametersTest {
 
   @DataPoints("deleteAfterSecondsAndNull")
   public static Integer[] deleteAfterSecondsAndNull() {
-    return new Integer[] {0, 1, null};
+    return new Integer[] {1, null};
   }
 
   @DataPoints("booleanValuesAndNull")
   public static Boolean[] booleanValuesAndNull() {
-    return new Boolean[] {true, false, null};
+    return new Boolean[] {false, null};
   }
 
   @DataPoints("startTsAndNull")
   public static Double[] startTsAndNull() {
-    return new Double[] {0.0, 10.0, null};
+    return new Double[] {10.0, null};
   }
 
   @DataPoints("transcriberAndNull")
@@ -114,7 +114,8 @@ public class RevAiStreamingClientOptionalParametersTest {
       @FromDataPoints("booleanValuesAndNull") Boolean detailedPartials,
       @FromDataPoints("startTsAndNull") Double startTs,
       @FromDataPoints("transcriberAndNull") String transcriber,
-      @FromDataPoints("languageAndNull") String language)
+      @FromDataPoints("languageAndNull") String language,
+      @FromDataPoints("booleanValuesAndNull") Boolean skipPostprocessing)
       throws UnsupportedEncodingException {
     sessionConfig.setMetaData(metadata);
     sessionConfig.setFilterProfanity(filterProfanity);
@@ -125,6 +126,7 @@ public class RevAiStreamingClientOptionalParametersTest {
     sessionConfig.setStartTs(startTs);
     sessionConfig.setTranscriber(transcriber);
     sessionConfig.setLanguage(language);
+    sessionConfig.setSkipPostprocessing(skipPostprocessing);
 
     streamingClient.connect(
         Mockito.mock(RevAiWebSocketListener.class), defaultContentType, sessionConfig);
@@ -178,6 +180,10 @@ public class RevAiStreamingClientOptionalParametersTest {
     if (sessionConfig.getLanguage() != null) {
       assertThat(request.getPath())
         .contains("language=" + sessionConfig.getLanguage());
+    }
+    if (sessionConfig.getSkipPostprocessing() != null) {
+      assertThat(request.getPath())
+        .contains("skip_postprocessing=" + sessionConfig.getSkipPostprocessing());
     }
     assertThat(request.getPath()).contains("access_token=" + FAKE_ACCESS_TOKEN);
   }
