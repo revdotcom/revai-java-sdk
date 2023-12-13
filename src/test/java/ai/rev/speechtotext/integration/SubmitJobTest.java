@@ -1,19 +1,19 @@
 package ai.rev.speechtotext.integration;
 
 import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.speechtotext.models.NlpModel;
+import ai.rev.speechtotext.models.asynchronous.*;
 import ai.rev.testutils.EnvHelper;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -158,7 +158,93 @@ public class SubmitJobTest {
 
     assertRevAiJob(revAiJob);
   }
+  @Test
+  public void SubmitJobLocalFile_SummarizationOptionsSpecified_ReturnsRevAiJobInProgress()
+          throws IOException, InterruptedException {
 
+    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setMetadata(testName.getMethodName());
+    revAiJobOptions.setDeleteAfterSeconds(50000);
+    revAiJobOptions.setLanguage("en");
+
+    revAiJobOptions.setSummarizationOptions(new SummarizationOptions()
+            .setType(SummarizationFormattingOptions.BULLETS)
+            .setModel(NlpModel.PREMIUM)
+            .setPrompt("Try to summarize this transcript as good as you possibly can")
+    );
+
+    revAiJobOptions.setTranslationOptions(new TranslationOptions(Arrays.asList(
+                    new TranslationLanguageOptions("es")
+                            .setModel(NlpModel.PREMIUM),
+                    new TranslationLanguageOptions("ru")
+    )));
+
+
+    RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
+
+    assertRevAiJob(revAiJob);
+    assertThat(revAiJob.getSummarization()).isNotNull();
+    assertThat(revAiJob.getSummarization().getModel()).isEqualTo(NlpModel.PREMIUM);
+    assertThat(revAiJob.getSummarization().getType()).isEqualTo(SummarizationFormattingOptions.BULLETS);
+    assertThat(revAiJob.getSummarization().getPrompt()).isEqualTo("Try to summarize this transcript as good as you possibly can");
+
+    assertThat(revAiJob.getTranslation()).isNotNull();
+    assertThat(revAiJob.getTranslation().getTargetLanguages()).isNotNull();
+    assertThat(revAiJob.getTranslation().getTargetLanguages().size()).isEqualTo(2);
+
+    while(revAiJob != null && (
+            revAiJob.getSummarization().getJobStatus() == SummarizationJobStatus.IN_PROGRESS ||
+            revAiJob.getTranslation().getTargetLanguages().get(0).getJobStatus() == TranslationJobStatus.IN_PROGRESS ||
+            revAiJob.getTranslation().getTargetLanguages().get(1).getJobStatus() == TranslationJobStatus.IN_PROGRESS
+        )
+    )
+    {
+      Thread.sleep(5000);
+      revAiJob = apiClient.getJobDetails(revAiJob.getJobId());
+    }
+    assertThat(revAiJob.getJobStatus()).isEqualTo(RevAiJobStatus.TRANSCRIBED);
+    assertThat(revAiJob.getSummarization().getJobStatus()).isEqualTo(SummarizationJobStatus.COMPLETED);
+
+    assertThat(revAiJob.getTranslation().getCompletedOn()).isNotNull();
+    assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getJobStatus()).isEqualTo(TranslationJobStatus.COMPLETED);
+    assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getLanguage()).isEqualTo("es");
+    assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getModel()).isEqualTo(NlpModel.PREMIUM);
+
+    assertThat(revAiJob.getTranslation().getTargetLanguages().get(1).getJobStatus()).isEqualTo(TranslationJobStatus.COMPLETED);
+
+    String summary = apiClient.getTranscriptSummaryText(revAiJob.getJobId());
+    assertThat(summary).isNotNull();
+
+    Summary summaryObject = apiClient.getTranscriptSummaryObject(revAiJob.getJobId());
+    assertThat(summaryObject).isNotNull();
+
+    String translationString1 = apiClient.getTranslatedTranscriptText(revAiJob.getJobId(),"es");
+    assertThat(translationString1).isNotNull();
+
+    String translationString2 = apiClient.getTranslatedTranscriptText(revAiJob.getJobId(),"ru");
+    assertThat(translationString2).isNotNull();
+
+
+    RevAiTranscript translationObject1 = apiClient.getTranslatedTranscriptObject(revAiJob.getJobId(),"es");
+    assertThat(translationObject1).isNotNull();
+
+    RevAiTranscript translationObject2 = apiClient.getTranslatedTranscriptObject(revAiJob.getJobId(),"ru");
+    assertThat(translationObject2).isNotNull();
+
+    byte[] buf = new byte[1024];
+
+    InputStream translatedCaptionsStream1 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"es",RevAiCaptionType.SRT,0);
+    assertThat(translatedCaptionsStream1).isNotNull();
+    int nRead = translatedCaptionsStream1.read(buf);
+    String s = new String(buf);
+    InputStream translatedCaptionsStream2 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"ru",RevAiCaptionType.SRT,0);
+    nRead = translatedCaptionsStream2.read(buf);
+    s = new String(buf);
+    assertThat(translatedCaptionsStream2).isNotNull();
+
+
+
+  }
   public void assertRevAiJob(RevAiJob revAiJob) {
     assertThat(revAiJob.getJobId()).as("Job Id").isNotNull();
     assertThat(revAiJob.getJobStatus()).as("Job status").isEqualTo(RevAiJobStatus.IN_PROGRESS);

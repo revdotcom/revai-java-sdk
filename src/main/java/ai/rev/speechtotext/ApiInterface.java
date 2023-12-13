@@ -1,9 +1,6 @@
 package ai.rev.speechtotext;
 
-import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+import ai.rev.speechtotext.models.asynchronous.*;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,6 +43,22 @@ public interface ApiInterface {
   @GET("jobs/{id}/transcript")
   Call<String> getTranscriptText(@Path("id") String jobID);
 
+  @Headers("Accept: " + REV_JSON_CONTENT_TYPE)
+  @GET("jobs/{id}/transcript/translation/{language}")
+  Call<RevAiTranscript> getTranslatedTranscriptObject(@Path("id") String jobID, @Path("language") String language);
+
+  @Headers("Accept: " + REV_TEXT_CONTENT_TYPE)
+  @GET("jobs/{id}/transcript/translation/{language}")
+  Call<String> getTranslatedTranscriptText(@Path("id") String jobID, @Path("language") String language);
+
+  @Headers("Accept: " + REV_TEXT_CONTENT_TYPE)
+  @GET("jobs/{id}/transcript/summary")
+  Call<String> getTranscriptSummaryText(@Path("id") String jobID);
+
+  @Headers("Accept: application/json")
+  @GET("jobs/{id}/transcript/summary")
+  Call<Summary> getTranscriptSummaryObject(@Path("id") String jobID);
+
   @POST("jobs")
   Call<RevAiJob> submitJobUrl(@Body RevAiJobOptions options);
 
@@ -62,4 +75,11 @@ public interface ApiInterface {
       @Path("id") String jobID,
       @QueryMap Map<String, String> query,
       @HeaderMap Map<String, String> contentType);
+
+  @GET("jobs/{id}/captions/translation/{language}")
+  Call<ResponseBody> getTranslatedCaptionText(
+          @Path("id") String jobID,
+          @Path("language") String language,
+          @QueryMap Map<String, String> query,
+          @HeaderMap Map<String, String> contentType);
 }

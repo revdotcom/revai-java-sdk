@@ -136,6 +136,12 @@ public class RevAiJobOptions {
   @SerializedName("speaker_names")
   private List<SpeakerName> speakerNames;
 
+  @SerializedName("summarization_config")
+  private SummarizationOptions summarizationOptions;
+
+  @SerializedName("translation_config")
+  private TranslationOptions translationOptions;
+
   /**
    * Returns the media url.
    *
@@ -562,5 +568,31 @@ public class RevAiJobOptions {
    */
   public void setSpeakerNames(List<SpeakerName> speakerNames) {
     this.speakerNames = speakerNames;
+  }
+
+  /**
+   * Returns summarization options
+   *
+   * @return Summarization options
+   */
+  public SummarizationOptions getSummarizationOptions() {
+    return summarizationOptions;
+  }
+
+  /**
+   * Specifies summarization options.
+   *
+   * @param summarizationOptions Summarization options
+   */
+  public void setSummarizationOptions(SummarizationOptions summarizationOptions) {
+    this.summarizationOptions = summarizationOptions;
+  }
+
+  public TranslationOptions getTranslationOptions() {
+    return translationOptions;
+  }
+
+  public void setTranslationOptions(TranslationOptions translationOptions) {
+    this.translationOptions = translationOptions;
   }
 }

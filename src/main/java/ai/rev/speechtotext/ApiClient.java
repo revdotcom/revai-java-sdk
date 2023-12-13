@@ -1,11 +1,7 @@
 package ai.rev.speechtotext;
 
 import ai.rev.helpers.ClientHelper;
-import ai.rev.speechtotext.models.asynchronous.RevAiAccount;
-import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
-import ai.rev.speechtotext.models.asynchronous.RevAiJob;
-import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
-import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+import ai.rev.speechtotext.models.asynchronous.*;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -170,6 +166,33 @@ public class ApiClient {
   }
 
   /**
+   * The method sends a GET request to the /jobs/{id}/transcript/translation/{language} endpoint and returns translated transcript
+   * as a String.
+   *
+   * @param id The ID of the job to return a transcript for.
+   * @param language requested transcript language.
+   * @return The transcript as a String in text format.
+   * @throws IOException If the response has a status code > 399.
+   */
+  public String getTranslatedTranscriptText(String id,String language) throws IOException {
+    return apiInterface.getTranslatedTranscriptText(id,language).execute().body();
+  }
+
+  /**
+   * The method sends a GET request to the /jobs/{id}/transcript/translation/{language} endpoint and returns a {@link
+   * RevAiTranscript} object containing translated transcript.
+   *
+   * @param id The ID of the job to return a transcript for.
+   * @param language requested transcript language.
+   * @return RevAiTranscript The transcript object.
+   * @throws IOException If the response has a status code > 399.
+   * @see RevAiTranscript
+   */
+  public RevAiTranscript getTranslatedTranscriptObject(String id, String language) throws IOException {
+    return apiInterface.getTranslatedTranscriptObject(id,language).execute().body();
+  }
+
+  /**
    * The method sends a GET request to the /jobs/{id}/transcript endpoint and returns the transcript
    * as a String.
    *
@@ -179,6 +202,30 @@ public class ApiClient {
    */
   public String getTranscriptText(String id) throws IOException {
     return apiInterface.getTranscriptText(id).execute().body();
+  }
+
+  /**
+   * The method sends a GET request to the /jobs/{id}/transcript/summary endpoint and returns the transcript summary
+   * as a String.
+   *
+   * @param id The ID of the job to return a transcript summary for.
+   * @return The transcript summary as a String in text format.
+   * @throws IOException If the response has a status code > 399.
+   */
+  public String getTranscriptSummaryText(String id) throws IOException {
+    return apiInterface.getTranscriptSummaryText(id).execute().body();
+  }
+
+  /**
+   * The method sends a GET request to the /jobs/{id}/transcript/summary endpoint and returns the transcript summary
+   * as a {@link Summary} object.
+   *
+   * @param id The ID of the job to return a transcript summary for.
+   * @return The transcript summary as a String in text format.
+   * @throws IOException If the response has a status code > 399.
+   */
+  public Summary getTranscriptSummaryObject(String id) throws IOException {
+    return apiInterface.getTranscriptSummaryObject(id).execute().body();
   }
 
   /**
@@ -355,7 +402,7 @@ public class ApiClient {
 
   /**
    * The method sends a GET request to the /jobs/{id}/captions endpoint and returns captions for the
-   * provided job ID in the form of an InputStream.
+   * provided job ID in the form of an {@link InputStream}.
    *
    * @param id The ID of the job to return captions for.
    * @param captionType An enumeration of the desired caption type. Default is SRT.
@@ -382,6 +429,38 @@ public class ApiClient {
     Map<String, String> contentHeader = new HashMap<>();
     contentHeader.put("Accept", captionType.getContentType());
     return apiInterface.getCaptionText(id, query, contentHeader).execute().body().byteStream();
+  }
+
+  /**
+   * The method sends a GET request to the /jobs/{id}/captions/translation/{language} endpoint and returns translated captions for the
+   * provided job ID in the form of an {@link InputStream}.
+   *
+   * @param id The ID of the job to return captions for.
+   * @param language requested translation language.
+   * @param captionType An enumeration of the desired caption type. Default is SRT.
+   * @param channelId Identifies the audio channel of the file to output captions for. Default is
+   *     null.
+   * @return InputStream A stream of bytes that represents the caption output.
+   * @throws IOException If the response has a status code > 399.
+   * @throws IllegalArgumentException If the job ID provided is null.
+   * @see <a
+   *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
+   */
+  public InputStream getTranslatedCaptions(String id, String language, RevAiCaptionType captionType, Integer channelId)
+          throws IOException {
+    if (id == null) {
+      throw new IllegalArgumentException("Job ID must be provided");
+    }
+    Map<String, String> query = new HashMap<>();
+    if (channelId != null) {
+      query.put("speaker_channel", channelId.toString());
+    }
+    if (captionType == null) {
+      captionType = RevAiCaptionType.SRT;
+    }
+    Map<String, String> contentHeader = new HashMap<>();
+    contentHeader.put("Accept", captionType.getContentType());
+    return apiInterface.getTranslatedCaptionText(id, language, query, contentHeader).execute().body().byteStream();
   }
 
   /**

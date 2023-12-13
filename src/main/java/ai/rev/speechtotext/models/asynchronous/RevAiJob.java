@@ -79,6 +79,12 @@ public class RevAiJob {
   @SerializedName("segments_to_transcribe")
   private List<SegmentToTranscribe> segmentsToTranscribe;
 
+  @SerializedName("summarization")
+  private Summarization summarization;
+
+  @SerializedName("translation")
+  private Translation translation;
+
   /**
    * Returns a String that contains the job ID.
    *
@@ -517,6 +523,38 @@ public class RevAiJob {
     this.segmentsToTranscribe = segmentsToTranscribe;
   }
 
+  /**
+   * Returns summarization options for the job
+   *
+   * @return Summarization options for the job
+   */
+  public Summarization getSummarization() {
+    return summarization;
+  }
+
+  /**
+   * Sets summarization options for the job
+   */
+  public void setSummarization(Summarization summarization) {
+    this.summarization = summarization;
+  }
+
+  /**
+   * Returns translation options for the job
+   *
+   * @return Translation options for the job
+   */
+  public Translation getTranslation() {
+    return translation;
+  }
+
+  /**
+   * Sets translation options for the job
+   */
+  public void setTranslation(Translation translation) {
+    this.translation = translation;
+  }
+
   @Override
   public String toString() {
     return "{"
@@ -586,6 +624,12 @@ public class RevAiJob {
         + '\''
         + ", segmentsToTranscribe='"
         + segmentsToTranscribe
+        + '\''
+        + ", summarization='"
+        + summarization
+        + '\''
+        + ", translation='"
+        + translation
         + '\''
         + '}';
   }
