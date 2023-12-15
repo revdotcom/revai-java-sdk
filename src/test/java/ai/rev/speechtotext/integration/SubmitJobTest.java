@@ -181,7 +181,7 @@ public class SubmitJobTest {
 
 
     RevAiJob revAiJob = apiClient.submitJobLocalFile(LOCAL_FILE, revAiJobOptions);
-
+    assertThat(revAiJob.toString()).isNotNull();
     assertRevAiJob(revAiJob);
     assertThat(revAiJob.getSummarization()).isNotNull();
     assertThat(revAiJob.getSummarization().getModel()).isEqualTo(NlpModel.PREMIUM);

@@ -590,7 +590,7 @@ public class RevAiJob {
         + failureDetails
         + '\''
         + ", failure='"
-        + failure.getFailureType()
+        + getFailureTypeString(failure)
         + '\''
         + ", deleteAfterSeconds='"
         + deleteAfterSeconds
@@ -632,5 +632,11 @@ public class RevAiJob {
         + translation
         + '\''
         + '}';
+  }
+
+  private static String getFailureTypeString(RevAiFailureType failure) {
+    if(failure == null)
+      return "";
+    return failure.getFailureType();
   }
 }
