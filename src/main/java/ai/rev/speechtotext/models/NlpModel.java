@@ -2,7 +2,7 @@ package ai.rev.speechtotext.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Model type. */
+/** GPT Model type. STANDARD (GPT 3.5) or PREMIUM (GPT 4) **/
 public enum NlpModel {
 
     /** gpt 3.5. This is the default value. */

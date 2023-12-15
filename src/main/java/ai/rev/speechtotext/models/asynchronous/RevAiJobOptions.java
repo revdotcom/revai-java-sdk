@@ -588,10 +588,20 @@ public class RevAiJobOptions {
     this.summarizationOptions = summarizationOptions;
   }
 
+  /**
+   * Returns translation options.
+   *
+   * @return  Translation options
+   */
   public TranslationOptions getTranslationOptions() {
     return translationOptions;
   }
 
+  /**
+   * Specifies translation options.
+   *
+   * @param translationOptions Translation options
+   */
   public void setTranslationOptions(TranslationOptions translationOptions) {
     this.translationOptions = translationOptions;
   }

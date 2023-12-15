@@ -12,7 +12,11 @@ public class Summarization {
   @SerializedName("prompt")
   private String prompt;
 
-  /** Standard or Premium AI backend. * */
+  /**
+   * Summarization model.
+   *
+   * @see NlpModel
+   */
   @SerializedName("model")
   private NlpModel model;
 
