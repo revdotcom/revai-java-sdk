@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * @see Translation
  */
 public class TranslationLanguage {
-  /** Standard or Premium AI backend. * */
+  /** Standard or Premium AI backend. */
   @SerializedName("model")
   private NlpModel model;
 

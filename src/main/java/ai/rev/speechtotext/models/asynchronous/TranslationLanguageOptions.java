@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob">https://docs.rev.ai/api/asynchronous/reference/#operation/SubmitTranscriptionJob</a>
  */
 public class TranslationLanguageOptions {
-  /** Standard or Premium AI backend. * */
+  /** Standard or Premium AI backend. */
   @SerializedName("model")
   private NlpModel model;
 

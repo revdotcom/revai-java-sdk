@@ -2,14 +2,14 @@ package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Summarization formatting options. * */
+/** Summarization formatting options. */
 public enum SummarizationFormattingOptions {
 
-  /** Paragraph formatting * */
+  /** Paragraph formatting */
   @SerializedName("paragraph")
   PARAGRAPH("paragraph"),
 
-  /** Bullet points formatting * */
+  /** Bullet points formatting */
   @SerializedName("bullets")
   BULLETS("bullets");
 

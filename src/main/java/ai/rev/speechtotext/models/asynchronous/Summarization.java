@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * submitted by the user.
  */
 public class Summarization {
-  /** User defined prompt. * */
+  /** User defined prompt. */
   @SerializedName("prompt")
   private String prompt;
 
@@ -20,7 +20,7 @@ public class Summarization {
   @SerializedName("model")
   private NlpModel model;
 
-  /** Formatting options. Default is Paragraph. * */
+  /** Formatting options. Default is Paragraph. */
   @SerializedName("type")
   private SummarizationFormattingOptions type;
 

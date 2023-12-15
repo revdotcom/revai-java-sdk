@@ -12,15 +12,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class SummarizationOptions {
 
-  /** User defined prompt. * */
+  /** User defined prompt. */
   @SerializedName("prompt")
   private String prompt;
 
-  /** Standard or Premium AI backend. * */
+  /** Standard or Premium AI backend. */
   @SerializedName("model")
   private NlpModel model;
 
-  /** Formatting options. Default is Paragraph. * */
+  /** Formatting options. Default is Paragraph. */
   @SerializedName("type")
   private SummarizationFormattingOptions type;
 
