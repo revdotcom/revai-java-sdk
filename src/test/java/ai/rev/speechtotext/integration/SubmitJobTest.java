@@ -231,19 +231,10 @@ public class SubmitJobTest {
     RevAiTranscript translationObject2 = apiClient.getTranslatedTranscriptObject(revAiJob.getJobId(),"ru");
     assertThat(translationObject2).isNotNull();
 
-    byte[] buf = new byte[1024];
-
     InputStream translatedCaptionsStream1 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"es",RevAiCaptionType.SRT,0);
     assertThat(translatedCaptionsStream1).isNotNull();
-    int nRead = translatedCaptionsStream1.read(buf);
-    String s = new String(buf);
     InputStream translatedCaptionsStream2 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"ru",RevAiCaptionType.SRT,0);
-    nRead = translatedCaptionsStream2.read(buf);
-    s = new String(buf);
     assertThat(translatedCaptionsStream2).isNotNull();
-
-
-
   }
   public void assertRevAiJob(RevAiJob revAiJob) {
     assertThat(revAiJob.getJobId()).as("Job Id").isNotNull();
