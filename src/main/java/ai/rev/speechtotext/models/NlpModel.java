@@ -2,14 +2,11 @@ package ai.rev.speechtotext.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/** GPT Model type. STANDARD (GPT 3.5) or PREMIUM (GPT 4) */
+/** Supported model types for NLP tasks like summarization. */
 public enum NlpModel {
 
-    /** gpt 3.5. This is the default value. */
     @SerializedName("standard")
     STANDARD("standard"),
-
-    /** gpt 4. */
     @SerializedName("premium")
     PREMIUM("premium");
 
