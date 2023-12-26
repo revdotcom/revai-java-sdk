@@ -69,6 +69,33 @@ try {
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
 
+You can request transcript summary.
+
+```
+String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
+
+RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+revAiJobOptions.setSourceConfig(urlLinkToFile, null);
+revAiJobOptions.setLanguage("en");
+revAiJobOptions.setSummarizationOptions(new SummarizationOptions().setModel(NlpModel.STANDARD));
+
+```
+
+You can request transcript translation into up to five languages.
+
+```
+String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
+
+RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+revAiJobOptions.setSourceConfig(urlLinkToFile, null);
+revAiJobOptions.setLanguage("en");
+revAiJobOptions.setTranslationOptions(new TranslationOptions(Arrays.asList(
+            new TranslationLanguageOptions("es")
+                    .setModel(NlpModel.PREMIUM),
+            new TranslationLanguageOptions("de"))
+    ));
+```
+
 You can also submit a job to be handled by a human transcriber using our [Human Transcription](https://docs.rev.ai/api/asynchronous/transcribers/#human-transcription) option.
 ```
 String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
@@ -160,6 +187,9 @@ String transcriptText = apiClient.getTranscriptText(revAiJob.getJobId());
 
 // or as an object
 RevAiTranscript revAiTranscript = apiClient.getTranscriptObject(revAiJob.getJobId());
+
+// or if you requested transcript translation(s)
+RevAiTranscript revAiTranscript = apiClient.getTranslatedTranscriptObject(revAiJob.getJobId(), "es");
 ```
 
 The text output is a string containing just the text of your transcript. The object form of
@@ -180,8 +210,23 @@ InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptio
 // with speaker channels
 int channelId = 1;
 InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptionType.VTT, channelId);
+
+// or if you requested transcript translation(s)
+InputStream inputStream = apiClient.getTranslatedCaptions(revAiJob.getJobId(), "es", RevAiCaptionType.VTT, channelId);
 ```
 
+### Getting transcript summary
+
+If you requested transcript summary, you can retrieve it as plain text or structured object:
+
+```
+// as text
+apiClient.getTranscriptSummaryText(job.id);
+
+// as object
+apiClient.getTranscriptSummaryObject(job.id);
+
+```
 ## Streaming Audio
 
 In order to stream audio, you will need to setup a streaming client and the content type
