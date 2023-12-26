@@ -68,9 +68,7 @@ try {
 }
 RevAiJob revAiJob = apiClient.submitJobLocalFile(fileInputStream, String fileName, RevAiJobOptions options);
 ```
-
 You can request transcript summary.
-
 ```
 String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
 
@@ -78,11 +76,8 @@ RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
 revAiJobOptions.setSourceConfig(urlLinkToFile, null);
 revAiJobOptions.setLanguage("en");
 revAiJobOptions.setSummarizationOptions(new SummarizationOptions().setModel(NlpModel.STANDARD));
-
 ```
-
 You can request transcript translation into up to five languages.
-
 ```
 String urlLinkToFile = "https://www.rev.ai/FTC_Sample_1.mp3";
 
