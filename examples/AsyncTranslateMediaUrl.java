@@ -30,7 +30,7 @@ public class AsyncTranslateMediaUrl {
     revAiJobOptions.setLanguage("en");
     revAiJobOptions.setTranslationOptions(new TranslationOptions(Arrays.asList(
             new TranslationLanguageOptions("es")
-                    .setModel(NlpModel.PREMIUM),
+                    .setModel(TranslationModel.PREMIUM),
             new TranslationLanguageOptions("de"))
     ));
 
