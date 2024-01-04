@@ -102,8 +102,8 @@ public class AsyncTranslateMediaUrl {
     try {
       objectTranscript = apiClient.getTranslatedTranscriptObject(jobId, "es");
       textTranscript = apiClient.getTranslatedTranscriptText(jobId, "es");
-      srtCaptions = apiClient.getTranslatedCaptions(jobId, "es", RevAiCaptionType.SRT, null);
-      vttCaptions = apiClient.getTranslatedCaptions(jobId, "es", RevAiCaptionType.VTT, null);
+      srtCaptions = apiClient.getTranslatedCaptions(jobId, "es", RevAiCaptionType.SRT);
+      vttCaptions = apiClient.getTranslatedCaptions(jobId, "es", RevAiCaptionType.VTT);
 
       System.out.println("Translation:" + textTranscript);
     } catch (IOException e) {
