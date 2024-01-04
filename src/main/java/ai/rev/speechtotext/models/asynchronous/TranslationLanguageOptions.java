@@ -1,6 +1,5 @@
 package ai.rev.speechtotext.models.asynchronous;
 
-import ai.rev.speechtotext.models.NlpModel;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -13,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class TranslationLanguageOptions {
   /** Standard or Premium AI backend. */
   @SerializedName("model")
-  private NlpModel model;
+  private TranslationModel model;
 
   @SerializedName("language")
   private final String language;
@@ -22,9 +21,9 @@ public class TranslationLanguageOptions {
    * Returns backend model used for the summarization job.
    *
    * @return Backend model used for the summarization job.
-   * @see NlpModel
+   * @see TranslationModel
    */
-  public NlpModel getModel() {
+  public TranslationModel getModel() {
     return model;
   }
 
@@ -32,9 +31,9 @@ public class TranslationLanguageOptions {
    * Sets backend model to use for the summarization job.
    *
    * @param model Backend model to use for the summarization job
-   * @see NlpModel
+   * @see TranslationModel
    */
-  public TranslationLanguageOptions setModel(NlpModel model) {
+  public TranslationLanguageOptions setModel(TranslationModel model) {
     this.model = model;
     return this;
   }

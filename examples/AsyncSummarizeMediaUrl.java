@@ -28,7 +28,7 @@ public class AsyncSummarizeMediaUrl {
     revAiJobOptions.setSourceConfig(mediaUrl, null);
     revAiJobOptions.setDeleteAfterSeconds(2592000); // 30 days in seconds
     revAiJobOptions.setLanguage("en");
-    revAiJobOptions.setSummarizationOptions(new SummarizationOptions().setModel(NlpModel.STANDARD));
+    revAiJobOptions.setSummarizationOptions(new SummarizationOptions().setModel(SummarizationModel.STANDARD));
 
     RevAiJob submittedJob;
 

@@ -1,7 +1,7 @@
 package ai.rev.speechtotext.integration;
 
 import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.models.NlpModel;
+import ai.rev.speechtotext.models.asynchronous.TranslationModel;
 import ai.rev.speechtotext.models.asynchronous.*;
 import ai.rev.testutils.EnvHelper;
 import org.junit.Before;
@@ -10,10 +10,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -169,13 +166,13 @@ public class SubmitJobTest {
 
     revAiJobOptions.setSummarizationOptions(new SummarizationOptions()
             .setType(SummarizationFormattingOptions.BULLETS)
-            .setModel(NlpModel.PREMIUM)
+            .setModel(SummarizationModel.PREMIUM)
             .setPrompt("Try to summarize this transcript as good as you possibly can")
     );
 
     revAiJobOptions.setTranslationOptions(new TranslationOptions(Arrays.asList(
                     new TranslationLanguageOptions("es")
-                            .setModel(NlpModel.PREMIUM),
+                            .setModel(TranslationModel.PREMIUM),
                     new TranslationLanguageOptions("ru")
     )));
 
@@ -184,7 +181,7 @@ public class SubmitJobTest {
     assertThat(revAiJob.toString()).isNotNull();
     assertRevAiJob(revAiJob);
     assertThat(revAiJob.getSummarization()).isNotNull();
-    assertThat(revAiJob.getSummarization().getModel()).isEqualTo(NlpModel.PREMIUM);
+    assertThat(revAiJob.getSummarization().getModel()).isEqualTo(TranslationModel.PREMIUM);
     assertThat(revAiJob.getSummarization().getType()).isEqualTo(SummarizationFormattingOptions.BULLETS);
     assertThat(revAiJob.getSummarization().getPrompt()).isEqualTo("Try to summarize this transcript as good as you possibly can");
 
@@ -208,7 +205,7 @@ public class SubmitJobTest {
     assertThat(revAiJob.getTranslation().getCompletedOn()).isNotNull();
     assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getJobStatus()).isEqualTo(TranslationJobStatus.COMPLETED);
     assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getLanguage()).isEqualTo("es");
-    assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getModel()).isEqualTo(NlpModel.PREMIUM);
+    assertThat(revAiJob.getTranslation().getTargetLanguages().get(0).getModel()).isEqualTo(TranslationModel.PREMIUM);
 
     assertThat(revAiJob.getTranslation().getTargetLanguages().get(1).getJobStatus()).isEqualTo(TranslationJobStatus.COMPLETED);
 
@@ -231,9 +228,9 @@ public class SubmitJobTest {
     RevAiTranscript translationObject2 = apiClient.getTranslatedTranscriptObject(revAiJob.getJobId(),"ru");
     assertThat(translationObject2).isNotNull();
 
-    InputStream translatedCaptionsStream1 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"es",RevAiCaptionType.SRT,0);
+    InputStream translatedCaptionsStream1 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"es",RevAiCaptionType.SRT);
     assertThat(translatedCaptionsStream1).isNotNull();
-    InputStream translatedCaptionsStream2 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"ru",RevAiCaptionType.SRT,0);
+    InputStream translatedCaptionsStream2 = apiClient.getTranslatedCaptions(revAiJob.getJobId(),"ru",RevAiCaptionType.SRT);
     assertThat(translatedCaptionsStream2).isNotNull();
   }
   public void assertRevAiJob(RevAiJob revAiJob) {

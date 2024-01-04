@@ -1,9 +1,9 @@
-package ai.rev.speechtotext.models;
+package ai.rev.speechtotext.models.asynchronous;
 
 import com.google.gson.annotations.SerializedName;
 
-/** Supported model types for NLP tasks like summarization. */
-public enum NlpModel {
+/** Supported model types for translation. */
+public enum TranslationModel {
 
     @SerializedName("standard")
     STANDARD("standard"),
@@ -12,7 +12,7 @@ public enum NlpModel {
 
     private final String model;
 
-    NlpModel(String model) {
+    TranslationModel(String model) {
         this.model = model;
     }
 

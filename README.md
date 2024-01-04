@@ -207,7 +207,7 @@ int channelId = 1;
 InputStream inputStream = apiClient.getCaptions(revAiJob.getJobId(), RevAiCaptionType.VTT, channelId);
 
 // or if you requested transcript translation(s)
-InputStream inputStream = apiClient.getTranslatedCaptions(revAiJob.getJobId(), "es", RevAiCaptionType.VTT, channelId);
+InputStream inputStream = apiClient.getTranslatedCaptions(revAiJob.getJobId(), "es", RevAiCaptionType.VTT);
 ```
 
 ### Getting transcript summary

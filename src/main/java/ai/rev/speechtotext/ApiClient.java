@@ -438,23 +438,18 @@ public class ApiClient {
    * @param id The ID of the job to return captions for.
    * @param language requested translation language.
    * @param captionType An enumeration of the desired caption type. Default is SRT.
-   * @param channelId Identifies the audio channel of the file to output captions for. Default is
-   *     null.
    * @return InputStream A stream of bytes that represents the caption output.
    * @throws IOException If the response has a status code > 399.
    * @throws IllegalArgumentException If the job ID provided is null.
    * @see <a
    *     href="https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions">https://docs.rev.ai/api/asynchronous/reference/#operation/GetCaptions</a>
    */
-  public InputStream getTranslatedCaptions(String id, String language, RevAiCaptionType captionType, Integer channelId)
+  public InputStream getTranslatedCaptions(String id, String language, RevAiCaptionType captionType)
           throws IOException {
     if (id == null) {
       throw new IllegalArgumentException("Job ID must be provided");
     }
     Map<String, String> query = new HashMap<>();
-    if (channelId != null) {
-      query.put("speaker_channel", channelId.toString());
-    }
     if (captionType == null) {
       captionType = RevAiCaptionType.SRT;
     }
