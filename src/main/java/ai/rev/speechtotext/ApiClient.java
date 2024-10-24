@@ -1,6 +1,7 @@
 package ai.rev.speechtotext;
 
 import ai.rev.helpers.ClientHelper;
+import ai.rev.helpers.RevAiApiDeploymentConfiguration;
 import ai.rev.speechtotext.models.asynchronous.*;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -33,14 +34,22 @@ public class ApiClient {
    * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
    *
    * @param accessToken Rev AI authorization token associate with the account.
+   * @param baseUrl Optional url of the Rev AI API deployment to use, defaults to the US
+        deployement, i.e. 'https://api.rev.ai', which can be referenced as
+        RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl().
    * @throws IllegalArgumentException If the access token is null or empty.
    */
-  public ApiClient(String accessToken) {
+  public ApiClient(String accessToken, String baseUrl) {
     if (accessToken == null || accessToken.isEmpty()) {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
-    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "speechtotext", "v1");
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(
+      client,
+      "speechtotext",
+      "v1",
+      baseUrl != null ? baseUrl : RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl()
+    );
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
