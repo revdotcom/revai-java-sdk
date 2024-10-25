@@ -1,5 +1,13 @@
 package ai.rev.languageid;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ai.rev.helpers.ClientHelper;
 import ai.rev.helpers.RevAiApiDeploymentConfiguration;
 import ai.rev.languageid.models.LanguageIdJob;
@@ -11,14 +19,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The LanguageIdClient object provides methods to send and retrieve information from all the
@@ -54,6 +54,27 @@ public class LanguageIdClient {
       "languageid",
       "v1",
       baseUrl != null ? baseUrl : RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl()
+    );
+    this.apiInterface = retrofit.create(LanguageIdInterface.class);
+  }
+
+  /**
+   * Constructs the API client used to send HTTP requests to Rev AI. The user access token can be
+   * generated on the website at <a
+   * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
+   *
+   * @param accessToken Rev AI authorization token associate with the account.
+   * @throws IllegalArgumentException If the access token is null or empty.
+   */
+  public LanguageIdClient(String accessToken) {
+    if (accessToken == null || accessToken.isEmpty()) {
+      throw new IllegalArgumentException("Access token must be provided");
+    }
+    this.client = ClientHelper.createOkHttpClient(accessToken);
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(
+      client,
+      "languageid",
+      "v1"
     );
     this.apiInterface = retrofit.create(LanguageIdInterface.class);
   }
