@@ -74,11 +74,7 @@ public class ApiClient {
       throw new IllegalArgumentException("Access token must be provided");
     }
     this.client = ClientHelper.createOkHttpClient(accessToken);
-    Retrofit retrofit = ClientHelper.createRetrofitInstance(
-      client,
-      "speechtotext",
-      "v1"
-    );
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(client, "speechtotext", "v1");
     this.apiInterface = retrofit.create(ApiInterface.class);
   }
 
