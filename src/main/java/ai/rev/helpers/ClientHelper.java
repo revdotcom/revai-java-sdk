@@ -22,7 +22,31 @@ public class ClientHelper {
     String apiVersion
     ) {
     return new Retrofit.Builder()
-        .baseUrl(String.format("https://api.rev.ai/%s/%s/", apiName, apiVersion))
+        .baseUrl(String.format(
+          "%s/%s/%s/",
+          RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl(),
+          apiName,
+          apiVersion
+        ))
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
+        .build();
+  }
+
+  public static Retrofit createRetrofitInstance(
+    OkHttpClient client,
+    String apiName,
+    String apiVersion,
+    String baseUrl
+    ) {
+    return new Retrofit.Builder()
+        .baseUrl(String.format(
+          "%s/%s/%s/",
+          baseUrl != null ? baseUrl : RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl(),
+          apiName,
+          apiVersion
+        ))
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)

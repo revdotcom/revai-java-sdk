@@ -34,7 +34,9 @@ given Access Token:
 ```
 // Initialize your client with your Rev AI access token
 String accessToken = "Your Access Token";
-ApiClient apiClient = new ApiClient(accessToken);
+// Optionally set the Rev AI deployment base url to use
+String baseUrl = RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl();
+ApiClient apiClient = new ApiClient(accessToken, baseUrl);
 ```
 
 ### Checking credits remaining

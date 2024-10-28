@@ -1,18 +1,35 @@
 package ai.rev.speechtotext.integration;
 
-import ai.rev.speechtotext.ApiClient;
-import ai.rev.speechtotext.models.asynchronous.TranslationModel;
-import ai.rev.speechtotext.models.asynchronous.*;
-import ai.rev.testutils.EnvHelper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
-import java.io.*;
-import java.util.Arrays;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import ai.rev.helpers.RevAiApiDeploymentConfiguration;
+import ai.rev.speechtotext.ApiClient;
+import ai.rev.speechtotext.models.asynchronous.RevAiCaptionType;
+import ai.rev.speechtotext.models.asynchronous.RevAiJob;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobOptions;
+import ai.rev.speechtotext.models.asynchronous.RevAiJobStatus;
+import ai.rev.speechtotext.models.asynchronous.RevAiTranscript;
+import ai.rev.speechtotext.models.asynchronous.SummarizationFormattingOptions;
+import ai.rev.speechtotext.models.asynchronous.SummarizationJobStatus;
+import ai.rev.speechtotext.models.asynchronous.SummarizationModel;
+import ai.rev.speechtotext.models.asynchronous.SummarizationOptions;
+import ai.rev.speechtotext.models.asynchronous.Summary;
+import ai.rev.speechtotext.models.asynchronous.TranslationJobStatus;
+import ai.rev.speechtotext.models.asynchronous.TranslationLanguageOptions;
+import ai.rev.speechtotext.models.asynchronous.TranslationModel;
+import ai.rev.speechtotext.models.asynchronous.TranslationOptions;
+import ai.rev.testutils.EnvHelper;
 
 public class SubmitJobTest {
 
@@ -25,7 +42,7 @@ public class SubmitJobTest {
 
   @Before
   public void setup() {
-    apiClient = new ApiClient(EnvHelper.getToken());
+    apiClient = new ApiClient(EnvHelper.getToken(), RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl());
   }
 
   @Test

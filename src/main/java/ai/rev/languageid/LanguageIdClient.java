@@ -1,6 +1,15 @@
 package ai.rev.languageid;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ai.rev.helpers.ClientHelper;
+import ai.rev.helpers.RevAiApiDeploymentConfiguration;
 import ai.rev.languageid.models.LanguageIdJob;
 import ai.rev.languageid.models.LanguageIdJobOptions;
 import ai.rev.languageid.models.LanguageIdResult;
@@ -10,14 +19,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The LanguageIdClient object provides methods to send and retrieve information from all the
@@ -31,6 +32,31 @@ public class LanguageIdClient {
    * Interface that LanguageIdClient methods use to make requests
    */
   public LanguageIdInterface apiInterface;
+
+  /**
+   * Constructs the API client used to send HTTP requests to Rev AI. The user access token can be
+   * generated on the website at <a
+   * href="https://www.rev.ai/access_token">https://www.rev.ai/access_token</a>.
+   *
+   * @param accessToken Rev AI authorization token associate with the account.
+   * @param baseUrl Optional url of the Rev AI API deployment to use, defaults to the US
+      deployement, i.e. 'https://api.rev.ai', which can be referenced as
+      RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl().
+   * @throws IllegalArgumentException If the access token is null or empty.
+   */
+  public LanguageIdClient(String accessToken, String baseUrl) {
+    if (accessToken == null || accessToken.isEmpty()) {
+      throw new IllegalArgumentException("Access token must be provided");
+    }
+    this.client = ClientHelper.createOkHttpClient(accessToken);
+    Retrofit retrofit = ClientHelper.createRetrofitInstance(
+      client,
+      "languageid",
+      "v1",
+      baseUrl != null ? baseUrl : RevAiApiDeploymentConfiguration.getConfig(RevAiApiDeploymentConfiguration.RevAiApiDeployment.US).getBaseUrl()
+    );
+    this.apiInterface = retrofit.create(LanguageIdInterface.class);
+  }
 
   /**
    * Constructs the API client used to send HTTP requests to Rev AI. The user access token can be
