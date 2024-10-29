@@ -341,3 +341,8 @@ To save the `REVAI_ACCESS_TOKEN` to be available for Integration tests
 * go to `Run > Edit Configurations` and add a new JUnit configuration if none exists yet.
 * for the new JUnit configuration, go to `Environmental Variables` and click on the browse option.
 * click `+` and add `TOKEN` under name and `REVAI_ACCESS_TOKEN` under value.
+
+### To Release a New Version
+1. Create Github tag
+2. Creat Github release
+3. The Github action to publish should kick off
