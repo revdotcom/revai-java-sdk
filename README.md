@@ -346,3 +346,4 @@ To save the `REVAI_ACCESS_TOKEN` to be available for Integration tests
 1. Create Github tag
 2. Creat Github release
 3. The Github action to publish should kick off
+4. Remember to update SDK changelog documentation
