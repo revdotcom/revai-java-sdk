@@ -247,6 +247,38 @@ public class RevAiJobTest {
   }
 
   @Test
+  public void SubmitJobUrl_DeprecatedWithSourceConfigUrl_ThrowsIllegalArgumentException() {
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig("existing-url.com");
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl("another-url.com", options));
+  }
+
+  @Test
+  public void SubmitJobUrl_DeprecatedWithSourceConfigAuthHeaders_ThrowsIllegalArgumentException() {
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setSourceConfig(null, SOURCE_AUTH);
+    assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> sut.submitJobUrl(SOURCE_URL, options));
+  }
+
+  @Test
+  public void SubmitJobUrl_DeprecatedUrlAndOptions_SendsSourceConfig() throws IOException {
+    mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
+    RevAiJobOptions options = new RevAiJobOptions();
+    options.setMetadata(METADATA);
+
+    RevAiJob revAiJob = sut.submitJobUrl(SOURCE_URL, options);
+
+    RevAiJobOptions expectedOptions = new RevAiJobOptions();
+    expectedOptions.setSourceConfig(SOURCE_URL);
+    expectedOptions.setMetadata(METADATA);
+    AssertHelper.assertRequestBody(mockInterceptor, expectedOptions, RevAiJobOptions.class);
+    AssertHelper.assertRequestMethodAndUrl(mockInterceptor, "POST", JOBS_URL);
+    assertRevAiJob(revAiJob, mockInProgressJob);
+  }
+
+  @Test
   public void SubmitJobLocalFile_OnlyFilePathIsSpecified_ReturnsARevAiJob() throws IOException {
     mockInterceptor.setSampleResponse(gson.toJson(mockInProgressJob));
     String filePath = "src/test/java/ai/rev/speechtotext/resources/sampleAudio.mp3";

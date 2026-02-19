@@ -172,6 +172,18 @@ public class SubmitJobTest {
 
     assertRevAiJob(revAiJob);
   }
+
+  @Test
+  public void SubmitJobUrl_WithMachineV3_ReturnsRevAiJobInProgress() throws IOException {
+    RevAiJobOptions revAiJobOptions = new RevAiJobOptions();
+    revAiJobOptions.setMetadata(testName.getMethodName());
+    revAiJobOptions.setTranscriber("machine_v3");
+
+    RevAiJob revAiJob = apiClient.submitJobUrl(SOURCE_URL, revAiJobOptions);
+
+    assertRevAiJob(revAiJob);
+  }
+
   @Test
   public void SubmitJobLocalFile_SummarizationOptionsSpecified_ReturnsRevAiJobInProgress()
           throws IOException, InterruptedException {
