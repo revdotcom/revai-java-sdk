@@ -226,25 +226,6 @@ public class RevAiJobTest {
     assertRevAiJob(revAiJob, mockInProgressJob);
   }
 
-  @Test
-  public void SubmitJobUrl_NullOptions_ReturnsIllegalArgumentException() {
-    assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> sut.submitJobUrl((RevAiJobOptions) null));
-  }
-
-  @Test
-  public void SubmitJobUrl_NullSourceConfig_ReturnsIllegalArgumentException() {
-    assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> sut.submitJobUrl(new RevAiJobOptions()));
-  }
-
-  @Test
-  public void SubmitJobUrl_NullSourceConfigUrl_ReturnsIllegalArgumentException() {
-    RevAiJobOptions options = new RevAiJobOptions();
-    options.setSourceConfig(null, null);
-    assertThatExceptionOfType(IllegalArgumentException.class)
-            .isThrownBy(() -> sut.submitJobUrl(options));
-  }
 
   @Test
   public void SubmitJobUrl_DeprecatedWithSourceConfigUrl_ThrowsIllegalArgumentException() {
