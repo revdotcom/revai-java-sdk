@@ -284,7 +284,12 @@ public class ApiClient {
     if (options == null) {
       options = new RevAiJobOptions();
     }
-    options.setMediaUrl(mediaUrl);
+    if (options.getSourceConfig() != null) {
+      throw new IllegalArgumentException(
+          "source_config is not compatible with submitJobUrl. "
+          + "Remove source_config from options or use submitJobUrl(RevAiJobOptions) instead.");
+    }
+    options.setSourceConfig(mediaUrl);
     return apiInterface.submitJobUrl(options).execute().body();
   }
 
